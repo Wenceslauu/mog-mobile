@@ -52,6 +52,19 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="log"
+        options={{
+          title: "Log",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("modal");
+          },
+        })}
+      />
+      <Tabs.Screen
         name="routines"
         options={{
           title: "Routines",

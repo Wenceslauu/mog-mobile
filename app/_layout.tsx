@@ -57,6 +57,12 @@ function RootLayoutNav() {
           name="log"
           options={{ presentation: "modal", title: "Log" }}
         />
+        <Stack.Screen name="activity" options={{ title: "Activity" }} />
+        <Stack.Screen
+          name="create-routine"
+          options={{ title: "Create Routine" }}
+        />
+        <Stack.Screen name="settings" options={{ title: "Settings" }} />
       </Stack>
     </ThemeProvider>
   );

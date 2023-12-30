@@ -1,4 +1,4 @@
-export default function LogTabPlaceholder() {
+export default function LogScreenPlaceholder() {
   return null
 }
 

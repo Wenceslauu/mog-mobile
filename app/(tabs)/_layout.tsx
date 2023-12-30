@@ -1,4 +1,7 @@
-import { MaterialCommunityIcons, FontAwesome, Ionicons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  Ionicons,
+} from "@expo/vector-icons";
 
 import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
@@ -21,14 +24,22 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="home"
-              size={28}
-              style={{ marginBottom: -3 }}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            focused ? (
+              <Ionicons
+                name="home"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ) : (
+              <Ionicons
+                name="home-outline"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -49,14 +60,22 @@ export default function TabLayout() {
         name="routines"
         options={{
           title: "Routines",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="calendar"
-              size={28}
-              style={{ marginBottom: -3 }}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            focused ? (
+              <Ionicons
+                name="calendar"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ) : (
+              <Ionicons
+                name="calendar-outline"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ),
         }}
       />
       <Tabs.Screen
@@ -64,10 +83,10 @@ export default function TabLayout() {
         options={{
           title: "Log",
           tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="plus-square-o"
-              size={28}
-              style={{ marginBottom: -3 }}
+            <Ionicons
+              name="add-circle-outline"
+              size={32}
+              style={{ marginBottom: -3, marginLeft: 1 }}
               color={color}
             />
           ),
@@ -83,28 +102,44 @@ export default function TabLayout() {
         name="exercises"
         options={{
           title: "Exercises",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="weight-lifter"
-              size={28}
-              style={{ marginBottom: -3 }}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            focused ? (
+              <Ionicons
+                name="barbell"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ) : (
+              <Ionicons
+                name="barbell-outline"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => (
-            <Ionicons
-              name="person"
-              size={28}
-              style={{ marginBottom: -3 }}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ focused, color }) =>
+            focused ? (
+              <Ionicons
+                name="person"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ) : (
+              <Ionicons
+                name="person-outline"
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+            ),
         }}
       />
     </Tabs>

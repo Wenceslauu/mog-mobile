@@ -4,12 +4,28 @@ import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import Colors from "../../constants/Colors";
+
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 
 export default function ExercisesScreen() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,22 +43,20 @@ export default function ExercisesScreen() {
               )}
             </Pressable>
           </Link>
-          <Link href="/more" asChild>
-            <Pressable>
-              {({ pressed }) => (
-                <MaterialCommunityIcons
-                  name="dots-horizontal"
-                  size={29}
-                  color={Colors[colorScheme ?? "light"].text}
-                  style={{
-                    marginRight: 15,
-                    marginTop: 1,
-                    opacity: pressed ? 0.5 : 1,
-                  }}
-                />
-              )}
-            </Pressable>
-          </Link>
+          <Pressable onPress={handlePresentModalPress}>
+            {({ pressed }) => (
+              <MaterialCommunityIcons
+                name="dots-horizontal"
+                size={29}
+                color={Colors[colorScheme ?? "light"].text}
+                style={{
+                  marginRight: 15,
+                  marginTop: 1,
+                  opacity: pressed ? 0.5 : 1,
+                }}
+              />
+            )}
+          </Pressable>
         </View>
       ),
     });
@@ -57,6 +71,19 @@ export default function ExercisesScreen() {
         darkColor="rgba(255,255,255,0.1)"
       />
       <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        backgroundStyle={{
+          backgroundColor: Colors[colorScheme ?? "light"].background,
+        }}
+      >
+        <View style={styles.contentContainer}>
+          <Text>Awesome 🎉</Text>
+        </View>
+      </BottomSheetModal>
     </View>
   );
 }
@@ -75,5 +102,9 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: "80%",
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
   },
 });

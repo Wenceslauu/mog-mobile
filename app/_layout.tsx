@@ -1,4 +1,5 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
   DarkTheme,
   DefaultTheme,
@@ -51,19 +52,21 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="log"
-          options={{ presentation: "modal", title: "Log" }}
-        />
-        <Stack.Screen name="activity" options={{ title: "Activity" }} />
-        <Stack.Screen
-          name="create-routine"
-          options={{ title: "Create Routine" }}
-        />
-        <Stack.Screen name="settings" options={{ title: "Settings" }} />
-      </Stack>
+      <BottomSheetModalProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="log"
+            options={{ presentation: "modal", title: "Log" }}
+          />
+          <Stack.Screen name="activity" options={{ title: "Activity" }} />
+          <Stack.Screen
+            name="create-routine"
+            options={{ title: "Create Routine" }}
+          />
+          <Stack.Screen name="settings" options={{ title: "Settings" }} />
+        </Stack>
+      </BottomSheetModalProvider>
     </ThemeProvider>
   );
 }

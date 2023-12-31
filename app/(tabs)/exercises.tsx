@@ -7,10 +7,7 @@ import { useNavigation, Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import Colors from "../../constants/Colors";
 
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 export default function ExercisesScreen() {
   const colorScheme = useColorScheme();

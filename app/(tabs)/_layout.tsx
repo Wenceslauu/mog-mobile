@@ -22,22 +22,14 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ focused, color }) =>
-            focused ? (
-              <Ionicons
-                name="home"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ) : (
-              <Ionicons
-                name="home-outline"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={`home${focused ? "" : "-outline"}`}
+              size={28}
+              style={{ marginBottom: -3 }}
+              color={color}
+            />
+          ),
           headerRight: ({ tintColor }) => (
             <View style={{ flexDirection: "row", backgroundColor: tintColor }}>
               <Link href="/activity" asChild>
@@ -72,22 +64,14 @@ export default function TabLayout() {
         name="routines"
         options={{
           title: "Routines",
-          tabBarIcon: ({ focused, color }) =>
-            focused ? (
-              <Ionicons
-                name="calendar"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ) : (
-              <Ionicons
-                name="calendar-outline"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={`calendar${focused ? "" : "-outline"}`}
+              size={28}
+              style={{ marginBottom: -3 }}
+              color={color}
+            />
+          ),
           headerRight: () => (
             <Link href="/create-routine" asChild>
               <Pressable>
@@ -128,22 +112,14 @@ export default function TabLayout() {
         name="exercises"
         options={{
           title: "Exercises",
-          tabBarIcon: ({ focused, color }) =>
-            focused ? (
-              <Ionicons
-                name="barbell"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ) : (
-              <Ionicons
-                name="barbell-outline"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={`barbell${focused ? "" : "-outline"}`}
+              size={28}
+              style={{ marginBottom: -3 }}
+              color={color}
+            />
+          ),
           headerRight: ({ tintColor }) => (
             <View style={{ flexDirection: "row", backgroundColor: tintColor }}>
               <Link href="/create-exercise" asChild>
@@ -182,22 +158,14 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Profile",
-          tabBarIcon: ({ focused, color }) =>
-            focused ? (
-              <Ionicons
-                name="person"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ) : (
-              <Ionicons
-                name="person-outline"
-                size={28}
-                style={{ marginBottom: -3 }}
-                color={color}
-              />
-            ),
+          tabBarIcon: ({ focused, color }) => (
+            <Ionicons
+              name={`person${focused ? "" : "-outline"}`}
+              size={28}
+              style={{ marginBottom: -3 }}
+              color={color}
+            />
+          ),
           headerLeft: () => (
             <Link href="/settings" asChild>
               <Pressable>

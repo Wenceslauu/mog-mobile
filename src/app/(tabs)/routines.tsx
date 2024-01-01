@@ -1,11 +1,12 @@
 import { Pressable, StyleSheet, useColorScheme } from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
 import { useEffect } from "react";
 import Colors from "@/constants/Colors";
+import LocalSearchBar from "@/components/LocalSearchBar";
+import DismissKeyboardView from "@/components/DismissKeyboardView";
 
 export default function RoutinesScreen() {
   const colorScheme = useColorScheme();
@@ -31,15 +32,9 @@ export default function RoutinesScreen() {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Routines</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <DismissKeyboardView style={styles.container}>
+      <LocalSearchBar />
+    </DismissKeyboardView>
   );
 }
 

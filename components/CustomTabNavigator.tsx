@@ -85,7 +85,9 @@ function TabLink({
   const focused = useIsTabSelected(name);
   return (
     <Link href={href} asChild>
-      <Pressable>{(props) => children({ ...props, focused })}</Pressable>
+      <Pressable disabled={focused}>
+        {(props) => children({ ...props, focused })}
+      </Pressable>
     </Link>
   );
 }

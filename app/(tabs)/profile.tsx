@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, useColorScheme } from "react-native";
 
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
+import EditScreenInfo from "@/components/EditScreenInfo";
+import { Text, View } from "@/components/Themed";
 import { useEffect } from "react";
 import { Link, useNavigation } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import Colors from "../../constants/Colors";
+import Colors from "@/constants/Colors";
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();

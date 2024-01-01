@@ -1,4 +1,3 @@
 export default function LogScreenPlaceholder() {
-  return null
+  return null;
 }
-

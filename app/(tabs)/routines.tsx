@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, useColorScheme } from "react-native";
 
-import EditScreenInfo from "../../components/EditScreenInfo";
-import { Text, View } from "../../components/Themed";
+import EditScreenInfo from "@/components/EditScreenInfo";
+import { Text, View } from "@/components/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
 import { useEffect } from "react";
-import Colors from "../../constants/Colors";
+import Colors from "@/constants/Colors";
 
 export default function RoutinesScreen() {
   const colorScheme = useColorScheme();

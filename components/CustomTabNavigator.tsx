@@ -1,5 +1,5 @@
 import { Link, Navigator, Slot } from "expo-router";
-import { View, Text } from "./Themed";
+import { View, Text } from "@/components/Themed";
 import { Pressable, StyleSheet } from "react-native";
 import { TabRouter } from "@react-navigation/native";
 

@@ -1,4 +1,4 @@
-import CustomTabNavigator from "../../components/CustomTabNavigator";
+import CustomTabNavigator from "@/components/CustomTabNavigator";
 
 export default function HomeLayout() {
   return (

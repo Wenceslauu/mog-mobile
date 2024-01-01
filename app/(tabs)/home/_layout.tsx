@@ -1,10 +1,10 @@
 import { Link, useNavigation } from "expo-router";
-import { View } from "../../../components/Themed";
+import { View } from "@/components/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, useColorScheme } from "react-native";
-import Colors from "../../../constants/Colors";
+import Colors from "@/constants/Colors";
 import { useEffect } from "react";
-import CustomTabNavigator from "../../../components/CustomTabNavigator";
+import CustomTabNavigator from "@/components/CustomTabNavigator";
 
 export default function HomeLayout() {
   const colorScheme = useColorScheme();

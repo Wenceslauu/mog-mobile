@@ -6,14 +6,72 @@ export default {
     text: "#000",
     background: "#fff",
     tint: tintColorLight,
-    tabIconDefault: "#ccc",
-    tabIconSelected: tintColorLight,
   },
   dark: {
     text: "#fff",
     background: "#000",
     tint: tintColorDark,
-    tabIconDefault: "#ccc",
-    tabIconSelected: tintColorDark,
+  },
+};
+
+// https://m3.material.io/styles/color/roles
+
+const theme = {
+  colors: {
+    // Use primary roles for the most prominent components across the UI,
+    // such as the FAB, high-emphasis buttons, and active states.
+    primary: {
+      // High-emphasis fills, texts, and icons against surface
+      main: "#386A1F",
+      on: "#F0F3E8",
+      // Standout fill color against surface, for key components like FAB
+      container: "#B8F397",
+      onContainer: "#43483E",
+    },
+    // Use secondary roles for less prominent components in the UI such as filter chips.
+    secondary: {
+      // Less prominent fills, text, and icons against surface
+      main: "#55624C",
+      on: "#FFFFFF",
+      //  Less prominent fill color against surface, for recessive components like tonal buttons
+      container: "#F0F3E8",
+      onContainer: "#131F0D",
+    },
+    // Use tertiary roles for contrasting accents that balance primary and secondary colors
+    // or bring heightened attention to an element such as an input field.
+    tertiary: {
+      // Complementary fills, text, and icons against surface
+      main: "#386667",
+      on: "#FFFFFF",
+      // Complementary container color against surface, for components like input fields
+      container: "#BBEBEB",
+      onContainer: "#002021",
+    },
+    // Use error roles to communicate error states, such as an incorrect password entered into a text field.
+    error: {
+      // Attention-grabbing color against surface for fills, icons, and text, indicating urgency
+      main: "#BA1A1A",
+      on: "#FFFFFF",
+      // Attention-grabbing fill color against surface
+      container: "#FFDAD6",
+      onContainer: "#410002",
+    },
+    // Use surface roles for more neutral backgrounds, and container colors for components like
+    // cards, sheets, and dialogs.
+    surface: {
+      //  Default color for backgrounds
+      main: "#F8FAF0",
+      on: "#1A1C18",
+      // The most common combination of surface roles uses surface for a background area and surface container
+      // for a navigation area.
+      container: "#EDEFE5",
+      onSurfaceContainer: "#1A1C18",
+    },
+    outline: {
+      // Important boundaries, such as a text field outline
+      main: "#74796D",
+      // Decorative elements, such as dividers
+      variant: "#C3C8BB",
+    },
   },
 };

@@ -74,4 +74,33 @@ const theme = {
       variant: "#C3C8BB",
     },
   },
+  typography: {
+    display: {},
+    headline: {},
+    // Titles are smaller than headline styles, and should be used for medium-emphasis text
+    // that remains relatively short. For example, consider using title styles to divide
+    // secondary passages of text or secondary regions of content.
+    // For titles, use caution when using expressive fonts, including display, handwritten, and script styles.
+    title: {
+      fontSize: null,
+      lineHeight: 1.2,
+      letterSpacing: null,
+      fontWeight: null,
+    },
+    // Body styles are used for longer passages of text in your app.
+    // Use typefaces intended for body styles, which are readable at smaller sizes
+    // and can be comfortably read in longer passages.
+    // Avoid expressive or decorative fonts for body text because these can be harder to read at small sizes.
+    body: {
+      fontSize: null,
+      lineHeight: 1.5,
+    },
+    // Label styles are smaller, utilitarian styles, used for things like the text
+    // inside components or for very small text in the content body, such as captions.
+    // Buttons, for example, use the label large style.
+    label: {
+      fontSize: null,
+      lineHeight: 1.5,
+    },
+  },
 };

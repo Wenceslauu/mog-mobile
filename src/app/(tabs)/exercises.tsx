@@ -1,12 +1,17 @@
 import { Image } from "expo-image";
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  useColorScheme,
+  Text,
+  View,
+} from "react-native";
 import { FlashList } from "@shopify/flash-list";
 
-import { Text, View } from "@/components/Themed";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import Colors from "@/constants/Colors";
+import theme from "@/constants/theme";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
@@ -36,7 +41,7 @@ const mockedExercises = [
 ];
 
 export default function ExercisesScreen() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -60,7 +65,7 @@ export default function ExercisesScreen() {
                 <Ionicons
                   name="add-circle-outline"
                   size={29}
-                  color={Colors[colorScheme ?? "light"].text}
+                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
                   style={{ marginRight: 8, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -71,7 +76,7 @@ export default function ExercisesScreen() {
               <MaterialCommunityIcons
                 name="dots-horizontal"
                 size={29}
-                color={Colors[colorScheme ?? "light"].text}
+                color={theme.colors[colorScheme].surface.onSurfaceContainer}
                 style={{
                   marginRight: 15,
                   marginTop: 1,
@@ -99,7 +104,7 @@ export default function ExercisesScreen() {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backgroundStyle={{
-          backgroundColor: Colors[colorScheme ?? "light"].background,
+          backgroundColor: theme.colors[colorScheme].surface.container,
         }}
       >
         <View style={styles.contentContainer}>

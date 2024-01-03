@@ -1,14 +1,18 @@
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  useColorScheme,
+  Text,
+  View,
+} from "react-native";
 
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
 import { useEffect } from "react";
 import { Link, useNavigation } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import Colors from "@/constants/Colors";
+import theme from "@/constants/theme";
 
 export default function ProfileScreen() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -20,7 +24,7 @@ export default function ProfileScreen() {
               <Ionicons
                 name="settings-outline"
                 size={25}
-                color={Colors[colorScheme ?? "light"].text}
+                color={theme.colors[colorScheme].surface.onSurfaceContainer}
                 style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}
               />
             )}
@@ -35,7 +39,7 @@ export default function ProfileScreen() {
                 <MaterialCommunityIcons
                   name="account-edit-outline"
                   size={29}
-                  color={Colors[colorScheme ?? "light"].text}
+                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
                   style={{ marginRight: 11, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -47,7 +51,7 @@ export default function ProfileScreen() {
                 <Ionicons
                   name="share-social"
                   size={25}
-                  color={Colors[colorScheme ?? "light"].text}
+                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -61,12 +65,7 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <View style={styles.separator} />
     </View>
   );
 }

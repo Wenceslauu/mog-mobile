@@ -1,15 +1,14 @@
 import { Pressable, StyleSheet, useColorScheme } from "react-native";
 
-import { Text, View } from "@/components/Themed";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
 import { useEffect } from "react";
-import Colors from "@/constants/Colors";
+import theme from "@/constants/theme";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
 
 export default function RoutinesScreen() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -21,7 +20,7 @@ export default function RoutinesScreen() {
               <Ionicons
                 name="add-circle-outline"
                 size={29}
-                color={Colors[colorScheme ?? "light"].text}
+                color={theme.colors[colorScheme].surface.onSurfaceContainer}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
             )}

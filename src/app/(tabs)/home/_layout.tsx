@@ -1,13 +1,13 @@
 import { Link, useNavigation } from "expo-router";
-import { View } from "@/components/Themed";
+import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, useColorScheme } from "react-native";
-import Colors from "@/constants/Colors";
+import theme from "@/constants/theme";
 import { useEffect } from "react";
 import CustomTabNavigator from "@/components/CustomTabNavigator";
 
 export default function HomeLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function HomeLayout() {
                 <Ionicons
                   name="notifications"
                   size={25}
-                  color={Colors[colorScheme ?? "light"].text}
+                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -32,7 +32,7 @@ export default function HomeLayout() {
                 <Ionicons
                   name="search"
                   size={25}
-                  color={Colors[colorScheme ?? "light"].text}
+                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}

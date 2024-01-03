@@ -15,6 +15,8 @@ export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
+  const styles = createStyles(colorScheme);
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -24,22 +26,22 @@ export default function ProfileScreen() {
               <Ionicons
                 name="settings-outline"
                 size={25}
-                color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                color={theme.colors[colorScheme].surface.onContainer}
                 style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}
               />
             )}
           </Pressable>
         </Link>
       ),
-      headerRight: ({ tintColor }) => (
-        <View style={{ flexDirection: "row", backgroundColor: tintColor }}>
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
           <Link href="/edit-profile" asChild>
             <Pressable>
               {({ pressed }) => (
                 <MaterialCommunityIcons
                   name="account-edit-outline"
                   size={29}
-                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                  color={theme.colors[colorScheme].surface.onContainer}
                   style={{ marginRight: 11, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -51,7 +53,7 @@ export default function ProfileScreen() {
                 <Ionicons
                   name="share-social"
                   size={25}
-                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                  color={theme.colors[colorScheme].surface.onContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -65,24 +67,22 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
-      <View style={styles.separator} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const createStyles = (colorScheme: "dark" | "light") => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: theme.colors[colorScheme].surface.main,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: theme.colors[colorScheme].surface.on,
+    },
+  });
+};

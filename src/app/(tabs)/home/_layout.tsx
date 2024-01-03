@@ -12,15 +12,15 @@ export default function HomeLayout() {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: ({ tintColor }) => (
-        <View style={{ flexDirection: "row", backgroundColor: tintColor }}>
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
           <Link href="/activity" asChild>
             <Pressable>
               {({ pressed }) => (
                 <Ionicons
                   name="notifications"
                   size={25}
-                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                  color={theme.colors[colorScheme].surface.onContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -32,7 +32,7 @@ export default function HomeLayout() {
                 <Ionicons
                   name="search"
                   size={25}
-                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                  color={theme.colors[colorScheme].surface.onContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}

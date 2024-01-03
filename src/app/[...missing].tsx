@@ -4,6 +4,7 @@ import theme from "@/constants/theme";
 
 export default function NotFoundScreen() {
   const colorScheme = useColorScheme() ?? "light";
+
   const styles = createStyles(colorScheme);
 
   return (
@@ -27,10 +28,12 @@ const createStyles = (colorScheme: "dark" | "light") => {
       alignItems: "center",
       justifyContent: "center",
       padding: 20,
+      backgroundColor: theme.colors[colorScheme].surface.main,
     },
     title: {
       fontSize: 20,
       fontWeight: "bold",
+      color: theme.colors[colorScheme].surface.on,
     },
     link: {
       marginTop: 15,

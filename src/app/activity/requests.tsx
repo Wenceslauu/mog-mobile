@@ -1,27 +1,30 @@
-import { StyleSheet, Text, View } from "react-native";
+import theme from "@/constants/theme";
+import { StyleSheet, Text, View, useColorScheme } from "react-native";
 
-export default function NotificationsTab() {
+export default function RequestsTab() {
+  const colorScheme = useColorScheme() ?? "light";
+
+  const styles = createStyles(colorScheme);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Requests</Text>
-      <View style={styles.separator} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const createStyles = (colorScheme: "dark" | "light") => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: theme.colors[colorScheme].surface.main,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: theme.colors[colorScheme].surface.on,
+    },
+  });
+};

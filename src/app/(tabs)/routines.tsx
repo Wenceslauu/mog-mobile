@@ -11,6 +11,8 @@ export default function RoutinesScreen() {
   const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
+  const styles = createStyles(colorScheme);
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -20,7 +22,7 @@ export default function RoutinesScreen() {
               <Ionicons
                 name="add-circle-outline"
                 size={29}
-                color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                color={theme.colors[colorScheme].surface.onContainer}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
             )}
@@ -37,19 +39,18 @@ export default function RoutinesScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const createStyles = (colorScheme: "dark" | "light") => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: theme.colors[colorScheme].surface.main,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: theme.colors[colorScheme].surface.on,
+    },
+  });
+};

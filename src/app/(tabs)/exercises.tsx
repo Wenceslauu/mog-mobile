@@ -55,17 +55,19 @@ export default function ExercisesScreen() {
     console.log("handleSheetChanges", index);
   }, []);
 
+  const styles = createStyles(colorScheme);
+
   useEffect(() => {
     navigation.setOptions({
-      headerRight: ({ tintColor }) => (
-        <View style={{ flexDirection: "row", backgroundColor: tintColor }}>
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
           <Link href="/create-exercise" asChild>
             <Pressable>
               {({ pressed }) => (
                 <Ionicons
                   name="add-circle-outline"
                   size={29}
-                  color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                  color={theme.colors[colorScheme].surface.onContainer}
                   style={{ marginRight: 8, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -76,7 +78,7 @@ export default function ExercisesScreen() {
               <MaterialCommunityIcons
                 name="dots-horizontal"
                 size={29}
-                color={theme.colors[colorScheme].surface.onSurfaceContainer}
+                color={theme.colors[colorScheme].surface.onContainer}
                 style={{
                   marginRight: 15,
                   marginTop: 1,
@@ -107,13 +109,35 @@ export default function ExercisesScreen() {
           backgroundColor: theme.colors[colorScheme].surface.container,
         }}
       >
-        <View style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalText}>Awesome 🎉</Text>
         </View>
       </BottomSheetModal>
     </DismissKeyboardView>
   );
 }
+
+const createStyles = (colorScheme: "dark" | "light") => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      height: 200,
+      gap: 10,
+      paddingTop: 10,
+      backgroundColor: theme.colors[colorScheme].surface.main,
+    },
+    modalContainer: {
+      flex: 1,
+      alignItems: "center",
+    },
+    modalText: {
+      fontSize: 22,
+      fontWeight: "bold",
+      color: theme.colors[colorScheme].surface.onContainer,
+    }
+  });
+};
 
 type ExerciseCardProps = {
   exercise: (typeof mockedExercises)[0];
@@ -123,6 +147,10 @@ const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 function ExerciseCard({ exercise }: ExerciseCardProps) {
+  const colorScheme = useColorScheme() ?? "light";
+
+  const exerciseStyles = createExerciseStyles(colorScheme);
+
   return (
     <View style={exerciseStyles.cardContainer}>
       <Image
@@ -138,48 +166,31 @@ function ExerciseCard({ exercise }: ExerciseCardProps) {
   );
 }
 
-const exerciseStyles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    borderColor: "white",
-    borderWidth: 1,
-    padding: 5,
-    gap: 10,
-    height: 90,
-  },
-  image: {
-    width: "20%",
-    height: "100%",
-    backgroundColor: "red",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: "normal",
-  },
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    height: 1000,
-    gap: 10,
-    paddingTop: 10,
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-  },
-});
+const createExerciseStyles = (colorScheme: "dark" | "light") => {
+  return StyleSheet.create({
+    cardContainer: {
+      flex: 1,
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      borderColor: theme.colors[colorScheme].outline.main,
+      borderWidth: 1,
+      padding: 5,
+      gap: 10,
+      height: 90,
+    },
+    image: {
+      width: "20%",
+      height: "100%",
+      backgroundColor: theme.colors[colorScheme].secondary.main,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    subtitle: {
+      fontSize: 16,
+      fontWeight: "normal",
+    },
+  });
+};

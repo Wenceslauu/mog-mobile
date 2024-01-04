@@ -26,6 +26,7 @@ export default function LocalSearchBar({
       />
       <TextInput
         style={styles.input}
+        selectionColor={theme.colors[colorScheme].primary.main}
         onChangeText={onChangeText}
         value={value}
       />

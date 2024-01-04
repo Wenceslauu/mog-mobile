@@ -14,7 +14,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import theme from "@/constants/theme";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import DismissKeyboardView from "@/components/DismissKeyboardView";
 import LocalSearchBar from "@/components/LocalSearchBar";
 
 const mockedExercises = [
@@ -118,6 +117,86 @@ const mockedExercises = [
     },
     targetMuscle: "Hamstrings",
   },
+  {
+    // image: require("../../../assets/images/calf-raise.jpg"),
+    name: "Calf Raise",
+    isFavorite: false,
+    personalBest: {
+      weight: 200,
+      reps: 10,
+    },
+    targetMuscle: "Calves",
+  },
+  {
+    // image: require("../../../assets/images/crunch.jpg"),
+    name: "Crunch",
+    isFavorite: false,
+    personalBest: {
+      weight: 0,
+      reps: 25,
+    },
+    targetMuscle: "Abs",
+  },
+  {
+    // image: require("../../../assets/images/leg-raise.jpg"),
+    name: "Leg Raise",
+    isFavorite: false,
+    personalBest: {
+      weight: 0,
+      reps: 25,
+    },
+    targetMuscle: "Abs",
+  },
+  {
+    // image: require("../../../assets/images/plank.jpg"),
+    name: "Plank",
+    isFavorite: false,
+    personalBest: {
+      weight: 0,
+      reps: 120,
+    },
+    targetMuscle: "Abs",
+  },
+  {
+    // image: require("../../../assets/images/dumbbell-press.jpg"),
+    name: "Dumbbell Press",
+    isFavorite: false,
+    personalBest: {
+      weight: 50,
+      reps: 10,
+    },
+    targetMuscle: "Chest",
+  },
+  {
+    // image: require("../../../assets/images/dumbbell-fly.jpg"),
+    name: "Dumbbell Fly",
+    isFavorite: false,
+    personalBest: {
+      weight: 50,
+      reps: 10,
+    },
+    targetMuscle: "Chest",
+  },
+  {
+    // image: require("../../../assets/images/dumbbell-lateral-raise.jpg"),
+    name: "Dumbbell Lateral Raise",
+    isFavorite: false,
+    personalBest: {
+      weight: 30,
+      reps: 10,
+    },
+    targetMuscle: "Shoulders",
+  },
+  {
+    // image: require("../../../assets/images/dumbbell-rear-delt-fly.jpg"),
+    name: "Dumbbell Rear Delt Fly",
+    isFavorite: false,
+    personalBest: {
+      weight: 30,
+      reps: 10,
+    },
+    targetMuscle: "Shoulders",
+  },
 ];
 
 export default function ExercisesScreen() {
@@ -176,17 +255,18 @@ export default function ExercisesScreen() {
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
   return (
-    <DismissKeyboardView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.searchContainer}>
         <LocalSearchBar value={searchText} onChangeText={setSearchText} />
       </View>
       <FlashList
+        keyboardDismissMode="on-drag"
         data={mockedExercises.filter((exercise) =>
           searchRegex.test(exercise.name)
         )}
         estimatedItemSize={50}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
-        contentContainerStyle={{ paddingTop: 10, padding: 30 }}
+        contentContainerStyle={{ paddingHorizontal: 30, paddingBottom: 30 }}
       />
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -204,7 +284,7 @@ export default function ExercisesScreen() {
           <Text style={styles.modalText}>Awesome 🎉</Text>
         </View>
       </BottomSheetModal>
-    </DismissKeyboardView>
+    </View>
   );
 }
 
@@ -212,6 +292,7 @@ const createStyles = (colorScheme: "dark" | "light") => {
   return StyleSheet.create({
     container: {
       flex: 1,
+      gap: 15,
       paddingTop: 10,
       backgroundColor: theme.colors[colorScheme].surface.main,
     },

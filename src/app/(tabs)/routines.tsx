@@ -2,12 +2,14 @@ import { Pressable, StyleSheet, useColorScheme } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import theme from "@/constants/theme";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
 
 export default function RoutinesScreen() {
+  const [searchText, setSearchText] = useState("");
+
   const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
@@ -34,7 +36,7 @@ export default function RoutinesScreen() {
 
   return (
     <DismissKeyboardView style={styles.container}>
-      <LocalSearchBar />
+      <LocalSearchBar value={searchText} onChangeText={setSearchText} />
     </DismissKeyboardView>
   );
 }

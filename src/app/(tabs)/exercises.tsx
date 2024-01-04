@@ -10,7 +10,7 @@ import { FlashList } from "@shopify/flash-list";
 
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import theme from "@/constants/theme";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -38,19 +38,100 @@ const mockedExercises = [
     },
     targetMuscle: "Quads",
   },
+  {
+    // image: require("../../../assets/images/deadlift.jpg"),
+    name: "Deadlift",
+    isFavorite: false,
+    personalBest: {
+      weight: 405,
+      reps: 5,
+    },
+    targetMuscle: "Back",
+  },
+  {
+    // image: require("../../../assets/images/overhead-press.jpg"),
+    name: "Overhead Press",
+    isFavorite: false,
+    personalBest: {
+      weight: 135,
+      reps: 5,
+    },
+    targetMuscle: "Shoulders",
+  },
+  {
+    // image: require("../../../assets/images/barbell-row.jpg"),
+    name: "Barbell Row",
+    isFavorite: false,
+    personalBest: {
+      weight: 225,
+      reps: 5,
+    },
+    targetMuscle: "Back",
+  },
+  {
+    // image: require("../../../assets/images/pull-up.jpg"),
+    name: "Pull Up",
+    isFavorite: false,
+    personalBest: {
+      weight: 0,
+      reps: 10,
+    },
+    targetMuscle: "Back",
+  },
+  {
+    // image: require("../../../assets/images/dumbbell-curl.jpg"),
+    name: "Dumbbell Curl",
+    isFavorite: false,
+    personalBest: {
+      weight: 50,
+      reps: 10,
+    },
+    targetMuscle: "Biceps",
+  },
+  {
+    // image: require("../../../assets/images/tricep-extension.jpg"),
+    name: "Tricep Extension",
+    isFavorite: false,
+    personalBest: {
+      weight: 50,
+      reps: 10,
+    },
+    targetMuscle: "Triceps",
+  },
+  {
+    // image: require("../../../assets/images/leg-press.jpg"),
+    name: "Leg Press",
+    isFavorite: false,
+    personalBest: {
+      weight: 500,
+      reps: 10,
+    },
+    targetMuscle: "Quads",
+  },
+  {
+    // image: require("../../../assets/images/leg-curl.jpg"),
+    name: "Leg Curl",
+    isFavorite: false,
+    personalBest: {
+      weight: 200,
+      reps: 10,
+    },
+    targetMuscle: "Hamstrings",
+  },
 ];
 
 export default function ExercisesScreen() {
+  const [searchText, setSearchText] = useState("");
+
   const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const snapPoints = useMemo(() => ["25%", "50%"], []);
-
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
@@ -92,13 +173,17 @@ export default function ExercisesScreen() {
     });
   }, [navigation]);
 
+  const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
+
   return (
     <DismissKeyboardView style={styles.container}>
       <View style={styles.searchContainer}>
-        <LocalSearchBar />
+        <LocalSearchBar value={searchText} onChangeText={setSearchText} />
       </View>
       <FlashList
-        data={mockedExercises}
+        data={mockedExercises.filter((exercise) =>
+          searchRegex.test(exercise.name)
+        )}
         estimatedItemSize={50}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
         contentContainerStyle={{ paddingTop: 10, padding: 30 }}
@@ -106,7 +191,7 @@ export default function ExercisesScreen() {
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={1}
-        snapPoints={snapPoints}
+        snapPoints={["25%", "50%"]}
         onChange={handleSheetChanges}
         backgroundStyle={{
           backgroundColor: theme.colors[colorScheme].surface.container,

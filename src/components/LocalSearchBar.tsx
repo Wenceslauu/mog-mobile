@@ -1,14 +1,20 @@
 import theme from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { View, TextInput, StyleSheet, useColorScheme } from "react-native";
 
-export default function LocalSearchBar() {
+type LocalSearchBarProps = {
+  value: string;
+  onChangeText: Dispatch<SetStateAction<string>>;
+};
+
+export default function LocalSearchBar({
+  value,
+  onChangeText,
+}: LocalSearchBarProps) {
   const colorScheme = useColorScheme() ?? "light";
 
   const styles = createStyles(colorScheme);
-
-  const [text, setText] = useState("");
 
   return (
     <View style={styles.inputContainer}>
@@ -18,7 +24,11 @@ export default function LocalSearchBar() {
         color={theme.colors[colorScheme].surface.on}
         style={styles.inputIcon}
       />
-      <TextInput style={styles.input} onChangeText={setText} value={text} />
+      <TextInput
+        style={styles.input}
+        onChangeText={onChangeText}
+        value={value}
+      />
     </View>
   );
 }

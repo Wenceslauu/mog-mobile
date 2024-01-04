@@ -36,7 +36,7 @@ export default function RoutinesScreen() {
 
   return (
     <DismissKeyboardView style={styles.container}>
-      <LocalSearchBar value={searchText} onChangeText={setSearchText} />
+      <LocalSearchBar text={searchText} setText={setSearchText} />
     </DismissKeyboardView>
   );
 }

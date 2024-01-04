@@ -257,7 +257,7 @@ export default function ExercisesScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <LocalSearchBar value={searchText} onChangeText={setSearchText} />
+        <LocalSearchBar text={searchText} setText={setSearchText} />
       </View>
       <FlashList
         keyboardDismissMode="on-drag"

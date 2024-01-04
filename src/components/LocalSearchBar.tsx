@@ -4,14 +4,11 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { View, TextInput, StyleSheet, useColorScheme } from "react-native";
 
 type LocalSearchBarProps = {
-  value: string;
-  onChangeText: Dispatch<SetStateAction<string>>;
+  text: string;
+  setText: Dispatch<SetStateAction<string>>;
 };
 
-export default function LocalSearchBar({
-  value,
-  onChangeText,
-}: LocalSearchBarProps) {
+export default function LocalSearchBar({ text, setText }: LocalSearchBarProps) {
   const colorScheme = useColorScheme() ?? "light";
 
   const styles = createStyles(colorScheme);
@@ -27,8 +24,8 @@ export default function LocalSearchBar({
       <TextInput
         style={styles.input}
         selectionColor={theme.colors[colorScheme].primary.main}
-        onChangeText={onChangeText}
-        value={value}
+        onChangeText={setText}
+        value={text}
       />
     </View>
   );

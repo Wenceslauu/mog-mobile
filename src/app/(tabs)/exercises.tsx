@@ -94,11 +94,14 @@ export default function ExercisesScreen() {
 
   return (
     <DismissKeyboardView style={styles.container}>
-      <LocalSearchBar />
+      <View style={styles.searchContainer}>
+        <LocalSearchBar />
+      </View>
       <FlashList
         data={mockedExercises}
         estimatedItemSize={50}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
+        contentContainerStyle={{ paddingTop: 10, padding: 30 }}
       />
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -124,11 +127,12 @@ const createStyles = (colorScheme: "dark" | "light") => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: "center",
-      height: 200,
-      gap: 10,
       paddingTop: 10,
       backgroundColor: theme.colors[colorScheme].surface.main,
+    },
+    searchContainer: {
+      alignItems: "center",
+      width: "100%",
     },
     modalContainer: {
       flex: 1,
@@ -176,11 +180,11 @@ const createExerciseStyles = (colorScheme: "dark" | "light") => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
-      borderColor: theme.colors[colorScheme].outline.main,
-      borderWidth: 1,
-      padding: 5,
       gap: 10,
       height: 90,
+      padding: 5,
+      borderWidth: 1,
+      borderColor: theme.colors[colorScheme].outline.main,
     },
     image: {
       width: "20%",

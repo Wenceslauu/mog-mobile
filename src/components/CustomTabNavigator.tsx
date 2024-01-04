@@ -29,6 +29,10 @@ export default function CustomTabNavigator({
   );
 }
 
+interface CustomPressableCallbackProps extends PressableStateCallbackType {
+  focused: boolean;
+}
+
 type CustomTabBarProps = {
   tabs: {
     name: string;
@@ -44,7 +48,7 @@ function CustomTabBar({ tabs }: CustomTabBarProps) {
       {tabs.map((tab, index) => {
         return (
           <TabLink href={tab.href} name={tab.name} key={index}>
-            {({ pressed, focused }) => (
+            {({ pressed, focused }: CustomPressableCallbackProps) => (
               <View
                 style={[
                   styles.button,

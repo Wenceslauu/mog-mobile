@@ -20,7 +20,7 @@ const mockedExercises = [
   {
     image: require("../../../assets/images/bench-press.jpg"),
     name: "Bench Press",
-    isFavorite: false,
+    isFavorite: true,
     personalBest: {
       weight: 225,
       reps: 5,
@@ -30,7 +30,7 @@ const mockedExercises = [
   {
     image: require("../../../assets/images/squat.jpg"),
     name: "Squat",
-    isFavorite: false,
+    isFavorite: true,
     personalBest: {
       weight: 315,
       reps: 5,
@@ -331,9 +331,33 @@ function ExerciseCard({ exercise }: ExerciseCardProps) {
         source={exercise.image}
         placeholder={blurhash}
       />
-      <View>
-        <Text style={exerciseStyles.title}>{exercise.name}</Text>
-        <Text style={exerciseStyles.subtitle}>{exercise.targetMuscle}</Text>
+      <View style={exerciseStyles.cardContent}>
+        <View style={exerciseStyles.leftContainer}>
+          <Text style={exerciseStyles.title}>{exercise.name}</Text>
+          <Text style={exerciseStyles.subtitle}>{exercise.targetMuscle}</Text>
+        </View>
+        <View style={exerciseStyles.rightContainer}>
+          <View style={exerciseStyles.personalBestContainer}>
+            <Text style={exerciseStyles.personalBestText}>
+              {exercise.personalBest.weight} kg - {exercise.personalBest.reps}
+            </Text>
+          </View>
+          <Pressable
+            onPress={() => console.log("FAVORITE")}
+            style={exerciseStyles.icon}
+          >
+            {({ pressed }) => (
+              <Ionicons
+                name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
+                size={29}
+                color={theme.colors[colorScheme].surface.on}
+                style={{
+                  opacity: pressed ? 0.5 : 1,
+                }}
+              />
+            )}
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -342,20 +366,25 @@ function ExerciseCard({ exercise }: ExerciseCardProps) {
 const createExerciseStyles = (colorScheme: "dark" | "light") => {
   return StyleSheet.create({
     cardContainer: {
-      flex: 1,
       flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "flex-start",
       gap: 10,
       height: 90,
       padding: 5,
+      paddingRight: 10,
       borderWidth: 1,
       borderColor: theme.colors[colorScheme].outline.main,
     },
     image: {
       width: "20%",
-      height: "100%",
       backgroundColor: theme.colors[colorScheme].secondary.main,
+    },
+    cardContent: {
+      flex: 1,
+      flexDirection: "row",
+    },
+    leftContainer: {
+      alignSelf: "flex-start",
+      flex: 1,
     },
     title: {
       fontSize: 20,
@@ -366,6 +395,21 @@ const createExerciseStyles = (colorScheme: "dark" | "light") => {
       fontSize: 16,
       fontWeight: "normal",
       color: theme.colors[colorScheme].surface.on,
+    },
+    rightContainer: {
+      flexDirection: "row",
+      gap: 10,
+    },
+    personalBestContainer: {
+      alignSelf: "flex-end",
+    },
+    personalBestText: {
+      fontSize: 16,
+      fontWeight: "normal",
+      color: theme.colors[colorScheme].surface.on,
+    },
+    icon: {
+      alignSelf: "center",
     },
   });
 };

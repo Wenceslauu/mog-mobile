@@ -108,6 +108,9 @@ export default function ExercisesScreen() {
         backgroundStyle={{
           backgroundColor: theme.colors[colorScheme].surface.container,
         }}
+        handleIndicatorStyle={{
+          backgroundColor: theme.colors[colorScheme].surface.onContainer,
+        }}
       >
         <View style={styles.modalContainer}>
           <Text style={styles.modalText}>Awesome 🎉</Text>
@@ -135,7 +138,7 @@ const createStyles = (colorScheme: "dark" | "light") => {
       fontSize: 22,
       fontWeight: "bold",
       color: theme.colors[colorScheme].surface.onContainer,
-    }
+    },
   });
 };
 
@@ -187,10 +190,12 @@ const createExerciseStyles = (colorScheme: "dark" | "light") => {
     title: {
       fontSize: 20,
       fontWeight: "bold",
+      color: theme.colors[colorScheme].surface.on,
     },
     subtitle: {
       fontSize: 16,
       fontWeight: "normal",
+      color: theme.colors[colorScheme].surface.on,
     },
   });
 };

@@ -1,7 +1,13 @@
 import { Link, Navigator, Slot } from "expo-router";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  useColorScheme,
+  PressableStateCallbackType,
+} from "react-native";
 import { Pressable, StyleSheet } from "react-native";
 import { TabRouter } from "@react-navigation/native";
+import theme from "@/constants/theme";
 
 type CustomTabNavigatorProps = {
   tabs: {
@@ -31,8 +37,10 @@ type CustomTabBarProps = {
 };
 
 function CustomTabBar({ tabs }: CustomTabBarProps) {
+  const colorScheme = useColorScheme() ?? "light";
+
   return (
-    <View style={{ flexDirection: "row", gap: 10, marginLeft: 10 }}>
+    <View style={styles.container}>
       {tabs.map((tab, index) => {
         return (
           <TabLink href={tab.href} name={tab.name} key={index}>
@@ -42,8 +50,10 @@ function CustomTabBar({ tabs }: CustomTabBarProps) {
                   styles.button,
                   {
                     opacity: pressed ? 0.5 : 1,
-                    backgroundColor: focused ? "#fff" : "#000",
-                    borderColor: focused ? "#000" : "#fff",
+                    backgroundColor: focused
+                      ? theme.colors[colorScheme].surface.on
+                      : theme.colors[colorScheme].surface.main,
+                    borderColor: theme.colors[colorScheme].surface.on,
                   },
                 ]}
               >
@@ -51,7 +61,9 @@ function CustomTabBar({ tabs }: CustomTabBarProps) {
                   style={[
                     styles.buttonText,
                     {
-                      color: focused ? "#000" : "#fff",
+                      color: focused
+                        ? theme.colors[colorScheme].surface.main
+                        : theme.colors[colorScheme].surface.on,
                     },
                   ]}
                 >
@@ -65,6 +77,23 @@ function CustomTabBar({ tabs }: CustomTabBarProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    gap: 10,
+    marginLeft: 10,
+  },
+  button: {
+    padding: 15,
+    marginTop: 15,
+    borderRadius: 15,
+    borderWidth: 1,
+  },
+  buttonText: {
+    textTransform: "capitalize",
+  },
+});
 
 function useIsTabSelected(name: string): boolean {
   const { state } = Navigator.useContext();
@@ -91,17 +120,3 @@ function TabLink({
     </Link>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 15,
-    marginTop: 15,
-    backgroundColor: "white",
-    borderRadius: 15,
-    borderWidth: 1,
-  },
-  buttonText: {
-    color: "black",
-    textTransform: "capitalize",
-  },
-});

@@ -15,6 +15,7 @@ import theme from "@/constants/theme";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import LocalSearchBar from "@/components/LocalSearchBar";
+import FilterDropdown from "@/components/FilterDropdown";
 
 const mockedExercises = [
   {
@@ -202,6 +203,9 @@ const mockedExercises = [
 export default function ExercisesScreen() {
   const [searchText, setSearchText] = useState("");
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [targetMuscle, setTargetMuscle] = useState("All");
+
   const colorScheme = useColorScheme() ?? "light";
   const navigation = useNavigation();
 
@@ -258,11 +262,33 @@ export default function ExercisesScreen() {
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <LocalSearchBar text={searchText} setText={setSearchText} />
+        <View style={{ height: 70 }}>
+          <FilterDropdown
+            name="Teste"
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            selected={targetMuscle}
+            setSelected={setTargetMuscle}
+            options={[
+              "Chest",
+              "Back",
+              "Quads",
+              "Hamstrings",
+              "Calves",
+              "Abs",
+              "Shoulders",
+              "Biceps",
+              "Triceps",
+            ]}
+          />
+        </View>
       </View>
       <FlashList
         keyboardDismissMode="on-drag"
-        data={mockedExercises.filter((exercise) =>
-          searchRegex.test(exercise.name)
+        data={mockedExercises.filter(
+          (exercise) =>
+            searchRegex.test(exercise.name) &&
+            (targetMuscle === "All" || exercise.targetMuscle === targetMuscle)
         )}
         estimatedItemSize={50}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
@@ -299,6 +325,7 @@ const createStyles = (colorScheme: "dark" | "light") => {
     searchContainer: {
       alignItems: "center",
       width: "100%",
+      zIndex: 1,
     },
     modalContainer: {
       flex: 1,

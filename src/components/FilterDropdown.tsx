@@ -1,4 +1,5 @@
 import theme from "@/constants/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
 import { Dispatch, SetStateAction } from "react";
 import {
@@ -50,13 +51,43 @@ export default function FilterDropdown({
         {({ pressed }) => (
           <View
             style={[
-              styles.dropdown,
+              styles.dropdownButton,
               {
                 opacity: pressed ? 0.5 : 1,
+                backgroundColor:
+                  selected !== "All"
+                    ? theme.colors[colorScheme].primary.main
+                    : theme.colors[colorScheme].surface.container,
+                borderColor:
+                  selected !== "All"
+                    ? theme.colors[colorScheme].primary.on
+                    : theme.colors[colorScheme].surface.on,
               },
             ]}
           >
-            <Text style={styles.dropdownText}>{name}</Text>
+            <Text
+              style={[
+                styles.dropdownButtonText,
+                {
+                  color:
+                    selected !== "All"
+                      ? theme.colors[colorScheme].primary.on
+                      : theme.colors[colorScheme].surface.on,
+                },
+              ]}
+            >
+              {selected !== "All" ? selected : name}
+            </Text>
+            <Ionicons
+              name="chevron-down"
+              size={28}
+              style={{ marginBottom: -3 }}
+              color={
+                selected !== "All"
+                  ? theme.colors[colorScheme].primary.on
+                  : theme.colors[colorScheme].surface.on
+              }
+            />
           </View>
         )}
       </Pressable>
@@ -106,17 +137,18 @@ export default function FilterDropdown({
 
 const createStyles = (colorScheme: "dark" | "light") => {
   return StyleSheet.create({
-    dropdown: {
+    dropdownButton: {
       flex: 1,
+      flexDirection: "row",
+      gap: 10,
       alignItems: "center",
       justifyContent: "center",
       borderWidth: 1,
-      borderColor: theme.colors[colorScheme].surface.on,
       borderRadius: 10,
       paddingHorizontal: 15,
       margin: 10,
     },
-    dropdownText: {
+    dropdownButtonText: {
       fontSize: 18,
       color: theme.colors[colorScheme].surface.on,
     },

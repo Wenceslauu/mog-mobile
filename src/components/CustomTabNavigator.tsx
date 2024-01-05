@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     gap: 10,
-    marginLeft: 10,
+    marginLeft: 15,
   },
   button: {
     padding: 15,

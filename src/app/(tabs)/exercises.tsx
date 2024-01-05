@@ -262,9 +262,9 @@ export default function ExercisesScreen() {
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <LocalSearchBar text={searchText} setText={setSearchText} />
-        <View style={{ height: 70 }}>
+        <View style={styles.dropdownContainer}>
           <FilterDropdown
-            name="Teste"
+            name="Muscle Group"
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             selected={targetMuscle}
@@ -320,12 +320,17 @@ const createStyles = (colorScheme: "dark" | "light") => {
       flex: 1,
       gap: 15,
       paddingTop: 10,
+      
       backgroundColor: theme.colors[colorScheme].surface.main,
     },
     searchContainer: {
       alignItems: "center",
       width: "100%",
       zIndex: 1,
+    },
+    dropdownContainer: {
+      height: 70,
+      alignSelf: "flex-start",
     },
     modalContainer: {
       flex: 1,

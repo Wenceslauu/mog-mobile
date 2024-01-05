@@ -14,17 +14,20 @@ export default function NotificationsTab() {
 }
 
 const createStyles = (colorScheme: "dark" | "light") => {
+  const surface = theme.colors[colorScheme].surface.main;
+  const onSurface = theme.colors[colorScheme].surface.on;
+
   return StyleSheet.create({
     container: {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: theme.colors[colorScheme].surface.main,
+      backgroundColor: surface,
     },
     title: {
       fontSize: 20,
       fontWeight: "bold",
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
     },
   });
 };

@@ -315,13 +315,16 @@ export default function ExercisesScreen() {
 }
 
 const createStyles = (colorScheme: "dark" | "light") => {
+  const surface = theme.colors[colorScheme].surface.main;
+  const onSurfaceContainer = theme.colors[colorScheme].surface.onContainer;
+
   return StyleSheet.create({
     container: {
       flex: 1,
       gap: 15,
       paddingTop: 10,
-      
-      backgroundColor: theme.colors[colorScheme].surface.main,
+
+      backgroundColor: surface,
     },
     searchContainer: {
       alignItems: "center",
@@ -339,7 +342,7 @@ const createStyles = (colorScheme: "dark" | "light") => {
     modalText: {
       fontSize: 22,
       fontWeight: "bold",
-      color: theme.colors[colorScheme].surface.onContainer,
+      color: onSurfaceContainer,
     },
   });
 };
@@ -396,6 +399,10 @@ function ExerciseCard({ exercise }: ExerciseCardProps) {
 }
 
 const createExerciseStyles = (colorScheme: "dark" | "light") => {
+  const onSurface = theme.colors[colorScheme].surface.on;
+  const secondary = theme.colors[colorScheme].secondary.main;
+  const outline = theme.colors[colorScheme].outline.main;
+
   return StyleSheet.create({
     cardContainer: {
       flexDirection: "row",
@@ -404,11 +411,11 @@ const createExerciseStyles = (colorScheme: "dark" | "light") => {
       padding: 5,
       paddingRight: 10,
       borderWidth: 1,
-      borderColor: theme.colors[colorScheme].outline.main,
+      borderColor: outline,
     },
     image: {
       width: "20%",
-      backgroundColor: theme.colors[colorScheme].secondary.main,
+      backgroundColor: secondary,
     },
     cardContent: {
       flex: 1,
@@ -421,12 +428,12 @@ const createExerciseStyles = (colorScheme: "dark" | "light") => {
     title: {
       fontSize: 20,
       fontWeight: "bold",
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
     },
     subtitle: {
       fontSize: 16,
       fontWeight: "normal",
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
     },
     rightContainer: {
       flexDirection: "row",
@@ -438,7 +445,7 @@ const createExerciseStyles = (colorScheme: "dark" | "light") => {
     personalBestText: {
       fontSize: 16,
       fontWeight: "normal",
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
     },
     icon: {
       alignSelf: "center",

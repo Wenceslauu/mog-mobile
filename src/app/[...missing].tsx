@@ -22,18 +22,22 @@ export default function NotFoundScreen() {
 }
 
 const createStyles = (colorScheme: "dark" | "light") => {
+  const surface = theme.colors[colorScheme].surface.main;
+  const onSurface = theme.colors[colorScheme].surface.on;
+  const tertiary = theme.colors[colorScheme].tertiary.main;
+
   return StyleSheet.create({
     container: {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
       padding: 20,
-      backgroundColor: theme.colors[colorScheme].surface.main,
+      backgroundColor: surface,
     },
     title: {
       fontSize: 20,
       fontWeight: "bold",
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
     },
     link: {
       marginTop: 15,
@@ -41,7 +45,7 @@ const createStyles = (colorScheme: "dark" | "light") => {
     },
     linkText: {
       fontSize: 14,
-      color: theme.colors[colorScheme].tertiary.main,
+      color: tertiary,
     },
   });
 };

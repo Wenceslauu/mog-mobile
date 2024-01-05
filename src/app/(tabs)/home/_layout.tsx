@@ -1,5 +1,5 @@
 import { Link, useNavigation } from "expo-router";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, useColorScheme } from "react-native";
 import theme from "@/constants/theme";
@@ -33,7 +33,7 @@ export default function HomeLayout() {
                   name="search"
                   size={25}
                   color={theme.colors[colorScheme].surface.onContainer}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  style={[styles.icon, { opacity: pressed ? 0.5 : 1 }]}
                 />
               )}
             </Pressable>
@@ -52,3 +52,9 @@ export default function HomeLayout() {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    marginRight: 15,
+  },
+});

@@ -43,6 +43,8 @@ type CustomTabBarProps = {
 function CustomTabBar({ tabs }: CustomTabBarProps) {
   const colorScheme = useColorScheme() ?? "light";
 
+  const styles = createStyles(colorScheme);
+
   return (
     <View style={styles.container}>
       {tabs.map((tab, index) => {
@@ -57,7 +59,6 @@ function CustomTabBar({ tabs }: CustomTabBarProps) {
                     backgroundColor: focused
                       ? theme.colors[colorScheme].surface.on
                       : theme.colors[colorScheme].surface.main,
-                    borderColor: theme.colors[colorScheme].surface.on,
                   },
                 ]}
               >
@@ -82,22 +83,27 @@ function CustomTabBar({ tabs }: CustomTabBarProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    gap: 10,
-    marginLeft: 15,
-  },
-  button: {
-    padding: 15,
-    marginTop: 15,
-    borderRadius: 15,
-    borderWidth: 1,
-  },
-  buttonText: {
-    textTransform: "capitalize",
-  },
-});
+const createStyles = (colorScheme: "dark" | "light") => {
+  const onSurface = theme.colors[colorScheme].surface.on;
+
+  return StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      gap: 10,
+      marginLeft: 15,
+    },
+    button: {
+      padding: 15,
+      marginTop: 15,
+      borderRadius: 15,
+      borderWidth: 1,
+      borderColor: onSurface,
+    },
+    buttonText: {
+      textTransform: "capitalize",
+    },
+  });
+};
 
 function useIsTabSelected(name: string): boolean {
   const { state } = Navigator.useContext();

@@ -32,6 +32,8 @@ export default function LocalSearchBar({ text, setText }: LocalSearchBarProps) {
 }
 
 const createStyles = (colorScheme: "dark" | "light") => {
+  const onSurface = theme.colors[colorScheme].surface.on;
+
   return StyleSheet.create({
     inputContainer: {
       flexDirection: "row",
@@ -48,10 +50,10 @@ const createStyles = (colorScheme: "dark" | "light") => {
       height: 50,
       padding: 10,
       paddingLeft: 40,
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
       borderRadius: 10,
       borderWidth: 1,
-      borderColor: theme.colors[colorScheme].surface.on,
+      borderColor: onSurface,
     },
   });
 };

@@ -52,16 +52,11 @@ export default function FilterDropdown({
           <View
             style={[
               styles.dropdownButton,
+              selected !== "All"
+                ? styles.dropDownButtonSelected
+                : styles.dropdownButtonNotSelected,
               {
                 opacity: pressed ? 0.5 : 1,
-                backgroundColor:
-                  selected !== "All"
-                    ? theme.colors[colorScheme].primary.main
-                    : theme.colors[colorScheme].surface.container,
-                borderColor:
-                  selected !== "All"
-                    ? theme.colors[colorScheme].primary.on
-                    : theme.colors[colorScheme].surface.on,
               },
             ]}
           >
@@ -92,7 +87,7 @@ export default function FilterDropdown({
         )}
       </Pressable>
       {isOpen && (
-        <View style={styles.dropdownContainer}>
+        <View style={styles.dropdownMenuContainer}>
           <FlashList
             data={options}
             renderItem={({ item }) => (
@@ -100,7 +95,7 @@ export default function FilterDropdown({
                 {({ pressed }) => (
                   <View
                     style={[
-                      styles.button,
+                      styles.dropdownMenuButton,
                       {
                         opacity: pressed ? 0.5 : 1,
                         backgroundColor:
@@ -112,7 +107,7 @@ export default function FilterDropdown({
                   >
                     <Text
                       style={[
-                        styles.buttonText,
+                        styles.dropdownMenuButtonText,
                         {
                           color:
                             selected === item
@@ -136,6 +131,11 @@ export default function FilterDropdown({
 }
 
 const createStyles = (colorScheme: "dark" | "light") => {
+  const primary = theme.colors[colorScheme].primary.main;
+  const onPrimary = theme.colors[colorScheme].primary.on;
+  const onSurface = theme.colors[colorScheme].surface.on;
+  const surfaceContainer = theme.colors[colorScheme].surface.container;
+
   return StyleSheet.create({
     dropdownButton: {
       flex: 1,
@@ -148,12 +148,21 @@ const createStyles = (colorScheme: "dark" | "light") => {
       paddingHorizontal: 15,
       margin: 10,
     },
+    dropDownButtonSelected: {
+      backgroundColor: primary,
+      borderColor: onPrimary,
+    },
+    dropdownButtonNotSelected: {
+      backgroundColor: surfaceContainer,
+      borderColor: onSurface,
+    },
     dropdownButtonText: {
       fontSize: 18,
-      color: theme.colors[colorScheme].surface.on,
+      color: onSurface,
     },
-    dropdownContainer: {
-      backgroundColor: theme.colors[colorScheme].surface.container,
+
+    dropdownMenuContainer: {
+      backgroundColor: surfaceContainer,
       position: "absolute",
       top: 5,
       left: 5,
@@ -161,11 +170,11 @@ const createStyles = (colorScheme: "dark" | "light") => {
       width: 150,
       height: 300,
     },
-    button: {
+    dropdownMenuButton: {
       padding: 15,
       borderRadius: 10,
     },
-    buttonText: {
+    dropdownMenuButtonText: {
       fontSize: 18,
     },
   });

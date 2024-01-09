@@ -203,3 +203,5 @@ export const reactNavigationTheme = {
     },
   },
 };
+
+export type Theme = typeof lightTheme;

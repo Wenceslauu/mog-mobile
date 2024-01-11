@@ -1,21 +1,16 @@
-import {
-  Pressable,
-  StyleSheet,
-  useColorScheme,
-  Text,
-  View,
-} from "react-native";
+import { Pressable } from "react-native";
 
 import { useEffect } from "react";
 import { Link, useNavigation } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import theme from "@/constants/theme";
+import Box from "@/components/Box";
+import Text from "@/components/Text";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/constants/theme";
 
 export default function ProfileScreen() {
-  const colorScheme = useColorScheme() ?? "light";
+  const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
-
-  const styles = createStyles(colorScheme);
 
   useEffect(() => {
     navigation.setOptions({
@@ -26,7 +21,7 @@ export default function ProfileScreen() {
               <Ionicons
                 name="settings-outline"
                 size={25}
-                color={theme.colors[colorScheme].surface.onContainer}
+                color={colors.onSurfaceContainer}
                 style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}
               />
             )}
@@ -34,14 +29,14 @@ export default function ProfileScreen() {
         </Link>
       ),
       headerRight: () => (
-        <View style={{ flexDirection: "row" }}>
+        <Box flexDirection="row">
           <Link href="/edit-profile" asChild>
             <Pressable>
               {({ pressed }) => (
                 <MaterialCommunityIcons
                   name="account-edit-outline"
                   size={29}
-                  color={theme.colors[colorScheme].surface.onContainer}
+                  color={colors.onSurfaceContainer}
                   style={{ marginRight: 11, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -53,39 +48,27 @@ export default function ProfileScreen() {
                 <Ionicons
                   name="share-social"
                   size={25}
-                  color={theme.colors[colorScheme].surface.onContainer}
+                  color={colors.onSurfaceContainer}
                   style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
             </Pressable>
           </Link>
-        </View>
+        </Box>
       ),
     });
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-    </View>
+    <Box
+      flex={1}
+      justifyContent="center"
+      alignItems="center"
+      backgroundColor="surface"
+    >
+      <Text variant="title" color="onSurface">
+        Profile
+      </Text>
+    </Box>
   );
 }
-
-const createStyles = (colorScheme: "dark" | "light") => {
-  const surface = theme.colors[colorScheme].surface.main;
-  const onSurface = theme.colors[colorScheme].surface.on;
-
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: surface,
-    },
-    title: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: onSurface,
-    },
-  });
-};

@@ -2,6 +2,7 @@ import { createTheme } from "@shopify/restyle";
 
 const themeWithoutColors = {
   spacing: {
+    xs: 4,
     s: 8,
     m: 16,
     l: 24,
@@ -36,17 +37,16 @@ const themeWithoutColors = {
     headline: {},
     title: {
       fontSize: 20,
-      lineHeight: 1.2,
-      // letterSpacing: null,
-      // fontWeight: null,
+      // lineHeight: 1.2,
+      fontWeight: "bold",
     },
     body: {
       fontSize: 16,
-      lineHeight: 1.5,
+      // lineHeight: 1.5,
     },
     label: {
       fontSize: 12,
-      lineHeight: 1.5,
+      // lineHeight: 1.5,
     },
   },
   breakpoints: {},

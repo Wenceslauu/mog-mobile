@@ -1,22 +1,20 @@
-import {
-  Keyboard,
-  TouchableWithoutFeedback,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import Box from "./Box";
+import { BoxProps } from "@shopify/restyle";
+import { Theme } from "@/constants/theme";
+import { ReactNode } from "react";
 
-type DismissKeyboardViewProps = {
-  children: React.ReactNode;
-  style: ViewStyle;
-};
+interface DismissKeyboardViewProps extends BoxProps<Theme> {
+  children: ReactNode;
+}
 
 export default function DismissKeyboardView({
   children,
-  style,
+  ...props
 }: DismissKeyboardViewProps) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={style}>{children}</View>
+      <Box {...props}>{children}</Box>
     </TouchableWithoutFeedback>
   );
 }

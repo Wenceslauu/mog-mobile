@@ -1,7 +1,9 @@
-import theme from "@/constants/theme";
+import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { Dispatch, SetStateAction, useState } from "react";
-import { View, TextInput, StyleSheet, useColorScheme } from "react-native";
+import { Dispatch, SetStateAction } from "react";
+import { TextInput, StyleSheet } from "react-native";
+import Box from "./Box";
+import { useTheme } from "@shopify/restyle";
 
 type LocalSearchBarProps = {
   text: string;
@@ -9,37 +11,30 @@ type LocalSearchBarProps = {
 };
 
 export default function LocalSearchBar({ text, setText }: LocalSearchBarProps) {
-  const colorScheme = useColorScheme() ?? "light";
+  const { colors } = useTheme<Theme>();
 
-  const styles = createStyles(colorScheme);
+  const styles = createStyles(colors);
 
   return (
-    <View style={styles.inputContainer}>
+    <Box flexDirection="row" borderRadius={10} width="80%">
       <Ionicons
         name="search-outline"
         size={25}
-        color={theme.colors[colorScheme].surface.on}
+        color={colors.onSurface}
         style={styles.inputIcon}
       />
       <TextInput
-        style={styles.input}
-        selectionColor={theme.colors[colorScheme].primary.main}
-        onChangeText={setText}
         value={text}
+        onChangeText={setText}
+        selectionColor={colors.primary}
+        style={styles.input}
       />
-    </View>
+    </Box>
   );
 }
 
-const createStyles = (colorScheme: "dark" | "light") => {
-  const onSurface = theme.colors[colorScheme].surface.on;
-
+const createStyles = (colors: Theme["colors"]) => {
   return StyleSheet.create({
-    inputContainer: {
-      flexDirection: "row",
-      borderRadius: 10,
-      width: "80%",
-    },
     inputIcon: {
       position: "absolute",
       top: 10,
@@ -50,10 +45,10 @@ const createStyles = (colorScheme: "dark" | "light") => {
       height: 50,
       padding: 10,
       paddingLeft: 40,
-      color: onSurface,
+      color: colors.onSurface,
       borderRadius: 10,
       borderWidth: 1,
-      borderColor: onSurface,
+      borderColor: colors.onSurface,
     },
   });
 };

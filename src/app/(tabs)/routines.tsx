@@ -1,19 +1,18 @@
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
+import { Pressable } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
 import { useEffect, useState } from "react";
-import theme from "@/constants/theme";
+import { Theme } from "@/constants/theme";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
+import { useTheme } from "@shopify/restyle";
 
 export default function RoutinesScreen() {
   const [searchText, setSearchText] = useState("");
 
-  const colorScheme = useColorScheme() ?? "light";
+  const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
-
-  const styles = createStyles(colorScheme);
 
   useEffect(() => {
     navigation.setOptions({
@@ -24,7 +23,7 @@ export default function RoutinesScreen() {
               <Ionicons
                 name="add-circle-outline"
                 size={29}
-                color={theme.colors[colorScheme].surface.onContainer}
+                color={colors.onSurfaceContainer}
                 style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
               />
             )}
@@ -35,27 +34,13 @@ export default function RoutinesScreen() {
   }, [navigation]);
 
   return (
-    <DismissKeyboardView style={styles.container}>
+    <DismissKeyboardView
+      flex={1}
+      alignItems="center"
+      justifyContent="center"
+      backgroundColor="surface"
+    >
       <LocalSearchBar text={searchText} setText={setSearchText} />
     </DismissKeyboardView>
   );
 }
-
-const createStyles = (colorScheme: "dark" | "light") => {
-  const surface = theme.colors[colorScheme].surface.main;
-  const onSurface = theme.colors[colorScheme].surface.on;
-
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: surface,
-    },
-    title: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: onSurface,
-    },
-  });
-};

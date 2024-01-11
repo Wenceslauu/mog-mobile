@@ -1,21 +1,19 @@
 import { Image } from "expo-image";
-import {
-  Pressable,
-  StyleSheet,
-  useColorScheme,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import theme from "@/constants/theme";
 
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import FilterDropdown from "@/components/FilterDropdown";
+
+import Box from "@/components/Box";
+import Text from "@/components/Text";
+import { useTheme } from "@shopify/restyle";
+import { Theme } from "@/constants/theme";
 
 const mockedExercises = [
   {
@@ -206,7 +204,7 @@ export default function ExercisesScreen() {
   const [isOpen, setIsOpen] = useState(false);
   const [targetMuscle, setTargetMuscle] = useState("All");
 
-  const colorScheme = useColorScheme() ?? "light";
+  const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -219,19 +217,17 @@ export default function ExercisesScreen() {
     console.log("handleSheetChanges", index);
   }, []);
 
-  const styles = createStyles(colorScheme);
-
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{ flexDirection: "row" }}>
+        <Box flexDirection="row">
           <Link href="/create-exercise" asChild>
             <Pressable>
               {({ pressed }) => (
                 <Ionicons
                   name="add-circle-outline"
                   size={29}
-                  color={theme.colors[colorScheme].surface.onContainer}
+                  color={colors.onSurfaceContainer}
                   style={{ marginRight: 8, opacity: pressed ? 0.5 : 1 }}
                 />
               )}
@@ -242,7 +238,7 @@ export default function ExercisesScreen() {
               <MaterialCommunityIcons
                 name="dots-horizontal"
                 size={29}
-                color={theme.colors[colorScheme].surface.onContainer}
+                color={colors.onSurfaceContainer}
                 style={{
                   marginRight: 15,
                   marginTop: 1,
@@ -251,7 +247,7 @@ export default function ExercisesScreen() {
               />
             )}
           </Pressable>
-        </View>
+        </Box>
       ),
     });
   }, [navigation]);
@@ -259,10 +255,10 @@ export default function ExercisesScreen() {
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.searchContainer}>
+    <Box flex={1} gap="m" paddingTop="s" backgroundColor="surface">
+      <Box alignItems="center" width="100%" zIndex={1}>
         <LocalSearchBar text={searchText} setText={setSearchText} />
-        <View style={styles.dropdownContainer}>
+        <Box height={70} alignSelf="flex-start">
           <FilterDropdown
             name="Muscle Group"
             isOpen={isOpen}
@@ -281,8 +277,8 @@ export default function ExercisesScreen() {
               "Triceps",
             ]}
           />
-        </View>
-      </View>
+        </Box>
+      </Box>
       <FlashList
         keyboardDismissMode="on-drag"
         data={mockedExercises.filter(
@@ -300,52 +296,21 @@ export default function ExercisesScreen() {
         snapPoints={["25%", "50%"]}
         onChange={handleSheetChanges}
         backgroundStyle={{
-          backgroundColor: theme.colors[colorScheme].surface.container,
+          backgroundColor: colors.surfaceContainer,
         }}
         handleIndicatorStyle={{
-          backgroundColor: theme.colors[colorScheme].surface.onContainer,
+          backgroundColor: colors.onSurfaceContainer,
         }}
       >
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalText}>Awesome 🎉</Text>
-        </View>
+        <Box flex={1} alignItems="center">
+          <Text variant="title" color="onSurfaceContainer">
+            Awesome 🎉
+          </Text>
+        </Box>
       </BottomSheetModal>
-    </View>
+    </Box>
   );
 }
-
-const createStyles = (colorScheme: "dark" | "light") => {
-  const surface = theme.colors[colorScheme].surface.main;
-  const onSurfaceContainer = theme.colors[colorScheme].surface.onContainer;
-
-  return StyleSheet.create({
-    container: {
-      flex: 1,
-      gap: 15,
-      paddingTop: 10,
-
-      backgroundColor: surface,
-    },
-    searchContainer: {
-      alignItems: "center",
-      width: "100%",
-      zIndex: 1,
-    },
-    dropdownContainer: {
-      height: 70,
-      alignSelf: "flex-start",
-    },
-    modalContainer: {
-      flex: 1,
-      alignItems: "center",
-    },
-    modalText: {
-      fontSize: 22,
-      fontWeight: "bold",
-      color: onSurfaceContainer,
-    },
-  });
-};
 
 type ExerciseCardProps = {
   exercise: (typeof mockedExercises)[0];
@@ -355,28 +320,38 @@ const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 function ExerciseCard({ exercise }: ExerciseCardProps) {
-  const colorScheme = useColorScheme() ?? "light";
-
-  const exerciseStyles = createExerciseStyles(colorScheme);
+  const { colors } = useTheme<Theme>();
+  const exerciseStyles = createExerciseStyles(colors);
 
   return (
-    <View style={exerciseStyles.cardContainer}>
+    <Box
+      flexDirection="row"
+      gap="s"
+      height={90}
+      padding="s"
+      borderWidth={1}
+      borderColor="outline"
+    >
       <Image
         style={exerciseStyles.image}
         source={exercise.image}
         placeholder={blurhash}
       />
-      <View style={exerciseStyles.cardContent}>
-        <View style={exerciseStyles.leftContainer}>
-          <Text style={exerciseStyles.title}>{exercise.name}</Text>
-          <Text style={exerciseStyles.subtitle}>{exercise.targetMuscle}</Text>
-        </View>
-        <View style={exerciseStyles.rightContainer}>
-          <View style={exerciseStyles.personalBestContainer}>
-            <Text style={exerciseStyles.personalBestText}>
+      <Box flex={1} flexDirection="row">
+        <Box flex={1} alignSelf="flex-start">
+          <Text variant="title" color="onSurface">
+            {exercise.name}
+          </Text>
+          <Text variant="label" color="onSurface">
+            {exercise.targetMuscle}
+          </Text>
+        </Box>
+        <Box flexDirection="row" gap="s">
+          <Box alignSelf="flex-end">
+            <Text variant="label" color="onSurface">
               {exercise.personalBest.weight} kg - {exercise.personalBest.reps}
             </Text>
-          </View>
+          </Box>
           <Pressable
             onPress={() => console.log("FAVORITE")}
             style={exerciseStyles.icon}
@@ -385,67 +360,24 @@ function ExerciseCard({ exercise }: ExerciseCardProps) {
               <Ionicons
                 name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
                 size={29}
-                color={theme.colors[colorScheme].surface.on}
+                color={colors.onSurface}
                 style={{
                   opacity: pressed ? 0.5 : 1,
                 }}
               />
             )}
           </Pressable>
-        </View>
-      </View>
-    </View>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
-const createExerciseStyles = (colorScheme: "dark" | "light") => {
-  const onSurface = theme.colors[colorScheme].surface.on;
-  const secondary = theme.colors[colorScheme].secondary.main;
-  const outline = theme.colors[colorScheme].outline.main;
-
+const createExerciseStyles = (colors: Theme["colors"]) => {
   return StyleSheet.create({
-    cardContainer: {
-      flexDirection: "row",
-      gap: 10,
-      height: 90,
-      padding: 5,
-      paddingRight: 10,
-      borderWidth: 1,
-      borderColor: outline,
-    },
     image: {
       width: "20%",
-      backgroundColor: secondary,
-    },
-    cardContent: {
-      flex: 1,
-      flexDirection: "row",
-    },
-    leftContainer: {
-      alignSelf: "flex-start",
-      flex: 1,
-    },
-    title: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: onSurface,
-    },
-    subtitle: {
-      fontSize: 16,
-      fontWeight: "normal",
-      color: onSurface,
-    },
-    rightContainer: {
-      flexDirection: "row",
-      gap: 10,
-    },
-    personalBestContainer: {
-      alignSelf: "flex-end",
-    },
-    personalBestText: {
-      fontSize: 16,
-      fontWeight: "normal",
-      color: onSurface,
+      backgroundColor: colors.secondary,
     },
     icon: {
       alignSelf: "center",

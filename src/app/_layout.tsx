@@ -1,11 +1,8 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
-import { reactNavigationTheme } from "@/constants/theme";
+import Providers from "@/providers";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,25 +42,21 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme() ?? "light";
-
   return (
-    <ThemeProvider value={reactNavigationTheme[colorScheme]}>
-      <BottomSheetModalProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="log"
-            options={{ presentation: "modal", title: "Log" }}
-          />
-          <Stack.Screen name="activity" options={{ title: "Activity" }} />
-          <Stack.Screen
-            name="create-routine"
-            options={{ title: "Create Routine" }}
-          />
-          <Stack.Screen name="settings" options={{ title: "Settings" }} />
-        </Stack>
-      </BottomSheetModalProvider>
-    </ThemeProvider>
+    <Providers>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="log"
+          options={{ presentation: "modal", title: "Log" }}
+        />
+        <Stack.Screen name="activity" options={{ title: "Activity" }} />
+        <Stack.Screen
+          name="create-routine"
+          options={{ title: "Create Routine" }}
+        />
+        <Stack.Screen name="settings" options={{ title: "Settings" }} />
+      </Stack>
+    </Providers>
   );
 }

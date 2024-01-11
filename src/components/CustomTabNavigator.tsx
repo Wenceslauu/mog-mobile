@@ -1,13 +1,9 @@
 import { Link, Navigator, Slot } from "expo-router";
-import {
-  View,
-  Text,
-  useColorScheme,
-  PressableStateCallbackType,
-} from "react-native";
-import { Pressable, StyleSheet } from "react-native";
+import { PressableStateCallbackType } from "react-native";
+import { Pressable } from "react-native";
 import { TabRouter } from "@react-navigation/native";
-import theme from "@/constants/theme";
+import Box from "./Box";
+import Text from "./Text";
 
 type CustomTabNavigatorProps = {
   tabs: {
@@ -41,69 +37,36 @@ type CustomTabBarProps = {
 };
 
 function CustomTabBar({ tabs }: CustomTabBarProps) {
-  const colorScheme = useColorScheme() ?? "light";
-
-  const styles = createStyles(colorScheme);
-
   return (
-    <View style={styles.container}>
+    <Box flexDirection="row" gap="s" marginLeft="m">
       {tabs.map((tab, index) => {
         return (
           <TabLink href={tab.href} name={tab.name} key={index}>
             {({ pressed, focused }: CustomPressableCallbackProps) => (
-              <View
-                style={[
-                  styles.button,
-                  {
-                    opacity: pressed ? 0.5 : 1,
-                    backgroundColor: focused
-                      ? theme.colors[colorScheme].surface.on
-                      : theme.colors[colorScheme].surface.main,
-                  },
-                ]}
+              <Box
+                padding="m"
+                marginTop="m"
+                borderRadius={15}
+                borderWidth={1}
+                borderColor="onSurface"
+                opacity={pressed ? 0.5 : 1}
+                backgroundColor={focused ? "onSurface" : "surface"}
               >
                 <Text
-                  style={[
-                    styles.buttonText,
-                    {
-                      color: focused
-                        ? theme.colors[colorScheme].surface.main
-                        : theme.colors[colorScheme].surface.on,
-                    },
-                  ]}
+                  variant="body"
+                  textTransform="capitalize"
+                  color={focused ? "surface" : "onSurface"}
                 >
                   {tab.name}
                 </Text>
-              </View>
+              </Box>
             )}
           </TabLink>
         );
       })}
-    </View>
+    </Box>
   );
 }
-
-const createStyles = (colorScheme: "dark" | "light") => {
-  const onSurface = theme.colors[colorScheme].surface.on;
-
-  return StyleSheet.create({
-    container: {
-      flexDirection: "row",
-      gap: 10,
-      marginLeft: 15,
-    },
-    button: {
-      padding: 15,
-      marginTop: 15,
-      borderRadius: 15,
-      borderWidth: 1,
-      borderColor: onSurface,
-    },
-    buttonText: {
-      textTransform: "capitalize",
-    },
-  });
-};
 
 function useIsTabSelected(name: string): boolean {
   const { state } = Navigator.useContext();

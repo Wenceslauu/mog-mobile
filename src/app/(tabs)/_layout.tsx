@@ -1,20 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 
 import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
 
-import theme from "@/constants/theme";
+import { Theme } from "@/constants/theme";
+import { useTheme } from "@shopify/restyle";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 export default function TabLayout() {
-  const colorScheme = useColorScheme() ?? "light";
+  const { colors } = useTheme<Theme>();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.colors[colorScheme].surface.onContainer,
+        tabBarActiveTintColor: colors.onSurfaceContainer,
       }}
     >
       <Tabs.Screen

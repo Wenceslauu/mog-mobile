@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
-import { Dispatch, SetStateAction } from "react";
-import { Pressable } from "react-native";
+import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
+import { Modal, Pressable, TouchableWithoutFeedback, View } from "react-native";
 import Box from "./Box";
 import Text from "./Text";
 import { useTheme } from "@shopify/restyle";
@@ -24,6 +24,13 @@ export default function FilterDropdown({
   setIsOpen,
   options,
 }: FilterDropdownProps) {
+  const [dropdownButtonPosition, setDropdownButtonPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const dropdownButtonRef = useRef<View>(null);
+
   const { colors } = useTheme<Theme>();
 
   const toggleDropdown = () => {
@@ -31,20 +38,30 @@ export default function FilterDropdown({
   };
 
   const toggleFilter = (item: string) => {
-    if (selected === "All" || selected !== item) {
-      setSelected(item);
-    } else {
+    if (selected === item) {
       setSelected("All");
+    } else {
+      setSelected(item);
     }
 
     setIsOpen(false);
   };
+
+  const measureDropdownButtonPosition = useCallback(() => {
+    dropdownButtonRef.current?.measure(
+      (_x, _y, width, height, pageX, pageY) => {
+        setDropdownButtonPosition({ x: pageX, y: pageY });
+      }
+    );
+  }, []);
 
   return (
     <>
       <Pressable onPress={toggleDropdown}>
         {({ pressed }) => (
           <Box
+            onLayout={measureDropdownButtonPosition}
+            ref={dropdownButtonRef}
             flex={1}
             flexDirection="row"
             alignItems="center"
@@ -76,43 +93,61 @@ export default function FilterDropdown({
         )}
       </Pressable>
       {isOpen && (
-        <Box
-          backgroundColor="surfaceContainer"
-          position="absolute"
-          top={5}
-          left={5}
-          borderRadius={10}
-          width={150}
-          height={300}
-        >
-          <FlashList
-            data={options}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => toggleFilter(item)}>
-                {({ pressed }) => (
-                  <Box
-                    padding="m"
-                    borderRadius={10}
-                    opacity={pressed ? 0.5 : 1}
-                    backgroundColor={
-                      selected === item ? "primary" : "surfaceContainer"
-                    }
-                  >
-                    <Text
-                      variant="body"
-                      color={
-                        selected === item ? "onPrimary" : "onSurfaceContainer"
-                      }
-                    >
-                      {item}
-                    </Text>
-                  </Box>
+        <>
+          <Modal transparent={true}>
+            <Box
+              backgroundColor="surfaceContainer"
+              position="absolute"
+              top={dropdownButtonPosition.y - 5}
+              left={dropdownButtonPosition.x - 5}
+              borderRadius={10}
+              width={180}
+              height={300}
+              zIndex={1}
+            >
+              <FlashList
+                data={options}
+                renderItem={({ item }) => (
+                  <Pressable onPress={() => toggleFilter(item)}>
+                    {({ pressed }) => (
+                      <Box
+                        padding="m"
+                        borderRadius={10}
+                        opacity={pressed ? 0.5 : 1}
+                        backgroundColor={
+                          selected === item ? "primary" : "surfaceContainer"
+                        }
+                      >
+                        <Text
+                          variant="body"
+                          color={
+                            selected === item
+                              ? "onPrimary"
+                              : "onSurfaceContainer"
+                          }
+                        >
+                          {item}
+                        </Text>
+                      </Box>
+                    )}
+                  </Pressable>
                 )}
-              </Pressable>
-            )}
-            estimatedItemSize={20}
-          />
-        </Box>
+                estimatedItemSize={20}
+              />
+            </Box>
+            <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+              <Box
+                position="absolute"
+                left={0}
+                right={0}
+                top={0}
+                bottom={0}
+                opacity={0.5}
+                style={{ backgroundColor: "rgb(0, 0, 0)" }}
+              ></Box>
+            </TouchableWithoutFeedback>
+          </Modal>
+        </>
       )}
     </>
   );

@@ -200,8 +200,8 @@ const mockedExercises = [
 
 export default function ExercisesScreen() {
   const [searchText, setSearchText] = useState("");
+  const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [isOpen, setIsOpen] = useState(false);
   const [targetMuscle, setTargetMuscle] = useState("All");
 
   const { colors } = useTheme<Theme>();
@@ -252,17 +252,19 @@ export default function ExercisesScreen() {
     });
   }, [navigation]);
 
-  const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
-
   return (
-    <Box flex={1} gap="m" paddingTop="s" backgroundColor="surface">
+    <Box
+      flex={1}
+      gap="xs"
+      paddingTop="m"
+      paddingHorizontal="l"
+      backgroundColor="surface"
+    >
       <Box alignItems="center" width="100%" zIndex={1}>
         <LocalSearchBar text={searchText} setText={setSearchText} />
         <Box height={70} alignSelf="flex-start">
           <FilterDropdown
             name="Muscle Group"
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
             selected={targetMuscle}
             setSelected={setTargetMuscle}
             options={[
@@ -288,7 +290,7 @@ export default function ExercisesScreen() {
         )}
         estimatedItemSize={50}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
-        contentContainerStyle={{ paddingHorizontal: 30, paddingBottom: 30 }}
+        contentContainerStyle={{ paddingBottom: 30 }}
       />
       <BottomSheetModal
         ref={bottomSheetModalRef}

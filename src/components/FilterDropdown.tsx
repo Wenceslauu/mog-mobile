@@ -9,8 +9,6 @@ import { Theme } from "@/constants/theme";
 
 type FilterDropdownProps = {
   name: string;
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
   selected: string;
   setSelected: Dispatch<SetStateAction<string>>;
   options: string[];
@@ -20,10 +18,10 @@ export default function FilterDropdown({
   name,
   selected,
   setSelected,
-  isOpen,
-  setIsOpen,
   options,
 }: FilterDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [dropdownButtonPosition, setDropdownButtonPosition] = useState({
     x: 0,
     y: 0,
@@ -70,7 +68,7 @@ export default function FilterDropdown({
             borderWidth={1}
             borderRadius={10}
             paddingHorizontal="m"
-            margin="s"
+            marginVertical="s"
             opacity={pressed ? 0.5 : 1}
             backgroundColor={
               selected !== "All" ? "primary" : "surfaceContainer"
@@ -102,7 +100,8 @@ export default function FilterDropdown({
               left={dropdownButtonPosition.x - 5}
               borderRadius={10}
               width={180}
-              height={300}
+              height={options.length * 52}
+              maxHeight={310}
               zIndex={1}
             >
               <FlashList

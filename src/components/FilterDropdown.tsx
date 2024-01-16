@@ -48,6 +48,12 @@ export default function FilterDropdown({
   const measureDropdownButtonPosition = useCallback(() => {
     dropdownButtonRef.current?.measure(
       (_x, _y, width, height, pageX, pageY) => {
+        if (pageX < 24) {
+          pageX = 24;
+        } else if (pageX > 216) {
+          pageX = 216;
+        }
+
         setDropdownButtonPosition({ x: pageX, y: pageY });
       }
     );
@@ -55,10 +61,14 @@ export default function FilterDropdown({
 
   return (
     <>
-      <Pressable onPress={toggleDropdown}>
+      <Pressable
+        onPress={() => {
+          measureDropdownButtonPosition();
+          toggleDropdown();
+        }}
+      >
         {({ pressed }) => (
           <Box
-            onLayout={measureDropdownButtonPosition}
             ref={dropdownButtonRef}
             flex={1}
             flexDirection="row"

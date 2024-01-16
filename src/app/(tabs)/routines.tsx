@@ -43,6 +43,9 @@ export default function RoutinesScreen() {
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
   const [category, setCategory] = useState("All");
+  const [equipment, setEquipment] = useState("All");
+  const [difficulty, setDifficulty] = useState("All");
+  const [daysPerWeek, setDaysPerWeek] = useState("All");
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -76,14 +79,37 @@ export default function RoutinesScreen() {
     >
       <Box alignItems="center" width="100%" zIndex={1}>
         <LocalSearchBar text={searchText} setText={setSearchText} />
-        <Box height={70} alignSelf="flex-start">
+        <ScrollView
+          horizontal={true}
+          contentContainerStyle={{ gap: 8 }}
+          showsHorizontalScrollIndicator={false}
+          style={{ height: 70, alignSelf: "flex-start" }}
+        >
           <FilterDropdown
             name="Category"
             selected={category}
             setSelected={setCategory}
             options={["Bodybuilding", "Powerlifting", "Bodyweight"]}
           />
-        </Box>
+          <FilterDropdown
+            name="DaysPerWeek"
+            selected={daysPerWeek}
+            setSelected={setDaysPerWeek}
+            options={["2 Days", "3 Days", "4 Days", "5 Days", "6 Days"]}
+          />
+          <FilterDropdown
+            name="Difficulty"
+            selected={difficulty}
+            setSelected={setDifficulty}
+            options={["Beginner", "Intermediate", "Advanced"]}
+          />
+          <FilterDropdown
+            name="Equipment"
+            selected={equipment}
+            setSelected={setEquipment}
+            options={["Full Gym", "Dumbbells Only", "At home"]}
+          />
+        </ScrollView>
       </Box>
       <ScrollView
         contentContainerStyle={{ gap: 16, paddingBottom: 30 }}

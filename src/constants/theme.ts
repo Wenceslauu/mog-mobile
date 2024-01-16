@@ -34,7 +34,10 @@ const themeWithoutColors = {
   */
   textVariants: {
     display: {},
-    headline: {},
+    headline: {
+      fontSize: 24,
+      fontWeight: "bold",
+    },
     title: {
       fontSize: 20,
       // lineHeight: 1.2,

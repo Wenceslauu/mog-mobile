@@ -16,7 +16,7 @@ export default function LocalSearchBar({ text, setText }: LocalSearchBarProps) {
   const styles = createStyles(colors);
 
   return (
-    <Box flexDirection="row" borderRadius={10} width="80%">
+    <Box flexDirection="row" borderRadius={10}>
       <Ionicons
         name="search-outline"
         size={25}

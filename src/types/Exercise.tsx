@@ -1,5 +1,5 @@
 export interface Exercise {
-  image: string;
+  image?: any;
   name: string;
   isFavorite: boolean;
   personalBest: {

@@ -14,6 +14,7 @@ import Box from "@/components/Box";
 import Text from "@/components/Text";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
+import ExerciseCard from "@/components/exercises/ExerciseCard";
 
 const mockedExercises = [
   {
@@ -314,75 +315,75 @@ export default function ExercisesScreen() {
   );
 }
 
-type ExerciseCardProps = {
-  exercise: (typeof mockedExercises)[0];
-};
+// type ExerciseCardProps = {
+//   exercise: (typeof mockedExercises)[0];
+// };
 
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
+// const blurhash =
+//   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-function ExerciseCard({ exercise }: ExerciseCardProps) {
-  const { colors } = useTheme<Theme>();
-  const exerciseStyles = createExerciseStyles(colors);
+// function ExerciseCard({ exercise }: ExerciseCardProps) {
+//   const { colors } = useTheme<Theme>();
+//   const exerciseStyles = createExerciseStyles(colors);
 
-  return (
-    <Box
-      flexDirection="row"
-      gap="s"
-      height={90}
-      padding="s"
-      borderWidth={1}
-      borderColor="outline"
-    >
-      <Image
-        style={exerciseStyles.image}
-        source={exercise.image}
-        placeholder={blurhash}
-      />
-      <Box flex={1} flexDirection="row">
-        <Box flex={1} alignSelf="flex-start">
-          <Text variant="title" color="onSurface">
-            {exercise.name}
-          </Text>
-          <Text variant="label" color="onSurface">
-            {exercise.targetMuscle}
-          </Text>
-        </Box>
-        <Box flexDirection="row" gap="s">
-          <Box alignSelf="flex-end">
-            <Text variant="label" color="onSurface">
-              {exercise.personalBest.weight} kg - {exercise.personalBest.reps}
-            </Text>
-          </Box>
-          <Pressable
-            onPress={() => console.log("FAVORITE")}
-            style={exerciseStyles.icon}
-          >
-            {({ pressed }) => (
-              <Ionicons
-                name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
-                size={29}
-                color={colors.onSurface}
-                style={{
-                  opacity: pressed ? 0.5 : 1,
-                }}
-              />
-            )}
-          </Pressable>
-        </Box>
-      </Box>
-    </Box>
-  );
-}
+//   return (
+//     <Box
+//       flexDirection="row"
+//       gap="s"
+//       height={90}
+//       padding="s"
+//       borderWidth={1}
+//       borderColor="outline"
+//     >
+//       <Image
+//         style={exerciseStyles.image}
+//         source={exercise.image}
+//         placeholder={blurhash}
+//       />
+//       <Box flex={1} flexDirection="row">
+//         <Box flex={1} alignSelf="flex-start">
+//           <Text variant="title" color="onSurface">
+//             {exercise.name}
+//           </Text>
+//           <Text variant="label" color="onSurface">
+//             {exercise.targetMuscle}
+//           </Text>
+//         </Box>
+//         <Box flexDirection="row" gap="s">
+//           <Box alignSelf="flex-end">
+//             <Text variant="label" color="onSurface">
+//               {exercise.personalBest.weight} kg - {exercise.personalBest.reps}
+//             </Text>
+//           </Box>
+//           <Pressable
+//             onPress={() => console.log("FAVORITE")}
+//             style={exerciseStyles.icon}
+//           >
+//             {({ pressed }) => (
+//               <Ionicons
+//                 name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
+//                 size={29}
+//                 color={colors.onSurface}
+//                 style={{
+//                   opacity: pressed ? 0.5 : 1,
+//                 }}
+//               />
+//             )}
+//           </Pressable>
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// }
 
-const createExerciseStyles = (colors: Theme["colors"]) => {
-  return StyleSheet.create({
-    image: {
-      width: "20%",
-      backgroundColor: colors.secondary,
-    },
-    icon: {
-      alignSelf: "center",
-    },
-  });
-};
+// const createExerciseStyles = (colors: Theme["colors"]) => {
+//   return StyleSheet.create({
+//     image: {
+//       width: "20%",
+//       backgroundColor: colors.secondary,
+//     },
+//     icon: {
+//       alignSelf: "center",
+//     },
+//   });
+// };

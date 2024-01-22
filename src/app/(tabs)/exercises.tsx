@@ -289,7 +289,7 @@ export default function ExercisesScreen() {
             searchRegex.test(exercise.name) &&
             (targetMuscle === "All" || exercise.targetMuscle === targetMuscle)
         )}
-        estimatedItemSize={50}
+        estimatedItemSize={106}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
         contentContainerStyle={{ paddingBottom: 30 }}
       />

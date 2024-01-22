@@ -6,14 +6,18 @@ import { Image } from "expo-image";
 
 type RoutineCardProps = {
   routine: Routine;
+  isListedHorizontally?: boolean;
 };
 
 const blurhash =
   "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-export default function RoutineCard({ routine }: RoutineCardProps) {
+export default function RoutineCard({
+  routine,
+  isListedHorizontally,
+}: RoutineCardProps) {
   return (
-    <Box borderRadius={30} width={300}>
+    <Box borderRadius={30} width={isListedHorizontally ? 300 : null}>
       <Image
         source={routine.thumbnail}
         placeholder={blurhash}

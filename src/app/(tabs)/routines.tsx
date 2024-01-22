@@ -92,7 +92,7 @@ export default function RoutinesScreen() {
             options={["Bodybuilding", "Powerlifting", "Bodyweight"]}
           />
           <FilterDropdown
-            name="DaysPerWeek"
+            name="Frequency"
             selected={daysPerWeek}
             setSelected={setDaysPerWeek}
             options={["2 Days", "3 Days", "4 Days", "5 Days", "6 Days"]}
@@ -111,40 +111,56 @@ export default function RoutinesScreen() {
           />
         </ScrollView>
       </Box>
-      <ScrollView
-        contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Box gap="s">
-          <Text variant="headline" color="onSurface">
-            Em alta
-          </Text>
-          <FlashList
-            horizontal={true}
-            keyboardDismissMode="on-drag"
-            data={mockedRoutines}
-            estimatedItemSize={100}
-            renderItem={({ item }) => <RoutineCard routine={item} />}
-            ItemSeparatorComponent={() => <Box width={20} />}
-            showsHorizontalScrollIndicator={false}
-            style={{}}
-          />
-        </Box>
-        <Box gap="s">
-          <Text variant="headline" color="onSurface">
-            Minhas rotinas
-          </Text>
-          <FlashList
-            horizontal={true}
-            keyboardDismissMode="on-drag"
-            data={mockedRoutines}
-            estimatedItemSize={100}
-            renderItem={({ item }) => <RoutineCard routine={item} />}
-            ItemSeparatorComponent={() => <Box width={20} />}
-            showsHorizontalScrollIndicator={false}
-          />
-        </Box>
-      </ScrollView>
+      {!searchText ? (
+        <ScrollView
+          contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
+          showsVerticalScrollIndicator={false}
+          keyboardDismissMode="on-drag"
+        >
+          <>
+            <Box gap="s">
+              <Text variant="headline" color="onSurface">
+                Em alta
+              </Text>
+              <FlashList
+                horizontal={true}
+                keyboardDismissMode="on-drag"
+                data={mockedRoutines}
+                estimatedItemSize={300}
+                renderItem={({ item }) => (
+                  <RoutineCard routine={item} isListedHorizontally />
+                )}
+                ItemSeparatorComponent={() => <Box width={20} />}
+                showsHorizontalScrollIndicator={false}
+              />
+            </Box>
+            <Box gap="s">
+              <Text variant="headline" color="onSurface">
+                Minhas rotinas
+              </Text>
+              <FlashList
+                horizontal={true}
+                keyboardDismissMode="on-drag"
+                data={mockedRoutines}
+                estimatedItemSize={300}
+                renderItem={({ item }) => (
+                  <RoutineCard routine={item} isListedHorizontally />
+                )}
+                ItemSeparatorComponent={() => <Box width={20} />}
+                showsHorizontalScrollIndicator={false}
+              />
+            </Box>
+          </>
+        </ScrollView>
+      ) : (
+        <FlashList
+          keyboardDismissMode="on-drag"
+          data={mockedRoutines}
+          estimatedItemSize={300}
+          renderItem={({ item }) => <RoutineCard routine={item} />}
+          ItemSeparatorComponent={() => <Box height={20} />}
+        />
+      )}
     </Box>
   );
 }

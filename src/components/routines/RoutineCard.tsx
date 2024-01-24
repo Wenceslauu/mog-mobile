@@ -3,6 +3,7 @@ import Box from "../Box";
 import Text from "../Text";
 import { Routine } from "@/types/Routine";
 import { Image } from "expo-image";
+import { Ionicons } from "@expo/vector-icons";
 
 type RoutineCardProps = {
   routine: Routine;
@@ -55,6 +56,20 @@ export default function RoutineCard({
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ gap: 8 }}
         >
+          <Box
+            backgroundColor="primary"
+            padding="xs"
+            paddingHorizontal="s"
+            borderRadius={6}
+            flexDirection="row"
+            alignItems="center"
+            gap="xs"
+          >
+            <Ionicons name="star" size={16} />
+            <Text variant="body" color="onPrimary">
+              {routine.rating}
+            </Text>
+          </Box>
           <Box
             backgroundColor="primary"
             padding="xs"

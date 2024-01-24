@@ -51,6 +51,9 @@ const themeWithoutColors = {
       fontSize: 12,
       // lineHeight: 1.5,
     },
+    defaults: {
+      fontSize: 16,
+    },
   },
   breakpoints: {},
 };

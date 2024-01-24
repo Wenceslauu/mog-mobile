@@ -28,9 +28,9 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
       borderColor="outline"
     >
       <Image
-        style={exerciseStyles.image}
         source={exercise.image}
         placeholder={blurhash}
+        style={exerciseStyles.image}
       />
       <Box flex={1} flexDirection="row">
         <Box flex={1} alignSelf="flex-start">

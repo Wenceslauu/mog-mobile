@@ -48,10 +48,10 @@ export default function FilterDropdown({
   const measureDropdownButtonPosition = useCallback(() => {
     dropdownButtonRef.current?.measure(
       (_x, _y, width, height, pageX, pageY) => {
-        if (pageX < 24) {
-          pageX = 24;
-        } else if (pageX > 216) {
-          pageX = 216;
+        if (pageX < 4) {
+          pageX = 4;
+        } else if (pageX > 240) {
+          pageX = 240;
         }
 
         setDropdownButtonPosition({ x: pageX, y: pageY });

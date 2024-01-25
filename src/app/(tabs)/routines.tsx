@@ -70,20 +70,18 @@ export default function RoutinesScreen() {
   }, [navigation]);
 
   return (
-    <Box
-      flex={1}
-      gap="xs"
-      paddingTop="m"
-      paddingHorizontal="l"
-      backgroundColor="surface"
-    >
+    <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
       <Box alignItems="center" width="100%" zIndex={1}>
-        <LocalSearchBar text={searchText} setText={setSearchText} />
+        <LocalSearchBar
+          text={searchText}
+          setText={setSearchText}
+          marginHorizontal="m"
+        />
         <ScrollView
           horizontal={true}
-          contentContainerStyle={{ gap: 8 }}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
           showsHorizontalScrollIndicator={false}
-          style={{ height: 70, alignSelf: "flex-start" }}
+          style={{ height: 70 }}
         >
           <FilterDropdown
             name="Category"
@@ -119,7 +117,7 @@ export default function RoutinesScreen() {
         >
           <>
             <Box gap="s">
-              <Text variant="headline" color="onSurface">
+              <Text variant="headline" color="onSurface" paddingHorizontal="m">
                 Em alta
               </Text>
               <FlashList
@@ -130,12 +128,13 @@ export default function RoutinesScreen() {
                 renderItem={({ item }) => (
                   <RoutineCard routine={item} isListedHorizontally />
                 )}
+                contentContainerStyle={{ paddingHorizontal: 16 }}
                 ItemSeparatorComponent={() => <Box width={20} />}
                 showsHorizontalScrollIndicator={false}
               />
             </Box>
             <Box gap="s">
-              <Text variant="headline" color="onSurface">
+              <Text variant="headline" color="onSurface" paddingHorizontal="m">
                 Minhas rotinas
               </Text>
               <FlashList
@@ -146,6 +145,7 @@ export default function RoutinesScreen() {
                 renderItem={({ item }) => (
                   <RoutineCard routine={item} isListedHorizontally />
                 )}
+                contentContainerStyle={{ paddingHorizontal: 16 }}
                 ItemSeparatorComponent={() => <Box width={20} />}
                 showsHorizontalScrollIndicator={false}
               />

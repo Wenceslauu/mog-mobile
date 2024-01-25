@@ -3,20 +3,24 @@ import { Ionicons } from "@expo/vector-icons";
 import { Dispatch, SetStateAction } from "react";
 import { TextInput, StyleSheet } from "react-native";
 import Box from "./Box";
-import { useTheme } from "@shopify/restyle";
+import { BoxProps, useTheme } from "@shopify/restyle";
 
-type LocalSearchBarProps = {
+interface LocalSearchBarProps extends BoxProps<Theme> {
   text: string;
   setText: Dispatch<SetStateAction<string>>;
-};
+}
 
-export default function LocalSearchBar({ text, setText }: LocalSearchBarProps) {
+export default function LocalSearchBar({
+  text,
+  setText,
+  ...props
+}: LocalSearchBarProps) {
   const { colors } = useTheme<Theme>();
 
   const styles = createStyles(colors);
 
   return (
-    <Box flexDirection="row" borderRadius={10}>
+    <Box flexDirection="row" borderRadius={10} {...props}>
       <Ionicons
         name="search-outline"
         size={25}

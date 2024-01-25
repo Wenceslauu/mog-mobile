@@ -31,14 +31,13 @@ export default function RoutineCard({
       />
       <Box
         backgroundColor="surfaceContainer"
-        padding="m"
         paddingBottom="l"
         paddingTop="s"
         gap="m"
         borderBottomLeftRadius={30}
         borderBottomRightRadius={30}
       >
-        <Box gap="xs">
+        <Box gap="xs" paddingHorizontal="m">
           <Text variant="title" color="onSurface">
             {routine.name}
           </Text>
@@ -54,7 +53,7 @@ export default function RoutineCard({
         <ScrollView
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 8 }}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
         >
           <Box
             backgroundColor="primary"

@@ -195,20 +195,14 @@ export default function ProfileScreen() {
   }, [navigation]);
 
   return (
-    <Box
-      flex={1}
-      gap="m"
-      paddingTop="m"
-      paddingHorizontal="l"
-      backgroundColor="surface"
-    >
+    <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">
       <FlashList
         keyboardDismissMode="on-drag"
         data={mockedUser.posts}
         estimatedItemSize={100}
         ListHeaderComponent={() => (
           <Box gap="m">
-            <Box flexDirection="row" gap="l">
+            <Box flexDirection="row" gap="l" paddingHorizontal="m">
               <Avatar size="l" source={mockedUser.picture} />
               <Box gap="s">
                 <Text variant="headline" color="onSurface">
@@ -243,7 +237,7 @@ export default function ProfileScreen() {
               </Box>
             </Box>
             <Box gap="s">
-              <Text variant="title" color="onSurface">
+              <Text variant="title" color="onSurface" paddingHorizontal="m">
                 Rotinas
               </Text>
               <FlashList
@@ -254,11 +248,12 @@ export default function ProfileScreen() {
                 renderItem={({ item }) => (
                   <RoutineCard routine={item} isListedHorizontally />
                 )}
+                contentContainerStyle={{ paddingHorizontal: 16 }}
                 ItemSeparatorComponent={() => <Box width={20} />}
                 showsHorizontalScrollIndicator={false}
               />
             </Box>
-            <Text variant="title" color="onSurface">
+            <Text variant="title" color="onSurface" paddingHorizontal="m">
               Posts
             </Text>
           </Box>

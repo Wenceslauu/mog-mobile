@@ -258,7 +258,7 @@ export default function ExercisesScreen() {
       flex={1}
       gap="xs"
       paddingTop="m"
-      paddingHorizontal="l"
+      paddingHorizontal="m"
       backgroundColor="surface"
     >
       <Box alignItems="center" width="100%" zIndex={1}>

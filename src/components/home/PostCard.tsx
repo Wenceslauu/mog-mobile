@@ -5,20 +5,20 @@ import Avatar from "../Avatar";
 import { Image } from "expo-image";
 import dayjs from "@/lib/dayjs";
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable } from "react-native";
+import { Pressable, useWindowDimensions } from "react-native";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import PostComment from "./PostComment";
 import ExerciseLogPreviewCard from "./ExerciseLogPreviewCard";
+import Carousel from "react-native-reanimated-carousel";
 
 type PostCardProps = {
   post: Post;
 };
 
-console.log(dayjs.locale());
-
 export default function PostCard({ post }: PostCardProps) {
   const { colors } = useTheme<Theme>();
+  const windowWidth = useWindowDimensions().width;
 
   return (
     <Box gap="m">
@@ -26,6 +26,7 @@ export default function PostCard({ post }: PostCardProps) {
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
+        paddingHorizontal="m"
       >
         <Box flexDirection="row" gap="s">
           <Avatar source={post.author.picture} size="m" />
@@ -49,8 +50,14 @@ export default function PostCard({ post }: PostCardProps) {
           )}
         </Pressable>
       </Box>
-      <Text color="onSurface">{post.text}</Text>
-      <Box flexDirection="row" justifyContent="space-between">
+      <Text color="onSurface" paddingHorizontal="m">
+        {post.text}
+      </Text>
+      <Box
+        flexDirection="row"
+        justifyContent="space-between"
+        paddingHorizontal="m"
+      >
         <Box>
           <Text variant="label" color="onSurface">
             Tempo
@@ -77,11 +84,21 @@ export default function PostCard({ post }: PostCardProps) {
         </Box>
       </Box>
       {post.images.length > 0 ? (
-        <Image source={post.images[0]} style={{ width: "100%", height: 200 }} />
+        // <Image source={post.images[0]} style={{ width: "100%", height: 200 }} />
+        <Carousel
+          width={windowWidth}
+          height={300}
+          data={post.images}
+          renderItem={({ item, index }) => (
+            <Image source={item} key={index} style={{ height: "100%" }} />
+          )}
+        />
       ) : post.exercises.length > 0 ? (
-        <Box gap="s">
-          {post.exercises.slice(0, 3).map((exercise) => {
-            return <ExerciseLogPreviewCard exerciseLog={exercise} />;
+        <Box gap="s" paddingHorizontal="m">
+          {post.exercises.slice(0, 3).map((exercise, index) => {
+            return (
+              <ExerciseLogPreviewCard exerciseLog={exercise} key={index} />
+            );
           })}
           {post.exercises.length > 3 && (
             <Text variant="body" color="onSurface" textAlign="center">
@@ -90,7 +107,11 @@ export default function PostCard({ post }: PostCardProps) {
           )}
         </Box>
       ) : null}
-      <Box flexDirection="row" justifyContent="space-between">
+      <Box
+        flexDirection="row"
+        justifyContent="space-between"
+        paddingHorizontal="m"
+      >
         <Text color="onSurface">
           {post.likes === 0
             ? ""
@@ -106,7 +127,11 @@ export default function PostCard({ post }: PostCardProps) {
             : post.comments.length + " comentários"}
         </Text>
       </Box>
-      <Box flexDirection="row" justifyContent="space-between">
+      <Box
+        flexDirection="row"
+        justifyContent="space-between"
+        paddingHorizontal="m"
+      >
         <Box flexDirection="row">
           <Pressable>
             {({ pressed }) => (
@@ -142,7 +167,7 @@ export default function PostCard({ post }: PostCardProps) {
           )}
         </Pressable>
       </Box>
-      <Box>
+      <Box paddingHorizontal="m">
         <PostComment comment={post.comments[0]} />
       </Box>
     </Box>

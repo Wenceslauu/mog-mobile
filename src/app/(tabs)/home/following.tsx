@@ -63,7 +63,10 @@ const mockedPosts = [
     likes: 20,
     timestamp: new Date(2024, 0, 10, 16, 30),
     isLiked: false,
-    images: [require("../../../../assets/images/bench-press.jpg")],
+    images: [
+      require("../../../../assets/images/bench-press.jpg"),
+      require("../../../../assets/images/squat.jpg"),
+    ],
     exercises: [
       {
         name: "Dumbbell Bench Press",
@@ -105,7 +108,6 @@ export default function FollowingTab() {
       flex={1}
       gap="xs"
       paddingTop="m"
-      paddingHorizontal="l"
       backgroundColor="surface"
     >
       <FlashList

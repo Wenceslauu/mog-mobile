@@ -11,6 +11,14 @@ import FilterDropdown from "@/components/FilterDropdown";
 import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 
+type Category = "Bodybuilding" | "Powerlifting" | "Bodyweight" | "All";
+
+type DaysPerWeek = "2 Days" | "3 Days" | "4 Days" | "5 Days" | "6 Days" | "All";
+
+type Difficulty = "Beginner" | "Intermediate" | "Advanced" | "All";
+
+type Equipment = "Full Gym" | "Dumbbells Only" | "At home" | "All";
+
 const mockedRoutines = [
   {
     thumbnail: require("../../../assets/images/bench-press.jpg"),
@@ -42,10 +50,10 @@ export default function RoutinesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [category, setCategory] = useState("All");
-  const [equipment, setEquipment] = useState("All");
-  const [difficulty, setDifficulty] = useState("All");
-  const [daysPerWeek, setDaysPerWeek] = useState("All");
+  const [category, setCategory] = useState<Category>("All");
+  const [equipment, setEquipment] = useState<Equipment>("All");
+  const [difficulty, setDifficulty] = useState<Difficulty>("All");
+  const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek>("All");
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -83,25 +91,25 @@ export default function RoutinesTab() {
           showsHorizontalScrollIndicator={false}
           style={{ height: 70 }}
         >
-          <FilterDropdown
+          <FilterDropdown<Category>
             name="Category"
             selected={category}
             setSelected={setCategory}
             options={["Bodybuilding", "Powerlifting", "Bodyweight"]}
           />
-          <FilterDropdown
+          <FilterDropdown<DaysPerWeek>
             name="Frequency"
             selected={daysPerWeek}
             setSelected={setDaysPerWeek}
             options={["2 Days", "3 Days", "4 Days", "5 Days", "6 Days"]}
           />
-          <FilterDropdown
+          <FilterDropdown<Difficulty>
             name="Difficulty"
             selected={difficulty}
             setSelected={setDifficulty}
             options={["Beginner", "Intermediate", "Advanced"]}
           />
-          <FilterDropdown
+          <FilterDropdown<Equipment>
             name="Equipment"
             selected={equipment}
             setSelected={setEquipment}

@@ -7,19 +7,19 @@ import Text from "./Text";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 
-type FilterDropdownProps = {
+type FilterDropdownProps<T> = {
   name: string;
-  selected: string;
-  setSelected: Dispatch<SetStateAction<string>>;
-  options: string[];
+  selected: T;
+  setSelected: Dispatch<SetStateAction<T>>;
+  options: T[];
 };
 
-export default function FilterDropdown({
+export default function FilterDropdown<T extends string>({
   name,
   selected,
   setSelected,
   options,
-}: FilterDropdownProps) {
+}: FilterDropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [dropdownButtonPosition, setDropdownButtonPosition] = useState({
@@ -35,9 +35,9 @@ export default function FilterDropdown({
     setIsOpen(!isOpen);
   };
 
-  const toggleFilter = (item: string) => {
+  const toggleFilter = (item: T) => {
     if (selected === item) {
-      setSelected("All");
+      setSelected("All" as T);
     } else {
       setSelected(item);
     }

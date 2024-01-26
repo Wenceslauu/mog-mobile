@@ -11,13 +11,13 @@ import FilterDropdown from "@/components/FilterDropdown";
 import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 
-type Category = "Bodybuilding" | "Powerlifting" | "Bodyweight" | "All";
+type Category = "Bodybuilding" | "Powerlifting" | "Bodyweight" | null;
 
-type DaysPerWeek = "2 Days" | "3 Days" | "4 Days" | "5 Days" | "6 Days" | "All";
+type DaysPerWeek = "2 Days" | "3 Days" | "4 Days" | "5 Days" | "6 Days" | null;
 
-type Difficulty = "Beginner" | "Intermediate" | "Advanced" | "All";
+type Difficulty = "Beginner" | "Intermediate" | "Advanced" | null;
 
-type Equipment = "Full Gym" | "Dumbbells Only" | "At home" | "All";
+type Equipment = "Full Gym" | "Dumbbells Only" | "At home" | null;
 
 const mockedRoutines = [
   {
@@ -50,10 +50,10 @@ export default function RoutinesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [category, setCategory] = useState<Category>("All");
-  const [equipment, setEquipment] = useState<Equipment>("All");
-  const [difficulty, setDifficulty] = useState<Difficulty>("All");
-  const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek>("All");
+  const [category, setCategory] = useState<Category>(null);
+  const [equipment, setEquipment] = useState<Equipment>(null);
+  const [difficulty, setDifficulty] = useState<Difficulty>(null);
+  const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek>(null);
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();

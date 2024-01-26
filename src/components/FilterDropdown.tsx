@@ -14,7 +14,7 @@ type FilterDropdownProps<T> = {
   options: T[];
 };
 
-export default function FilterDropdown<T extends string>({
+export default function FilterDropdown<T extends string | null>({
   name,
   selected,
   setSelected,
@@ -37,7 +37,7 @@ export default function FilterDropdown<T extends string>({
 
   const toggleFilter = (item: T) => {
     if (selected === item) {
-      setSelected("All" as T);
+      setSelected(null as T);
     } else {
       setSelected(item);
     }
@@ -80,22 +80,17 @@ export default function FilterDropdown<T extends string>({
             paddingHorizontal="m"
             marginVertical="s"
             opacity={pressed ? 0.5 : 1}
-            backgroundColor={
-              selected !== "All" ? "primary" : "surfaceContainer"
-            }
-            borderColor={selected !== "All" ? "onPrimary" : "onSurface"}
+            backgroundColor={selected ? "primary" : "surfaceContainer"}
+            borderColor={selected ? "onPrimary" : "onSurface"}
           >
-            <Text
-              variant="body"
-              color={selected !== "All" ? "onPrimary" : "onSurface"}
-            >
-              {selected !== "All" ? selected : name}
+            <Text variant="body" color={selected ? "onPrimary" : "onSurface"}>
+              {selected ? selected : name}
             </Text>
             <Ionicons
               name="chevron-down"
               size={28}
               style={{ marginBottom: -3 }}
-              color={selected !== "All" ? colors.onPrimary : colors.onSurface}
+              color={selected ? colors.onPrimary : colors.onSurface}
             />
           </Box>
         )}

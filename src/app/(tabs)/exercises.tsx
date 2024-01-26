@@ -16,6 +16,18 @@ import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import ExerciseCard from "@/components/exercises/ExerciseCard";
 
+type TargetMuscle =
+  | "Chest"
+  | "Back"
+  | "Quads"
+  | "Hamstrings"
+  | "Calves"
+  | "Abs"
+  | "Shoulders"
+  | "Biceps"
+  | "Triceps"
+  | null;
+
 const mockedExercises = [
   {
     image: require("../../../assets/images/bench-press.jpg"),
@@ -203,7 +215,7 @@ export default function ExercisesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [targetMuscle, setTargetMuscle] = useState("All");
+  const [targetMuscle, setTargetMuscle] = useState<TargetMuscle>(null);
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -264,7 +276,7 @@ export default function ExercisesTab() {
       <Box alignItems="center" width="100%" zIndex={1}>
         <LocalSearchBar text={searchText} setText={setSearchText} />
         <Box height={70} alignSelf="flex-start">
-          <FilterDropdown
+          <FilterDropdown<TargetMuscle>
             name="Muscle Group"
             selected={targetMuscle}
             setSelected={setTargetMuscle}
@@ -287,7 +299,7 @@ export default function ExercisesTab() {
         data={mockedExercises.filter(
           (exercise) =>
             searchRegex.test(exercise.name) &&
-            (targetMuscle === "All" || exercise.targetMuscle === targetMuscle)
+            (!targetMuscle || exercise.targetMuscle === targetMuscle)
         )}
         estimatedItemSize={106}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}

@@ -3,7 +3,7 @@ import Text from "@/components/Text";
 import { StatusBar } from "expo-status-bar";
 import { Platform } from "react-native";
 
-export default function ModalScreen() {
+export default function LogModalScreen() {
   return (
     <Box
       flex={1}

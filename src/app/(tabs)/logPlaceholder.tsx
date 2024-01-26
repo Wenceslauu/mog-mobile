@@ -1,3 +1,3 @@
-export default function LogScreenPlaceholder() {
+export default function LogTabPlaceholder() {
   return null;
 }

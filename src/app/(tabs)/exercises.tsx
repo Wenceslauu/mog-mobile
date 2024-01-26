@@ -199,7 +199,7 @@ const mockedExercises = [
   },
 ];
 
-export default function ExercisesScreen() {
+export default function ExercisesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 

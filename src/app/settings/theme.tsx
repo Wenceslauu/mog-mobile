@@ -2,7 +2,7 @@ import Select from "@/components/Select";
 import { Appearance, ThemeContext } from "@/providers/theme";
 import { useContext } from "react";
 
-export default function ThemeSettings() {
+export default function ThemeSettingsScreen() {
   const { appearance, setAppearance } = useContext(ThemeContext);
 
   return (

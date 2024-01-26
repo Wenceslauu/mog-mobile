@@ -38,7 +38,7 @@ const mockedRoutines = [
   },
 ];
 
-export default function RoutinesScreen() {
+export default function RoutinesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 

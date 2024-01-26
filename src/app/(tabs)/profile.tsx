@@ -1,5 +1,4 @@
-import { Pressable, ScrollView } from "react-native";
-
+import { Pressable } from "react-native";
 import { useEffect } from "react";
 import { Link, useNavigation } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -143,7 +142,7 @@ const mockedUser = {
   ],
 };
 
-export default function ProfileScreen() {
+export default function ProfileTab() {
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 

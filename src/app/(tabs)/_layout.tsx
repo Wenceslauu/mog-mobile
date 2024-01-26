@@ -8,7 +8,7 @@ import { useTheme } from "@shopify/restyle";
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-export default function TabLayout() {
+export default function TabsLayout() {
   const { colors } = useTheme<Theme>();
 
   return (

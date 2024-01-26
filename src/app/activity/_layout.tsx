@@ -1,6 +1,6 @@
 import CustomTabNavigator from "@/components/CustomTabNavigator";
 
-export default function HomeLayout() {
+export default function ActivityLayout() {
   return (
     <CustomTabNavigator
       tabs={[

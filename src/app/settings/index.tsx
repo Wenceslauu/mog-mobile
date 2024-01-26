@@ -6,7 +6,7 @@ import { useTheme } from "@shopify/restyle";
 import { Link } from "expo-router";
 import { Pressable } from "react-native";
 
-export default function SettingsTab() {
+export default function SettingsScreen() {
   const { colors } = useTheme<Theme>();
 
   return (
@@ -26,7 +26,7 @@ export default function SettingsTab() {
               opacity={pressed ? 0.5 : 1}
             >
               <Text variant="body" color="onSurface">
-                Appearance
+                Theme
               </Text>
               <Ionicons
                 name="chevron-forward"

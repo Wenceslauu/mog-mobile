@@ -202,7 +202,12 @@ export default function ProfileScreen() {
         estimatedItemSize={100}
         ListHeaderComponent={() => (
           <Box gap="m">
-            <Box flexDirection="row" gap="l" paddingHorizontal="m">
+            <Box
+              flexDirection="row"
+              gap="l"
+              paddingHorizontal="m"
+              alignItems="center"
+            >
               <Avatar size="l" source={mockedUser.picture} />
               <Box gap="s">
                 <Text variant="headline" color="onSurface">

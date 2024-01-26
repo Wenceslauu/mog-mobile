@@ -24,7 +24,7 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
       gap="s"
       height={90}
       padding="s"
-      borderWidth={1}
+      borderTopWidth={1}
       borderColor="outline"
     >
       <Image

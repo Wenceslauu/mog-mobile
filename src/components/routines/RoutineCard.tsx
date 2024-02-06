@@ -4,6 +4,7 @@ import Text from "../Text";
 import { Routine } from "@/types/Routine";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 type RoutineCardProps = {
   routine: Routine;
@@ -18,109 +19,116 @@ export default function RoutineCard({
   isListedHorizontally,
 }: RoutineCardProps) {
   return (
-    <Box borderRadius={30} width={isListedHorizontally ? 300 : null}>
-      <Image
-        source={routine.thumbnail}
-        placeholder={blurhash}
-        style={{
-          width: "100%",
-          borderTopLeftRadius: 30,
-          borderTopRightRadius: 30,
-          height: 200,
-        }}
-      />
-      <Box
-        backgroundColor="surfaceContainer"
-        paddingBottom="l"
-        paddingTop="s"
-        gap="m"
-        borderBottomLeftRadius={30}
-        borderBottomRightRadius={30}
-      >
-        <Box gap="xs" paddingHorizontal="m">
-          <Text variant="title" color="onSurface">
-            {routine.name}
-          </Text>
-          <Box flexDirection="row" justifyContent="space-between">
-            <Text variant="body" color="onSurfaceContainer">
-              {routine.author}
-            </Text>
-            <Text variant="body" color="onSurfaceContainer">
-              {routine.numberOfAthletes} atletas
-            </Text>
-          </Box>
-        </Box>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
+    <Link
+      href={{
+        pathname: `/routines/${routine.id}`,
+        params: { name: routine.name },
+      }}
+    >
+      <Box borderRadius={30} width={isListedHorizontally ? 300 : null}>
+        <Image
+          source={routine.thumbnail}
+          placeholder={blurhash}
+          style={{
+            width: "100%",
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            height: 200,
+          }}
+        />
+        <Box
+          backgroundColor="surfaceContainer"
+          paddingBottom="l"
+          paddingTop="s"
+          gap="m"
+          borderBottomLeftRadius={30}
+          borderBottomRightRadius={30}
         >
-          <Box
-            backgroundColor="primary"
-            padding="xs"
-            paddingHorizontal="s"
-            borderRadius={6}
-            flexDirection="row"
-            alignItems="center"
-            gap="xs"
-          >
-            <Ionicons name="star" size={16} />
-            <Text variant="body" color="onPrimary">
-              {routine.rating}
+          <Box gap="xs" paddingHorizontal="m">
+            <Text variant="title" color="onSurface">
+              {routine.name}
             </Text>
+            <Box flexDirection="row" justifyContent="space-between">
+              <Text variant="body" color="onSurfaceContainer">
+                {routine.author}
+              </Text>
+              <Text variant="body" color="onSurfaceContainer">
+                {routine.numberOfAthletes} atletas
+              </Text>
+            </Box>
           </Box>
-          <Box
-            backgroundColor="primary"
-            padding="xs"
-            paddingHorizontal="s"
-            borderRadius={6}
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
           >
-            <Text variant="body" color="onPrimary">
-              {routine.category}
-            </Text>
-          </Box>
-          <Box
-            backgroundColor="primary"
-            padding="xs"
-            paddingHorizontal="s"
-            borderRadius={6}
-          >
-            <Text variant="body" color="onPrimary">
-              {routine.daysPerWeek}
-            </Text>
-          </Box>
-          <Box
-            backgroundColor="primary"
-            padding="xs"
-            paddingHorizontal="s"
-            borderRadius={6}
-          >
-            <Text variant="body" color="onPrimary">
-              {routine.difficulty}
-            </Text>
-          </Box>
-          <Box
-            backgroundColor="primary"
-            padding="xs"
-            paddingHorizontal="s"
-            borderRadius={6}
-          >
-            <Text variant="body" color="onPrimary">
-              {routine.equipment}
-            </Text>
-          </Box>
-          <Box
-            backgroundColor="primary"
-            padding="xs"
-            paddingHorizontal="s"
-            borderRadius={6}
-          >
-            <Text variant="body" color="onPrimary">
-              {routine.duration}
-            </Text>
-          </Box>
-        </ScrollView>
+            <Box
+              backgroundColor="primary"
+              padding="xs"
+              paddingHorizontal="s"
+              borderRadius={6}
+              flexDirection="row"
+              alignItems="center"
+              gap="xs"
+            >
+              <Ionicons name="star" size={16} />
+              <Text variant="body" color="onPrimary">
+                {routine.rating}
+              </Text>
+            </Box>
+            <Box
+              backgroundColor="primary"
+              padding="xs"
+              paddingHorizontal="s"
+              borderRadius={6}
+            >
+              <Text variant="body" color="onPrimary">
+                {routine.category}
+              </Text>
+            </Box>
+            <Box
+              backgroundColor="primary"
+              padding="xs"
+              paddingHorizontal="s"
+              borderRadius={6}
+            >
+              <Text variant="body" color="onPrimary">
+                {routine.daysPerWeek}
+              </Text>
+            </Box>
+            <Box
+              backgroundColor="primary"
+              padding="xs"
+              paddingHorizontal="s"
+              borderRadius={6}
+            >
+              <Text variant="body" color="onPrimary">
+                {routine.difficulty}
+              </Text>
+            </Box>
+            <Box
+              backgroundColor="primary"
+              padding="xs"
+              paddingHorizontal="s"
+              borderRadius={6}
+            >
+              <Text variant="body" color="onPrimary">
+                {routine.equipment}
+              </Text>
+            </Box>
+            <Box
+              backgroundColor="primary"
+              padding="xs"
+              paddingHorizontal="s"
+              borderRadius={6}
+            >
+              <Text variant="body" color="onPrimary">
+                {routine.duration}
+              </Text>
+            </Box>
+          </ScrollView>
+        </Box>
       </Box>
-    </Box>
+    </Link>
   );
 }

@@ -21,6 +21,7 @@ type Equipment = "Full Gym" | "Dumbbells Only" | "At home" | null;
 
 const mockedRoutines = [
   {
+    id: 1,
     thumbnail: require("../../../assets/images/bench-press.jpg"),
     name: "Braço de 50 cm",
     author: "wences",
@@ -33,6 +34,7 @@ const mockedRoutines = [
     numberOfAthletes: 10,
   },
   {
+    id: 2,
     // thumbnail: require("../../../assets/images/squat.jpg"),
     name: "Abdomén de aço",
     author: "lui",

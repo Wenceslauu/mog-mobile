@@ -57,6 +57,10 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
         <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />
+        <Stack.Screen
+          name="routines/[id]"
+          options={{ title: "Routine Details" }}
+        />
       </Stack>
     </Providers>
   );

@@ -1,4 +1,5 @@
 export interface Routine {
+  id: number;
   thumbnail?: any;
   name: string;
   author: string;

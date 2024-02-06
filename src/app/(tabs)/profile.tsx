@@ -20,6 +20,7 @@ const mockedUser = {
   following: 31,
   routines: [
     {
+      id: 1,
       thumbnail: require("../../../assets/images/bench-press.jpg"),
       name: "Braço de 50 cm",
       author: "wences",
@@ -32,6 +33,7 @@ const mockedUser = {
       numberOfAthletes: 10,
     },
     {
+      id: 3,
       // thumbnail: require("../../../assets/images/squat.jpg"),
       name: "Panturrilha colossal",
       author: "wences",

@@ -10,6 +10,7 @@ import { ThemeProvider as NavigationProvider } from "@react-navigation/native";
 import { useColorScheme } from "react-native";
 import { reactNavigationTheme } from "@/constants/theme";
 import { darkTheme, lightTheme } from "@/constants/theme";
+import { StatusBar } from "expo-status-bar";
 
 export type Appearance = "System" | "Light" | "Dark";
 
@@ -27,30 +28,30 @@ export const ThemeContext = createContext<ThemeProviderData>(
 );
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const systemTheme = useColorScheme() ?? "light";
-
   // Theme stands for different color schemes, i.e. light and dark
+  const systemTheme = useColorScheme() ?? "light";
 
   // Appearance conveys how the user wants the color schemes to be applied, i.e.
   // manually, or automatically based on the system
   const [appearance, setAppearance] = useState<Appearance>("System");
 
   const darkMode =
-    appearance === "System"
-      ? systemTheme === "dark"
-      : appearance === "Dark";
+    appearance === "System" ? systemTheme === "dark" : appearance === "Dark";
 
   return (
-    <ThemeContext.Provider value={{ appearance, setAppearance }}>
-      <RestyleProvider theme={darkMode ? darkTheme : lightTheme}>
-        <NavigationProvider
-          value={
-            darkMode ? reactNavigationTheme.dark : reactNavigationTheme.light
-          }
-        >
-          {children}
-        </NavigationProvider>
-      </RestyleProvider>
-    </ThemeContext.Provider>
+    <>
+      <ThemeContext.Provider value={{ appearance, setAppearance }}>
+        <RestyleProvider theme={darkMode ? darkTheme : lightTheme}>
+          <NavigationProvider
+            value={
+              darkMode ? reactNavigationTheme.dark : reactNavigationTheme.light
+            }
+          >
+            {children}
+          </NavigationProvider>
+        </RestyleProvider>
+      </ThemeContext.Provider>
+      <StatusBar style={darkMode ? "light" : "dark"} />
+    </>
   );
 }

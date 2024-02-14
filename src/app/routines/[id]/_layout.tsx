@@ -1,7 +1,8 @@
 import Box from "@/components/Box";
-import Text from "@/components/Text";
+import CustomTabNavigator from "@/components/CustomTabNavigator";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
@@ -14,10 +15,10 @@ export default function RoutineDetails() {
 
   useEffect(() => {
     navigation.setOptions({
-      title: name,
+    //   title: name,
       headerRight: () => (
         <Box flexDirection="row">
-          <Link href="/edit-profile" asChild>
+          <Link href="/teste" asChild>
             <Pressable>
               {({ pressed }) => (
                 <Ionicons
@@ -29,7 +30,7 @@ export default function RoutineDetails() {
               )}
             </Pressable>
           </Link>
-          <Link href="/share-profile" asChild>
+          <Link href="/teste" asChild>
             <Pressable>
               {({ pressed }) => (
                 <Ionicons
@@ -47,9 +48,12 @@ export default function RoutineDetails() {
   });
 
   return (
-    <Box>
-      <Text color="onSurface">{id}</Text>
-      <Text color="onSurface">{name}</Text>
-    </Box>
+    <CustomTabNavigator
+      tabs={[
+        { name: "about", href: `/routines/${id}/about` },
+        { name: "workouts", href: `/routines/${id}/workouts` },
+      ]}
+      initialRouteName="about"
+    />
   );
 }

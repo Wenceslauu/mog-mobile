@@ -8,6 +8,9 @@ import Box from "@/components/Box";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 
+import DiscoverTab from "./discover";
+import FollowingTab from "./following";
+
 export default function HomeLayout() {
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -48,8 +51,8 @@ export default function HomeLayout() {
   return (
     <CustomTabNavigator
       tabs={[
-        { name: "following", href: "/home/following" },
-        { name: "discover", href: "/home/discover" },
+        { name: "following", component: FollowingTab },
+        { name: "discover", component: DiscoverTab },
       ]}
     />
   );

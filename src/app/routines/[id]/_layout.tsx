@@ -2,20 +2,22 @@ import Box from "@/components/Box";
 import CustomTabNavigator from "@/components/CustomTabNavigator";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
-import { useRoute } from "@react-navigation/native";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { Pressable } from "react-native";
 
+import RoutineDetailsAboutTab from "./about";
+import RoutineDetailsWorkoutsTab from "./workouts";
+
 export default function RoutineDetails() {
-  const { id, name } = useLocalSearchParams();
+  const { name } = useLocalSearchParams();
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
   useEffect(() => {
     navigation.setOptions({
-    //   title: name,
+      title: name,
       headerRight: () => (
         <Box flexDirection="row">
           <Link href="/teste" asChild>
@@ -50,8 +52,8 @@ export default function RoutineDetails() {
   return (
     <CustomTabNavigator
       tabs={[
-        { name: "about", href: `/routines/${id}/about` },
-        { name: "workouts", href: `/routines/${id}/workouts` },
+        { name: "about", component: RoutineDetailsAboutTab },
+        { name: "workouts", component: RoutineDetailsWorkoutsTab },
       ]}
       initialRouteName="about"
     />

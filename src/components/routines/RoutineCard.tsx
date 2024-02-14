@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
 import { Routine } from "@/types/Routine";
@@ -62,70 +62,82 @@ export default function RoutineCard({
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
           >
-            <Box
-              backgroundColor="primary"
-              padding="xs"
-              paddingHorizontal="s"
-              borderRadius={6}
-              flexDirection="row"
-              alignItems="center"
-              gap="xs"
-            >
-              <Ionicons name="star" size={16} />
-              <Text variant="body" color="onPrimary">
-                {routine.rating}
-              </Text>
-            </Box>
-            <Box
-              backgroundColor="primary"
-              padding="xs"
-              paddingHorizontal="s"
-              borderRadius={6}
-            >
-              <Text variant="body" color="onPrimary">
-                {routine.category}
-              </Text>
-            </Box>
-            <Box
-              backgroundColor="primary"
-              padding="xs"
-              paddingHorizontal="s"
-              borderRadius={6}
-            >
-              <Text variant="body" color="onPrimary">
-                {routine.daysPerWeek}
-              </Text>
-            </Box>
-            <Box
-              backgroundColor="primary"
-              padding="xs"
-              paddingHorizontal="s"
-              borderRadius={6}
-            >
-              <Text variant="body" color="onPrimary">
-                {routine.difficulty}
-              </Text>
-            </Box>
-            <Box
-              backgroundColor="primary"
-              padding="xs"
-              paddingHorizontal="s"
-              borderRadius={6}
-            >
-              <Text variant="body" color="onPrimary">
-                {routine.equipment}
-              </Text>
-            </Box>
-            <Box
-              backgroundColor="primary"
-              padding="xs"
-              paddingHorizontal="s"
-              borderRadius={6}
-            >
-              <Text variant="body" color="onPrimary">
-                {routine.duration}
-              </Text>
-            </Box>
+            <Pressable>
+              <Box
+                backgroundColor="primary"
+                padding="xs"
+                paddingHorizontal="s"
+                borderRadius={6}
+                flexDirection="row"
+                alignItems="center"
+                gap="xs"
+              >
+                <Ionicons name="star" size={16} />
+                <Text variant="body" color="onPrimary">
+                  {routine.rating}
+                </Text>
+              </Box>
+            </Pressable>
+            <Pressable>
+              <Box
+                backgroundColor="primary"
+                padding="xs"
+                paddingHorizontal="s"
+                borderRadius={6}
+              >
+                <Text variant="body" color="onPrimary">
+                  {routine.category}
+                </Text>
+              </Box>
+            </Pressable>
+            <Pressable>
+              <Box
+                backgroundColor="primary"
+                padding="xs"
+                paddingHorizontal="s"
+                borderRadius={6}
+              >
+                <Text variant="body" color="onPrimary">
+                  {routine.daysPerWeek}
+                </Text>
+              </Box>
+            </Pressable>
+            <Pressable>
+              <Box
+                backgroundColor="primary"
+                padding="xs"
+                paddingHorizontal="s"
+                borderRadius={6}
+              >
+                <Text variant="body" color="onPrimary">
+                  {routine.difficulty}
+                </Text>
+              </Box>
+            </Pressable>
+            <Pressable>
+              <Box
+                backgroundColor="primary"
+                padding="xs"
+                paddingHorizontal="s"
+                borderRadius={6}
+              >
+                <Text variant="body" color="onPrimary">
+                  {routine.equipment}
+                </Text>
+              </Box>
+            </Pressable>
+            <Pressable>
+              <Box
+                backgroundColor="primary"
+                padding="xs"
+                paddingHorizontal="s"
+                borderRadius={6}
+              >
+                <Text variant="body" color="onPrimary">
+                  {routine.duration}
+                </Text>
+              </Box>
+            </Pressable>
           </ScrollView>
         </Box>
       </Box>

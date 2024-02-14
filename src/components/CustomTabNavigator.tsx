@@ -1,5 +1,8 @@
 import { Pressable, useWindowDimensions } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import {
+  MaterialTopTabBarProps,
+  createMaterialTopTabNavigator,
+} from "@react-navigation/material-top-tabs";
 import Box from "./Box";
 import Text from "./Text";
 
@@ -34,7 +37,12 @@ export default function CustomTabNavigator({
   );
 }
 
-function CustomTabBar({ state, descriptors, navigation, position }: any) {
+function CustomTabBar({
+  state,
+  descriptors,
+  navigation,
+  position,
+}: MaterialTopTabBarProps) {
   return (
     <Box flexDirection="row" gap="s" marginLeft="m">
       {state.routes.map((route, index) => {

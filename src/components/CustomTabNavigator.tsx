@@ -1,4 +1,4 @@
-import { Pressable } from "react-native";
+import { Pressable, useWindowDimensions } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import Box from "./Box";
 import Text from "./Text";
@@ -17,8 +17,14 @@ export default function CustomTabNavigator({
   tabs,
   initialRouteName,
 }: CustomTabNavigatorProps) {
+  const layout = useWindowDimensions();
+
   return (
-    <Tab.Navigator tabBar={CustomTabBar} initialRouteName={initialRouteName}>
+    <Tab.Navigator
+      tabBar={CustomTabBar}
+      initialRouteName={initialRouteName}
+      initialLayout={{ width: layout.width }}
+    >
       {tabs.map((tab, index) => {
         return (
           <Tab.Screen name={tab.name} component={tab.component} key={index} />

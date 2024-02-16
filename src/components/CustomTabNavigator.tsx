@@ -37,6 +37,7 @@ export default function CustomTabNavigator({
   );
 }
 
+// TODO: Add swiping animation to tab bar buttons based on position
 function CustomTabBar({
   state,
   descriptors,
@@ -58,15 +59,13 @@ function CustomTabBar({
                 padding="m"
                 marginTop="m"
                 borderRadius={15}
-                borderWidth={1}
-                borderColor="onSurface"
                 opacity={pressed ? 0.5 : 1}
-                backgroundColor={focused ? "onSurface" : "surface"}
+                backgroundColor={focused ? "secondaryContainer" : "surfaceContainer"}
               >
                 <Text
                   variant="body"
                   textTransform="capitalize"
-                  color={focused ? "surface" : "onSurface"}
+                  color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
                 >
                   {route.name}
                 </Text>

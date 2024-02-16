@@ -11,3 +11,14 @@ export interface Routine {
   equipment: string;
   numberOfAthletes: number;
 }
+
+export interface RoutineReview {
+  id: number;
+  author: {
+    name: string;
+    picture: string;
+  };
+  rating: number;
+  text?: string;
+  date: Date;
+}

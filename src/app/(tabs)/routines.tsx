@@ -167,6 +167,7 @@ export default function RoutinesTab() {
           keyboardDismissMode="on-drag"
           data={mockedRoutines}
           estimatedItemSize={300}
+          contentContainerStyle={{ paddingHorizontal: 16 }}
           renderItem={({ item }) => <RoutineCard routine={item} />}
           ItemSeparatorComponent={() => <Box height={20} />}
         />

@@ -85,7 +85,7 @@ export default function RoutinesTab() {
         <LocalSearchBar
           text={searchText}
           setText={setSearchText}
-          marginHorizontal="m"
+          marginHorizontal="m" // Padding messes up with the icon position, so we use margin instead
         />
         <ScrollView
           horizontal={true}

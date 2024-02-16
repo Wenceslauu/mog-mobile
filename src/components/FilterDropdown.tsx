@@ -75,13 +75,11 @@ export default function FilterDropdown<T extends string | null>({
             alignItems="center"
             justifyContent="center"
             gap="s"
-            borderWidth={1}
             borderRadius={10}
             paddingHorizontal="m"
             marginVertical="s"
             opacity={pressed ? 0.5 : 1}
             backgroundColor={selected ? "primary" : "surfaceContainer"}
-            borderColor={selected ? "onPrimary" : "onSurface"}
           >
             <Text variant="body" color={selected ? "onPrimary" : "onSurface"}>
               {selected ? selected : name}

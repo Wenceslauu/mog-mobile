@@ -14,7 +14,6 @@ export default function PostComment({ comment }: CommentProps) {
       <Avatar source={comment.author.picture} size="s" />
       <Box
         backgroundColor="secondaryContainer"
-        borderColor="outline"
         flex={1}
         padding="m"
         paddingTop="s"

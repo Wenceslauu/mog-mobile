@@ -1,4 +1,5 @@
 import Box from "@/components/Box";
+import Text from "@/components/Text";
 import CustomTabNavigator from "@/components/CustomTabNavigator";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -50,12 +51,37 @@ export default function RoutineDetails() {
   });
 
   return (
-    <CustomTabNavigator
-      tabs={[
-        { name: "about", component: RoutineDetailsAboutTab },
-        { name: "workouts", component: RoutineDetailsWorkoutsTab },
-      ]}
-      initialRouteName="about"
-    />
+    <>
+      <CustomTabNavigator
+        tabs={[
+          { name: "about", component: RoutineDetailsAboutTab },
+          { name: "workouts", component: RoutineDetailsWorkoutsTab },
+        ]}
+        initialRouteName="about"
+      />
+      <Box
+        backgroundColor="surfaceContainer"
+        paddingHorizontal="m"
+        paddingVertical="s"
+        paddingBottom="l"
+      >
+        <Pressable>
+          {({ pressed }) => (
+            <Box
+              justifyContent="center"
+              alignItems="center"
+              backgroundColor="primary"
+              padding="m"
+              borderRadius={10}
+              opacity={pressed ? 0.5 : 1}
+            >
+              <Text variant="body" color="onPrimary">
+                Start routine
+              </Text>
+            </Box>
+          )}
+        </Pressable>
+      </Box>
+    </>
   );
 }

@@ -5,6 +5,8 @@ import { Routine } from "@/types/Routine";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { Theme } from "@/constants/theme";
+import { useTheme } from "@shopify/restyle";
 
 type RoutineCardProps = {
   routine: Routine;
@@ -18,6 +20,8 @@ export default function RoutineCard({
   routine,
   isListedHorizontally,
 }: RoutineCardProps) {
+  const { colors } = useTheme<Theme>();
+
   return (
     <Link
       href={{
@@ -72,7 +76,7 @@ export default function RoutineCard({
                 alignItems="center"
                 gap="xs"
               >
-                <Ionicons name="star" size={16} />
+                <Ionicons name="star" size={16} color={colors.onPrimary} />
                 <Text variant="body" color="onPrimary">
                   {routine.rating}
                 </Text>

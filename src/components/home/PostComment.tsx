@@ -13,11 +13,11 @@ export default function PostComment({ comment }: CommentProps) {
     <Box flexDirection="row" gap="s">
       <Avatar source={comment.author.picture} size="s" />
       <Box
+        backgroundColor="secondaryContainer"
         borderColor="outline"
-        borderWidth={2}
         flex={1}
-        padding="s"
-        paddingBottom="m"
+        padding="m"
+        paddingTop="s"
         borderRadius={20}
         gap="s"
       >

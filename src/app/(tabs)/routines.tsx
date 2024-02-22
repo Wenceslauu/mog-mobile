@@ -77,7 +77,7 @@ export default function RoutinesTab() {
         </Link>
       ),
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
     <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">

@@ -46,7 +46,7 @@ export default function HomeLayout() {
         </Box>
       ),
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
     <CustomTabNavigator

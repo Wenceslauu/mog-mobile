@@ -193,7 +193,7 @@ export default function ProfileTab() {
         </Box>
       ),
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
     <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">

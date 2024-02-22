@@ -1,10 +1,12 @@
-import { Pressable, useWindowDimensions } from "react-native";
+import { Pressable, useWindowDimensions, Animated } from "react-native";
 import {
   MaterialTopTabBarProps,
   createMaterialTopTabNavigator,
 } from "@react-navigation/material-top-tabs";
 import Box from "./Box";
 import Text from "./Text";
+import { Theme } from "@/constants/theme";
+import { useTheme } from "@shopify/restyle";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -37,17 +39,26 @@ export default function CustomTabNavigator({
   );
 }
 
-// TODO: Add swiping animation to tab bar buttons based on position
 function CustomTabBar({
   state,
   descriptors,
   navigation,
   position,
 }: MaterialTopTabBarProps) {
+  const { colors } = useTheme<Theme>();
+
   return (
     <Box flexDirection="row" gap="s" marginLeft="m">
       {state.routes.map((route, index) => {
         const focused = state.index === index;
+
+        const inputRange = state.routes.map((_, i) => i);
+        const backgroundColor = position.interpolate({
+          inputRange,
+          outputRange: inputRange.map((i) =>
+            i === index ? colors.secondaryContainer : colors.surfaceContainer
+          ),
+        });
 
         return (
           <Pressable
@@ -55,21 +66,25 @@ function CustomTabBar({
             onPress={() => navigation.navigate(route.name, route.params)}
           >
             {({ pressed }) => (
-              <Box
-                padding="m"
-                marginTop="m"
-                borderRadius={15}
-                opacity={pressed ? 0.5 : 1}
-                backgroundColor={focused ? "secondaryContainer" : "surfaceContainer"}
+              <Animated.View
+                style={{
+                  padding: 16,
+                  marginTop: 16,
+                  borderRadius: 15,
+                  opacity: pressed ? 0.5 : 1,
+                  backgroundColor,
+                }}
               >
                 <Text
                   variant="body"
                   textTransform="capitalize"
-                  color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
+                  color={
+                    focused ? "onSecondaryContainer" : "onSurfaceContainer"
+                  }
                 >
                   {route.name}
                 </Text>
-              </Box>
+              </Animated.View>
             )}
           </Pressable>
         );

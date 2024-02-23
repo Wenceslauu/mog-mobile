@@ -10,6 +10,7 @@ import { Pressable } from "react-native";
 
 import RoutineDetailsAboutTab from "./about";
 import RoutineDetailsWorkoutsTab from "./workouts";
+import Button from "@/components/Button";
 
 export default function RoutineDetails() {
   const { name } = useLocalSearchParams();
@@ -65,22 +66,7 @@ export default function RoutineDetails() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Pressable>
-          {({ pressed }) => (
-            <Box
-              justifyContent="center"
-              alignItems="center"
-              backgroundColor="primary"
-              padding="m"
-              borderRadius="l"
-              opacity={pressed ? 0.5 : 1}
-            >
-              <Text variant="body" color="onPrimary">
-                Start routine
-              </Text>
-            </Box>
-          )}
-        </Pressable>
+        <Button variant="primary">Start Routine</Button>
       </Box>
     </>
   );

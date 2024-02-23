@@ -6,7 +6,14 @@ import { Theme } from "@/constants/theme";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { FlashList } from "@shopify/flash-list";
 import { useTheme } from "@shopify/restyle";
-import { Pressable, ScrollView } from "react-native";
+import {
+  NativeSyntheticEvent,
+  Pressable,
+  ScrollView,
+  TextLayoutEventData,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { useCallback, useState } from "react";
 
 const mockedRoutine = {
   id: 1,
@@ -20,7 +27,7 @@ const mockedRoutine = {
   equipment: "Full gym",
   numberOfAthletes: 10,
   description:
-    "Esse é um programa destinado a transformar os seus bracinhos em membros de um mutante. Aqui os seus bíceps serão esmagados, os seus tríceps serão ...",
+    "Esse é um programa destinado a transformar os seus bracinhos em membros de um mutante. Aqui os seus bíceps serão esmagados, os seus tríceps serão completamente esmagados, sem dó nem piedade. Prepare-se para o braço de 50 cm!",
   rating: 4.5,
   numberOfReviews: 48,
   reviews: [
@@ -47,8 +54,20 @@ const mockedRoutine = {
   ],
 };
 
+const DESCRIPTION_NUM_OF_LINES = 4;
+
 export default function RoutineDetailsAboutTab() {
+  const [isTruncatedText, setIsTruncatedText] = useState(false);
+  const [showMore, setShowMore] = useState(true);
+
   const { colors } = useTheme<Theme>();
+
+  const onTextLayout = useCallback(
+    (e: NativeSyntheticEvent<TextLayoutEventData>) => {
+      setIsTruncatedText(e.nativeEvent.lines.length > DESCRIPTION_NUM_OF_LINES);
+    },
+    []
+  );
 
   return (
     <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
@@ -70,15 +89,45 @@ export default function RoutineDetailsAboutTab() {
             </Text>
           </Box>
         </Box>
-        <Box gap="s" paddingHorizontal="m">
-          <Text variant="title" color="onSurface">
+        {/* paddingHorizontal is not here so as not to mess up the gradient */}
+        <Box gap="s">
+          <Text variant="title" color="onSurface" paddingHorizontal="m">
             Description
           </Text>
-          <Box flexDirection="row" gap="s">
-            <Text variant="body" color="onSurface">
+          {isTruncatedText ? (
+            <Pressable onPress={() => setShowMore(!showMore)}>
+              <Text
+                variant="body"
+                color="onSurface"
+                paddingHorizontal="m"
+                numberOfLines={showMore ? DESCRIPTION_NUM_OF_LINES : undefined}
+                ellipsizeMode="tail"
+              >
+                {mockedRoutine.description}
+              </Text>
+              {showMore && (
+                <LinearGradient
+                  colors={["transparent", colors.surface]}
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: 48, // "body" text variant font size * 3
+                  }}
+                />
+              )}
+            </Pressable>
+          ) : (
+            <Text
+              variant="body"
+              color="onSurface"
+              paddingHorizontal="m"
+              onTextLayout={onTextLayout}
+            >
               {mockedRoutine.description}
             </Text>
-          </Box>
+          )}
         </Box>
         <Box gap="s">
           <Box

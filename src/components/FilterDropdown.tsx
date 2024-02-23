@@ -75,7 +75,7 @@ export default function FilterDropdown<T extends string | null>({
             alignItems="center"
             justifyContent="center"
             gap="s"
-            borderRadius={10}
+            borderRadius="s"
             paddingHorizontal="m"
             marginVertical="s"
             opacity={pressed ? 0.5 : 1}
@@ -101,7 +101,7 @@ export default function FilterDropdown<T extends string | null>({
               position="absolute"
               top={dropdownButtonPosition.y - 5}
               left={dropdownButtonPosition.x - 5}
-              borderRadius={10}
+              borderRadius="s"
               width={180}
               height={options.length * 52}
               maxHeight={310}
@@ -114,7 +114,7 @@ export default function FilterDropdown<T extends string | null>({
                     {({ pressed }) => (
                       <Box
                         padding="m"
-                        borderRadius={10}
+                        borderRadius="s"
                         opacity={pressed ? 0.5 : 1}
                         backgroundColor={
                           selected === item ? "primary" : "surfaceContainer"

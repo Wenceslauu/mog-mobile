@@ -29,14 +29,14 @@ export default function RoutineCard({
         params: { name: routine.name },
       }}
     >
-      <Box borderRadius={30} width={isListedHorizontally ? 300 : null}>
+      <Box borderRadius="xl" width={isListedHorizontally ? 300 : null}>
         <Image
           source={routine.thumbnail}
           placeholder={blurhash}
           style={{
             width: "100%",
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
+            borderTopLeftRadius: 28,
+            borderTopRightRadius: 28,
             height: 200,
           }}
         />
@@ -45,8 +45,8 @@ export default function RoutineCard({
           paddingBottom="l"
           paddingTop="s"
           gap="m"
-          borderBottomLeftRadius={30}
-          borderBottomRightRadius={30}
+          borderBottomLeftRadius="xl"
+          borderBottomRightRadius="xl"
         >
           <Box gap="xs" paddingHorizontal="m">
             <Text variant="title" color="onSurface">
@@ -71,7 +71,7 @@ export default function RoutineCard({
                 backgroundColor="primary"
                 padding="xs"
                 paddingHorizontal="s"
-                borderRadius={6}
+                borderRadius="s"
                 flexDirection="row"
                 alignItems="center"
                 gap="xs"
@@ -87,7 +87,7 @@ export default function RoutineCard({
                 backgroundColor="primary"
                 padding="xs"
                 paddingHorizontal="s"
-                borderRadius={6}
+                borderRadius="s"
               >
                 <Text variant="body" color="onPrimary">
                   {routine.category}
@@ -99,7 +99,7 @@ export default function RoutineCard({
                 backgroundColor="primary"
                 padding="xs"
                 paddingHorizontal="s"
-                borderRadius={6}
+                borderRadius="s"
               >
                 <Text variant="body" color="onPrimary">
                   {routine.daysPerWeek}
@@ -111,7 +111,7 @@ export default function RoutineCard({
                 backgroundColor="primary"
                 padding="xs"
                 paddingHorizontal="s"
-                borderRadius={6}
+                borderRadius="s"
               >
                 <Text variant="body" color="onPrimary">
                   {routine.difficulty}
@@ -123,7 +123,7 @@ export default function RoutineCard({
                 backgroundColor="primary"
                 padding="xs"
                 paddingHorizontal="s"
-                borderRadius={6}
+                borderRadius="s"
               >
                 <Text variant="body" color="onPrimary">
                   {routine.equipment}
@@ -135,7 +135,7 @@ export default function RoutineCard({
                 backgroundColor="primary"
                 padding="xs"
                 paddingHorizontal="s"
-                borderRadius={6}
+                borderRadius="s"
               >
                 <Text variant="body" color="onPrimary">
                   {routine.duration}

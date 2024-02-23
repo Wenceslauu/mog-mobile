@@ -72,7 +72,7 @@ export default function RoutineDetails() {
               alignItems="center"
               backgroundColor="primary"
               padding="m"
-              borderRadius={10}
+              borderRadius="l"
               opacity={pressed ? 0.5 : 1}
             >
               <Text variant="body" color="onPrimary">

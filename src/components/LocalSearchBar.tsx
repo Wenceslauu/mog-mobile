@@ -20,7 +20,7 @@ export default function LocalSearchBar({
   const styles = createStyles(colors);
 
   return (
-    <Box flexDirection="row" borderRadius={10} {...props} backgroundColor="surfaceContainer">
+    <Box flexDirection="row" borderRadius="s" {...props} backgroundColor="surfaceContainer">
       <Ionicons
         name="search-outline"
         size={25}
@@ -50,7 +50,6 @@ const createStyles = (colors: Theme["colors"]) => {
       padding: 10,
       paddingLeft: 40,
       color: colors.onSurface,
-      borderRadius: 10,
     },
   });
 };

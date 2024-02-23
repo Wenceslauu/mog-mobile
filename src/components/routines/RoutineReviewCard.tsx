@@ -17,7 +17,7 @@ export default function RoutineReviewCard({
   return (
     <Box
       gap="m"
-      borderRadius={30}
+      borderRadius="xl"
       width={300}
       height={200}
       backgroundColor="surfaceContainer"

@@ -17,7 +17,7 @@ export default function PostComment({ comment }: CommentProps) {
         flex={1}
         padding="m"
         paddingTop="s"
-        borderRadius={20}
+        borderRadius="l"
         gap="s"
       >
         <Box

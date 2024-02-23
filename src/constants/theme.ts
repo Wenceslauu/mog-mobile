@@ -8,6 +8,32 @@ const themeWithoutColors = {
     l: 24,
     xl: 40,
   },
+  /* SHAPE TOKENS FROM MATERIAL DESIGN 3
+    https://m3.material.io/styles/shape/shape-scale-tokens
+  
+    borderRadii: {
+      Autocomplete menu, select menu, snackbars, standard menu, text fields
+      xs: 4,
+      Chips, rich tooltip
+      s: 8,
+      Cards, small FABs
+      m: 12,
+      Extended FABs, FABs, navigation drawers
+      l: 16,
+      Bottom sheets (docked), dialogs, floating sheets, large FABs, search view (docked), time picker,
+      time input
+      xl: 28,
+      Badge, buttons, icon buttons, sliders, switches, search bar
+      full: 1/2 of the container's height value
+    },
+  */
+  borderRadii: {
+    xs: 4,
+    s: 8,
+    m: 12,
+    l: 16,
+    xl: 28,
+  },
   /* TYPOGRAPHY ROLES FROM MATERIAL DESIGN 3
     https://m3.material.io/styles/typography/applying-type
 
@@ -31,6 +57,7 @@ const themeWithoutColors = {
       inside components or for very small text in the content body, such as captions.
       Buttons, for example, use the label large style.
       label: {},
+    }
   */
   textVariants: {
     display: {},
@@ -115,7 +142,7 @@ const themeWithoutColors = {
     outline: "#74796D",
     Decorative elements, such as dividers
     outlineVariant: "#C3C8BB",
-  },
+  }
 */
 export const lightTheme = createTheme({
   ...themeWithoutColors,

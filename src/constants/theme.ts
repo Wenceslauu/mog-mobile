@@ -33,7 +33,7 @@ const themeWithoutColors = {
     m: 12,
     l: 16,
     xl: 28,
-    full: 1000
+    full: 1000,
   },
   /* TYPOGRAPHY ROLES FROM MATERIAL DESIGN 3
     https://m3.material.io/styles/typography/applying-type
@@ -175,6 +175,8 @@ export const lightTheme = createTheme({
 
     outline: "#74796D",
     outlineVariant: "#C3C8BB",
+
+    transparent: "transparent",
   },
 });
 
@@ -208,6 +210,8 @@ export const darkTheme = createTheme({
 
     outline: "#8D9286",
     outlineVariant: "#43483E",
+
+    transparent: "transparent",
   },
 });
 

@@ -33,6 +33,7 @@ const themeWithoutColors = {
     m: 12,
     l: 16,
     xl: 28,
+    full: 1000
   },
   /* TYPOGRAPHY ROLES FROM MATERIAL DESIGN 3
     https://m3.material.io/styles/typography/applying-type

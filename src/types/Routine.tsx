@@ -22,3 +22,12 @@ export interface RoutineReview {
   text?: string;
   date: Date;
 }
+
+export interface Workout {
+  name: string;
+  exercises: {
+    image?: any;
+    name: string;
+    sets: { number: number; reps: number; intensity: string }[];
+  }[];
+}

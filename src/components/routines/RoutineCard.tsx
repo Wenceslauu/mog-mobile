@@ -7,14 +7,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
+import blurhash from "@/constants/blurhash";
 
 type RoutineCardProps = {
   routine: Routine;
   isListedHorizontally?: boolean;
 };
-
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 export default function RoutineCard({
   routine,

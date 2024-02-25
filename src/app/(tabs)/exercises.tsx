@@ -1,5 +1,4 @@
-import { Image } from "expo-image";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";

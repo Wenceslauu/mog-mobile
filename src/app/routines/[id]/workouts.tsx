@@ -3,22 +3,10 @@ import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { useState } from "react";
-import { Pressable, View, useWindowDimensions } from "react-native";
-import { SceneMap, TabView } from "react-native-tab-view";
-
-const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
-);
-
-const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
-);
-
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-});
+import { useEffect, useState } from "react";
+import { Pressable, useWindowDimensions } from "react-native";
+import { TabView } from "react-native-tab-view";
+import CycleTab from "@/components/routines/CycleTab";
 
 const mockedCycles = [
   {
@@ -30,6 +18,7 @@ const mockedCycles = [
         exercises: [
           {
             name: "Bench Press",
+            // image: require("../../../assets/images/bench-press.jpg"),
             sets: [
               { number: 1, reps: 15, intensity: "40%" },
               {
@@ -106,7 +95,7 @@ const mockedCycles = [
     weeks: 1,
     workouts: [
       {
-        name: "Upper 1",
+        name: " Super Upper 1",
         exercises: [
           {
             name: "DB Bench Press",
@@ -143,7 +132,7 @@ const mockedCycles = [
         ],
       },
       {
-        name: "Lower 2",
+        name: "Super Lower 1",
         exercises: [
           {
             name: "Hack Squat",
@@ -188,10 +177,15 @@ export default function RoutineDetailsWorkoutsTab() {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: "first", title: "First" },
-    { key: "second", title: "Second" },
-  ]);
+  const [routes, setRoutes] = useState<{ key: string; title: string }[]>([]);
+
+  useEffect(() => {
+    const cycleRoutes = mockedCycles.map((cycle, index) => {
+      return { key: index.toString(), title: cycle.name };
+    });
+
+    setRoutes(cycleRoutes);
+  }, []);
 
   return (
     <TabView
@@ -216,8 +210,13 @@ export default function RoutineDetailsWorkoutsTab() {
               </Text>
             </Box>
             <Box flexDirection="row" alignItems="center" gap="xs">
-              {/* TODO: Fix the jumpTo */}
-              <Pressable onPress={() => jumpTo("first")}>
+              <Pressable
+                onPress={() => jumpTo((navigationState.index - 1).toString())}
+                disabled={navigationState.index === 0}
+                style={{
+                  opacity: navigationState.index === 0 ? 0.5 : 1,
+                }}
+              >
                 {({ pressed }) => (
                   <Ionicons
                     name="chevron-back"
@@ -228,11 +227,20 @@ export default function RoutineDetailsWorkoutsTab() {
                 )}
               </Pressable>
               <Text variant="body" color="onSurface">
-                {navigationState.index + 1} /{" "}
-                {mockedCycles[navigationState.index].workouts.length} cycles
+                {navigationState.index + 1} / {mockedCycles.length} cycles
               </Text>
-              {/* TODO: Fix the jumpTo */}
-              <Pressable onPress={() => jumpTo("second")}>
+              <Pressable
+                onPress={() => jumpTo((navigationState.index + 1).toString())}
+                disabled={
+                  navigationState.index === navigationState.routes.length - 1
+                }
+                style={{
+                  opacity:
+                    navigationState.index === navigationState.routes.length - 1
+                      ? 0.5
+                      : 1,
+                }}
+              >
                 {({ pressed }) => (
                   <Ionicons
                     name="chevron-forward"
@@ -247,7 +255,9 @@ export default function RoutineDetailsWorkoutsTab() {
         );
       }}
       navigationState={{ index, routes }}
-      renderScene={renderScene}
+      renderScene={({ route }) => {
+        return <CycleTab workouts={mockedCycles[Number(route.key)].workouts} />;
+      }}
       onIndexChange={setIndex}
       initialLayout={{ width: layout.width }}
     />

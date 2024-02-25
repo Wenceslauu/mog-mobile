@@ -15,6 +15,7 @@ import Text from "@/components/Text";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import ExerciseCard from "@/components/exercises/ExerciseCard";
+import { useScrollToTop } from "@react-navigation/native";
 
 type TargetMuscle =
   | "Chest"
@@ -220,6 +221,11 @@ export default function ExercisesTab() {
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
+  const exercisesListRef = useRef(null);
+
+  // Scroll to top when the active tab is tapped
+  useScrollToTop(exercisesListRef);
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePresentModalPress = useCallback(() => {
@@ -295,6 +301,7 @@ export default function ExercisesTab() {
         </Box>
       </Box>
       <FlashList
+        ref={exercisesListRef}
         keyboardDismissMode="on-drag"
         data={mockedExercises.filter(
           (exercise) =>

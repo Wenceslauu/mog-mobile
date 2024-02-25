@@ -1,7 +1,7 @@
 import { Pressable, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Theme } from "@/constants/theme";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import { useTheme } from "@shopify/restyle";
@@ -10,6 +10,7 @@ import Text from "@/components/Text";
 import FilterDropdown from "@/components/FilterDropdown";
 import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
+import { useScrollToTop } from "@react-navigation/native";
 
 type Category = "Bodybuilding" | "Powerlifting" | "Bodyweight" | null;
 
@@ -59,6 +60,13 @@ export default function RoutinesTab() {
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
+
+  const routineSectionsListRef = useRef(null);
+  const searchedRoutinesListRef = useRef(null);
+
+  // Scroll to top when the active tab is tapped
+  useScrollToTop(routineSectionsListRef);
+  useScrollToTop(searchedRoutinesListRef);
 
   useEffect(() => {
     navigation.setOptions({
@@ -121,6 +129,7 @@ export default function RoutinesTab() {
       </Box>
       {!searchText ? (
         <ScrollView
+          ref={routineSectionsListRef}
           contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
@@ -164,6 +173,7 @@ export default function RoutinesTab() {
         </ScrollView>
       ) : (
         <FlashList
+          ref={searchedRoutinesListRef}
           keyboardDismissMode="on-drag"
           data={mockedRoutines}
           estimatedItemSize={300}

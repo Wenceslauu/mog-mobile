@@ -1,6 +1,8 @@
 import Box from "@/components/Box";
 import PostCard from "@/components/home/PostCard";
+import { useScrollToTop } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
+import { useRef } from "react";
 
 const mockedPosts = [
   {
@@ -103,14 +105,15 @@ const mockedPosts = [
 ];
 
 export default function FollowingTab() {
+  const postsListRef = useRef(null);
+
+  // Scroll to top when the active tab is tapped
+  useScrollToTop(postsListRef);
+
   return (
-    <Box
-      flex={1}
-      gap="xs"
-      paddingTop="m"
-      backgroundColor="surface"
-    >
+    <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
       <FlashList
+        ref={postsListRef}
         keyboardDismissMode="on-drag"
         data={mockedPosts}
         estimatedItemSize={100}

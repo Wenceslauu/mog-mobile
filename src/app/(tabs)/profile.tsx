@@ -1,5 +1,5 @@
 import { Pressable } from "react-native";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigation } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Box from "@/components/Box";
@@ -10,6 +10,7 @@ import Avatar from "@/components/Avatar";
 import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 import PostCard from "@/components/home/PostCard";
+import { useScrollToTop } from "@react-navigation/native";
 
 const mockedUser = {
   picture: "https://unavatar.io/github/Wenceslauu",
@@ -148,6 +149,11 @@ export default function ProfileTab() {
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
+  const postsListRef = useRef(null);
+
+  // Scroll to top when the active tab is tapped
+  useScrollToTop(postsListRef);
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -198,6 +204,7 @@ export default function ProfileTab() {
   return (
     <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">
       <FlashList
+        ref={postsListRef}
         keyboardDismissMode="on-drag"
         data={mockedUser.posts}
         estimatedItemSize={100}

@@ -4,6 +4,7 @@ import { Tabs } from "expo-router";
 
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
+import * as Haptics from "expo-haptics";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -16,6 +17,11 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarActiveTintColor: colors.onSurfaceContainer,
       }}
+      screenListeners={() => ({
+        tabPress: () => {
+          Haptics.selectionAsync();
+        },
+      })}
     >
       <Tabs.Screen
         name="home"

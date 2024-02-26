@@ -9,14 +9,21 @@ import { Pressable, useWindowDimensions } from "react-native";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import PostComment from "./PostComment";
-import ExerciseLogPreviewCard from "./ExerciseLogPreviewCard";
 import Carousel from "react-native-reanimated-carousel";
+import { useState } from "react";
+import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
+import * as Haptics from "expo-haptics";
+import ExerciseLogPreviewList from "./ExerciseLogPreviewList";
 
 type PostCardProps = {
   post: Post;
 };
 
+const EXERCISE_LOG_PREVIEW_LIST_LIMIT = 4;
+
 export default function PostCard({ post }: PostCardProps) {
+  const [carouselIndex, setCarouselIndex] = useState(0);
+
   const { colors } = useTheme<Theme>();
   const windowWidth = useWindowDimensions().width;
 
@@ -60,7 +67,7 @@ export default function PostCard({ post }: PostCardProps) {
       >
         <Box>
           <Text variant="label" color="onSurface">
-            Tempo
+            Duration
           </Text>
           <Text color="onSurface">{post.duration}</Text>
         </Box>
@@ -72,40 +79,90 @@ export default function PostCard({ post }: PostCardProps) {
         </Box>
         <Box>
           <Text variant="label" color="onSurface">
-            Séries
+            Sets
           </Text>
           <Text color="onSurface">{post.sets}</Text>
         </Box>
         <Box>
           <Text variant="label" color="onSurface">
-            Conquistas
+            Achievements
           </Text>
           <Text color="onSurface">{post.achievements}</Text>
         </Box>
       </Box>
       {post.images.length > 0 ? (
-        // <Image source={post.images[0]} style={{ width: "100%", height: 200 }} />
-        <Carousel
-          width={windowWidth}
-          height={300}
-          data={post.images}
-          renderItem={({ item, index }) => (
-            <Image source={item} key={index} style={{ height: "100%" }} />
-          )}
-        />
-      ) : post.exercises.length > 0 ? (
-        <Box gap="s" paddingHorizontal="m">
-          {post.exercises.slice(0, 3).map((exercise, index) => {
-            return (
-              <ExerciseLogPreviewCard exerciseLog={exercise} key={index} />
-            );
-          })}
-          {post.exercises.length > 3 && (
-            <Text variant="body" color="onSurface" textAlign="center">
-              + {post.exercises.length - 3} exercises
-            </Text>
-          )}
+        <Box position="relative">
+          <Carousel
+            width={windowWidth}
+            height={300}
+            // TODO: Animate the navigation dots with onProgressChange?
+            onSnapToItem={(index) => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+              setCarouselIndex(index);
+            }}
+            data={post.images.concat({ exercises: post.exercises })}
+            renderItem={({ item, index }) => {
+              if (index === post.images.length) {
+                return <ExerciseLogPreviewList exercises={post.exercises} />;
+              }
+
+              return (
+                <Image source={item} key={index} style={{ height: "100%" }} />
+              );
+            }}
+          />
+          <Box
+            flex={1}
+            alignItems="center"
+            height={10}
+            position="absolute"
+            bottom={10}
+            right={0}
+            left={0}
+          >
+            <AnimatedDotsCarousel
+              length={post.images.length + 1}
+              currentIndex={carouselIndex}
+              maxIndicators={3}
+              interpolateOpacityAndColor={true}
+              activeIndicatorConfig={{
+                color: colors.primary, // TODO: Maybe tertiary
+                margin: 3,
+                opacity: 1,
+                size: 8,
+              }}
+              inactiveIndicatorConfig={{
+                color: colors.onSurface,
+                margin: 3,
+                opacity: 0.5,
+                size: 8,
+              }}
+              decreasingDots={[
+                {
+                  config: {
+                    color: colors.onSurface,
+                    margin: 3,
+                    opacity: 0.5,
+                    size: 6,
+                  },
+                  quantity: 1,
+                },
+                {
+                  config: {
+                    color: colors.onSurface,
+                    margin: 3,
+                    opacity: 0.5,
+                    size: 4,
+                  },
+                  quantity: 1,
+                },
+              ]}
+            />
+          </Box>
         </Box>
+      ) : post.exercises.length > 0 ? (
+        <ExerciseLogPreviewList exercises={post.exercises} />
       ) : null}
       <Box
         flexDirection="row"
@@ -116,15 +173,15 @@ export default function PostCard({ post }: PostCardProps) {
           {post.likes === 0
             ? ""
             : post.likes === 1
-            ? post.likes + " curtida"
-            : post.likes + " curtidas"}
+            ? "1 like"
+            : post.likes + " likes"}
         </Text>
         <Text color="onSurface">
           {post.comments.length === 0
             ? ""
             : post.comments.length === 1
-            ? post.comments.length + " comentário"
-            : post.comments.length + " comentários"}
+            ? "1 comment"
+            : post.comments.length + " comments"}
         </Text>
       </Box>
       <Box

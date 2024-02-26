@@ -28,6 +28,7 @@ export interface Workout {
   exercises: {
     image?: any;
     name: string;
+    exerciseId: number;
     sets: { number: number; reps: number; intensity: string }[];
   }[];
 }

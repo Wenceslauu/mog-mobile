@@ -30,6 +30,7 @@ type TargetMuscle =
 
 const mockedExercises = [
   {
+    id: 1,
     image: require("../../../assets/images/bench-press.jpg"),
     name: "Bench Press",
     isFavorite: true,
@@ -40,6 +41,7 @@ const mockedExercises = [
     targetMuscle: "Chest",
   },
   {
+    id: 2,
     image: require("../../../assets/images/squat.jpg"),
     name: "Squat",
     isFavorite: true,
@@ -50,6 +52,7 @@ const mockedExercises = [
     targetMuscle: "Quads",
   },
   {
+    id: 3,
     // image: require("../../../assets/images/deadlift.jpg"),
     name: "Deadlift",
     isFavorite: false,
@@ -60,6 +63,7 @@ const mockedExercises = [
     targetMuscle: "Back",
   },
   {
+    id: 4,
     // image: require("../../../assets/images/overhead-press.jpg"),
     name: "Overhead Press",
     isFavorite: false,
@@ -70,6 +74,7 @@ const mockedExercises = [
     targetMuscle: "Shoulders",
   },
   {
+    id: 5,
     // image: require("../../../assets/images/barbell-row.jpg"),
     name: "Barbell Row",
     isFavorite: false,
@@ -80,6 +85,7 @@ const mockedExercises = [
     targetMuscle: "Back",
   },
   {
+    id: 6,
     // image: require("../../../assets/images/pull-up.jpg"),
     name: "Pull Up",
     isFavorite: false,
@@ -90,6 +96,7 @@ const mockedExercises = [
     targetMuscle: "Back",
   },
   {
+    id: 7,
     // image: require("../../../assets/images/dumbbell-curl.jpg"),
     name: "Dumbbell Curl",
     isFavorite: false,
@@ -100,6 +107,7 @@ const mockedExercises = [
     targetMuscle: "Biceps",
   },
   {
+    id: 8,
     // image: require("../../../assets/images/tricep-extension.jpg"),
     name: "Tricep Extension",
     isFavorite: false,
@@ -110,6 +118,7 @@ const mockedExercises = [
     targetMuscle: "Triceps",
   },
   {
+    id: 9,
     // image: require("../../../assets/images/leg-press.jpg"),
     name: "Leg Press",
     isFavorite: false,
@@ -120,6 +129,7 @@ const mockedExercises = [
     targetMuscle: "Quads",
   },
   {
+    id: 10,
     // image: require("../../../assets/images/leg-curl.jpg"),
     name: "Leg Curl",
     isFavorite: false,
@@ -130,6 +140,7 @@ const mockedExercises = [
     targetMuscle: "Hamstrings",
   },
   {
+    id: 11,
     // image: require("../../../assets/images/calf-raise.jpg"),
     name: "Calf Raise",
     isFavorite: false,
@@ -140,6 +151,7 @@ const mockedExercises = [
     targetMuscle: "Calves",
   },
   {
+    id: 12,
     // image: require("../../../assets/images/crunch.jpg"),
     name: "Crunch",
     isFavorite: false,
@@ -150,6 +162,7 @@ const mockedExercises = [
     targetMuscle: "Abs",
   },
   {
+    id: 13,
     // image: require("../../../assets/images/leg-raise.jpg"),
     name: "Leg Raise",
     isFavorite: false,
@@ -160,6 +173,7 @@ const mockedExercises = [
     targetMuscle: "Abs",
   },
   {
+    id: 14,
     // image: require("../../../assets/images/plank.jpg"),
     name: "Plank",
     isFavorite: false,
@@ -170,6 +184,7 @@ const mockedExercises = [
     targetMuscle: "Abs",
   },
   {
+    id: 15,
     // image: require("../../../assets/images/dumbbell-press.jpg"),
     name: "Dumbbell Press",
     isFavorite: false,
@@ -180,6 +195,7 @@ const mockedExercises = [
     targetMuscle: "Chest",
   },
   {
+    id: 16,
     // image: require("../../../assets/images/dumbbell-fly.jpg"),
     name: "Dumbbell Fly",
     isFavorite: false,
@@ -190,6 +206,7 @@ const mockedExercises = [
     targetMuscle: "Chest",
   },
   {
+    id: 17,
     // image: require("../../../assets/images/dumbbell-lateral-raise.jpg"),
     name: "Dumbbell Lateral Raise",
     isFavorite: false,
@@ -200,6 +217,7 @@ const mockedExercises = [
     targetMuscle: "Shoulders",
   },
   {
+    id: 18,
     // image: require("../../../assets/images/dumbbell-rear-delt-fly.jpg"),
     name: "Dumbbell Rear Delt Fly",
     isFavorite: false,

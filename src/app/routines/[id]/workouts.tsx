@@ -18,6 +18,8 @@ const mockedCycles = [
         exercises: [
           {
             name: "Bench Press",
+            id: 19,
+            exerciseId: 196,
             // image: require("../../../assets/images/bench-press.jpg"),
             sets: [
               { number: 1, reps: 15, intensity: "40%" },
@@ -35,6 +37,7 @@ const mockedCycles = [
           },
           {
             name: "Incline Bench Press",
+            exerciseId: 197,
             sets: [
               { number: 1, reps: 15, intensity: "40%" },
               {
@@ -56,6 +59,7 @@ const mockedCycles = [
         exercises: [
           {
             name: "Squat",
+            exerciseId: 198,
             sets: [
               { number: 1, reps: 15, intensity: "40%" },
               {
@@ -72,6 +76,7 @@ const mockedCycles = [
           },
           {
             name: "Deadlift",
+            exerciseId: 199,
             sets: [
               { number: 1, reps: 15, intensity: "40%" },
               {
@@ -99,6 +104,7 @@ const mockedCycles = [
         exercises: [
           {
             name: "DB Bench Press",
+            exerciseId: 200,
             sets: [
               { number: 1, reps: 12, intensity: "40%" },
               {
@@ -115,6 +121,7 @@ const mockedCycles = [
           },
           {
             name: "Machine Bench Press",
+            exerciseId: 201,
             sets: [
               { number: 1, reps: 12, intensity: "40%" },
               {
@@ -136,6 +143,7 @@ const mockedCycles = [
         exercises: [
           {
             name: "Hack Squat",
+            exerciseId: 202,
             sets: [
               { number: 1, reps: 12, intensity: "40%" },
               {
@@ -152,6 +160,7 @@ const mockedCycles = [
           },
           {
             name: "RDL",
+            exerciseId: 203,
             sets: [
               { number: 1, reps: 12, intensity: "40%" },
               {
@@ -255,6 +264,7 @@ export default function RoutineDetailsWorkoutsTab() {
         );
       }}
       navigationState={{ index, routes }}
+      // TODO: Try to optimize with shouldComponentUpdate?
       renderScene={({ route }) => {
         return <CycleTab workouts={mockedCycles[Number(route.key)].workouts} />;
       }}

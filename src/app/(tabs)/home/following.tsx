@@ -23,22 +23,27 @@ const mockedPosts = [
       {
         name: "Dumbbell Bench Press",
         sets: 5,
+        exerciseId: 99,
       },
       {
         name: "Crossover",
         sets: 3,
+        exerciseId: 100,
       },
       {
         name: "Pushups",
         sets: 3,
+        exerciseId: 101,
       },
       {
         name: "Dips",
         sets: 3,
+        exerciseId: 102,
       },
       {
         name: "Chest Press Machine",
         sets: 3,
+        exerciseId: 103,
       },
     ],
     comments: [
@@ -73,22 +78,27 @@ const mockedPosts = [
       {
         name: "Dumbbell Bench Press",
         sets: 5,
+        exerciseId: 99,
       },
       {
         name: "Crossover",
         sets: 3,
+        exerciseId: 100,
       },
       {
         name: "Pushups",
         sets: 3,
+        exerciseId: 101,
       },
       {
         name: "Dips",
         sets: 3,
+        exerciseId: 102,
       },
       {
         name: "Chest Press Machine",
         sets: 3,
+        exerciseId: 103,
       },
     ],
     comments: [

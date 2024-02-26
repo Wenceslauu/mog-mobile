@@ -26,6 +26,7 @@ export interface Comment {
 }
 
 export interface ExerciseLogPreview {
+  exerciseId: number;
   image?: any;
   name: string;
   sets: number;

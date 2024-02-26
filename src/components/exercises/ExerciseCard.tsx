@@ -7,6 +7,7 @@ import { Exercise } from "@/types/Exercise";
 import { Image } from "expo-image";
 import { Theme } from "@/constants/theme";
 import blurhash from "@/constants/blurhash";
+import { Link } from "expo-router";
 
 type ExerciseCardProps = {
   exercise: Exercise;
@@ -17,52 +18,66 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
   const exerciseStyles = createExerciseStyles(colors);
 
   return (
-    <Box
-      flexDirection="row"
-      gap="s"
-      height={90}
-      padding="s"
-      borderTopWidth={1}
-      borderColor="outline"
+    <Link
+      href={{
+        pathname: `/exercises/${exercise.id}`,
+        params: { name: exercise.name },
+      }}
+      asChild
     >
-      <Image
-        source={exercise.image}
-        placeholder={blurhash}
-        style={exerciseStyles.image}
-      />
-      <Box flex={1} flexDirection="row">
-        <Box flex={1} alignSelf="flex-start">
-          <Text variant="title" color="onSurface">
-            {exercise.name}
-          </Text>
-          <Text variant="label" color="onSurface">
-            {exercise.targetMuscle}
-          </Text>
-        </Box>
-        <Box flexDirection="row" gap="s">
-          <Box alignSelf="flex-end">
-            <Text variant="label" color="onSurface">
-              {exercise.personalBest.weight} kg - {exercise.personalBest.reps}
-            </Text>
-          </Box>
-          <Pressable
-            onPress={() => console.log("FAVORITE")}
-            style={exerciseStyles.icon}
+      <Pressable>
+        {({ pressed }) => (
+          <Box
+            flexDirection="row"
+            gap="s"
+            height={90}
+            padding="s"
+            borderTopWidth={1}
+            borderColor="outline"
+            opacity={pressed ? 0.5 : 1}
           >
-            {({ pressed }) => (
-              <Ionicons
-                name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
-                size={29}
-                color={colors.onSurface}
-                style={{
-                  opacity: pressed ? 0.5 : 1,
-                }}
-              />
-            )}
-          </Pressable>
-        </Box>
-      </Box>
-    </Box>
+            <Image
+              source={exercise.image}
+              placeholder={blurhash}
+              style={exerciseStyles.image}
+            />
+            <Box flex={1} flexDirection="row">
+              <Box flex={1} alignSelf="flex-start">
+                <Text variant="title" color="onSurface">
+                  {exercise.name}
+                </Text>
+                <Text variant="label" color="onSurface">
+                  {exercise.targetMuscle}
+                </Text>
+              </Box>
+              <Box flexDirection="row" gap="s">
+                <Box alignSelf="flex-end">
+                  <Text variant="label" color="onSurface">
+                    {exercise.personalBest.weight} kg -{" "}
+                    {exercise.personalBest.reps}
+                  </Text>
+                </Box>
+                <Pressable
+                  onPress={() => console.log("FAVORITE")}
+                  style={exerciseStyles.icon}
+                >
+                  {({ pressed }) => (
+                    <Ionicons
+                      name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
+                      size={29}
+                      color={colors.onSurface}
+                      style={{
+                        opacity: pressed ? 0.5 : 1,
+                      }}
+                    />
+                  )}
+                </Pressable>
+              </Box>
+            </Box>
+          </Box>
+        )}
+      </Pressable>
+    </Link>
   );
 }
 

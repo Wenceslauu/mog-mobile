@@ -8,6 +8,7 @@ import Text from "../Text";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
+import { Link } from "expo-router";
 
 type WorkoutCardProps = {
   workout: Workout;
@@ -60,19 +61,36 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                         justifyContent="space-between"
                         alignItems="center"
                       >
-                        <Box gap="s" flexDirection="row" alignItems="center">
-                          <Image
-                            source={exercise.image}
-                            placeholder={blurhash}
-                            style={{
-                              width: 50,
-                              height: 50,
-                            }}
-                          />
-                          <Text variant="title" color="onSurface">
-                            {exercise.name}
-                          </Text>
-                        </Box>
+                        <Link
+                          href={{
+                            pathname: `/exercises/${exercise.exerciseId}`,
+                            params: { name: exercise.name },
+                          }}
+                          asChild
+                        >
+                          <Pressable>
+                            {({ pressed }) => (
+                              <Box
+                                gap="s"
+                                flexDirection="row"
+                                alignItems="center"
+                                opacity={pressed ? 0.5 : 1}
+                              >
+                                <Image
+                                  source={exercise.image}
+                                  placeholder={blurhash}
+                                  style={{
+                                    width: 50,
+                                    height: 50,
+                                  }}
+                                />
+                                <Text variant="title" color="onSurface">
+                                  {exercise.name}
+                                </Text>
+                              </Box>
+                            )}
+                          </Pressable>
+                        </Link>
                         <Pressable>
                           {({ pressed }) => (
                             <Ionicons

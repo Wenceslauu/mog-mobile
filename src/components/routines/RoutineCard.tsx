@@ -71,6 +71,7 @@ export default function RoutineCard({
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
               >
+                {/* The badges are wrapped in pressables so as to stop the routine card click propagation and allow for scrolling inside it */}
                 <Pressable>
                   <Box
                     backgroundColor="primary"

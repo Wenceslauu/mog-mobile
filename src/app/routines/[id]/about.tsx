@@ -95,27 +95,37 @@ export default function RoutineDetailsAboutTab() {
             Description
           </Text>
           {isTruncatedText ? (
+            // TODO: Animate show more going down and gradient fading out, and vice versa
+            // TODO: Add a pressed state to the text
+            // TODO: First frame is showing text not truncated
             <Pressable onPress={() => setShowMore(!showMore)}>
-              <Text
-                variant="body"
-                color="onSurface"
-                paddingHorizontal="m"
-                numberOfLines={showMore ? DESCRIPTION_NUM_OF_LINES : undefined}
-                ellipsizeMode="tail"
-              >
-                {mockedRoutine.description}
-              </Text>
-              {showMore && (
-                <LinearGradient
-                  colors={["transparent", colors.surface]}
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    height: 48, // "body" text variant font size * 3
-                  }}
-                />
+              {({ pressed }) => (
+                <>
+                  <Text
+                    variant="body"
+                    color="onSurface"
+                    paddingHorizontal="m"
+                    numberOfLines={
+                      showMore ? DESCRIPTION_NUM_OF_LINES : undefined
+                    }
+                    ellipsizeMode="tail"
+                    opacity={pressed ? 0.5 : 1}
+                  >
+                    {mockedRoutine.description}
+                  </Text>
+                  {showMore && (
+                    <LinearGradient
+                      colors={["transparent", colors.surface]}
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: 48, // "body" text variant font size * 3
+                      }}
+                    />
+                  )}
+                </>
               )}
             </Pressable>
           ) : (
@@ -130,31 +140,36 @@ export default function RoutineDetailsAboutTab() {
           )}
         </Box>
         <Box gap="s">
-          <Box
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Text variant="title" color="onSurface" paddingHorizontal="m">
-              Reviews
-            </Text>
-            <Box flexDirection="row" alignItems="center" gap="xs">
-              <Ionicons name="star" size={16} color={colors.onSurface} />
-              <Text variant="body" color="onSurface">
-                {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
-              </Text>
-              <Pressable>
-                {({ pressed }) => (
+          <Pressable>
+            {({ pressed }) => (
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                opacity={pressed ? 0.5 : 1}
+              >
+                <Text variant="title" color="onSurface" paddingLeft="m">
+                  Reviews
+                </Text>
+                <Box
+                  flexDirection="row"
+                  alignItems="center"
+                  gap="xs"
+                  paddingRight="m"
+                >
+                  <Ionicons name="star" size={16} color={colors.onSurface} />
+                  <Text variant="body" color="onSurface">
+                    {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
+                  </Text>
                   <Ionicons
                     name="chevron-forward"
                     size={27}
                     color={colors.onSurfaceContainer}
-                    style={{ opacity: pressed ? 0.5 : 1 }}
                   />
-                )}
-              </Pressable>
-            </Box>
-          </Box>
+                </Box>
+              </Box>
+            )}
+          </Pressable>
           <Box flexDirection="row" gap="m">
             <FlashList
               horizontal={true}

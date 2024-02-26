@@ -133,7 +133,7 @@ export default function PostCard({ post }: PostCardProps) {
                 size: 8,
               }}
               inactiveIndicatorConfig={{
-                color: colors.onSurface,
+                color: colors.secondary,
                 margin: 3,
                 opacity: 0.5,
                 size: 8,
@@ -141,7 +141,7 @@ export default function PostCard({ post }: PostCardProps) {
               decreasingDots={[
                 {
                   config: {
-                    color: colors.onSurface,
+                    color: colors.secondary,
                     margin: 3,
                     opacity: 0.5,
                     size: 6,
@@ -150,7 +150,7 @@ export default function PostCard({ post }: PostCardProps) {
                 },
                 {
                   config: {
-                    color: colors.onSurface,
+                    color: colors.secondary,
                     margin: 3,
                     opacity: 0.5,
                     size: 4,

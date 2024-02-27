@@ -6,14 +6,9 @@ import { Theme } from "@/constants/theme";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { FlashList } from "@shopify/flash-list";
 import { useTheme } from "@shopify/restyle";
-import {
-  NativeSyntheticEvent,
-  Pressable,
-  ScrollView,
-  TextLayoutEventData,
-} from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { useCallback, useState } from "react";
+import { Pressable, ScrollView } from "react-native";
+import Table from "@/components/Table";
+import TruncatedText from "@/components/TruncatedText";
 
 const mockedRoutine = {
   id: 1,
@@ -54,20 +49,8 @@ const mockedRoutine = {
   ],
 };
 
-const DESCRIPTION_NUM_OF_LINES = 4;
-
 export default function RoutineDetailsAboutTab() {
-  const [isTruncatedText, setIsTruncatedText] = useState(false);
-  const [showMore, setShowMore] = useState(true);
-
   const { colors } = useTheme<Theme>();
-
-  const onTextLayout = useCallback(
-    (e: NativeSyntheticEvent<TextLayoutEventData>) => {
-      setIsTruncatedText(e.nativeEvent.lines.length > DESCRIPTION_NUM_OF_LINES);
-    },
-    []
-  );
 
   return (
     <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
@@ -94,50 +77,7 @@ export default function RoutineDetailsAboutTab() {
           <Text variant="title" color="onSurface" paddingHorizontal="m">
             Description
           </Text>
-          {isTruncatedText ? (
-            // TODO: Animate show more going down and gradient fading out, and vice versa
-            // TODO: Add a pressed state to the text
-            // TODO: First frame is showing text not truncated
-            <Pressable onPress={() => setShowMore(!showMore)}>
-              {({ pressed }) => (
-                <>
-                  <Text
-                    variant="body"
-                    color="onSurface"
-                    paddingHorizontal="m"
-                    numberOfLines={
-                      showMore ? DESCRIPTION_NUM_OF_LINES : undefined
-                    }
-                    ellipsizeMode="tail"
-                    opacity={pressed ? 0.5 : 1}
-                  >
-                    {mockedRoutine.description}
-                  </Text>
-                  {showMore && (
-                    <LinearGradient
-                      colors={["transparent", colors.surface]}
-                      style={{
-                        position: "absolute",
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        height: 48, // "body" text variant font size * 3
-                      }}
-                    />
-                  )}
-                </>
-              )}
-            </Pressable>
-          ) : (
-            <Text
-              variant="body"
-              color="onSurface"
-              paddingHorizontal="m"
-              onTextLayout={onTextLayout}
-            >
-              {mockedRoutine.description}
-            </Text>
-          )}
+          <TruncatedText text={mockedRoutine.description} />
         </Box>
         <Box gap="s">
           <Pressable>
@@ -187,76 +127,14 @@ export default function RoutineDetailsAboutTab() {
           <Text variant="title" color="onSurface">
             Properties
           </Text>
-          <Box>
-            <Box
-              flexDirection="row"
-              borderBottomColor="outlineVariant"
-              paddingVertical="s"
-              borderBottomWidth={1}
-            >
-              <Box flex={1}>
-                <Text variant="body" color="secondary">
-                  Category
-                </Text>
-              </Box>
-              <Box flex={1}>
-                <Text variant="body" color="onSurface">
-                  {mockedRoutine.category}
-                </Text>
-              </Box>
-            </Box>
-            <Box
-              flexDirection="row"
-              borderBottomColor="outlineVariant"
-              paddingVertical="s"
-              borderBottomWidth={1}
-            >
-              <Box flex={1}>
-                <Text variant="body" color="secondary">
-                  Frequency
-                </Text>
-              </Box>
-              <Box flex={1}>
-                <Text variant="body" color="onSurface">
-                  {mockedRoutine.daysPerWeek}
-                </Text>
-              </Box>
-            </Box>
-            <Box
-              flexDirection="row"
-              borderBottomColor="outlineVariant"
-              paddingVertical="s"
-              borderBottomWidth={1}
-            >
-              <Box flex={1}>
-                <Text variant="body" color="secondary">
-                  Equipment
-                </Text>
-              </Box>
-              <Box flex={1}>
-                <Text variant="body" color="onSurface">
-                  {mockedRoutine.equipment}
-                </Text>
-              </Box>
-            </Box>
-            <Box
-              flexDirection="row"
-              borderBottomColor="outlineVariant"
-              paddingVertical="s"
-              borderBottomWidth={1}
-            >
-              <Box flex={1}>
-                <Text variant="body" color="secondary">
-                  Difficulty
-                </Text>
-              </Box>
-              <Box flex={1}>
-                <Text variant="body" color="onSurface">
-                  {mockedRoutine.difficulty}
-                </Text>
-              </Box>
-            </Box>
-          </Box>
+          <Table
+            rows={[
+              { label: "Category", value: mockedRoutine.category },
+              { label: "Frequency", value: mockedRoutine.daysPerWeek },
+              { label: "Equipment", value: mockedRoutine.equipment },
+              { label: "Difficulty", value: mockedRoutine.difficulty },
+            ]}
+          />
         </Box>
       </ScrollView>
     </Box>

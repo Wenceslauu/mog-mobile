@@ -90,76 +90,77 @@ export default function PostCard({ post }: PostCardProps) {
           <Text color="onSurface">{post.achievements}</Text>
         </Box>
       </Box>
-      {post.images.length > 0 ? (
-        <Box position="relative">
-          <Carousel
-            width={windowWidth}
-            height={300}
-            // TODO: Animate the navigation dots with onProgressChange?
-            onSnapToItem={setCarouselIndex}
-            data={post.images.concat({ exercises: post.exercises })}
-            renderItem={({ item, index }) => {
-              if (index === post.images.length) {
-                return <ExerciseLogPreviewList exercises={post.exercises} />;
-              }
-
-              return (
-                <Image source={item} key={index} style={{ height: "100%" }} />
-              );
-            }}
-          />
-          <Box
-            flex={1}
-            alignItems="center"
-            height={10}
-            position="absolute"
-            bottom={10}
-            right={0}
-            left={0}
-          >
-            <AnimatedDotsCarousel
-              length={post.images.length + 1}
-              currentIndex={carouselIndex}
-              maxIndicators={3}
-              interpolateOpacityAndColor={true}
-              activeIndicatorConfig={{
-                color: colors.primary, // TODO: Maybe tertiary
-                margin: 3,
-                opacity: 1,
-                size: 8,
+      <Box backgroundColor="surfaceContainer" position="relative">
+        {post.images.length > 0 ? (
+          <Box>
+            <Carousel
+              width={windowWidth}
+              height={300}
+              // TODO: Animate the navigation dots with onProgressChange?
+              onSnapToItem={setCarouselIndex}
+              data={post.images.concat({ exercises: post.exercises })}
+              renderItem={({ item, index }) => {
+                if (index === post.images.length) {
+                  return <ExerciseLogPreviewList exercises={post.exercises} />;
+                }
+                return (
+                  <Image source={item} key={index} style={{ height: "100%" }} />
+                );
               }}
-              inactiveIndicatorConfig={{
-                color: colors.secondary,
-                margin: 3,
-                opacity: 0.5,
-                size: 8,
-              }}
-              decreasingDots={[
-                {
-                  config: {
-                    color: colors.secondary,
-                    margin: 3,
-                    opacity: 0.5,
-                    size: 6,
-                  },
-                  quantity: 1,
-                },
-                {
-                  config: {
-                    color: colors.secondary,
-                    margin: 3,
-                    opacity: 0.5,
-                    size: 4,
-                  },
-                  quantity: 1,
-                },
-              ]}
             />
+            <Box
+              flex={1}
+              alignItems="center"
+              height={10}
+              position="absolute"
+              bottom={10}
+              right={0}
+              left={0}
+            >
+              <AnimatedDotsCarousel
+                length={post.images.length + 1}
+                currentIndex={carouselIndex}
+                maxIndicators={3}
+                interpolateOpacityAndColor={true}
+                activeIndicatorConfig={{
+                  color: colors.primary, // TODO: Maybe tertiary
+                  margin: 3,
+                  opacity: 1,
+                  size: 8,
+                }}
+                inactiveIndicatorConfig={{
+                  color: colors.secondary,
+                  margin: 3,
+                  opacity: 0.5,
+                  size: 8,
+                }}
+                decreasingDots={[
+                  {
+                    config: {
+                      color: colors.secondary,
+                      margin: 3,
+                      opacity: 0.5,
+                      size: 6,
+                    },
+                    quantity: 1,
+                  },
+                  {
+                    config: {
+                      color: colors.secondary,
+                      margin: 3,
+                      opacity: 0.5,
+                      size: 4,
+                    },
+                    quantity: 1,
+                  },
+                ]}
+              />
+            </Box>
           </Box>
-        </Box>
-      ) : post.exercises.length > 0 ? (
-        <ExerciseLogPreviewList exercises={post.exercises} />
-      ) : null}
+        ) : post.exercises.length > 0 ? (
+          <ExerciseLogPreviewList exercises={post.exercises} />
+        ) : null}
+      </Box>
       <Box
         flexDirection="row"
         justifyContent="space-between"

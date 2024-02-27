@@ -11,6 +11,7 @@ import { Pressable } from "react-native";
 import ExerciseDetailsAboutTab from "./about";
 import ExerciseDetailsChartsTab from "./charts";
 import Button from "@/components/Button";
+import ExerciseDetailsHistoryTab from "./history";
 
 export default function ExerciseDetails() {
   const { name } = useLocalSearchParams();
@@ -56,18 +57,11 @@ export default function ExerciseDetails() {
       <CustomTabNavigator
         tabs={[
           { name: "about", component: ExerciseDetailsAboutTab },
+          { name: "history", component: ExerciseDetailsHistoryTab },
           { name: "charts", component: ExerciseDetailsChartsTab },
         ]}
         initialRouteName="about"
       />
-      {/* <Box
-        backgroundColor="surfaceContainer"
-        paddingHorizontal="m"
-        paddingVertical="s"
-        paddingBottom="l"
-      >
-        <Button variant="primary">Start Routine</Button>
-      </Box> */}
     </>
   );
 }

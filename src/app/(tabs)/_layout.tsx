@@ -5,6 +5,7 @@ import { Tabs } from "expo-router";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import * as Haptics from "expo-haptics";
+import { Platform } from "react-native";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -19,7 +20,7 @@ export default function TabsLayout() {
       }}
       screenListeners={() => ({
         tabPress: () => {
-          Haptics.selectionAsync();
+          if (Platform.OS === "ios") Haptics.selectionAsync();
         },
       })}
     >

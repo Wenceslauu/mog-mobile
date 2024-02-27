@@ -96,11 +96,7 @@ export default function PostCard({ post }: PostCardProps) {
             width={windowWidth}
             height={300}
             // TODO: Animate the navigation dots with onProgressChange?
-            onSnapToItem={(index) => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
-              setCarouselIndex(index);
-            }}
+            onSnapToItem={setCarouselIndex}
             data={post.images.concat({ exercises: post.exercises })}
             renderItem={({ item, index }) => {
               if (index === post.images.length) {

@@ -111,50 +111,51 @@ export default function PostCard({ post }: PostCardProps) {
             <Box
               flex={1}
               alignItems="center"
-              height={10}
               position="absolute"
               bottom={10}
               right={0}
               left={0}
             >
-              <AnimatedDotsCarousel
-                length={post.images.length + 1}
-                currentIndex={carouselIndex}
-                maxIndicators={3}
-                interpolateOpacityAndColor={true}
-                activeIndicatorConfig={{
-                  color: colors.primary, // TODO: Maybe tertiary
-                  margin: 3,
-                  opacity: 1,
-                  size: 8,
-                }}
-                inactiveIndicatorConfig={{
-                  color: colors.secondary,
-                  margin: 3,
-                  opacity: 0.5,
-                  size: 8,
-                }}
-                decreasingDots={[
-                  {
-                    config: {
-                      color: colors.secondary,
-                      margin: 3,
-                      opacity: 0.5,
-                      size: 6,
+              <Box backgroundColor="surface" borderRadius="full" padding="xs">
+                <AnimatedDotsCarousel
+                  length={post.images.length + 1}
+                  currentIndex={carouselIndex}
+                  maxIndicators={3}
+                  interpolateOpacityAndColor={true}
+                  activeIndicatorConfig={{
+                    color: colors.primary, // TODO: Maybe tertiary
+                    margin: 3,
+                    opacity: 1,
+                    size: 8,
+                  }}
+                  inactiveIndicatorConfig={{
+                    color: colors.secondary,
+                    margin: 3,
+                    opacity: 0.5,
+                    size: 8,
+                  }}
+                  decreasingDots={[
+                    {
+                      config: {
+                        color: colors.secondary,
+                        margin: 3,
+                        opacity: 0.5,
+                        size: 6,
+                      },
+                      quantity: 1,
                     },
-                    quantity: 1,
-                  },
-                  {
-                    config: {
-                      color: colors.secondary,
-                      margin: 3,
-                      opacity: 0.5,
-                      size: 4,
+                    {
+                      config: {
+                        color: colors.secondary,
+                        margin: 3,
+                        opacity: 0.5,
+                        size: 4,
+                      },
+                      quantity: 1,
                     },
-                    quantity: 1,
-                  },
-                ]}
-              />
+                  ]}
+                />
+              </Box>
             </Box>
           </Box>
         ) : post.exercises.length > 0 ? (

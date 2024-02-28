@@ -2,8 +2,9 @@ import Box from "@/components/Box";
 import PostCard from "@/components/home/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
 import { AnimatedFlashList } from "@shopify/flash-list";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { Animated } from "react-native";
+import { HomeContext } from "@/contexts/navigators";
 
 const mockedPosts = [
   {
@@ -115,13 +116,11 @@ const mockedPosts = [
   },
 ];
 
-type FollowingTabProps = {
-  scrolling: Animated.Value;
-};
-
 const TABVIEW_HEADER_HEIGHT = 100;
 
-export default function FollowingTab({ scrolling }: FollowingTabProps) {
+export default function FollowingTab() {
+  const { scrolling } = useContext(HomeContext);
+
   const postsListRef = useRef(null);
 
   // Scroll to top when the active tab is tapped

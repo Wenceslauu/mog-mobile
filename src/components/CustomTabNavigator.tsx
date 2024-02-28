@@ -63,21 +63,19 @@ function CustomTabBar({
   collapsible,
   ...props
 }: CustomTabBarProps) {
-  const { colors } = useTheme<Theme>();
-
-  let headerTranslateY:
-    | number
-    | Animated.AnimatedInterpolation<string | number> = 0;
-
-  if (scrolling) {
-    headerTranslateY = scrolling.interpolate({
-      inputRange: [0, TABVIEW_HEADER_HEIGHT],
-      outputRange: [0, -TABVIEW_HEADER_HEIGHT],
-      extrapolate: "clamp",
-    });
-  }
-
   if (collapsible) {
+    let headerTranslateY:
+      | number
+      | Animated.AnimatedInterpolation<string | number> = 0;
+
+    if (scrolling) {
+      headerTranslateY = scrolling.interpolate({
+        inputRange: [0, TABVIEW_HEADER_HEIGHT],
+        outputRange: [0, -TABVIEW_HEADER_HEIGHT],
+        extrapolate: "clamp",
+      });
+    }
+
     return (
       <Animated.View
         style={{

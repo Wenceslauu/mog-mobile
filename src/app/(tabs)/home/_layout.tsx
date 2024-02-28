@@ -1,8 +1,8 @@
 import { Link, useNavigation } from "expo-router";
-import { StyleSheet } from "react-native";
+import { Animated, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import CustomTabNavigator from "@/components/CustomTabNavigator";
 import Box from "@/components/Box";
 import { useTheme } from "@shopify/restyle";
@@ -14,6 +14,8 @@ import FollowingTab from "./following";
 export default function HomeLayout() {
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
+
+  const scrolling = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     navigation.setOptions({
@@ -51,9 +53,14 @@ export default function HomeLayout() {
   return (
     <CustomTabNavigator
       tabs={[
-        { name: "following", component: FollowingTab },
+        {
+          name: "following",
+          component: () => <FollowingTab scrolling={scrolling} />,
+        },
         { name: "discover", component: DiscoverTab },
       ]}
+      scrolling={scrolling}
+      collapsible
     />
   );
 }

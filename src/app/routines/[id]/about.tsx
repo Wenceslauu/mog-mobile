@@ -53,7 +53,7 @@ export default function RoutineDetailsAboutTab() {
   const { colors } = useTheme<Theme>();
 
   return (
-    <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
+    <Box flex={1} gap="xs" backgroundColor="surface">
       <ScrollView
         contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
         showsVerticalScrollIndicator={false}

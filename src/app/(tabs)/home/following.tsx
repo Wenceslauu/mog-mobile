@@ -1,8 +1,9 @@
 import Box from "@/components/Box";
 import PostCard from "@/components/home/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
-import { FlashList } from "@shopify/flash-list";
+import { AnimatedFlashList } from "@shopify/flash-list";
 import { useRef } from "react";
+import { Animated } from "react-native";
 
 const mockedPosts = [
   {
@@ -114,23 +115,45 @@ const mockedPosts = [
   },
 ];
 
-export default function FollowingTab() {
+type FollowingTabProps = {
+  scrolling: Animated.Value;
+};
+
+const TABVIEW_HEADER_HEIGHT = 100;
+
+export default function FollowingTab({ scrolling }: FollowingTabProps) {
   const postsListRef = useRef(null);
 
   // Scroll to top when the active tab is tapped
   useScrollToTop(postsListRef);
 
   return (
-    <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
-      <FlashList
+    <Box flex={1} gap="xs" backgroundColor="surface">
+      <AnimatedFlashList
         ref={postsListRef}
         keyboardDismissMode="on-drag"
         data={mockedPosts}
         estimatedItemSize={100}
         renderItem={({ item }) => <PostCard post={item} />}
-        contentContainerStyle={{ paddingBottom: 30 }}
+        contentContainerStyle={{
+          paddingBottom: 30,
+          paddingTop: TABVIEW_HEADER_HEIGHT,
+        }}
         ItemSeparatorComponent={() => <Box height={20} />}
         showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrolling,
+                },
+              },
+            },
+          ],
+          { useNativeDriver: true }
+        )}
       />
     </Box>
   );

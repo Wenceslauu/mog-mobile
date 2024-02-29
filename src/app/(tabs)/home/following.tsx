@@ -5,9 +5,11 @@ import { AnimatedFlashList } from "@shopify/flash-list";
 import { useContext, useRef } from "react";
 import { Animated } from "react-native";
 import { HomeContext } from "@/contexts/navigators";
+import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 
 const mockedPosts = [
   {
+    id: 1,
     author: {
       name: "lui",
       picture: "https://unavatar.io/github/pedroandrade03",
@@ -60,6 +62,7 @@ const mockedPosts = [
     ],
   },
   {
+    id: 2,
     author: {
       name: "wences",
       picture: "https://unavatar.io/github/Wenceslauu",
@@ -115,8 +118,6 @@ const mockedPosts = [
     ],
   },
 ];
-
-const TABVIEW_HEADER_HEIGHT = 100;
 
 export default function FollowingTab() {
   const { scrollY } = useContext(HomeContext);

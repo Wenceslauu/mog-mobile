@@ -49,6 +49,7 @@ const mockedUser = {
   ],
   posts: [
     {
+      id: 1,
       author: {
         name: "wences",
         picture: "https://unavatar.io/github/Wenceslauu",
@@ -64,22 +65,27 @@ const mockedUser = {
       images: [],
       exercises: [
         {
+          exerciseId: 99,
           name: "Dumbbell Bench Press",
           sets: 5,
         },
         {
+          exerciseId: 100,
           name: "Crossover",
           sets: 3,
         },
         {
+          exerciseId: 101,
           name: "Pushups",
           sets: 3,
         },
         {
+          exerciseId: 102,
           name: "Dips",
           sets: 3,
         },
         {
+          exerciseId: 103,
           name: "Chest Press Machine",
           sets: 3,
         },
@@ -96,6 +102,7 @@ const mockedUser = {
       ],
     },
     {
+      id: 2,
       author: {
         name: "wences",
         picture: "https://unavatar.io/github/Wenceslauu",
@@ -111,22 +118,27 @@ const mockedUser = {
       images: [require("../../../assets/images/bench-press.jpg")],
       exercises: [
         {
+          exerciseId: 99,
           name: "Dumbbell Bench Press",
           sets: 5,
         },
         {
+          exerciseId: 100,
           name: "Crossover",
           sets: 3,
         },
         {
+          exerciseId: 101,
           name: "Pushups",
           sets: 3,
         },
         {
+          exerciseId: 102,
           name: "Dips",
           sets: 3,
         },
         {
+          exerciseId: 103,
           name: "Chest Press Machine",
           sets: 3,
         },

@@ -1,5 +1,4 @@
 import Box from "@/components/Box";
-import Text from "@/components/Text";
 import CustomTabNavigator from "@/components/CustomTabNavigator";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,7 +9,6 @@ import { Pressable } from "react-native";
 
 import ExerciseDetailsAboutTab from "./about";
 import ExerciseDetailsChartsTab from "./charts";
-import Button from "@/components/Button";
 import ExerciseDetailsHistoryTab from "./history";
 
 export default function ExerciseDetails() {

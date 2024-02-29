@@ -53,16 +53,12 @@ export default function PostCard({ post }: PostCardProps) {
                     </Text>
                   </Box>
                 </Box>
-                <Pressable>
-                  {({ pressed }) => (
-                    <Ionicons
-                      name="chevron-forward"
-                      size={27}
-                      color={colors.onSurfaceContainer}
-                      style={{ opacity: pressed ? 0.5 : 1 }}
-                    />
-                  )}
-                </Pressable>
+                <Ionicons
+                  name="chevron-forward"
+                  size={27}
+                  color={colors.onSurfaceContainer}
+                  style={{ opacity: pressed ? 0.5 : 1 }}
+                />
               </Box>
               <Text color="onSurface" paddingHorizontal="m">
                 {post.text}

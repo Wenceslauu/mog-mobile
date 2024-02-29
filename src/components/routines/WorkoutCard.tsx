@@ -56,20 +56,20 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                 {workout.exercises.map((exercise, index) => {
                   return (
                     <Box key={index} gap="s">
-                      <Box
-                        flexDirection="row"
-                        justifyContent="space-between"
-                        alignItems="center"
+                      <Link
+                        href={{
+                          pathname: `/exercises/${exercise.exerciseId}`,
+                          params: { name: exercise.name },
+                        }}
+                        asChild
                       >
-                        <Link
-                          href={{
-                            pathname: `/exercises/${exercise.exerciseId}`,
-                            params: { name: exercise.name },
-                          }}
-                          asChild
-                        >
-                          <Pressable>
-                            {({ pressed }) => (
+                        <Pressable>
+                          {({ pressed }) => (
+                            <Box
+                              flexDirection="row"
+                              justifyContent="space-between"
+                              alignItems="center"
+                            >
                               <Box
                                 gap="s"
                                 flexDirection="row"
@@ -88,20 +88,16 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                                   {exercise.name}
                                 </Text>
                               </Box>
-                            )}
-                          </Pressable>
-                        </Link>
-                        <Pressable>
-                          {({ pressed }) => (
-                            <Ionicons
-                              name="chevron-forward"
-                              size={27}
-                              color={colors.onSurfaceContainer}
-                              style={{ opacity: pressed ? 0.5 : 1 }}
-                            />
+                              <Ionicons
+                                name="chevron-forward"
+                                size={27}
+                                color={colors.onSurfaceContainer}
+                                style={{ opacity: pressed ? 0.5 : 1 }}
+                              />
+                            </Box>
                           )}
                         </Pressable>
-                      </Box>
+                      </Link>
                       <Box gap="m">
                         {exercise.sets.map((set, index) => {
                           return (

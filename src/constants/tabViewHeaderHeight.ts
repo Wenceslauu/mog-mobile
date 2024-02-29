@@ -1,0 +1,3 @@
+const TABVIEW_HEADER_HEIGHT = 90;
+
+export default TABVIEW_HEADER_HEIGHT;

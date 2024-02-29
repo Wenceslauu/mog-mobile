@@ -7,6 +7,7 @@ import Text from "./Text";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Box from "./Box";
+import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -45,8 +46,6 @@ export default function CustomTabNavigator({
     </Tab.Navigator>
   );
 }
-
-const TABVIEW_HEADER_HEIGHT = 100;
 
 type CustomTabBarProps = MaterialTopTabBarProps & {
   scrollY?: Animated.Value;
@@ -95,6 +94,14 @@ function CustomTabBar({
           left: 0,
           right: 0,
           zIndex: 1,
+          elevation: 1,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
         }}
       >
         {state.routes.map((route, index) => {

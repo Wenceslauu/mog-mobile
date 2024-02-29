@@ -13,6 +13,7 @@ import Carousel from "react-native-reanimated-carousel";
 import { useState } from "react";
 import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
 import ExerciseLogPreviewList from "./ExerciseLogPreviewList";
+import { Link } from "expo-router";
 
 type PostCardProps = {
   post: Post;
@@ -26,67 +27,80 @@ export default function PostCard({ post }: PostCardProps) {
 
   return (
     <Box gap="m">
-      <Box
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        paddingHorizontal="m"
+      <Link
+        href={{
+          pathname: `/posts/${post.id}`,
+        }}
+        asChild
       >
-        <Box flexDirection="row" gap="s">
-          <Avatar source={post.author.picture} size="m" />
-          <Box>
-            <Text variant="title" color="onSurface">
-              {post.author.name}
-            </Text>
-            <Text variant="label" color="onSurface">
-              {dayjs(post.timestamp).fromNow()}
-            </Text>
-          </Box>
-        </Box>
         <Pressable>
           {({ pressed }) => (
-            <Ionicons
-              name="chevron-forward"
-              size={27}
-              color={colors.onSurfaceContainer}
-              style={{ opacity: pressed ? 0.5 : 1 }}
-            />
+            <Box gap="m" opacity={pressed ? 0.5 : 1}>
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                paddingHorizontal="m"
+              >
+                <Box flexDirection="row" gap="s">
+                  <Avatar source={post.author.picture} size="m" />
+                  <Box>
+                    <Text variant="title" color="onSurface">
+                      {post.author.name}
+                    </Text>
+                    <Text variant="label" color="onSurface">
+                      {dayjs(post.timestamp).fromNow()}
+                    </Text>
+                  </Box>
+                </Box>
+                <Pressable>
+                  {({ pressed }) => (
+                    <Ionicons
+                      name="chevron-forward"
+                      size={27}
+                      color={colors.onSurfaceContainer}
+                      style={{ opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              </Box>
+              <Text color="onSurface" paddingHorizontal="m">
+                {post.text}
+              </Text>
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                paddingHorizontal="m"
+              >
+                <Box>
+                  <Text variant="label" color="onSurface">
+                    Duration
+                  </Text>
+                  <Text color="onSurface">{post.duration}</Text>
+                </Box>
+                <Box>
+                  <Text variant="label" color="onSurface">
+                    Volume
+                  </Text>
+                  <Text color="onSurface">{post.volume}</Text>
+                </Box>
+                <Box>
+                  <Text variant="label" color="onSurface">
+                    Sets
+                  </Text>
+                  <Text color="onSurface">{post.sets}</Text>
+                </Box>
+                <Box>
+                  <Text variant="label" color="onSurface">
+                    Achievements
+                  </Text>
+                  <Text color="onSurface">{post.achievements}</Text>
+                </Box>
+              </Box>
+            </Box>
           )}
         </Pressable>
-      </Box>
-      <Text color="onSurface" paddingHorizontal="m">
-        {post.text}
-      </Text>
-      <Box
-        flexDirection="row"
-        justifyContent="space-between"
-        paddingHorizontal="m"
-      >
-        <Box>
-          <Text variant="label" color="onSurface">
-            Duration
-          </Text>
-          <Text color="onSurface">{post.duration}</Text>
-        </Box>
-        <Box>
-          <Text variant="label" color="onSurface">
-            Volume
-          </Text>
-          <Text color="onSurface">{post.volume}</Text>
-        </Box>
-        <Box>
-          <Text variant="label" color="onSurface">
-            Sets
-          </Text>
-          <Text color="onSurface">{post.sets}</Text>
-        </Box>
-        <Box>
-          <Text variant="label" color="onSurface">
-            Achievements
-          </Text>
-          <Text color="onSurface">{post.achievements}</Text>
-        </Box>
-      </Box>
+      </Link>
       <Box backgroundColor="surfaceContainer" position="relative">
         {post.images.length > 0 ? (
           <Box>
@@ -95,6 +109,7 @@ export default function PostCard({ post }: PostCardProps) {
               height={300}
               loop={false}
               onProgressChange={(_, absoluteProgress) => {
+                // React batch state updates, therefore only one rerender will be triggered
                 if (Math.round(absoluteProgress) !== carouselIndex) {
                   setCarouselIndex(Math.round(absoluteProgress));
                 }
@@ -124,7 +139,7 @@ export default function PostCard({ post }: PostCardProps) {
                   maxIndicators={3}
                   interpolateOpacityAndColor={true}
                   activeIndicatorConfig={{
-                    color: colors.primary, // TODO: Maybe tertiary
+                    color: colors.primary,
                     margin: 3,
                     opacity: 1,
                     size: 8,

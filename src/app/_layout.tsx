@@ -70,6 +70,7 @@ function RootLayoutNav() {
           name="exercises/[id]"
           options={{ title: "Exercise Details" }}
         />
+        <Stack.Screen name="posts/[id]" options={{ title: "Post Details" }} />
       </Stack>
     </Providers>
   );

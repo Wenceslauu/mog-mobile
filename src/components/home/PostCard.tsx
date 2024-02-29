@@ -12,14 +12,11 @@ import PostComment from "./PostComment";
 import Carousel from "react-native-reanimated-carousel";
 import { useState } from "react";
 import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
-import * as Haptics from "expo-haptics";
 import ExerciseLogPreviewList from "./ExerciseLogPreviewList";
 
 type PostCardProps = {
   post: Post;
 };
-
-const EXERCISE_LOG_PREVIEW_LIST_LIMIT = 4;
 
 export default function PostCard({ post }: PostCardProps) {
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -96,8 +93,12 @@ export default function PostCard({ post }: PostCardProps) {
             <Carousel
               width={windowWidth}
               height={300}
-              // TODO: Animate the navigation dots with onProgressChange?
-              onSnapToItem={setCarouselIndex}
+              loop={false}
+              onProgressChange={(_, absoluteProgress) => {
+                if (Math.round(absoluteProgress) !== carouselIndex) {
+                  setCarouselIndex(Math.round(absoluteProgress));
+                }
+              }}
               data={post.images.concat({ exercises: post.exercises })}
               renderItem={({ item, index }) => {
                 if (index === post.images.length) {

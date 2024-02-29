@@ -119,7 +119,7 @@ const mockedPosts = [
 const TABVIEW_HEADER_HEIGHT = 100;
 
 export default function FollowingTab() {
-  const { scrolling } = useContext(HomeContext);
+  const { scrollY } = useContext(HomeContext);
 
   const postsListRef = useRef(null);
 
@@ -146,7 +146,7 @@ export default function FollowingTab() {
             {
               nativeEvent: {
                 contentOffset: {
-                  y: scrolling,
+                  y: scrollY,
                 },
               },
             },

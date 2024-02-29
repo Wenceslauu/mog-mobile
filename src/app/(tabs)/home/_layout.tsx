@@ -16,7 +16,8 @@ export default function HomeLayout() {
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
-  const scrolling = useRef(new Animated.Value(0)).current;
+  // There's no need to update the ref value, pass the ref.current
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     navigation.setOptions({
@@ -52,7 +53,7 @@ export default function HomeLayout() {
   }, [navigation, colors]);
 
   return (
-    <HomeContext.Provider value={{ scrolling }}>
+    <HomeContext.Provider value={{ scrollY }}>
       <CustomTabNavigator
         tabs={[
           {
@@ -61,7 +62,7 @@ export default function HomeLayout() {
           },
           { name: "discover", component: DiscoverTab },
         ]}
-        scrolling={scrolling}
+        scrollY={scrollY}
         collapsible
       />
     </HomeContext.Provider>

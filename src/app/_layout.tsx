@@ -28,10 +28,15 @@ export default function RootLayout() {
     if (error) throw error;
   }, [error]);
 
+  // TODO: tentar colocar o useNavigationState aqui
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
+
+    // if (loaded && rootNavigationState?.key) {
+    //  SplashScreen.hideAsync();
+    // }
   }, [loaded]);
 
   if (!loaded) {
@@ -60,6 +65,10 @@ function RootLayoutNav() {
         <Stack.Screen
           name="routines/[id]"
           options={{ title: "Routine Details" }}
+        />
+        <Stack.Screen
+          name="exercises/[id]"
+          options={{ title: "Exercise Details" }}
         />
       </Stack>
     </Providers>

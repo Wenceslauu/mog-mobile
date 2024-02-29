@@ -16,14 +16,14 @@ type CustomTabNavigatorProps = {
     component: any;
   }[];
   initialRouteName?: string;
-  scrolling?: Animated.Value;
+  scrollY?: Animated.Value;
   collapsible?: boolean;
 };
 
 export default function CustomTabNavigator({
   tabs,
   initialRouteName,
-  scrolling,
+  scrollY,
   collapsible,
 }: CustomTabNavigatorProps) {
   const layout = useWindowDimensions();
@@ -31,11 +31,7 @@ export default function CustomTabNavigator({
   return (
     <Tab.Navigator
       tabBar={(props) => (
-        <CustomTabBar
-          {...props}
-          scrolling={scrolling}
-          collapsible={collapsible}
-        />
+        <CustomTabBar {...props} scrollY={scrollY} collapsible={collapsible} />
       )}
       style={{ position: collapsible ? "relative" : undefined }}
       initialRouteName={initialRouteName}
@@ -53,26 +49,36 @@ export default function CustomTabNavigator({
 const TABVIEW_HEADER_HEIGHT = 100;
 
 type CustomTabBarProps = MaterialTopTabBarProps & {
-  scrolling?: Animated.Value;
+  scrollY?: Animated.Value;
   collapsible?: boolean;
 };
 
 function CustomTabBar({
   state,
-  scrolling,
+  scrollY,
   collapsible,
   ...props
 }: CustomTabBarProps) {
   if (collapsible) {
-    let headerTranslateY:
-      | number
-      | Animated.AnimatedInterpolation<string | number> = 0;
+    let headerTranslate:
+      | Animated.AnimatedDiffClamp<string | number>
+      | number = 0;
 
-    if (scrolling) {
-      headerTranslateY = scrolling.interpolate({
-        inputRange: [0, TABVIEW_HEADER_HEIGHT],
-        outputRange: [0, -TABVIEW_HEADER_HEIGHT],
-        extrapolate: "clamp",
+    if (scrollY) {
+      // Prevent issues with the bounce effect on iOS
+      const clampedScrollY = scrollY.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+        extrapolateLeft: "clamp",
+      });
+
+      headerTranslate = Animated.diffClamp(
+        clampedScrollY,
+        0,
+        TABVIEW_HEADER_HEIGHT
+      ).interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -1],
       });
     }
 
@@ -82,8 +88,8 @@ function CustomTabBar({
           flexDirection: "row",
           gap: 8,
           padding: 16,
-          transform: [{ translateY: headerTranslateY }],
-          backgroundColor: "red",
+          transform: [{ translateY: headerTranslate }],
+          // backgroundColor: "red",
           position: "absolute",
           top: 0,
           left: 0,

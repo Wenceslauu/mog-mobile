@@ -32,3 +32,10 @@ export interface ExerciseLogPreview {
   name: string;
   sets: number;
 }
+
+export interface ExerciseLog {
+  exerciseId: number;
+  image?: string;
+  name: string;
+  sets: { reps: number; weight: number }[];
+}

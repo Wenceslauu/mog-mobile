@@ -7,7 +7,7 @@ import dayjs from "@/lib/dayjs";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
 import { useLocalSearchParams } from "expo-router";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Pressable, useWindowDimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { Image } from "expo-image";
@@ -126,8 +126,6 @@ const mockedPost = {
 };
 
 export default function PostDetails() {
-  const [carouselIndex, setCarouselIndex] = useState(0);
-
   const { id } = useLocalSearchParams();
 
   const { colors } = useTheme<Theme>();
@@ -150,6 +148,8 @@ export default function PostDetails() {
       data={mockedPost.exercises}
       estimatedItemSize={averageHeight} // If anything default to 252
       ListHeaderComponent={() => {
+        const [carouselIndex, setCarouselIndex] = useState(0);
+
         return (
           <Box gap="m" paddingTop="m">
             <Box

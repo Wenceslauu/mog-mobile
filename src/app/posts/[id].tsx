@@ -165,7 +165,7 @@ export default function PostDetails() {
                     {mockedPost.author.name}
                   </Text>
                   <Text variant="label" color="onSurface">
-                    {dayjs(mockedPost.timestamp).fromNow()}
+                    {dayjs(mockedPost.timestamp).format("LLLL")}
                   </Text>
                 </Box>
               </Box>

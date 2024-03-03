@@ -18,6 +18,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
 
 const mockedPost = {
+  id: 1,
   author: {
     name: "wences",
     picture: "https://unavatar.io/github/Wenceslauu",
@@ -434,7 +435,7 @@ export default function PostDetails() {
         showsVerticalScrollIndicator={false}
       />
       <CommentsBottomSheetModal
-        comments={mockedPost.comments}
+        commentSectionId={mockedPost.id}
         ref={bottomSheetModalRef}
       />
     </>

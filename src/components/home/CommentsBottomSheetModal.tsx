@@ -12,19 +12,95 @@ import PostComment from "./PostComment";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import { StyleSheet, useWindowDimensions } from "react-native";
-import { ForwardedRef, forwardRef } from "react";
-import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import { Comment } from "@/types/WorkoutLog";
+import { forwardRef } from "react";
 import Constants from "expo-constants";
 
 type CommentsBottomSheetModalProps = {
-  comments: Comment[];
+  commentSectionId: number | null;
+  onCloseCommentSection?: () => void;
 };
 
 export default forwardRef(function CommentsBottomSheetModal(
-  { comments }: CommentsBottomSheetModalProps,
-  ref: ForwardedRef<BottomSheetModalMethods>
+  { commentSectionId, onCloseCommentSection }: CommentsBottomSheetModalProps,
+  ref: any
 ) {
+  const { bottomSheetModalRef, bottomSheetTextInputRef } = ref;
+
+  const mockedComments =
+    commentSectionId === null
+      ? []
+      : commentSectionId === 1
+      ? [
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+          {
+            author: {
+              name: "lui",
+              picture: "https://unavatar.io/github/pedroandrade03",
+            },
+            text: "ta maluco",
+            timestamp: new Date(2024, 0, 23, 20),
+          },
+        ]
+      : commentSectionId === 2
+      ? [
+          {
+            author: {
+              name: "wences",
+              picture: "https://unavatar.io/github/Wenceslauu",
+            },
+            text: "tu ta treinando errado",
+            timestamp: new Date(2024, 0, 17, 20),
+          },
+        ]
+      : [];
+
   const { colors } = useTheme<Theme>();
 
   const windowHeight = useWindowDimensions().height;
@@ -32,7 +108,7 @@ export default forwardRef(function CommentsBottomSheetModal(
   return (
     // TODO: App crash randomly on scroll when input is focused
     <BottomSheetModal
-      ref={ref}
+      ref={bottomSheetModalRef}
       index={0}
       snapPoints={["50%", windowHeight - Constants.statusBarHeight]}
       backgroundStyle={{
@@ -48,7 +124,13 @@ export default forwardRef(function CommentsBottomSheetModal(
       android_keyboardInputMode="adjustResize"
       keyboardBehavior="extend"
       keyboardBlurBehavior="restore"
-      footerComponent={(props) => <CustomBottomSheetModalFooter {...props} />}
+      footerComponent={(props) => (
+        <CustomBottomSheetModalFooter
+          {...props}
+          bottomSheetTextInputRef={bottomSheetTextInputRef}
+        />
+      )}
+      onDismiss={onCloseCommentSection}
     >
       <Box
         alignItems="center"
@@ -61,11 +143,11 @@ export default forwardRef(function CommentsBottomSheetModal(
           Comments
         </Text>
         <Text variant="body" color="onSurfaceContainer">
-          ({comments.length})
+          ({mockedComments.length})
         </Text>
       </Box>
       <BottomSheetFlatList
-        data={comments}
+        data={mockedComments}
         renderItem={({ item }) => <PostComment comment={item} />}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ gap: 16 }}
@@ -76,7 +158,10 @@ export default forwardRef(function CommentsBottomSheetModal(
 
 function CustomBottomSheetModalFooter({
   animatedFooterPosition,
-}: BottomSheetFooterProps) {
+  bottomSheetTextInputRef,
+}: BottomSheetFooterProps & {
+  bottomSheetTextInputRef: any;
+}) {
   const { colors } = useTheme<Theme>();
 
   const styles = createStyles(colors);
@@ -92,6 +177,7 @@ function CustomBottomSheetModalFooter({
       >
         <Avatar source="https://unavatar.io/github/Wenceslauu" size={"s"} />
         <BottomSheetTextInput
+          ref={bottomSheetTextInputRef}
           placeholder="Add a comment..."
           onChangeText={(text) => console.log(text)}
           style={styles.input}

@@ -2,10 +2,12 @@ import Box from "@/components/Box";
 import PostCard from "@/components/home/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
 import { AnimatedFlashList } from "@shopify/flash-list";
-import { useContext, useRef } from "react";
-import { Animated } from "react-native";
+import { useCallback, useContext, useRef, useState } from "react";
+import { Animated, TextInput } from "react-native";
 import { HomeContext } from "@/contexts/navigators";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
+import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
+import { BottomSheetModal, ANIMATION_DURATION } from "@gorhom/bottom-sheet";
 
 const mockedPosts = [
   {
@@ -120,6 +122,8 @@ const mockedPosts = [
 ];
 
 export default function FollowingTab() {
+  const [commentSectionId, setCommentSectionId] = useState<number | null>(null);
+
   const { scrollY } = useContext(HomeContext);
 
   const postsListRef = useRef(null);
@@ -127,34 +131,71 @@ export default function FollowingTab() {
   // Scroll to top when the active tab is tapped
   useScrollToTop(postsListRef);
 
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const bottomSheetTextInputRef = useRef<TextInput>(null);
+
+  const openCommentSection = useCallback((postId: number) => {
+    setCommentSectionId(postId);
+
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const onCloseCommentSection = useCallback(() => {
+    setCommentSectionId(null);
+  }, []);
+
+  const focusCommentSectionTextInput = useCallback((postId: number) => {
+    openCommentSection(postId);
+
+    setTimeout(() => {
+      bottomSheetTextInputRef.current?.focus();
+    }, ANIMATION_DURATION);
+  }, []);
+
   return (
-    <Box flex={1} gap="xs" backgroundColor="surface">
-      <AnimatedFlashList
-        ref={postsListRef}
-        keyboardDismissMode="on-drag"
-        data={mockedPosts}
-        estimatedItemSize={100}
-        renderItem={({ item }) => <PostCard post={item} />}
-        contentContainerStyle={{
-          paddingBottom: 30,
-          paddingTop: TABVIEW_HEADER_HEIGHT,
-        }}
-        ItemSeparatorComponent={() => <Box height={20} />}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={Animated.event(
-          [
-            {
-              nativeEvent: {
-                contentOffset: {
-                  y: scrollY,
+    <>
+      <Box flex={1} gap="xs" backgroundColor="surface">
+        <AnimatedFlashList
+          ref={postsListRef}
+          keyboardDismissMode="on-drag"
+          data={mockedPosts}
+          estimatedItemSize={100}
+          renderItem={({ item }) => (
+            <PostCard
+              post={item}
+              openCommentSection={() => openCommentSection(item.id)}
+              focusCommentSectionTextInput={() =>
+                focusCommentSectionTextInput(item.id)
+              }
+            />
+          )}
+          contentContainerStyle={{
+            paddingBottom: 30,
+            paddingTop: TABVIEW_HEADER_HEIGHT,
+          }}
+          ItemSeparatorComponent={() => <Box height={20} />}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: {
+                  contentOffset: {
+                    y: scrollY,
+                  },
                 },
               },
-            },
-          ],
-          { useNativeDriver: true }
-        )}
+            ],
+            { useNativeDriver: true }
+          )}
+        />
+      </Box>
+      <CommentsBottomSheetModal
+        commentSectionId={commentSectionId}
+        onCloseCommentSection={onCloseCommentSection}
+        ref={{ bottomSheetModalRef, bottomSheetTextInputRef } as any}
       />
-    </Box>
+    </>
   );
 }

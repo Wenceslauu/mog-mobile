@@ -17,9 +17,15 @@ import { Link } from "expo-router";
 
 type PostCardProps = {
   post: Post;
+  openCommentSection: () => void;
+  focusCommentSectionTextInput: () => void;
 };
 
-export default function PostCard({ post }: PostCardProps) {
+export default function PostCard({
+  post,
+  openCommentSection,
+  focusCommentSectionTextInput,
+}: PostCardProps) {
   const [carouselIndex, setCarouselIndex] = useState(0);
 
   const { colors } = useTheme<Theme>();
@@ -212,7 +218,7 @@ export default function PostCard({ post }: PostCardProps) {
               />
             )}
           </Pressable>
-          <Pressable>
+          <Pressable onPress={focusCommentSectionTextInput}>
             {({ pressed }) => (
               <Ionicons
                 name="chatbubble-outline"
@@ -234,9 +240,13 @@ export default function PostCard({ post }: PostCardProps) {
           )}
         </Pressable>
       </Box>
-      <Box paddingHorizontal="m">
-        <PostComment comment={post.comments[0]} />
-      </Box>
+      <Pressable onPress={openCommentSection}>
+        {({ pressed }) => (
+          <Box paddingHorizontal="m" opacity={pressed ? 0.5 : 1}>
+            <PostComment comment={post.comments[0]} />
+          </Box>
+        )}
+      </Pressable>
     </Box>
   );
 }

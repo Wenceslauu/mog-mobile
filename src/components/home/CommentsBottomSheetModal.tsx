@@ -2,8 +2,8 @@ import {
   BottomSheetModal,
   BottomSheetFlatList,
   BottomSheetTextInput,
-  // BottomSheetFooter,
-  // BottomSheetFooterProps,
+  BottomSheetFooter,
+  BottomSheetFooterProps,
 } from "@gorhom/bottom-sheet";
 import Avatar from "../Avatar";
 import Box from "../Box";
@@ -27,8 +27,6 @@ export default forwardRef(function CommentsBottomSheetModal(
 ) {
   const { colors } = useTheme<Theme>();
 
-  const styles = createStyles(colors);
-
   const windowHeight = useWindowDimensions().height;
 
   return (
@@ -45,10 +43,12 @@ export default forwardRef(function CommentsBottomSheetModal(
       }}
       style={{
         paddingHorizontal: 16,
+        paddingBottom: 16,
       }}
-      keyboardBlurBehavior="restore"
+      android_keyboardInputMode="adjustResize"
       keyboardBehavior="extend"
-      // footerComponent={(props) => <CustomBottomSheetModalFooter {...props} />}
+      keyboardBlurBehavior="restore"
+      footerComponent={(props) => <CustomBottomSheetModalFooter {...props} />}
     >
       <Box
         alignItems="center"
@@ -70,7 +70,26 @@ export default forwardRef(function CommentsBottomSheetModal(
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ gap: 16 }}
       />
-      <Box flexDirection="row" gap="s" paddingTop="m">
+    </BottomSheetModal>
+  );
+});
+
+function CustomBottomSheetModalFooter({
+  animatedFooterPosition,
+}: BottomSheetFooterProps) {
+  const { colors } = useTheme<Theme>();
+
+  const styles = createStyles(colors);
+
+  return (
+    <BottomSheetFooter animatedFooterPosition={animatedFooterPosition}>
+      <Box
+        flexDirection="row"
+        gap="s"
+        paddingTop="s"
+        paddingBottom="s"
+        backgroundColor="surfaceContainer"
+      >
         <Avatar source="https://unavatar.io/github/Wenceslauu" size={"s"} />
         <BottomSheetTextInput
           placeholder="Add a comment..."
@@ -79,48 +98,12 @@ export default forwardRef(function CommentsBottomSheetModal(
           selectionColor={colors.primary}
         />
       </Box>
-    </BottomSheetModal>
+    </BottomSheetFooter>
   );
-});
-
-// function CustomBottomSheetModalFooter({
-//   animatedFooterPosition,
-// }: BottomSheetFooterProps) {
-//   const { colors } = useTheme<Theme>();
-
-//   const styles = createStyles(colors);
-//   return (
-//     <BottomSheetFooter
-//       // we pass the bottom safe inset
-//       // bottomInset={bottomSafeArea}
-//       // we pass the provided `animatedFooterPosition`
-//       animatedFooterPosition={animatedFooterPosition}
-//     >
-//       <Box
-//         flexDirection="row"
-//         gap="s"
-//         paddingTop="m"
-//         backgroundColor="surfaceContainer"
-//       >
-//         <Avatar source="https://unavatar.io/github/Wenceslauu" size={"s"} />
-//         <BottomSheetTextInput
-//           placeholder="Add a comment..."
-//           onChangeText={(text) => console.log(text)}
-//           style={styles.input}
-//           selectionColor={colors.primary}
-//         />
-//       </Box>
-//     </BottomSheetFooter>
-//   );
-// }
+}
 
 const createStyles = (colors: Theme["colors"]) => {
   return StyleSheet.create({
-    inputIcon: {
-      position: "absolute",
-      top: 10,
-      left: 10,
-    },
     input: {
       flex: 1,
       height: 50,
@@ -129,7 +112,6 @@ const createStyles = (colors: Theme["colors"]) => {
       borderColor: colors.outline,
       borderWidth: 1,
       borderRadius: 1000,
-      marginBottom: 32,
     },
   });
 };

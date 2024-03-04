@@ -9,3 +9,13 @@ export interface Exercise {
   };
   targetMuscle: string;
 }
+
+export interface ExerciseLog {
+  workoutLogId: number;
+  workout: string;
+  date: Date;
+  sets: {
+    reps: number;
+    weight: number;
+  }[];
+}

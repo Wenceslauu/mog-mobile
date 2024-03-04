@@ -442,7 +442,7 @@ export default function PostDetails() {
           focusCommentSectionTextInput,
         })}
         ListHeaderComponentStyle={{ paddingBottom: 16 }}
-        renderItem={({ item }) => <ExerciseLogCard exercise={item} />}
+        renderItem={({ item }) => <ExerciseLogCard exerciseLog={item} />}
         ItemSeparatorComponent={() => <Box height={8} />}
         showsVerticalScrollIndicator={false}
       />

@@ -5,9 +5,10 @@ import { Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
 import { Image } from "expo-image";
-import { ExerciseLog } from "@/types/WorkoutLog";
+import { ExerciseLog } from "@/types/Exercise";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
+import dayjs from "@/lib/dayjs";
 
 type ExerciseLogCardProps = {
   exerciseLog: ExerciseLog;
@@ -20,8 +21,7 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
     <Box gap="s" padding="m" backgroundColor="surfaceContainer">
       <Link
         href={{
-          pathname: `/exercises/${exerciseLog.exerciseId}`,
-          params: { name: exerciseLog.name },
+          pathname: `/workout-logs/${exerciseLog.workoutLogId}`,
         }}
         asChild
       >
@@ -32,22 +32,12 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Box
-                gap="s"
-                flexDirection="row"
-                alignItems="center"
-                opacity={pressed ? 0.5 : 1}
-              >
-                <Image
-                  source={exerciseLog.image}
-                  placeholder={blurhash}
-                  style={{
-                    width: 50,
-                    height: 50,
-                  }}
-                />
+              <Box gap="s" opacity={pressed ? 0.5 : 1}>
                 <Text variant="title" color="onSurface">
-                  {exerciseLog.name}
+                  {exerciseLog.workout}
+                </Text>
+                <Text variant="label" color="onSurface">
+                  {dayjs(exerciseLog.date).format("L")}
                 </Text>
               </Box>
               <Ionicons

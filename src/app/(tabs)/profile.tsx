@@ -11,6 +11,8 @@ import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 import PostCard from "@/components/home/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
+import useCommentSection from "@/hooks/useCommentSection";
+import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
 
 const mockedUser = {
   picture: "https://unavatar.io/github/Wenceslauu",
@@ -166,6 +168,15 @@ export default function ProfileTab() {
   // Scroll to top when the active tab is tapped
   useScrollToTop(postsListRef);
 
+  const {
+    commentSectionId,
+    bottomSheetModalRef,
+    bottomSheetTextInputRef,
+    openCommentSection,
+    onCloseCommentSection,
+    focusCommentSectionTextInput,
+  } = useCommentSection();
+
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -214,81 +225,96 @@ export default function ProfileTab() {
   }, [navigation, colors]);
 
   return (
-    <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">
-      <FlashList
-        ref={postsListRef}
-        keyboardDismissMode="on-drag"
-        data={mockedUser.posts}
-        estimatedItemSize={100}
-        ListHeaderComponent={() => (
-          <Box gap="m">
-            <Box
-              flexDirection="row"
-              gap="l"
-              paddingHorizontal="m"
-              alignItems="center"
-            >
-              <Avatar size="l" source={mockedUser.picture} />
-              <Box gap="s">
-                <Text variant="headline" color="onSurface">
-                  {mockedUser.name}
-                </Text>
-                <Box flexDirection="row" justifyContent="space-around">
-                  <Box alignItems="center">
-                    <Text variant="label" color="onSurface">
-                      treinos
-                    </Text>
-                    <Text variant="body" color="onSurface">
-                      {mockedUser.workouts}
-                    </Text>
-                  </Box>
-                  <Box alignItems="center">
-                    <Text variant="label" color="onSurface">
-                      seguidores
-                    </Text>
-                    <Text variant="body" color="onSurface">
-                      {mockedUser.followers}
-                    </Text>
-                  </Box>
-                  <Box alignItems="center">
-                    <Text variant="label" color="onSurface">
-                      treinos
-                    </Text>
-                    <Text variant="body" color="onSurface">
-                      {mockedUser.following}
-                    </Text>
+    <>
+      <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">
+        <FlashList
+          ref={postsListRef}
+          keyboardDismissMode="on-drag"
+          data={mockedUser.posts}
+          estimatedItemSize={100}
+          ListHeaderComponent={() => (
+            <Box gap="m">
+              <Box
+                flexDirection="row"
+                gap="l"
+                paddingHorizontal="m"
+                alignItems="center"
+              >
+                <Avatar size="l" source={mockedUser.picture} />
+                <Box gap="s">
+                  <Text variant="headline" color="onSurface">
+                    {mockedUser.name}
+                  </Text>
+                  <Box flexDirection="row" justifyContent="space-around">
+                    <Box alignItems="center">
+                      <Text variant="label" color="onSurface">
+                        treinos
+                      </Text>
+                      <Text variant="body" color="onSurface">
+                        {mockedUser.workouts}
+                      </Text>
+                    </Box>
+                    <Box alignItems="center">
+                      <Text variant="label" color="onSurface">
+                        seguidores
+                      </Text>
+                      <Text variant="body" color="onSurface">
+                        {mockedUser.followers}
+                      </Text>
+                    </Box>
+                    <Box alignItems="center">
+                      <Text variant="label" color="onSurface">
+                        treinos
+                      </Text>
+                      <Text variant="body" color="onSurface">
+                        {mockedUser.following}
+                      </Text>
+                    </Box>
                   </Box>
                 </Box>
               </Box>
-            </Box>
-            <Box gap="s">
+              <Box gap="s">
+                <Text variant="title" color="onSurface" paddingHorizontal="m">
+                  Rotinas
+                </Text>
+                <FlashList
+                  horizontal={true}
+                  keyboardDismissMode="on-drag"
+                  data={mockedUser.routines}
+                  estimatedItemSize={300}
+                  renderItem={({ item }) => (
+                    <RoutineCard routine={item} isListedHorizontally />
+                  )}
+                  contentContainerStyle={{ paddingHorizontal: 16 }}
+                  ItemSeparatorComponent={() => <Box width={20} />}
+                  showsHorizontalScrollIndicator={false}
+                />
+              </Box>
               <Text variant="title" color="onSurface" paddingHorizontal="m">
-                Rotinas
+                Posts
               </Text>
-              <FlashList
-                horizontal={true}
-                keyboardDismissMode="on-drag"
-                data={mockedUser.routines}
-                estimatedItemSize={300}
-                renderItem={({ item }) => (
-                  <RoutineCard routine={item} isListedHorizontally />
-                )}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                ItemSeparatorComponent={() => <Box width={20} />}
-                showsHorizontalScrollIndicator={false}
-              />
             </Box>
-            <Text variant="title" color="onSurface" paddingHorizontal="m">
-              Posts
-            </Text>
-          </Box>
-        )}
-        ListHeaderComponentStyle={{ paddingBottom: 8 }}
-        renderItem={({ item }) => <PostCard post={item} />}
-        contentContainerStyle={{ paddingBottom: 30 }}
-        ItemSeparatorComponent={() => <Box height={20} />}
-        showsVerticalScrollIndicator={false}
+          )}
+          ListHeaderComponentStyle={{ paddingBottom: 8 }}
+          renderItem={({ item }) => (
+            <PostCard
+              post={item}
+              openCommentSection={() => openCommentSection(item.id)}
+              focusCommentSectionTextInput={() =>
+                focusCommentSectionTextInput(item.id)
+              }
+            />
+          )}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          ItemSeparatorComponent={() => <Box height={20} />}
+          showsVerticalScrollIndicator={false}
+        />
+      </Box>
+      <CommentsBottomSheetModal
+        commentSectionId={commentSectionId}
+        onCloseCommentSection={onCloseCommentSection}
+        ref={{ bottomSheetModalRef, bottomSheetTextInputRef } as any}
       />
-    </Box>
+    </>
   );
 }

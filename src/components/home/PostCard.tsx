@@ -192,13 +192,17 @@ export default function PostCard({
             ? "1 like"
             : post.likes + " likes"}
         </Text>
-        <Text color="onSurface">
-          {post.comments.length === 0
-            ? ""
-            : post.comments.length === 1
-            ? "1 comment"
-            : post.comments.length + " comments"}
-        </Text>
+        <Pressable onPress={openCommentSection}>
+          {({ pressed }) => (
+            <Text color="onSurface" opacity={pressed ? 0.5 : 1}>
+              {post.comments.length === 0
+                ? ""
+                : post.comments.length === 1
+                ? "1 comment"
+                : post.comments.length + " comments"}
+            </Text>
+          )}
+        </Pressable>
       </Box>
       <Box
         flexDirection="row"

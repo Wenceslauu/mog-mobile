@@ -2,12 +2,12 @@ import Box from "@/components/Box";
 import PostCard from "@/components/home/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
 import { AnimatedFlashList } from "@shopify/flash-list";
-import { useCallback, useContext, useRef, useState } from "react";
-import { Animated, TextInput } from "react-native";
+import { useContext, useRef } from "react";
+import { Animated } from "react-native";
 import { HomeContext } from "@/contexts/navigators";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
-import { BottomSheetModal, ANIMATION_DURATION } from "@gorhom/bottom-sheet";
+import useCommentSection from "@/hooks/useCommentSection";
 
 const mockedPosts = [
   {
@@ -122,8 +122,6 @@ const mockedPosts = [
 ];
 
 export default function FollowingTab() {
-  const [commentSectionId, setCommentSectionId] = useState<number | null>(null);
-
   const { scrollY } = useContext(HomeContext);
 
   const postsListRef = useRef(null);
@@ -131,27 +129,14 @@ export default function FollowingTab() {
   // Scroll to top when the active tab is tapped
   useScrollToTop(postsListRef);
 
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  const bottomSheetTextInputRef = useRef<TextInput>(null);
-
-  const openCommentSection = useCallback((postId: number) => {
-    setCommentSectionId(postId);
-
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  const onCloseCommentSection = useCallback(() => {
-    setCommentSectionId(null);
-  }, []);
-
-  const focusCommentSectionTextInput = useCallback((postId: number) => {
-    openCommentSection(postId);
-
-    setTimeout(() => {
-      bottomSheetTextInputRef.current?.focus();
-    }, ANIMATION_DURATION);
-  }, []);
+  const {
+    commentSectionId,
+    bottomSheetModalRef,
+    bottomSheetTextInputRef,
+    openCommentSection,
+    onCloseCommentSection,
+    focusCommentSectionTextInput,
+  } = useCommentSection();
 
   return (
     <>

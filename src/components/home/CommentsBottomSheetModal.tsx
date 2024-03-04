@@ -107,6 +107,7 @@ export default forwardRef(function CommentsBottomSheetModal(
 
   return (
     // TODO: App crash randomly on scroll when input is focused
+    // TODO: Create custom bottom sheet component
     <BottomSheetModal
       ref={bottomSheetModalRef}
       index={0}

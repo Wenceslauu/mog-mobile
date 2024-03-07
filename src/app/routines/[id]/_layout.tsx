@@ -66,7 +66,7 @@ export default function RoutineDetails() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Button variant="primary">Start Routine</Button>
+        <Button variant="primary" onPress={() => console.log('start')}>Start Routine</Button>
       </Box>
     </>
   );

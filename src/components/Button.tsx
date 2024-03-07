@@ -6,11 +6,12 @@ import Text from "./Text";
 type ButtonProps = {
   children: string;
   variant: "primary" | "secondary";
+  onPress: () => void;
 };
 
-export default function Button({ children, variant }: ButtonProps) {
+export default function Button({ children, variant, onPress }: ButtonProps) {
   return (
-    <Pressable>
+    <Pressable onPress={onPress}>
       {({ pressed }) => (
         <Box
           justifyContent="center"

@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
 import { Exercise } from "@/types/Exercise";
@@ -15,7 +15,6 @@ type ExerciseCardProps = {
 
 export default function ExerciseCard({ exercise }: ExerciseCardProps) {
   const { colors } = useTheme<Theme>();
-  const exerciseStyles = createExerciseStyles(colors);
 
   return (
     <Link
@@ -39,7 +38,10 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
             <Image
               source={exercise.image}
               placeholder={blurhash}
-              style={exerciseStyles.image}
+              style={{
+                width: "20%",
+                backgroundColor: colors.secondary,
+              }}
             />
             <Box flex={1} flexDirection="row">
               <Box flex={1} alignSelf="flex-start">
@@ -59,7 +61,7 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
                 </Box>
                 <Pressable
                   onPress={() => console.log("FAVORITE")}
-                  style={exerciseStyles.icon}
+                  style={{ alignSelf: "center" }}
                 >
                   {({ pressed }) => (
                     <Ionicons
@@ -80,15 +82,3 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
     </Link>
   );
 }
-
-const createExerciseStyles = (colors: Theme["colors"]) => {
-  return StyleSheet.create({
-    image: {
-      width: "20%",
-      backgroundColor: colors.secondary,
-    },
-    icon: {
-      alignSelf: "center",
-    },
-  });
-};

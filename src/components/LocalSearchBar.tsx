@@ -1,7 +1,7 @@
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Dispatch, SetStateAction } from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput } from "react-native";
 import Box from "./Box";
 import { BoxProps, useTheme } from "@shopify/restyle";
 
@@ -17,39 +17,35 @@ export default function LocalSearchBar({
 }: LocalSearchBarProps) {
   const { colors } = useTheme<Theme>();
 
-  const styles = createStyles(colors);
-
   return (
-    <Box flexDirection="row" borderRadius="s" {...props} backgroundColor="surfaceContainer">
+    <Box
+      flexDirection="row"
+      borderRadius="s"
+      {...props}
+      backgroundColor="surfaceContainer"
+    >
       <Ionicons
         name="search-outline"
         size={25}
         color={colors.onSurface}
-        style={styles.inputIcon}
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 10,
+        }}
       />
       <TextInput
         value={text}
         onChangeText={setText}
         selectionColor={colors.primary}
-        style={styles.input}
+        style={{
+          flex: 1,
+          height: 50,
+          padding: 10,
+          paddingLeft: 40,
+          color: colors.onSurface,
+        }}
       />
     </Box>
   );
 }
-
-const createStyles = (colors: Theme["colors"]) => {
-  return StyleSheet.create({
-    inputIcon: {
-      position: "absolute",
-      top: 10,
-      left: 10,
-    },
-    input: {
-      flex: 1,
-      height: 50,
-      padding: 10,
-      paddingLeft: 40,
-      color: colors.onSurface,
-    },
-  });
-};

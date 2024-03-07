@@ -11,7 +11,7 @@ import Text from "../Text";
 import PostComment from "./PostComment";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
-import { StyleSheet, useWindowDimensions } from "react-native";
+import { useWindowDimensions } from "react-native";
 import { forwardRef } from "react";
 import Constants from "expo-constants";
 
@@ -165,8 +165,6 @@ function CustomBottomSheetModalFooter({
 }) {
   const { colors } = useTheme<Theme>();
 
-  const styles = createStyles(colors);
-
   return (
     <BottomSheetFooter animatedFooterPosition={animatedFooterPosition}>
       <Box
@@ -181,24 +179,18 @@ function CustomBottomSheetModalFooter({
           ref={bottomSheetTextInputRef}
           placeholder="Add a comment..."
           onChangeText={(text) => console.log(text)}
-          style={styles.input}
+          style={{
+            flex: 1,
+            height: 50,
+            padding: 10,
+            color: colors.onSurface,
+            borderColor: colors.outline,
+            borderWidth: 1,
+            borderRadius: 1000,
+          }}
           selectionColor={colors.primary}
         />
       </Box>
     </BottomSheetFooter>
   );
 }
-
-const createStyles = (colors: Theme["colors"]) => {
-  return StyleSheet.create({
-    input: {
-      flex: 1,
-      height: 50,
-      padding: 10,
-      color: colors.onSurface,
-      borderColor: colors.outline,
-      borderWidth: 1,
-      borderRadius: 1000,
-    },
-  });
-};

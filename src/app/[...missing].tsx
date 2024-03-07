@@ -1,5 +1,4 @@
 import { Link, Stack } from "expo-router";
-import { StyleSheet } from "react-native";
 import Box from "@/components/Box";
 import Text from "@/components/Text";
 
@@ -18,7 +17,13 @@ export default function NotFoundScreen() {
           This screen doesn't exist.
         </Text>
 
-        <Link href="/" style={styles.link}>
+        <Link
+          href="/"
+          style={{
+            marginTop: 15,
+            paddingVertical: 15,
+          }}
+        >
           <Text variant="label" color="tertiary">
             Go to home screen!
           </Text>
@@ -27,10 +32,3 @@ export default function NotFoundScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
-  },
-});

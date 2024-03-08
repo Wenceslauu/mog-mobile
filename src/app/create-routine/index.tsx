@@ -7,7 +7,7 @@ import { useTheme } from "@shopify/restyle";
 import { router } from "expo-router";
 import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { TextInput } from "react-native";
+import TextInput from "@/components/TextInput";
 
 type FormData = {
   name: string;
@@ -37,17 +37,12 @@ export default function CreateRoutineScreen() {
       ...data,
     }));
 
-    router.push("/create-routine/createCycles")
+    router.push("/create-routine/createCycles");
   });
 
   return (
-    <Box
-      flex={1}
-      paddingTop="m"
-      paddingHorizontal="m"
-      backgroundColor="surface"
-    >
-      <Box flex={1} gap="l">
+    <Box flex={1} paddingTop="m" backgroundColor="surface">
+      <Box flex={1} gap="l" paddingHorizontal="m">
         <Box gap="m">
           <Text variant="label" color="onSurface">
             Name
@@ -64,13 +59,11 @@ export default function CreateRoutineScreen() {
                 onChangeText={onChange}
                 value={value}
                 selectionColor={colors.primary}
-                style={{
-                  flex: 1,
-                  height: 50,
-                  padding: 10,
-                  paddingLeft: 40,
-                  color: colors.onSurface,
-                }}
+                flex={1}
+                height={50}
+                color="onSurface"
+                padding="s"
+                paddingLeft="xl"
               />
             )}
             name="name"
@@ -90,13 +83,11 @@ export default function CreateRoutineScreen() {
                 onChangeText={onChange}
                 value={value}
                 selectionColor={colors.primary}
-                style={{
-                  flex: 1,
-                  height: 50,
-                  padding: 10,
-                  paddingLeft: 40,
-                  color: colors.onSurface,
-                }}
+                flex={1}
+                height={50}
+                color="onSurface"
+                padding="s"
+                paddingLeft="xl"
               />
             )}
             name="description"

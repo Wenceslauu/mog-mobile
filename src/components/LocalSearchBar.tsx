@@ -1,7 +1,7 @@
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { Dispatch, SetStateAction } from "react";
-import { TextInput } from "react-native";
+import TextInput from "./TextInput";
 import Box from "./Box";
 import { BoxProps, useTheme } from "@shopify/restyle";
 
@@ -38,13 +38,11 @@ export default function LocalSearchBar({
         value={text}
         onChangeText={setText}
         selectionColor={colors.primary}
-        style={{
-          flex: 1,
-          height: 50,
-          padding: 10,
-          paddingLeft: 40,
-          color: colors.onSurface,
-        }}
+        flex={1}
+        height={50}
+        color="onSurface"
+        padding="s"
+        paddingLeft="xl"
       />
     </Box>
   );

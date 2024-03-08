@@ -12,6 +12,8 @@ import {
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import CycleTabDraft from "@/components/routines/CycleTabDraft";
 import { Ionicons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
+import TextInput from "@/components/TextInput";
 
 export default function CreateCyclesScreen() {
   const { routine, setRoutine } = useContext(CreateRoutineContext);
@@ -26,16 +28,16 @@ export default function CreateCyclesScreen() {
   const [cycles, setCycles] = useState(routine.cycles);
 
   useEffect(() => {
-    const cycleRoutes = routine.cycles.map((cycle, index) => {
+    const cycleRoutes = cycles.map((cycle, index) => {
       return { key: index.toString(), title: cycle.name };
     });
 
     setRoutes(cycleRoutes);
-  }, []);
+  }, [cycles]);
 
   const workoutDrafts = useMemo(() => {
-    if (routine.cycles.length > 0) {
-      const cycle = routine.cycles[index];
+    if (cycles.length > 0) {
+      const cycle = cycles[index];
 
       cycle.workouts.map((workout) => {
         return {
@@ -52,7 +54,14 @@ export default function CreateCyclesScreen() {
     <TabView
       renderTabBar={(props) => {
         return (
-          <Box flexDirection="row" gap="s" padding="m" alignItems="center">
+          <ScrollView
+            horizontal
+            contentContainerStyle={{
+              gap: 8,
+              padding: 16,
+            }}
+            showsHorizontalScrollIndicator={false}
+          >
             {props.navigationState.routes.map((route, index) => {
               return (
                 <CustomTabBarButton
@@ -60,10 +69,24 @@ export default function CreateCyclesScreen() {
                   key={index}
                   //position={Animated.subtract(index, i)}
                   index={index}
+                  onLongPressSave={(newTitle) => {
+                    setCycles((prevCycles) => {
+                      const newCycles = [...prevCycles];
+                      newCycles[index].name = newTitle;
+                      return newCycles;
+                    });
+                  }}
                 />
               );
             })}
-            <Pressable>
+            <Pressable
+              onPress={() => {
+                setCycles((prevCycles) => [
+                  ...prevCycles,
+                  { name: "New Cycle", workouts: [] },
+                ]);
+              }}
+            >
               {({ pressed }) => (
                 <Box
                   width={50}
@@ -82,7 +105,7 @@ export default function CreateCyclesScreen() {
                 </Box>
               )}
             </Pressable>
-          </Box>
+          </ScrollView>
         );
       }}
       navigationState={{ index, routes }}
@@ -103,6 +126,7 @@ type CustomTabBarButtonProps = SceneRendererProps & {
   }>;
 } & {
   index: number;
+  onLongPressSave: (name: string) => void;
 };
 
 function CustomTabBarButton({
@@ -110,7 +134,11 @@ function CustomTabBarButton({
   position,
   jumpTo,
   index,
+  onLongPressSave,
 }: CustomTabBarButtonProps) {
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(navigationState.routes[index].title);
+
   const { colors } = useTheme<Theme>();
 
   const focused = navigationState.index === index;
@@ -130,23 +158,46 @@ function CustomTabBarButton({
   }
 
   return (
-    <Pressable disabled={focused} onPress={() => jumpTo(index.toString())}>
+    // TODO: Create tooltip, or onboarding step to show how to edit cycle name
+    <Pressable
+      // Only disable onPress, not onLongPress
+      onPress={!focused ? () => jumpTo(index.toString()) : undefined}
+      onLongPress={() => {
+        setEditing(true);
+      }}
+    >
       {({ pressed }) => (
         <Animated.View
           style={{
             padding: 16,
             borderRadius: 15,
-            opacity: pressed ? 0.5 : 1,
+            opacity: pressed && !focused ? 0.5 : 1,
             backgroundColor,
           }}
         >
-          <Text
-            variant="body"
-            textTransform="capitalize"
-            color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
-          >
-            {navigationState.routes[index].title}
-          </Text>
+          {editing ? (
+            <TextInput
+              value={title}
+              onChangeText={setTitle}
+              onBlur={() => {
+                onLongPressSave(title);
+                setEditing(false);
+              }}
+              variant="body"
+              color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
+              textTransform="capitalize"
+              selectionColor={colors.primary}
+              autoFocus
+            />
+          ) : (
+            <Text
+              variant="body"
+              textTransform="capitalize"
+              color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
+            >
+              {navigationState.routes[index].title}
+            </Text>
+          )}
         </Animated.View>
       )}
     </Pressable>

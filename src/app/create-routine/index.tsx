@@ -4,10 +4,12 @@ import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { useTheme } from "@shopify/restyle";
-import { router } from "expo-router";
-import { useContext } from "react";
+import { router, useNavigation } from "expo-router";
+import { useCallback, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/TextInput";
+import { Alert } from "react-native";
+import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
 
 type FormData = {
   name: string;
@@ -15,20 +17,57 @@ type FormData = {
 };
 
 export default function CreateRoutineScreen() {
+  const { routine, setRoutine, resetRoutine } =
+    useContext(CreateRoutineContext);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      name: "",
-      description: "",
+      name: routine.name || "",
+      description: routine.description || "",
     },
   });
 
-  const { setRoutine } = useContext(CreateRoutineContext);
-
   const { colors } = useTheme<Theme>();
+
+  const navigation = useNavigation();
+
+  const onBeforeRemove = useCallback(
+    ({ data }: any) => {
+      Alert.alert(
+        "Discard Changes?",
+        "You have unsaved changes. Are you sure to discard them and leave the screen?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => {},
+          },
+          {
+            text: "Discard",
+            style: "destructive",
+            onPress: () => {
+              resetRoutine();
+              navigation.dispatch(data.action);
+            },
+          },
+          {
+            text: "Save Draft",
+            style: "default",
+            onPress: () => {
+              navigation.dispatch(data.action);
+            },
+          },
+        ]
+      );
+    },
+    [navigation]
+  );
+
+  UNSTABLE_usePreventRemove(true, onBeforeRemove);
 
   const onSubmit = handleSubmit((data) => {
     // TODO: Submit data to the context to keep the wizard form state
@@ -37,7 +76,7 @@ export default function CreateRoutineScreen() {
       ...data,
     }));
 
-    router.push("/create-routine/createCycles");
+    router.push("/create-routine/edit-cycles");
   });
 
   return (

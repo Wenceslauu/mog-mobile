@@ -19,6 +19,7 @@ export type CreateRoutineContextData = {
     }[];
   };
   setRoutine: (routine: any) => void;
+  resetRoutine: () => void;
 };
 
 export const CreateRoutineContext = createContext<CreateRoutineContextData>(

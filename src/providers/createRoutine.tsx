@@ -13,20 +13,41 @@ export default function CreateRoutineProvider({
     description: "",
     cycles: [
       {
-        name: "Cycle 1",
-        duration: 0,
-        workouts: [],
-      },
-      {
-        name: "Cycle 2",
-        duration: 0,
-        workouts: [],
+        name: "New Cycle",
+        workouts: [
+          {
+            name: "New Workout",
+            workoutId: Math.random(),
+            exercises: [],
+          },
+        ],
       },
     ],
   });
 
+  const resetRoutine = () => {
+    setRoutine({
+      name: "",
+      description: "",
+      cycles: [
+        {
+          name: "New Cycle",
+          workouts: [
+            {
+              name: "New Workout",
+              workoutId: Math.random(),
+              exercises: [],
+            },
+          ],
+        },
+      ],
+    });
+  };
+
   return (
-    <CreateRoutineContext.Provider value={{ routine, setRoutine }}>
+    <CreateRoutineContext.Provider
+      value={{ routine, setRoutine, resetRoutine }}
+    >
       {children}
     </CreateRoutineContext.Provider>
   );

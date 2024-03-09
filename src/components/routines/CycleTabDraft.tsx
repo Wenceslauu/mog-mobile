@@ -1,14 +1,19 @@
 import { ScrollView } from "react-native";
 import WorkoutCardDraft from "./WorkoutCardDraft";
+import Button from "../Button";
 
 type CycleTabProps = {
   workoutDrafts: {
     name: string;
     workoutId: number;
   }[];
+  handleAddWorkout: () => void;
 };
 
-export default function CycleTabDraft({ workoutDrafts }: CycleTabProps) {
+export default function CycleTabDraft({
+  workoutDrafts,
+  handleAddWorkout,
+}: CycleTabProps) {
   return (
     <ScrollView
       contentContainerStyle={{
@@ -27,6 +32,9 @@ export default function CycleTabDraft({ workoutDrafts }: CycleTabProps) {
           />
         );
       })}
+      <Button variant="secondary" onPress={handleAddWorkout}>
+        Add workout
+      </Button>
     </ScrollView>
   );
 }

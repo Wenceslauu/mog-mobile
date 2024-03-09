@@ -1,8 +1,8 @@
 import Box from "@/components/Box";
 import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
-import { backgroundColor, useTheme } from "@shopify/restyle";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useTheme } from "@shopify/restyle";
+import { useContext, useEffect, useState } from "react";
 import { Animated, Pressable, useWindowDimensions } from "react-native";
 import {
   NavigationState,
@@ -14,6 +14,8 @@ import CycleTabDraft from "@/components/routines/CycleTabDraft";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import TextInput from "@/components/TextInput";
+import Button from "@/components/Button";
+import { router } from "expo-router";
 
 export default function CreateCyclesScreen() {
   const { routine, setRoutine } = useContext(CreateRoutineContext);
@@ -35,87 +37,120 @@ export default function CreateCyclesScreen() {
     setRoutes(cycleRoutes);
   }, [cycles]);
 
-  const workoutDrafts = useMemo(() => {
-    if (cycles.length > 0) {
-      const cycle = cycles[index];
+  const handleAddCycle = () => {
+    setCycles((prevCycles) => [
+      ...prevCycles,
+      { name: "New Cycle", workouts: [] },
+    ]);
+  };
 
-      cycle.workouts.map((workout) => {
-        return {
-          name: workout.name,
-          workoutId: workout.workoutId,
-        };
-      });
-    }
+  const handleChangeCycleName = (newName: string, index: number) => {
+    setCycles((prevCycles) => {
+      const newCycles = [...prevCycles];
+      newCycles[index].name = newName;
+      return newCycles;
+    });
+  };
 
-    return [];
-  }, [routine, index]);
+  const handleAddWorkout = (index: number) => {
+    const newWorkout = {
+      name: "New Workout",
+      workoutId: Math.random(),
+      exercises: [],
+    };
+
+    setCycles((prevCycles) => {
+      const newCycles = [...prevCycles];
+      newCycles[index].workouts.push(newWorkout);
+      return newCycles;
+    });
+  };
+
+  const onSubmit = () => {
+    // TODO: Submit data to the context to keep the wizard form state
+    setRoutine((prevRoutine: any) => ({
+      ...prevRoutine,
+      ...cycles,
+    }));
+
+    router.push("/create-routine/extraDetails");
+  };
 
   return (
-    <TabView
-      renderTabBar={(props) => {
-        return (
-          <ScrollView
-            horizontal
-            contentContainerStyle={{
-              gap: 8,
-              padding: 16,
-            }}
-            showsHorizontalScrollIndicator={false}
-          >
-            {props.navigationState.routes.map((route, index) => {
-              return (
-                <CustomTabBarButton
-                  {...props}
-                  key={index}
-                  //position={Animated.subtract(index, i)}
-                  index={index}
-                  onLongPressSave={(newTitle) => {
-                    setCycles((prevCycles) => {
-                      const newCycles = [...prevCycles];
-                      newCycles[index].name = newTitle;
-                      return newCycles;
-                    });
-                  }}
-                />
-              );
-            })}
-            <Pressable
-              onPress={() => {
-                setCycles((prevCycles) => [
-                  ...prevCycles,
-                  { name: "New Cycle", workouts: [] },
-                ]);
-              }}
-            >
-              {({ pressed }) => (
-                <Box
-                  width={50}
-                  height={50}
-                  borderRadius="full"
-                  backgroundColor="surfaceContainer"
-                  opacity={pressed ? 0.5 : 1}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Ionicons
-                    name="add"
-                    size={25}
-                    color={colors.onSurfaceContainer}
-                  />
-                </Box>
-              )}
-            </Pressable>
-          </ScrollView>
-        );
-      }}
-      navigationState={{ index, routes }}
-      // TODO: Try to optimize with shouldComponentUpdate?
-      renderScene={({ route }) => {
-        return <CycleTabDraft workoutDrafts={workoutDrafts} />;
-      }}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-    />
+    <>
+      <TabView
+        renderTabBar={(props) => {
+          return (
+            // https://stackoverflow.com/questions/49373417/react-native-scrollview-height-always-stays-static-and-does-not-change
+            <Box>
+              <ScrollView
+                horizontal
+                contentContainerStyle={{
+                  gap: 8,
+                  padding: 16,
+                }}
+                showsHorizontalScrollIndicator={false}
+              >
+                {props.navigationState.routes.map((route, index) => {
+                  return (
+                    <CustomTabBarButton
+                      {...props}
+                      key={index}
+                      index={index}
+                      onLongPressSave={(newTitle) => {
+                        handleChangeCycleName(newTitle, index);
+                      }}
+                    />
+                  );
+                })}
+                <Pressable onPress={handleAddCycle}>
+                  {({ pressed }) => (
+                    <Box
+                      width={50}
+                      height={50}
+                      borderRadius="full"
+                      backgroundColor="surfaceContainer"
+                      opacity={pressed ? 0.5 : 1}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Ionicons
+                        name="add"
+                        size={25}
+                        color={colors.onSurfaceContainer}
+                      />
+                    </Box>
+                  )}
+                </Pressable>
+              </ScrollView>
+            </Box>
+          );
+        }}
+        navigationState={{ index, routes }}
+        // TODO: Try to optimize with shouldComponentUpdate?
+        renderScene={({ route }) => {
+          return (
+            <CycleTabDraft
+              // If index is used here, there is a big delay and layout shift on scene change
+              workoutDrafts={cycles[Number(route.key)].workouts}
+              handleAddWorkout={() => handleAddWorkout(index)}
+            />
+          );
+        }}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+      />
+      <Box
+        backgroundColor="surfaceContainer"
+        paddingHorizontal="m"
+        paddingVertical="s"
+        paddingBottom="l"
+      >
+        <Button variant="primary" onPress={onSubmit}>
+          Next
+        </Button>
+      </Box>
+    </>
   );
 }
 

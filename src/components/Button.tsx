@@ -21,11 +21,11 @@ export default function Button({ children, variant, onPress }: ButtonProps) {
           borderRadius="l"
           opacity={pressed ? 0.5 : 1}
           borderWidth={1}
-          borderColor={variant === "secondary" ? "outline" : "transparent"}
+          borderColor={variant === "secondary" ? "primary" : "transparent"}
         >
           <Text
             variant="body"
-            color={variant === "primary" ? "onPrimary" : "onSurface"}
+            color={variant === "primary" ? "onPrimary" : "primary"}
           >
             {children}
           </Text>

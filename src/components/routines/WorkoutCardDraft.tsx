@@ -18,40 +18,35 @@ export default function WorkoutCardDraft({
   const { colors } = useTheme<Theme>();
 
   return (
-    <Pressable onLongPress={() => console.log("long press")}>
-      {({ pressed }) => {
-        return (
-          <Box
-            borderRadius="l"
-            backgroundColor="surfaceContainer"
-            padding="m"
-            gap="m"
-            opacity={pressed ? 0.5 : 1}
-          >
+    <Link href="/create-routine/edit-workout" asChild>
+      <Pressable onLongPress={() => console.log("long press")}>
+        {({ pressed }) => {
+          return (
             <Box
-              flexDirection="row"
-              alignItems="center"
-              justifyContent="space-between"
+              borderRadius="l"
+              backgroundColor="surfaceContainer"
+              padding="m"
+              gap="m"
+              opacity={pressed ? 0.5 : 1}
             >
-              <Text variant="title" color="onSurface">
-                {name}
-              </Text>
-              <Link href="/teste" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <Ionicons
-                      name="pencil-sharp"
-                      size={25}
-                      color={colors.onSurfaceContainer}
-                      style={{ marginRight: 11, opacity: pressed ? 0.5 : 1 }}
-                    />
-                  )}
-                </Pressable>
-              </Link>
+              <Box
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                <Text variant="title" color="onSurface">
+                  {name}
+                </Text>
+                <Ionicons
+                  name="pencil-sharp"
+                  size={25}
+                  color={colors.onSurfaceContainer}
+                />
+              </Box>
             </Box>
-          </Box>
-        );
-      }}
-    </Pressable>
+          );
+        }}
+      </Pressable>
+    </Link>
   );
 }

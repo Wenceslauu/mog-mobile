@@ -17,7 +17,7 @@ import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 import { router } from "expo-router";
 
-export default function CreateCyclesScreen() {
+export default function EditCyclesScreen() {
   const { routine, setRoutine } = useContext(CreateRoutineContext);
 
   const { colors } = useTheme<Theme>();
@@ -36,6 +36,10 @@ export default function CreateCyclesScreen() {
 
     setRoutes(cycleRoutes);
   }, [cycles]);
+
+  useEffect(() => {
+    setCycles(routine.cycles);
+  }, [routine.cycles]);
 
   const handleAddCycle = () => {
     setCycles((prevCycles) => [
@@ -70,7 +74,7 @@ export default function CreateCyclesScreen() {
     // TODO: Submit data to the context to keep the wizard form state
     setRoutine((prevRoutine: any) => ({
       ...prevRoutine,
-      ...cycles,
+      cycles,
     }));
 
     router.push("/create-routine/extraDetails");

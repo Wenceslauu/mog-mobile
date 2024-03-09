@@ -57,8 +57,20 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="activity" options={{ title: "Activity" }} />
         <Stack.Screen
-          name="create-routine"
-          options={{ title: "Create Routine" }}
+          name="create-routine/index"
+          options={{
+            title: "Create Routine",
+            // Mandatory in order to prevent going back
+            headerBackButtonMenuEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="create-routine/edit-cycles"
+          options={{ title: "Edit Cycles" }}
+        />
+        <Stack.Screen
+          name="create-routine/edit-workout"
+          options={{ title: "Edit Workout" }}
         />
         <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
         <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />

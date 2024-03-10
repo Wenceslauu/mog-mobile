@@ -16,6 +16,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 import { router } from "expo-router";
+import { randomUUID } from "expo-crypto";
 
 export default function EditCyclesScreen() {
   const { routine, setRoutine } = useContext(CreateRoutineContext);
@@ -27,56 +28,50 @@ export default function EditCyclesScreen() {
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState<{ key: string; title: string }[]>([]);
 
-  const [cycles, setCycles] = useState(routine.cycles);
-
   useEffect(() => {
-    const cycleRoutes = cycles.map((cycle, index) => {
+    const cycleRoutes = routine.cycles.map((cycle, index) => {
       return { key: index.toString(), title: cycle.name };
     });
 
     setRoutes(cycleRoutes);
-  }, [cycles]);
-
-  useEffect(() => {
-    setCycles(routine.cycles);
   }, [routine.cycles]);
 
   const handleAddCycle = () => {
-    setCycles((prevCycles) => [
-      ...prevCycles,
-      { name: "New Cycle", workouts: [] },
-    ]);
+    const newCycle = {
+      name: "New Cycle",
+      workouts: [],
+    };
+
+    setRoutine((prevRoutine: any) => ({
+      ...prevRoutine,
+      cycles: [...prevRoutine.cycles, newCycle],
+    }));
   };
 
   const handleChangeCycleName = (newName: string, index: number) => {
-    setCycles((prevCycles) => {
-      const newCycles = [...prevCycles];
+    setRoutine((prevRoutine: any) => {
+      const newCycles = [...prevRoutine.cycles];
       newCycles[index].name = newName;
-      return newCycles;
+      return { ...prevRoutine, cycles: newCycles };
     });
   };
 
   const handleAddWorkout = (index: number) => {
     const newWorkout = {
       name: "New Workout",
-      workoutId: Math.random(),
+      workoutId: randomUUID(),
       exercises: [],
     };
 
-    setCycles((prevCycles) => {
-      const newCycles = [...prevCycles];
+    setRoutine((prevRoutine: any) => {
+      const newCycles = [...prevRoutine.cycles];
       newCycles[index].workouts.push(newWorkout);
-      return newCycles;
+      return { ...prevRoutine, cycles: newCycles };
     });
   };
 
   const onSubmit = () => {
     // TODO: Submit data to the context to keep the wizard form state
-    setRoutine((prevRoutine: any) => ({
-      ...prevRoutine,
-      cycles,
-    }));
-
     router.push("/create-routine/extraDetails");
   };
 
@@ -136,7 +131,7 @@ export default function EditCyclesScreen() {
           return (
             <CycleTabDraft
               // If index is used here, there is a big delay and layout shift on scene change
-              workoutDrafts={cycles[Number(route.key)].workouts}
+              workoutDrafts={routine.cycles[Number(route.key)].workouts}
               handleAddWorkout={() => handleAddWorkout(index)}
             />
           );

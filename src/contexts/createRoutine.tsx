@@ -8,7 +8,7 @@ export type CreateRoutineContextData = {
       name: string;
       duration?: number;
       workouts: {
-        workoutId: number;
+        workoutId: string;
         name: string;
         exercises: {
           name: string;

@@ -8,7 +8,7 @@ import { Link } from "expo-router";
 
 type WorkoutCardProps = {
   name: string;
-  workoutId: number;
+  workoutId: string;
 };
 
 export default function WorkoutCardDraft({
@@ -18,7 +18,15 @@ export default function WorkoutCardDraft({
   const { colors } = useTheme<Theme>();
 
   return (
-    <Link href="/create-routine/edit-workout" asChild>
+    <Link
+      href={{
+        pathname: "/create-routine/edit-workout",
+        params: {
+          id: workoutId,
+        },
+      }}
+      asChild
+    >
       <Pressable onLongPress={() => console.log("long press")}>
         {({ pressed }) => {
           return (

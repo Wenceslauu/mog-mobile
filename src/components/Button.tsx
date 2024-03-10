@@ -6,7 +6,7 @@ import Text from "./Text";
 type ButtonProps = {
   children: string;
   variant: "primary" | "secondary";
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 export default function Button({ children, variant, onPress }: ButtonProps) {

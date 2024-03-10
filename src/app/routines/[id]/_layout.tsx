@@ -22,7 +22,15 @@ export default function RoutineDetails() {
       title: name,
       headerRight: () => (
         <Box flexDirection="row">
-          <Link href="/teste" asChild>
+          <Link
+            href={{
+              pathname: "/create-routine/",
+              params: {
+                id: "teste",
+              },
+            }}
+            asChild
+          >
             <Pressable>
               {({ pressed }) => (
                 <Ionicons
@@ -66,7 +74,9 @@ export default function RoutineDetails() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Button variant="primary" onPress={() => console.log('start')}>Start Routine</Button>
+        <Button variant="primary" onPress={() => console.log("start")}>
+          Start Routine
+        </Button>
       </Box>
     </>
   );

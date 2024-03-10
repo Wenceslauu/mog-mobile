@@ -5,7 +5,7 @@ import Button from "../Button";
 type CycleTabProps = {
   workoutDrafts: {
     name: string;
-    workoutId: number;
+    workoutId: string;
   }[];
   handleAddWorkout: () => void;
 };

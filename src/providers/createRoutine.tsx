@@ -1,5 +1,6 @@
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { ReactNode, useState } from "react";
+import { randomUUID } from "expo-crypto";
 
 type CreateRoutineProviderProps = {
   children: ReactNode;
@@ -17,7 +18,7 @@ export default function CreateRoutineProvider({
         workouts: [
           {
             name: "New Workout",
-            workoutId: Math.random(),
+            workoutId: randomUUID(),
             exercises: [],
           },
         ],
@@ -35,7 +36,7 @@ export default function CreateRoutineProvider({
           workouts: [
             {
               name: "New Workout",
-              workoutId: Math.random(),
+              workoutId: randomUUID(),
               exercises: [],
             },
           ],

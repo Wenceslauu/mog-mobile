@@ -4,7 +4,7 @@ import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { useTheme } from "@shopify/restyle";
-import { router, useNavigation } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { useCallback, useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/TextInput";
@@ -22,7 +22,6 @@ export default function CreateRoutineScreen() {
 
   const {
     control,
-    handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -69,16 +68,6 @@ export default function CreateRoutineScreen() {
 
   UNSTABLE_usePreventRemove(true, onBeforeRemove);
 
-  const onSubmit = handleSubmit((data) => {
-    // TODO: Submit data to the context to keep the wizard form state
-    setRoutine((prevRoutine: any) => ({
-      ...prevRoutine,
-      ...data,
-    }));
-
-    router.push("/create-routine/edit-cycles");
-  });
-
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
       <Box flex={1} gap="l" paddingHorizontal="m">
@@ -94,7 +83,14 @@ export default function CreateRoutineScreen() {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 placeholder="Routine name"
-                onBlur={onBlur}
+                onBlur={() => {
+                  setRoutine((prevRoutine: any) => ({
+                    ...prevRoutine,
+                    name: value,
+                  }));
+
+                  onBlur();
+                }}
                 onChangeText={onChange}
                 value={value}
                 selectionColor={colors.primary}
@@ -118,7 +114,14 @@ export default function CreateRoutineScreen() {
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 placeholder="Routine description"
-                onBlur={onBlur}
+                onBlur={() => {
+                  setRoutine((prevRoutine: any) => ({
+                    ...prevRoutine,
+                    description: value,
+                  }));
+
+                  onBlur();
+                }}
                 onChangeText={onChange}
                 value={value}
                 selectionColor={colors.primary}
@@ -139,9 +142,9 @@ export default function CreateRoutineScreen() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Button variant="primary" onPress={onSubmit}>
-          Next
-        </Button>
+        <Link href="/create-routine/edit-cycles" asChild>
+          <Button variant="primary">Next</Button>
+        </Link>
       </Box>
     </Box>
   );

@@ -41,10 +41,9 @@ export default function EditCyclesScreen() {
       workouts: [],
     };
 
-    setRoutine((prevRoutine: any) => ({
-      ...prevRoutine,
-      cycles: [...prevRoutine.cycles, newCycle],
-    }));
+    setRoutine((draft) => {
+      draft.cycles.push(newCycle);
+    });
 
     setIsDirty(true);
   };
@@ -52,10 +51,8 @@ export default function EditCyclesScreen() {
   const handleChangeCycleName = (newName: string, index: number) => {
     if (routine.cycles[index].name === newName) return;
 
-    setRoutine((prevRoutine: any) => {
-      const newCycles = [...prevRoutine.cycles];
-      newCycles[index].name = newName;
-      return { ...prevRoutine, cycles: newCycles };
+    setRoutine((draft) => {
+      draft.cycles[index].name = newName;
     });
 
     setIsDirty(true);
@@ -67,10 +64,8 @@ export default function EditCyclesScreen() {
       exercises: [],
     };
 
-    setRoutine((prevRoutine: any) => {
-      const newCycles = [...prevRoutine.cycles];
-      newCycles[index].workouts.push(newWorkout);
-      return { ...prevRoutine, cycles: newCycles };
+    setRoutine((draft) => {
+      draft.cycles[index].workouts.push(newWorkout);
     });
 
     setIsDirty(true);

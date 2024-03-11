@@ -1,5 +1,6 @@
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { ReactNode, useState } from "react";
+import { useImmer } from "use-immer";
 
 type CreateRoutineProviderProps = {
   children: ReactNode;
@@ -8,7 +9,7 @@ type CreateRoutineProviderProps = {
 export default function CreateRoutineProvider({
   children,
 }: CreateRoutineProviderProps) {
-  const [routine, setRoutine] = useState({
+  const [routine, setRoutine] = useImmer({
     name: "",
     description: "",
     cycles: [

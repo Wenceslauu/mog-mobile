@@ -27,10 +27,14 @@ const mockedRoutine = {
           name: "Push 1",
           exercises: [
             {
+              id: 1,
               name: "Bench Press",
-              sets: 3,
-              reps: 12,
-              weight: 30,
+              sets: [
+                {
+                  reps: 12,
+                  intensity: "90%",
+                },
+              ],
             },
           ],
         },
@@ -38,10 +42,14 @@ const mockedRoutine = {
           name: "Push 2",
           exercises: [
             {
+              id: 2,
               name: "OHP",
-              sets: 3,
-              reps: 12,
-              weight: 30,
+              sets: [
+                {
+                  reps: 12,
+                  intensity: "90%",
+                },
+              ],
             },
           ],
         },
@@ -54,10 +62,14 @@ const mockedRoutine = {
           name: "Pull 1",
           exercises: [
             {
+              id: 3,
               name: "Deadlift",
-              sets: 3,
-              reps: 12,
-              weight: 30,
+              sets: [
+                {
+                  reps: 12,
+                  intensity: "90%",
+                },
+              ],
             },
           ],
         },
@@ -172,10 +184,9 @@ export default function CreateRoutineScreen() {
                 placeholder="Routine name"
                 onBlur={() => {
                   if (routine.name !== value) {
-                    setRoutine((prevRoutine: any) => ({
-                      ...prevRoutine,
-                      name: value,
-                    }));
+                    setRoutine((draft) => {
+                      draft.name = value;
+                    });
 
                     setIsDirty(true);
                   }
@@ -207,10 +218,9 @@ export default function CreateRoutineScreen() {
                 placeholder="Routine description"
                 onBlur={() => {
                   if (routine.description !== value) {
-                    setRoutine((prevRoutine: any) => ({
-                      ...prevRoutine,
-                      description: value,
-                    }));
+                    setRoutine((draft) => {
+                      draft.description = value;
+                    });
 
                     setIsDirty(true);
                   }

@@ -1,27 +1,12 @@
+import { RoutineDraft } from "@/types/Routine";
 import { createContext } from "react";
+import { Updater, DraftFunction } from "use-immer";
 
 export type CreateRoutineContextData = {
-  routine: {
-    name: string;
-    description?: string;
-    cycles: {
-      name: string;
-      duration?: number;
-      workouts: {
-        name: string;
-        exercises: {
-          id: number;
-          name: string;
-          image?: string;
-          sets: {
-            reps: number;
-            intensity: string;
-          }[];
-        }[];
-      }[];
-    }[];
-  };
-  setRoutine: (routine: any) => void;
+  routine: RoutineDraft;
+  setRoutine: (
+    immerRoutine: RoutineDraft | DraftFunction<RoutineDraft>
+  ) => void;
   resetRoutine: () => void;
 
   isDirty: boolean;

@@ -32,3 +32,24 @@ export interface Workout {
     sets: { number: number; reps: number; intensity: string }[];
   }[];
 }
+
+export interface RoutineDraft {
+  name: string;
+  description?: string;
+  cycles: {
+    name: string;
+    duration?: number;
+    workouts: {
+      name: string;
+      exercises: {
+        id: number;
+        name: string;
+        image?: any;
+        sets: {
+          reps: number;
+          intensity: string;
+        }[];
+      }[];
+    }[];
+  }[];
+}

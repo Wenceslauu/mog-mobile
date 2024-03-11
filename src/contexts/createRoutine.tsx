@@ -20,6 +20,9 @@ export type CreateRoutineContextData = {
   };
   setRoutine: (routine: any) => void;
   resetRoutine: () => void;
+
+  isDirty: boolean;
+  setIsDirty: (isDirty: boolean) => void;
 };
 
 export const CreateRoutineContext = createContext<CreateRoutineContextData>(

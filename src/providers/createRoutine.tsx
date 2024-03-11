@@ -1,5 +1,5 @@
 import { CreateRoutineContext } from "@/contexts/createRoutine";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { randomUUID } from "expo-crypto";
 
 type CreateRoutineProviderProps = {
@@ -26,6 +26,8 @@ export default function CreateRoutineProvider({
     ],
   });
 
+  const [isDirty, setIsDirty] = useState(false);
+
   const resetRoutine = () => {
     setRoutine({
       name: "",
@@ -47,7 +49,7 @@ export default function CreateRoutineProvider({
 
   return (
     <CreateRoutineContext.Provider
-      value={{ routine, setRoutine, resetRoutine }}
+      value={{ routine, setRoutine, resetRoutine, isDirty, setIsDirty }}
     >
       {children}
     </CreateRoutineContext.Provider>

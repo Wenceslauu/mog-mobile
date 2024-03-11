@@ -19,7 +19,8 @@ import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 
 export default function EditCyclesScreen() {
-  const { routine, setRoutine } = useContext(CreateRoutineContext);
+  const { routine, setRoutine, setIsDirty } =
+    useContext(CreateRoutineContext);
 
   const { colors } = useTheme<Theme>();
 
@@ -46,14 +47,20 @@ export default function EditCyclesScreen() {
       ...prevRoutine,
       cycles: [...prevRoutine.cycles, newCycle],
     }));
+
+    setIsDirty(true);
   };
 
   const handleChangeCycleName = (newName: string, index: number) => {
+    if (routine.cycles[index].name === newName) return;
+
     setRoutine((prevRoutine: any) => {
       const newCycles = [...prevRoutine.cycles];
       newCycles[index].name = newName;
       return { ...prevRoutine, cycles: newCycles };
     });
+
+    setIsDirty(true);
   };
 
   const handleAddWorkout = (index: number) => {
@@ -68,6 +75,8 @@ export default function EditCyclesScreen() {
       newCycles[index].workouts.push(newWorkout);
       return { ...prevRoutine, cycles: newCycles };
     });
+
+    setIsDirty(true);
   };
 
   const onSubmit = () => {

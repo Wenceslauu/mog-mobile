@@ -4,31 +4,102 @@ import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { useTheme } from "@shopify/restyle";
-import { Link, useNavigation } from "expo-router";
-import { useCallback, useContext } from "react";
+import { Link, useLocalSearchParams, useNavigation } from "expo-router";
+import { useCallback, useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/TextInput";
-import { Alert } from "react-native";
+import { Alert, AlertButton } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
+import { randomUUID } from "expo-crypto";
 
 type FormData = {
   name: string;
   description: string;
 };
 
+const mockedRoutine = {
+  name: "Teste",
+  description: "Teste",
+  cycles: [
+    {
+      name: "Beginning",
+      workouts: [
+        {
+          name: "Push 1",
+          workoutId: randomUUID(),
+          exercises: [
+            {
+              name: "Bench Press",
+              sets: 3,
+              reps: 12,
+              weight: 30,
+            },
+          ],
+        },
+        {
+          name: "Push 2",
+          workoutId: randomUUID(),
+          exercises: [
+            {
+              name: "OHP",
+              sets: 3,
+              reps: 12,
+              weight: 30,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "Middle",
+      workouts: [
+        {
+          name: "Pull 1",
+          workoutId: randomUUID(),
+          exercises: [
+            {
+              name: "Deadlift",
+              sets: 3,
+              reps: 12,
+              weight: 30,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 export default function CreateRoutineScreen() {
-  const { routine, setRoutine, resetRoutine } =
+  const { routine, setRoutine, resetRoutine, isDirty, setIsDirty } =
     useContext(CreateRoutineContext);
+
+  const { id } = useLocalSearchParams();
 
   const {
     control,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
+    // GH Issue: https://github.com/react-hook-form/react-hook-form/issues/2492
+    // GH Discussion: https://github.com/orgs/react-hook-form/discussions/9046
+    // Values option would reinit the form everytime a dependency changes(proposal's option B) and that is not great for performance
     defaultValues: {
       name: routine.name || "",
       description: routine.description || "",
     },
   });
+
+  useEffect(() => {
+    if (id) {
+      setRoutine(mockedRoutine);
+
+      reset({
+        name: mockedRoutine.name,
+        description: mockedRoutine.description,
+      });
+    }
+  }, []);
 
   const { colors } = useTheme<Theme>();
 
@@ -36,37 +107,57 @@ export default function CreateRoutineScreen() {
 
   const onBeforeRemove = useCallback(
     ({ data }: any) => {
+      const alertButtons: AlertButton[] = !id
+        ? [
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => {},
+            },
+            {
+              text: "Discard",
+              style: "destructive",
+              onPress: () => {
+                resetRoutine();
+                setIsDirty(false);
+                navigation.dispatch(data.action);
+              },
+            },
+            {
+              text: "Save Draft",
+              style: "default",
+              onPress: () => {
+                navigation.dispatch(data.action);
+              },
+            },
+          ]
+        : [
+            {
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => {},
+            },
+            {
+              text: "Discard",
+              style: "destructive",
+              onPress: () => {
+                resetRoutine();
+                setIsDirty(false);
+                navigation.dispatch(data.action);
+              },
+            },
+          ];
+
       Alert.alert(
         "Discard Changes?",
         "You have unsaved changes. Are you sure to discard them and leave the screen?",
-        [
-          {
-            text: "Cancel",
-            style: "cancel",
-            onPress: () => {},
-          },
-          {
-            text: "Discard",
-            style: "destructive",
-            onPress: () => {
-              resetRoutine();
-              navigation.dispatch(data.action);
-            },
-          },
-          {
-            text: "Save Draft",
-            style: "default",
-            onPress: () => {
-              navigation.dispatch(data.action);
-            },
-          },
-        ]
+        alertButtons
       );
     },
     [navigation]
   );
 
-  UNSTABLE_usePreventRemove(true, onBeforeRemove);
+  UNSTABLE_usePreventRemove(isDirty, onBeforeRemove);
 
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
@@ -84,10 +175,14 @@ export default function CreateRoutineScreen() {
               <TextInput
                 placeholder="Routine name"
                 onBlur={() => {
-                  setRoutine((prevRoutine: any) => ({
-                    ...prevRoutine,
-                    name: value,
-                  }));
+                  if (routine.name !== value) {
+                    setRoutine((prevRoutine: any) => ({
+                      ...prevRoutine,
+                      name: value,
+                    }));
+
+                    setIsDirty(true);
+                  }
 
                   onBlur();
                 }}
@@ -115,10 +210,14 @@ export default function CreateRoutineScreen() {
               <TextInput
                 placeholder="Routine description"
                 onBlur={() => {
-                  setRoutine((prevRoutine: any) => ({
-                    ...prevRoutine,
-                    description: value,
-                  }));
+                  if (routine.description !== value) {
+                    setRoutine((prevRoutine: any) => ({
+                      ...prevRoutine,
+                      description: value,
+                    }));
+
+                    setIsDirty(true);
+                  }
 
                   onBlur();
                 }}

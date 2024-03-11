@@ -1,8 +1,12 @@
 import Box from "@/components/Box";
 import Text from "@/components/Text";
+import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { useLocalSearchParams } from "expo-router";
+import { useContext } from "react";
 
 export default function EditWorkoutScreen() {
+  const { routine, setRoutine } = useContext(CreateRoutineContext);
+  
   const { id } = useLocalSearchParams();
 
   return (

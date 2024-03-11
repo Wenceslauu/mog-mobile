@@ -10,7 +10,6 @@ import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/TextInput";
 import { Alert, AlertButton } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
-import { randomUUID } from "expo-crypto";
 
 type FormData = {
   name: string;
@@ -26,7 +25,6 @@ const mockedRoutine = {
       workouts: [
         {
           name: "Push 1",
-          workoutId: randomUUID(),
           exercises: [
             {
               name: "Bench Press",
@@ -38,7 +36,6 @@ const mockedRoutine = {
         },
         {
           name: "Push 2",
-          workoutId: randomUUID(),
           exercises: [
             {
               name: "OHP",
@@ -55,7 +52,6 @@ const mockedRoutine = {
       workouts: [
         {
           name: "Pull 1",
-          workoutId: randomUUID(),
           exercises: [
             {
               name: "Deadlift",

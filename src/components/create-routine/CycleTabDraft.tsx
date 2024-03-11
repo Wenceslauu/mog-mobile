@@ -5,14 +5,15 @@ import Button from "../Button";
 type CycleTabProps = {
   workoutDrafts: {
     name: string;
-    workoutId: string;
   }[];
   handleAddWorkout: () => void;
+  cycleIndex: number;
 };
 
 export default function CycleTabDraft({
   workoutDrafts,
   handleAddWorkout,
+  cycleIndex,
 }: CycleTabProps) {
   return (
     <ScrollView
@@ -28,7 +29,8 @@ export default function CycleTabDraft({
           <WorkoutCardDraft
             key={index}
             name={workoutDraft.name}
-            workoutId={workoutDraft.workoutId}
+            cycleIndex={cycleIndex}
+            workoutIndex={index}
           />
         );
       })}

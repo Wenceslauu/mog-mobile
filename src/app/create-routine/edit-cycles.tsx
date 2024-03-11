@@ -10,17 +10,15 @@ import {
   TabView,
 } from "react-native-tab-view";
 import { CreateRoutineContext } from "@/contexts/createRoutine";
-import CycleTabDraft from "@/components/routines/CycleTabDraft";
+import CycleTabDraft from "@/components/create-routine/CycleTabDraft";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 import { router } from "expo-router";
-import { randomUUID } from "expo-crypto";
 
 export default function EditCyclesScreen() {
-  const { routine, setRoutine, setIsDirty } =
-    useContext(CreateRoutineContext);
+  const { routine, setRoutine, setIsDirty } = useContext(CreateRoutineContext);
 
   const { colors } = useTheme<Theme>();
 
@@ -66,7 +64,6 @@ export default function EditCyclesScreen() {
   const handleAddWorkout = (index: number) => {
     const newWorkout = {
       name: "New Workout",
-      workoutId: randomUUID(),
       exercises: [],
     };
 
@@ -141,7 +138,8 @@ export default function EditCyclesScreen() {
             <CycleTabDraft
               // If index is used here, there is a big delay and layout shift on scene change
               workoutDrafts={routine.cycles[Number(route.key)].workouts}
-              handleAddWorkout={() => handleAddWorkout(index)}
+              handleAddWorkout={() => handleAddWorkout(Number(route.key))}
+              cycleIndex={Number(route.key)}
             />
           );
         }}

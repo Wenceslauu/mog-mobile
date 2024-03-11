@@ -8,12 +8,14 @@ import { Link } from "expo-router";
 
 type WorkoutCardProps = {
   name: string;
-  workoutId: string;
+  cycleIndex: number;
+  workoutIndex: number;
 };
 
 export default function WorkoutCardDraft({
   name,
-  workoutId,
+  cycleIndex,
+  workoutIndex,
 }: WorkoutCardProps) {
   const { colors } = useTheme<Theme>();
 
@@ -22,7 +24,8 @@ export default function WorkoutCardDraft({
       href={{
         pathname: "/create-routine/edit-workout",
         params: {
-          id: workoutId,
+          cycleIndex,
+          workoutIndex,
         },
       }}
       asChild

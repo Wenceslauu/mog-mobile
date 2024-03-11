@@ -8,12 +8,15 @@ export type CreateRoutineContextData = {
       name: string;
       duration?: number;
       workouts: {
-        workoutId: string;
         name: string;
         exercises: {
+          id: number;
           name: string;
-          reps: number;
-          intensity: string;
+          image?: string;
+          sets: {
+            reps: number;
+            intensity: string;
+          }[];
         }[];
       }[];
     }[];

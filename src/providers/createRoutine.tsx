@@ -1,6 +1,5 @@
 import { CreateRoutineContext } from "@/contexts/createRoutine";
-import { ReactNode, useEffect, useState } from "react";
-import { randomUUID } from "expo-crypto";
+import { ReactNode, useState } from "react";
 
 type CreateRoutineProviderProps = {
   children: ReactNode;
@@ -18,8 +17,27 @@ export default function CreateRoutineProvider({
         workouts: [
           {
             name: "New Workout",
-            workoutId: randomUUID(),
-            exercises: [],
+            exercises: [
+              {
+                id: 1,
+                name: "Bench Press",
+                image: "https://source.unsplash.com/random",
+                sets: [
+                  {
+                    reps: 10,
+                    intensity: "RPE 7",
+                  },
+                  {
+                    reps: 10,
+                    intensity: "RPE 8",
+                  },
+                  {
+                    reps: 10,
+                    intensity: "RPE 9",
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -38,8 +56,27 @@ export default function CreateRoutineProvider({
           workouts: [
             {
               name: "New Workout",
-              workoutId: randomUUID(),
-              exercises: [],
+              exercises: [
+                {
+                  id: 1,
+                  name: "Bench Press",
+                  image: "https://source.unsplash.com/random",
+                  sets: [
+                    {
+                      reps: 10,
+                      intensity: "RPE 7",
+                    },
+                    {
+                      reps: 10,
+                      intensity: "RPE 8",
+                    },
+                    {
+                      reps: 10,
+                      intensity: "RPE 9",
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },

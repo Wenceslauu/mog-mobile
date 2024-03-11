@@ -109,11 +109,27 @@ export default function CreateRoutineScreen() {
     }
   }, []);
 
+  
+  const onBeforeRemove = useCallback(() => {
+    if (id && !isDirty) {
+      resetRoutine();
+    }
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener("beforeRemove", onBeforeRemove);
+
+    return () => {
+      navigation.removeListener("beforeRemove", onBeforeRemove);
+    };
+  }, []);
+
   const { colors } = useTheme<Theme>();
 
   const navigation = useNavigation();
 
-  const onBeforeRemove = useCallback(
+  // TODO: Routine edition is being saved as a draft automatically when there are no unsaved changes in edition
+  const onPreventRemove = useCallback(
     ({ data }: any) => {
       const alertButtons: AlertButton[] = !id
         ? [
@@ -165,7 +181,7 @@ export default function CreateRoutineScreen() {
     [navigation]
   );
 
-  UNSTABLE_usePreventRemove(isDirty, onBeforeRemove);
+  UNSTABLE_usePreventRemove(isDirty, onPreventRemove);
 
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">

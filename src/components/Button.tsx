@@ -5,7 +5,7 @@ import Text from "./Text";
 
 type ButtonProps = {
   children: string;
-  variant: "primary" | "secondary";
+  variant: "primary" | "secondary" | "tertiary";
   onPress?: () => void;
 };
 

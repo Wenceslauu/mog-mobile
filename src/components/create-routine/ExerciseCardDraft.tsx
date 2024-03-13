@@ -8,25 +8,37 @@ import blurhash from "@/constants/blurhash";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
+import { useFieldArray, useWatch } from "react-hook-form";
+import { useEffect } from "react";
+import SetRowDraft from "./SetRowDraft";
 
 type ExerciseCardDraftProps = {
-  exerciseDraft: {
-    id: number;
-    name: string;
-    image?: any;
-    sets: {
-      reps: number;
-      intensity: string;
-    }[];
-  };
-  handleAddSet: () => void;
+  control: any;
+  exerciseIndex: number;
 };
 
 export default function ExerciseCardDraft({
-  exerciseDraft,
-  handleAddSet,
+  control,
+  exerciseIndex,
 }: ExerciseCardDraftProps) {
   const { colors } = useTheme<Theme>();
+
+  const exerciseDraft = useWatch({
+    control,
+    name: `exercises.${exerciseIndex}`,
+  });
+
+  const { fields, append } = useFieldArray({
+    control,
+    name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
+  });
+
+  const handleAddSet = () => {
+    append({
+      reps: undefined,
+      intensity: undefined,
+    });
+  };
 
   return (
     <Box
@@ -96,39 +108,25 @@ export default function ExerciseCardDraft({
         </Box>
         <Box flex={1}>
           <Text variant="label" color="onSurface">
-            Weight
+            RPE
           </Text>
         </Box>
       </Box>
       <Box gap="m">
-        {exerciseDraft.sets.map((set, index) => {
+        {fields.map((field, index) => {
           return (
-            <Box
-              key={index}
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box flex={2}>
-                <Text variant="body" color="onSurfaceContainer">
-                  {index + 1}
-                </Text>
-              </Box>
-              <Box flex={2}>
-                <Text variant="body" color="onSurfaceContainer">
-                  {set.reps}
-                </Text>
-              </Box>
-              <Box flex={1}>
-                <Text variant="body" color="onSurfaceContainer">
-                  {set.intensity}
-                </Text>
-              </Box>
-            </Box>
+            <SetRowDraft
+              key={field.id}
+              index={index}
+              control={control}
+              exerciseIndex={exerciseIndex}
+            />
           );
         })}
       </Box>
-      <Button variant="tertiary" onPress={handleAddSet}>Add set</Button>
+      <Button variant="tertiary" onPress={handleAddSet}>
+        Add set
+      </Button>
     </Box>
   );
 }

@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
-import { router } from "expo-router";
+import { Link } from "expo-router";
 
 export default function EditCyclesScreen() {
   const { routine, setRoutine, setIsDirty } = useContext(CreateRoutineContext);
@@ -69,11 +69,6 @@ export default function EditCyclesScreen() {
     });
 
     setIsDirty(true);
-  };
-
-  const onSubmit = () => {
-    // TODO: Submit data to the context to keep the wizard form state
-    router.push("/create-routine/extraDetails");
   };
 
   return (
@@ -147,9 +142,11 @@ export default function EditCyclesScreen() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Button variant="primary" onPress={onSubmit}>
-          Next
-        </Button>
+        <Link href="/create-routine/extra-data" asChild>
+          <Button variant="primary">
+            Next
+          </Button>
+        </Link>
       </Box>
     </>
   );

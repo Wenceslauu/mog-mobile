@@ -14,12 +14,15 @@ import {
   typography,
   VariantProps,
   createVariant,
+  border,
+  BorderProps,
 } from "@shopify/restyle";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithRef, forwardRef } from "react";
 import { TextInput as RNTextInput } from "react-native";
 
 type RestyleProps = LayoutProps<Theme> &
   SpacingProps<Theme> &
+  BorderProps<Theme> &
   ColorProps<Theme> &
   BackgroundColorProps<Theme> &
   TypographyProps<Theme> &
@@ -28,19 +31,17 @@ type RestyleProps = LayoutProps<Theme> &
 const restyleFunctions = composeRestyleFunctions<Theme, RestyleProps>([
   layout,
   spacing,
+  border,
   color,
   backgroundColor,
   typography,
   createVariant({ themeKey: "textVariants" }),
 ]);
 
-type TextInputProps = RestyleProps &
-  ComponentPropsWithoutRef<typeof RNTextInput>;
+type TextInputProps = RestyleProps & ComponentPropsWithRef<typeof RNTextInput>;
 
-const TextInput = (rest: TextInputProps) => {
+export default forwardRef(function TextInput(rest: TextInputProps, ref: any) {
   const props = useRestyle(restyleFunctions, rest);
 
-  return <RNTextInput {...props} />;
-};
-
-export default TextInput;
+  return <RNTextInput ref={ref} {...props} />;
+});

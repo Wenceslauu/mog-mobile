@@ -33,13 +33,10 @@ export default function SetRowDraft({
       <Box flex={2}>
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, ref, value } }) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               // https://stackoverflow.com/a/71497701
-              ref={(e: any) => {
-                ref(e);
-                repsInputRef.current = e;
-              }}
+              ref={repsInputRef}
               onBlur={onBlur}
               onFocus={() => {
                 repsInputRef.current?.setNativeProps({
@@ -81,13 +78,10 @@ export default function SetRowDraft({
       <Box flex={1}>
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, ref, value } }) => (
+          render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               // https://stackoverflow.com/a/71497701
-              ref={(e: any) => {
-                ref(e);
-                rpeInputRef.current = e;
-              }}
+              ref={rpeInputRef}
               onBlur={onBlur}
               onFocus={() => {
                 rpeInputRef.current?.setNativeProps({

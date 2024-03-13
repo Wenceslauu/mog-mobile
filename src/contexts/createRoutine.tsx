@@ -1,6 +1,6 @@
 import { RoutineDraft } from "@/types/Routine";
 import { createContext } from "react";
-import { Updater, DraftFunction } from "use-immer";
+import { DraftFunction } from "use-immer";
 
 export type CreateRoutineContextData = {
   routine: RoutineDraft;

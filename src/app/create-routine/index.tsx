@@ -32,7 +32,7 @@ const mockedRoutine = {
               sets: [
                 {
                   reps: 12,
-                  intensity: "90%",
+                  intensity: 9,
                 },
               ],
             },
@@ -47,7 +47,7 @@ const mockedRoutine = {
               sets: [
                 {
                   reps: 12,
-                  intensity: "90%",
+                  intensity: 9,
                 },
               ],
             },
@@ -67,7 +67,7 @@ const mockedRoutine = {
               sets: [
                 {
                   reps: 12,
-                  intensity: "90%",
+                  intensity: 9,
                 },
               ],
             },
@@ -93,8 +93,8 @@ export default function CreateRoutineScreen() {
     // GH Discussion: https://github.com/orgs/react-hook-form/discussions/9046
     // Values option would reinit the form everytime a dependency changes(proposal's option B) and that is not great for performance
     defaultValues: {
-      name: routine.name || "",
-      description: routine.description || "",
+      name: routine.name,
+      description: routine.description,
     },
   });
 
@@ -109,7 +109,6 @@ export default function CreateRoutineScreen() {
     }
   }, []);
 
-  
   const onBeforeRemove = useCallback(() => {
     if (id && !isDirty) {
       resetRoutine();

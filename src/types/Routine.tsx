@@ -46,8 +46,8 @@ export interface RoutineDraft {
         name: string;
         image?: any;
         sets: {
-          reps: number;
-          intensity: string;
+          reps?: number;
+          intensity?: number;
         }[];
       }[];
     }[];

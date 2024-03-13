@@ -25,16 +25,8 @@ export default function CreateRoutineProvider({
                 image: "https://source.unsplash.com/random",
                 sets: [
                   {
-                    reps: 10,
-                    intensity: "RPE 7",
-                  },
-                  {
-                    reps: 10,
-                    intensity: "RPE 8",
-                  },
-                  {
-                    reps: 10,
-                    intensity: "RPE 9",
+                    reps: undefined,
+                    intensity: undefined,
                   },
                 ],
               },
@@ -64,16 +56,8 @@ export default function CreateRoutineProvider({
                   image: "https://source.unsplash.com/random",
                   sets: [
                     {
-                      reps: 10,
-                      intensity: "RPE 7",
-                    },
-                    {
-                      reps: 10,
-                      intensity: "RPE 8",
-                    },
-                    {
-                      reps: 10,
-                      intensity: "RPE 9",
+                      reps: undefined,
+                      intensity: undefined,
                     },
                   ],
                 },

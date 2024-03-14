@@ -19,3 +19,17 @@ export interface ExerciseLog {
     weight: number;
   }[];
 }
+
+export interface ExerciseSelection {
+  id: number;
+  image?: any;
+  name: string;
+  isFavorite: boolean;
+  targetMuscle: string;
+}
+
+export interface ExerciseSelectionSimple {
+  id: number;
+  image?: any;
+  name: string;
+}

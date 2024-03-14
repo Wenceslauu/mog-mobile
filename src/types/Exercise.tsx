@@ -32,4 +32,10 @@ export interface ExerciseSelectionSimple {
   id: number;
   image?: any;
   name: string;
+  sets: [
+    {
+      reps: undefined;
+      intensity: undefined;
+    }
+  ];
 }

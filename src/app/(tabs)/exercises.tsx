@@ -3,14 +3,12 @@ import { FlashList } from "@shopify/flash-list";
 
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation, Link } from "expo-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import FilterDropdown from "@/components/FilterDropdown";
 
 import Box from "@/components/Box";
-import Text from "@/components/Text";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import ExerciseCard from "@/components/exercises/ExerciseCard";
@@ -243,16 +241,6 @@ export default function ExercisesTab() {
   // Scroll to top when the active tab is tapped
   useScrollToTop(exercisesListRef);
 
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
-
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -269,7 +257,7 @@ export default function ExercisesTab() {
               )}
             </Pressable>
           </Link>
-          <Pressable onPress={handlePresentModalPress}>
+          <Pressable onPress={() => console.log("actions")}>
             {({ pressed }) => (
               <MaterialCommunityIcons
                 name="dots-horizontal"
@@ -293,7 +281,6 @@ export default function ExercisesTab() {
       flex={1}
       gap="xs"
       paddingTop="m"
-      // paddingHorizontal="m"
       backgroundColor="surface"
     >
       <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
@@ -330,24 +317,6 @@ export default function ExercisesTab() {
         ItemSeparatorComponent={() => <Box height={4} />}
         contentContainerStyle={{ paddingBottom: 30 }}
       />
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={1}
-        snapPoints={["25%", "50%"]}
-        onChange={handleSheetChanges}
-        backgroundStyle={{
-          backgroundColor: colors.surfaceContainer,
-        }}
-        handleIndicatorStyle={{
-          backgroundColor: colors.onSurfaceContainer,
-        }}
-      >
-        <Box flex={1} alignItems="center">
-          <Text variant="title" color="onSurfaceContainer">
-            Awesome 🎉
-          </Text>
-        </Box>
-      </BottomSheetModal>
     </Box>
   );
 }

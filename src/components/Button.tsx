@@ -2,9 +2,10 @@ import { Pressable } from "react-native";
 
 import Box from "./Box";
 import Text from "./Text";
+import { ReactNode } from "react";
 
 type ButtonProps = {
-  children: string;
+  children?: ReactNode;
   variant: "primary" | "secondary" | "tertiary";
   onPress?: () => void;
 };

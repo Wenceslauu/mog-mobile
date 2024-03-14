@@ -44,7 +44,7 @@ export interface RoutineDraft {
       exercises: {
         id: number;
         name: string;
-        image?: any;
+        image?: string;
         sets: {
           reps?: number;
           intensity?: number;

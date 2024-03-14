@@ -49,7 +49,7 @@ export default function TruncatedText({ text }: TruncatedTextProps) {
               </Text>
               {showMore && (
                 <LinearGradient
-                  colors={["transparent", colors.surface]}
+                  colors={[colors.surface + "00", colors.surface]}
                   style={{
                     position: "absolute",
                     left: 0,

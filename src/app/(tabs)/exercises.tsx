@@ -293,10 +293,10 @@ export default function ExercisesTab() {
       flex={1}
       gap="xs"
       paddingTop="m"
-      paddingHorizontal="m"
+      // paddingHorizontal="m"
       backgroundColor="surface"
     >
-      <Box alignItems="center" width="100%" zIndex={1}>
+      <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
         <LocalSearchBar text={searchText} setText={setSearchText} />
         <Box height={70} alignSelf="flex-start">
           <FilterDropdown<TargetMuscle>
@@ -327,6 +327,7 @@ export default function ExercisesTab() {
         )}
         estimatedItemSize={106}
         renderItem={({ item }) => <ExerciseCard exercise={item} />}
+        ItemSeparatorComponent={() => <Box height={4} />}
         contentContainerStyle={{ paddingBottom: 30 }}
       />
       <BottomSheetModal

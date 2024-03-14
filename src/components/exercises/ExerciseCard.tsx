@@ -31,8 +31,8 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
             gap="s"
             height={90}
             padding="s"
-            borderTopWidth={1}
-            borderColor="outline"
+            backgroundColor="surfaceContainer"
+            paddingHorizontal="m"
             opacity={pressed ? 0.5 : 1}
           >
             <Image
@@ -67,7 +67,7 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
                     <Ionicons
                       name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
                       size={29}
-                      color={colors.onSurface}
+                      color={exercise.isFavorite ? colors.primary : colors.onSurface}
                       style={{
                         opacity: pressed ? 0.5 : 1,
                       }}

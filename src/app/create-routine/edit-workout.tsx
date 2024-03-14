@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import ExerciseCardDraft from "@/components/create-routine/ExerciseCardDraft";
 import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { router, useLocalSearchParams } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { ScrollView } from "react-native";
 
@@ -11,6 +11,7 @@ type FormData = {
   exercises: {
     id: number;
     name: string;
+    image?: string;
     sets: {
       reps?: number;
       intensity?: number;
@@ -21,13 +22,31 @@ type FormData = {
 export default function EditWorkoutScreen() {
   const { routine, setRoutine, setIsDirty } = useContext(CreateRoutineContext);
 
-  const { cycleIndex, workoutIndex } = useLocalSearchParams();
+  const { cycleIndex, workoutIndex, selectedExercises } =
+    useLocalSearchParams();
+
+  // We need to cache the indexes to avoid losing them when the user navigates back from the add-exercises screen
+  // That would not be necessary if expo router had an option to merge params
+  // TODO: Maybe useRef here?
+  const [cachedIndexes] = useState({
+    cycleIndex,
+    workoutIndex,
+  });
+
+  useEffect(() => {
+    if (selectedExercises) {
+      const parsedSelectedExercises = JSON.parse(selectedExercises as string);
+
+      append(parsedSelectedExercises);
+    }
+  }, [selectedExercises]);
 
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       exercises:
-        routine.cycles[Number(cycleIndex)].workouts[Number(workoutIndex)]
-          .exercises,
+        routine.cycles[Number(cachedIndexes.cycleIndex)].workouts[
+          Number(cachedIndexes.workoutIndex)
+        ].exercises,
     },
   });
 
@@ -35,8 +54,8 @@ export default function EditWorkoutScreen() {
 
   const onSubmit = handleSubmit((data) => {
     setRoutine((draft) => {
-      draft.cycles[Number(cycleIndex)].workouts[
-        Number(workoutIndex)
+      draft.cycles[Number(cachedIndexes.cycleIndex)].workouts[
+        Number(cachedIndexes.workoutIndex)
       ].exercises = data.exercises;
     });
 

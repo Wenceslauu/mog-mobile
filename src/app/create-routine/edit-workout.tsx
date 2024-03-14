@@ -45,6 +45,10 @@ export default function EditWorkoutScreen() {
     router.push("/create-routine/edit-cycles");
   });
 
+  const handleAddExercise = () => {
+    router.push("/create-routine/add-exercises");
+  };
+
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
       <ScrollView
@@ -65,7 +69,9 @@ export default function EditWorkoutScreen() {
             />
           );
         })}
-        <Button variant="secondary">Add exercise</Button>
+        <Button variant="secondary" onPress={handleAddExercise}>
+          Add exercise
+        </Button>
       </ScrollView>
       <Box
         backgroundColor="surfaceContainer"

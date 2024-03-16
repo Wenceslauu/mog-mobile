@@ -158,6 +158,9 @@ export default function EditCyclesScreen() {
         navigationState={{ index, routes }}
         // TODO: Try to optimize with shouldComponentUpdate?
         renderScene={({ route }) => {
+          // TODO: Add empty state view to encourage users to add a cycle
+          if (!routine.cycles[Number(route.key)]) return null;
+
           return (
             <CycleTabDraft
               // If index is used here, there is a big delay and layout shift on scene change

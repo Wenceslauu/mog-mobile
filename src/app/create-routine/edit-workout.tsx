@@ -1,7 +1,7 @@
 import Box from "@/components/Box";
 import Button from "@/components/Button";
 import ExerciseCardDraft from "@/components/create-routine/ExerciseCardDraft";
-import { CreateRoutineContext } from "@/contexts/createRoutine";
+import { useCreateRoutine } from "@/providers/createRoutine";
 import { router, useLocalSearchParams } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -20,7 +20,9 @@ type FormData = {
 };
 
 export default function EditWorkoutScreen() {
-  const { routine, setRoutine, setIsDirty } = useContext(CreateRoutineContext);
+  const { routine, setRoutine, setIsDirty } = useCreateRoutine();
+
+  useCreateRoutine;
 
   const { cycleIndex, workoutIndex, selectedExercises } =
     useLocalSearchParams();

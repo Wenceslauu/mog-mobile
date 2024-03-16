@@ -14,10 +14,6 @@ import { StatusBar } from "expo-status-bar";
 
 export type Appearance = "System" | "Light" | "Dark";
 
-type ThemeProviderProps = {
-  children: ReactNode;
-};
-
 type ThemeProviderData = {
   appearance: Appearance;
   setAppearance: Dispatch<SetStateAction<Appearance>>;
@@ -26,6 +22,10 @@ type ThemeProviderData = {
 export const ThemeContext = createContext<ThemeProviderData>(
   {} as ThemeProviderData
 );
+
+type ThemeProviderProps = {
+  children: ReactNode;
+};
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   // Theme stands for different color schemes, i.e. light and dark

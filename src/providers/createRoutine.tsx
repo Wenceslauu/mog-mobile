@@ -1,6 +1,21 @@
-import { CreateRoutineContext } from "@/contexts/createRoutine";
-import { ReactNode, useState } from "react";
-import { useImmer } from "use-immer";
+import { RoutineDraft } from "@/types/Routine";
+import { ReactNode, createContext, useContext, useState } from "react";
+import { DraftFunction, useImmer } from "use-immer";
+
+export type CreateRoutineContextData = {
+  routine: RoutineDraft;
+  setRoutine: (
+    immerRoutine: RoutineDraft | DraftFunction<RoutineDraft>
+  ) => void;
+  resetRoutine: () => void;
+
+  isDirty: boolean;
+  setIsDirty: (isDirty: boolean) => void;
+};
+
+export const CreateRoutineContext = createContext<CreateRoutineContextData>(
+  {} as CreateRoutineContextData
+);
 
 type CreateRoutineProviderProps = {
   children: ReactNode;
@@ -76,4 +91,8 @@ export default function CreateRoutineProvider({
       {children}
     </CreateRoutineContext.Provider>
   );
+}
+
+export function useCreateRoutine() {
+  return useContext(CreateRoutineContext);
 }

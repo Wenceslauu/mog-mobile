@@ -2,14 +2,14 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
-import { CreateRoutineContext } from "@/contexts/createRoutine";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/TextInput";
 import { Alert, AlertButton } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
+import { useCreateRoutine } from "@/providers/createRoutine";
 
 type FormData = {
   name: string;
@@ -80,7 +80,7 @@ const mockedRoutine = {
 
 export default function CreateRoutineScreen() {
   const { routine, setRoutine, resetRoutine, isDirty, setIsDirty } =
-    useContext(CreateRoutineContext);
+    useCreateRoutine();
 
   const { id } = useLocalSearchParams();
 

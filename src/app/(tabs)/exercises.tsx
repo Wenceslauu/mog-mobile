@@ -13,6 +13,7 @@ import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import ExerciseCard from "@/components/exercises/ExerciseCard";
 import { useScrollToTop } from "@react-navigation/native";
+import { useActionSheet } from "@/providers/actionSheet";
 
 type TargetMuscle =
   | "Chest"
@@ -233,6 +234,8 @@ export default function ExercisesTab() {
 
   const [targetMuscle, setTargetMuscle] = useState<TargetMuscle>(null);
 
+  const { openActionSheet } = useActionSheet();
+
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
@@ -257,7 +260,16 @@ export default function ExercisesTab() {
               )}
             </Pressable>
           </Link>
-          <Pressable onPress={() => console.log("actions")}>
+          <Pressable
+            onPress={() => {
+              openActionSheet([
+                {
+                  name: "Change achievement in display",
+                  callback: () => console.log("Change achievement in display"),
+                },
+              ]);
+            }}
+          >
             {({ pressed }) => (
               <MaterialCommunityIcons
                 name="dots-horizontal"
@@ -274,49 +286,46 @@ export default function ExercisesTab() {
         </Box>
       ),
     });
-  }, [navigation]);
+  }, [navigation, colors]);
 
   return (
-    <Box
-      flex={1}
-      gap="xs"
-      paddingTop="m"
-      backgroundColor="surface"
-    >
-      <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
-        <LocalSearchBar text={searchText} setText={setSearchText} />
-        <Box height={70} alignSelf="flex-start">
-          <FilterDropdown<TargetMuscle>
-            name="Muscle Group"
-            selected={targetMuscle}
-            setSelected={setTargetMuscle}
-            options={[
-              "Chest",
-              "Back",
-              "Quads",
-              "Hamstrings",
-              "Calves",
-              "Abs",
-              "Shoulders",
-              "Biceps",
-              "Triceps",
-            ]}
-          />
+    <>
+      <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
+        <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
+          <LocalSearchBar text={searchText} setText={setSearchText} />
+          <Box height={70} alignSelf="flex-start">
+            <FilterDropdown<TargetMuscle>
+              name="Muscle Group"
+              selected={targetMuscle}
+              setSelected={setTargetMuscle}
+              options={[
+                "Chest",
+                "Back",
+                "Quads",
+                "Hamstrings",
+                "Calves",
+                "Abs",
+                "Shoulders",
+                "Biceps",
+                "Triceps",
+              ]}
+            />
+          </Box>
         </Box>
+        <FlashList
+          ref={exercisesListRef}
+          keyboardDismissMode="on-drag"
+          data={mockedExercises.filter(
+            (exercise) =>
+              searchRegex.test(exercise.name) &&
+              (!targetMuscle || exercise.targetMuscle === targetMuscle)
+          )}
+          estimatedItemSize={106}
+          renderItem={({ item }) => <ExerciseCard exercise={item} />}
+          ItemSeparatorComponent={() => <Box height={4} />}
+          contentContainerStyle={{ paddingBottom: 30 }}
+        />
       </Box>
-      <FlashList
-        ref={exercisesListRef}
-        keyboardDismissMode="on-drag"
-        data={mockedExercises.filter(
-          (exercise) =>
-            searchRegex.test(exercise.name) &&
-            (!targetMuscle || exercise.targetMuscle === targetMuscle)
-        )}
-        estimatedItemSize={106}
-        renderItem={({ item }) => <ExerciseCard exercise={item} />}
-        ItemSeparatorComponent={() => <Box height={4} />}
-        contentContainerStyle={{ paddingBottom: 30 }}
-      />
-    </Box>
+    </>
   );
 }

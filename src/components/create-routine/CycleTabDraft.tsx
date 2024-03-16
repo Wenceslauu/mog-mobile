@@ -6,14 +6,22 @@ type CycleTabProps = {
   workoutDrafts: {
     name: string;
   }[];
-  handleAddWorkout: () => void;
   cycleIndex: number;
+  handleAddWorkout: () => void;
+  handleDeleteWorkout: (cycleIndex: number, workoutIndex: number) => void;
+  handleRenameWorkout: (
+    name: string,
+    cycleIndex: number,
+    workoutIndex: number
+  ) => void;
 };
 
 export default function CycleTabDraft({
   workoutDrafts,
-  handleAddWorkout,
   cycleIndex,
+  handleAddWorkout,
+  handleDeleteWorkout,
+  handleRenameWorkout,
 }: CycleTabProps) {
   return (
     <ScrollView
@@ -31,6 +39,8 @@ export default function CycleTabDraft({
             name={workoutDraft.name}
             cycleIndex={cycleIndex}
             workoutIndex={index}
+            handleDeleteWorkout={handleDeleteWorkout}
+            handleRenameWorkout={handleRenameWorkout}
           />
         );
       })}

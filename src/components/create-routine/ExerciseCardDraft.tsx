@@ -9,26 +9,31 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
 import { useFieldArray, useWatch } from "react-hook-form";
-import { useEffect } from "react";
 import SetRowDraft from "./SetRowDraft";
+import { useActionSheet } from "@/providers/actionSheet";
+import * as Haptics from "expo-haptics";
 
 type ExerciseCardDraftProps = {
   control: any;
   exerciseIndex: number;
+  handleDeleteExercise: (exerciseIndex: number) => void;
 };
 
 export default function ExerciseCardDraft({
   control,
   exerciseIndex,
+  handleDeleteExercise,
 }: ExerciseCardDraftProps) {
   const { colors } = useTheme<Theme>();
+
+  const { openActionSheet } = useActionSheet();
 
   const exerciseDraft = useWatch({
     control,
     name: `exercises.${exerciseIndex}`,
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
@@ -38,6 +43,10 @@ export default function ExerciseCardDraft({
       reps: undefined,
       intensity: undefined,
     });
+  };
+
+  const handleDeleteSet = (setIndex: number) => {
+    remove(setIndex);
   };
 
   return (
@@ -54,7 +63,20 @@ export default function ExerciseCardDraft({
         }}
         asChild
       >
-        <Pressable>
+        <Pressable
+          onLongPress={() => {
+            Haptics.selectionAsync();
+
+            openActionSheet([
+              {
+                name: "Delete Exercise",
+                callback: () => {
+                  handleDeleteExercise(exerciseIndex);
+                },
+              },
+            ]);
+          }}
+        >
           {({ pressed }) => (
             <Box
               flexDirection="row"
@@ -120,6 +142,7 @@ export default function ExerciseCardDraft({
               index={index}
               control={control}
               exerciseIndex={exerciseIndex}
+              handleDeleteSet={handleDeleteSet}
             />
           );
         })}

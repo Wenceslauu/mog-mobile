@@ -3,7 +3,12 @@ import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import { useEffect, useState } from "react";
-import { Animated, Pressable, useWindowDimensions } from "react-native";
+import {
+  Animated,
+  Pressable,
+  useWindowDimensions,
+  ScrollView,
+} from "react-native";
 import {
   NavigationState,
   SceneRendererProps,
@@ -12,7 +17,6 @@ import {
 import { useCreateRoutine } from "@/providers/createRoutine";
 import CycleTabDraft from "@/components/create-routine/CycleTabDraft";
 import { Ionicons } from "@expo/vector-icons";
-import { ScrollView } from "react-native-gesture-handler";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 import { Link } from "expo-router";
@@ -123,12 +127,8 @@ export default function EditCyclesScreen() {
                       {...props}
                       key={index}
                       index={index}
-                      handleRenameCycle={(newTitle) => {
-                        handleRenameCycle(newTitle, index);
-                      }}
-                      handleDeleteCycle={() => {
-                        handleDeleteCycle(index);
-                      }}
+                      handleRenameCycle={handleRenameCycle}
+                      handleDeleteCycle={handleDeleteCycle}
                     />
                   );
                 })}
@@ -196,8 +196,8 @@ type CustomTabBarButtonProps = SceneRendererProps & {
   }>;
 } & {
   index: number;
-  handleRenameCycle: (name: string) => void;
-  handleDeleteCycle: () => void;
+  handleRenameCycle: (name: string, cycleIndex: number) => void;
+  handleDeleteCycle: (cycleIndex: number) => void;
 };
 
 function CustomTabBarButton({
@@ -243,7 +243,7 @@ function CustomTabBarButton({
           {
             name: "Delete Cycle",
             callback: () => {
-              handleDeleteCycle();
+              handleDeleteCycle(index);
             },
           },
           {
@@ -269,7 +269,7 @@ function CustomTabBarButton({
               value={title}
               onChangeText={setTitle}
               onBlur={() => {
-                handleRenameCycle(title);
+                handleRenameCycle(title, index);
                 setEditing(false);
               }}
               variant="body"

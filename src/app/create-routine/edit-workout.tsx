@@ -22,8 +22,6 @@ type FormData = {
 export default function EditWorkoutScreen() {
   const { routine, setRoutine, setIsDirty } = useCreateRoutine();
 
-  useCreateRoutine;
-
   const { cycleIndex, workoutIndex, selectedExercises } =
     useLocalSearchParams();
 
@@ -35,14 +33,6 @@ export default function EditWorkoutScreen() {
     workoutIndex,
   });
 
-  useEffect(() => {
-    if (selectedExercises) {
-      const parsedSelectedExercises = JSON.parse(selectedExercises as string);
-
-      append(parsedSelectedExercises);
-    }
-  }, [selectedExercises]);
-
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       exercises:
@@ -52,7 +42,15 @@ export default function EditWorkoutScreen() {
     },
   });
 
-  const { fields, append } = useFieldArray({ control, name: "exercises" });
+  const { fields, append, remove } = useFieldArray({ control, name: "exercises" });
+
+  useEffect(() => {
+    if (selectedExercises) {
+      const parsedSelectedExercises = JSON.parse(selectedExercises as string);
+
+      append(parsedSelectedExercises);
+    }
+  }, [selectedExercises]);
 
   const onSubmit = handleSubmit((data) => {
     setRoutine((draft) => {
@@ -69,6 +67,10 @@ export default function EditWorkoutScreen() {
   const handleAddExercise = () => {
     router.push("/create-routine/add-exercises");
   };
+
+  const handleDeleteExercise = (exerciseIndex: number) => {
+    remove(exerciseIndex)
+  }
 
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
@@ -87,6 +89,7 @@ export default function EditWorkoutScreen() {
               key={field.id}
               exerciseIndex={index}
               control={control}
+              handleDeleteExercise={handleDeleteExercise}
             />
           );
         })}

@@ -48,17 +48,33 @@ export default function PostCard({
                 alignItems="center"
                 paddingHorizontal="m"
               >
-                <Box flexDirection="row" gap="s">
-                  <Avatar source={post.author.picture} size="m" />
-                  <Box>
-                    <Text variant="title" color="onSurface">
-                      {post.author.name}
-                    </Text>
-                    <Text variant="label" color="onSurface">
-                      {dayjs(post.timestamp).fromNow()}
-                    </Text>
-                  </Box>
-                </Box>
+                <Link
+                  href={{
+                    pathname: `/profiles/${post.author.id}`,
+                    params: { name: post.author.name },
+                  }}
+                  asChild
+                >
+                  <Pressable>
+                    {({ pressed }) => (
+                      <Box
+                        flexDirection="row"
+                        gap="s"
+                        opacity={pressed ? 0.5 : 1}
+                      >
+                        <Avatar source={post.author.picture} size="m" />
+                        <Box>
+                          <Text variant="title" color="onSurface">
+                            {post.author.name}
+                          </Text>
+                          <Text variant="label" color="onSurface">
+                            {dayjs(post.timestamp).fromNow()}
+                          </Text>
+                        </Box>
+                      </Box>
+                    )}
+                  </Pressable>
+                </Link>
                 <Ionicons
                   name="chevron-forward"
                   size={27}

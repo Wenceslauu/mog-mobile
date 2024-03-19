@@ -9,12 +9,17 @@ import { useTheme } from "@shopify/restyle";
 import { Pressable, ScrollView } from "react-native";
 import Table from "@/components/Table";
 import TruncatedText from "@/components/TruncatedText";
+import { Link } from "expo-router";
 
 const mockedRoutine = {
   id: 1,
   // thumbnail: require("../../../assets/images/bench-press.jpg"),
   name: "Braço de 50 cm",
-  author: "wences",
+  author: {
+    id: 1,
+    name: "wences",
+    picture: "https://unavatar.io/github/Wenceslauu",
+  },
   category: "Hypertrophy",
   difficulty: "Intermediate",
   daysPerWeek: "4 days/week",
@@ -32,6 +37,7 @@ const mockedRoutine = {
       text: "Muito bom, recomendo",
       date: new Date(2024, 1, 10),
       author: {
+        id: 1,
         name: "Wenceslauu",
         picture: "https://unavatar.io/github/Wenceslauu",
       },
@@ -42,6 +48,7 @@ const mockedRoutine = {
       text: "Sei lá, meio paia",
       date: new Date(2024, 1, 10),
       author: {
+        id: 2,
         name: "Lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -62,15 +69,27 @@ export default function RoutineDetailsAboutTab() {
           <Text variant="title" color="onSurface">
             Author
           </Text>
-          <Box flexDirection="row" gap="s">
-            <Avatar
-              size="m"
-              source={{ uri: "https://unavatar.io/github/Wenceslauu" }}
-            />
-            <Text variant="body" color="onSurface">
-              {mockedRoutine.author}
-            </Text>
-          </Box>
+          <Link
+            href={{
+              pathname: `/profiles/${mockedRoutine.author.id}`,
+              params: { name: mockedRoutine.author.name },
+            }}
+            asChild
+          >
+            <Pressable>
+              {({ pressed }) => (
+                <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
+                  <Avatar
+                    size="m"
+                    source={{ uri: "https://unavatar.io/github/Wenceslauu" }}
+                  />
+                  <Text variant="body" color="onSurface">
+                    {mockedRoutine.author.name}
+                  </Text>
+                </Box>
+              )}
+            </Pressable>
+          </Link>
         </Box>
         {/* paddingHorizontal is not here so as not to mess up the gradient */}
         <Box gap="s">

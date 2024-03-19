@@ -6,7 +6,7 @@ import { Theme } from "@/constants/theme";
 import dayjs from "@/lib/dayjs";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
 import { Pressable, useWindowDimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
@@ -20,6 +20,7 @@ import useCommentSection from "@/hooks/useCommentSection";
 const mockedPost = {
   id: 1,
   author: {
+    id: 1,
     name: "wences",
     picture: "https://unavatar.io/github/Wenceslauu",
   },
@@ -199,17 +200,29 @@ function PostDetailsFlashListHeader({
         alignItems="center"
         paddingHorizontal="m"
       >
-        <Box flexDirection="row" gap="s">
-          <Avatar source={mockedPost.author.picture} size="m" />
-          <Box>
-            <Text variant="title" color="onSurface">
-              {mockedPost.author.name}
-            </Text>
-            <Text variant="label" color="onSurface">
-              {dayjs(mockedPost.timestamp).format("LLLL")}
-            </Text>
-          </Box>
-        </Box>
+        <Link
+          href={{
+            pathname: `/profiles/${mockedPost.author.id}`,
+            params: { name: mockedPost.author.name },
+          }}
+          asChild
+        >
+          <Pressable>
+            {({ pressed }) => (
+              <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
+                <Avatar source={mockedPost.author.picture} size="m" />
+                <Box>
+                  <Text variant="title" color="onSurface">
+                    {mockedPost.author.name}
+                  </Text>
+                  <Text variant="label" color="onSurface">
+                    {dayjs(mockedPost.timestamp).format("LLLL")}
+                  </Text>
+                </Box>
+              </Box>
+            )}
+          </Pressable>
+        </Link>
       </Box>
       <Text color="onSurface" paddingHorizontal="m">
         {mockedPost.text}

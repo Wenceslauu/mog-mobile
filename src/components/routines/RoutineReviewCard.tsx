@@ -6,6 +6,8 @@ import { RoutineReview } from "@/types/Routine";
 import dayjs from "@/lib/dayjs";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
+import { Pressable } from "react-native";
+import { Link } from "expo-router";
 
 type RoutineReviewPreviewCardProps = {
   review: RoutineReview;
@@ -24,15 +26,27 @@ export default function RoutineReviewCard({
       padding="m"
     >
       <Box flexDirection="row" justifyContent="space-between">
-        <Box flexDirection="row" gap="s">
-          <Avatar
-            size="s"
-            source={{ uri: "https://unavatar.io/github/Wenceslauu" }}
-          />
-          <Text variant="body" color="onSurfaceContainer">
-            {review.author.name}
-          </Text>
-        </Box>
+        <Link
+          href={{
+            pathname: `/profiles/${review.author.id}`,
+            params: { name: review.author.name },
+          }}
+          asChild
+        >
+          <Pressable>
+            {({ pressed }) => (
+              <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
+                <Avatar
+                  size="s"
+                  source={{ uri: "https://unavatar.io/github/Wenceslauu" }}
+                />
+                <Text variant="body" color="onSurfaceContainer">
+                  {review.author.name}
+                </Text>
+              </Box>
+            )}
+          </Pressable>
+        </Link>
         <Box alignItems="flex-end" gap="xs">
           <Box>
             <RatingStars rating={review.rating} />

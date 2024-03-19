@@ -59,7 +59,7 @@ export default function RoutineCard({
                 </Text>
                 <Box flexDirection="row" justifyContent="space-between">
                   <Text variant="body" color="onSurfaceContainer">
-                    {routine.author}
+                    {routine.author.name}
                   </Text>
                   <Text variant="body" color="onSurfaceContainer">
                     {routine.numberOfAthletes} atletas

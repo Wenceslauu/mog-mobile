@@ -4,6 +4,7 @@ import {
   BottomSheetTextInput,
   BottomSheetFooter,
   BottomSheetFooterProps,
+  BottomSheetBackdrop,
 } from "@gorhom/bottom-sheet";
 import Avatar from "../Avatar";
 import Box from "../Box";
@@ -133,6 +134,13 @@ export default forwardRef(function CommentsBottomSheetModal(
       android_keyboardInputMode="adjustResize"
       keyboardBehavior="extend"
       keyboardBlurBehavior="restore"
+      backdropComponent={(props) => (
+        <BottomSheetBackdrop
+          {...props}
+          disappearsOnIndex={-1}
+          appearsOnIndex={0}
+        />
+      )}
       footerComponent={(props) => (
         <CustomBottomSheetModalFooter
           {...props}
@@ -157,7 +165,14 @@ export default forwardRef(function CommentsBottomSheetModal(
       </Box>
       <BottomSheetFlatList
         data={mockedComments}
-        renderItem={({ item }) => <PostComment comment={item} />}
+        renderItem={({ item }) => (
+          <PostComment
+            comment={item}
+            closeCommentSection={() => {
+              bottomSheetModalRef.current?.dismiss();
+            }}
+          />
+        )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ gap: 16 }}
       />

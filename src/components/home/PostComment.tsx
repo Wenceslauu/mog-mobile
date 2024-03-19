@@ -8,9 +8,13 @@ import { Pressable } from "react-native";
 
 type CommentProps = {
   comment: Comment;
+  closeCommentSection?: () => void;
 };
 
-export default function PostComment({ comment }: CommentProps) {
+export default function PostComment({
+  comment,
+  closeCommentSection,
+}: CommentProps) {
   return (
     <Box flexDirection="row" gap="s">
       <Link
@@ -20,7 +24,7 @@ export default function PostComment({ comment }: CommentProps) {
         }}
         asChild
       >
-        <Pressable>
+        <Pressable onPress={closeCommentSection}>
           {({ pressed }) => (
             <Box opacity={pressed ? 0.5 : 1}>
               <Avatar source={comment.author.picture} size="s" />

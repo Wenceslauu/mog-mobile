@@ -33,6 +33,7 @@ export default forwardRef(function CommentsBottomSheetModal(
       ? [
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -41,6 +42,7 @@ export default forwardRef(function CommentsBottomSheetModal(
           },
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -49,6 +51,7 @@ export default forwardRef(function CommentsBottomSheetModal(
           },
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -57,6 +60,7 @@ export default forwardRef(function CommentsBottomSheetModal(
           },
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -65,6 +69,7 @@ export default forwardRef(function CommentsBottomSheetModal(
           },
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -73,6 +78,7 @@ export default forwardRef(function CommentsBottomSheetModal(
           },
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -81,6 +87,7 @@ export default forwardRef(function CommentsBottomSheetModal(
           },
           {
             author: {
+              id: 2,
               name: "lui",
               picture: "https://unavatar.io/github/pedroandrade03",
             },
@@ -92,6 +99,7 @@ export default forwardRef(function CommentsBottomSheetModal(
       ? [
           {
             author: {
+              id: 1,
               name: "wences",
               picture: "https://unavatar.io/github/Wenceslauu",
             },

@@ -2,7 +2,11 @@ export interface Routine {
   id: number;
   thumbnail?: any;
   name: string;
-  author: string;
+  author: {
+    id: number;
+    name: string;
+    picture: string;
+  };
   rating: number;
   category: string;
   daysPerWeek: string;
@@ -15,6 +19,7 @@ export interface Routine {
 export interface RoutineReview {
   id: number;
   author: {
+    id: number;
     name: string;
     picture: string;
   };

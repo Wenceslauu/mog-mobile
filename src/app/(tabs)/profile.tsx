@@ -53,6 +53,7 @@ const mockedUser = {
     {
       id: 1,
       author: {
+        id: 1,
         name: "wences",
         picture: "https://unavatar.io/github/Wenceslauu",
       },
@@ -95,6 +96,7 @@ const mockedUser = {
       comments: [
         {
           author: {
+            id: 2,
             name: "lui",
             picture: "https://unavatar.io/github/pedroandrade03",
           },
@@ -106,6 +108,7 @@ const mockedUser = {
     {
       id: 2,
       author: {
+        id: 1,
         name: "wences",
         picture: "https://unavatar.io/github/Wenceslauu",
       },
@@ -148,6 +151,7 @@ const mockedUser = {
       comments: [
         {
           author: {
+            id: 2,
             name: "lui",
             picture: "https://unavatar.io/github/pedroandrade03",
           },

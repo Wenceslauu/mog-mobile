@@ -1,6 +1,7 @@
 export interface Post {
   id: number;
   author: {
+    id: number;
     name: string;
     picture: string;
   };
@@ -19,6 +20,7 @@ export interface Post {
 
 export interface Comment {
   author: {
+    id: number;
     name: string;
     picture: string;
   };

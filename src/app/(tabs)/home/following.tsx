@@ -13,6 +13,7 @@ const mockedPosts = [
   {
     id: 1,
     author: {
+      id: 2,
       name: "lui",
       picture: "https://unavatar.io/github/pedroandrade03",
     },
@@ -55,6 +56,7 @@ const mockedPosts = [
     comments: [
       {
         author: {
+          id: 1,
           name: "wences",
           picture: "https://unavatar.io/github/Wenceslauu",
         },
@@ -66,6 +68,7 @@ const mockedPosts = [
   {
     id: 2,
     author: {
+      id: 1,
       name: "wences",
       picture: "https://unavatar.io/github/Wenceslauu",
     },
@@ -111,6 +114,7 @@ const mockedPosts = [
     comments: [
       {
         author: {
+          id: 2,
           name: "lui",
           picture: "https://unavatar.io/github/pedroandrade03",
         },

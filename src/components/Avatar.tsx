@@ -1,3 +1,4 @@
+import blurhash from "@/constants/blurhash";
 import { Image } from "expo-image";
 
 enum AvatarSize {
@@ -17,6 +18,7 @@ export default function Avatar({ source, size }: AvatarProps) {
   return (
     <Image
       source={source}
+      placeholder={blurhash}
       style={{
         borderRadius: sizeInPixels / 2,
         width: sizeInPixels,

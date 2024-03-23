@@ -57,6 +57,12 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="activity" options={{ title: "Activity" }} />
         <Stack.Screen
+          name="search"
+          options={{
+            title: "Search",
+          }}
+        />
+        <Stack.Screen
           name="create-routine/index"
           options={{
             title: "Create Routine",

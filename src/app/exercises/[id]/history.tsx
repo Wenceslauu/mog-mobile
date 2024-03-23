@@ -4,6 +4,7 @@ import { FlashList } from "@shopify/flash-list";
 
 const mockedLogs = [
   {
+    workoutLogId: 1,
     workout: "Upper 1",
     date: new Date(2024, 1, 12),
     sets: [
@@ -13,6 +14,7 @@ const mockedLogs = [
     ],
   },
   {
+    workoutLogId: 2,
     workout: "Upper 1",
     date: new Date(2024, 1, 5),
     sets: [

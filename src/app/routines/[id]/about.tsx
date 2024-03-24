@@ -6,10 +6,14 @@ import { Theme } from "@/constants/theme";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { FlashList } from "@shopify/flash-list";
 import { useTheme } from "@shopify/restyle";
-import { Pressable, ScrollView } from "react-native";
+import { Animated, Pressable } from "react-native";
 import Table from "@/components/Table";
 import TruncatedText from "@/components/TruncatedText";
 import { Link } from "expo-router";
+import { useContext, useEffect } from "react";
+import { ScrollingContext } from "@/contexts/scrolling";
+import { HEADER_MAX_HEIGHT } from "./_layout";
+import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 
 const mockedRoutine = {
   id: 1,
@@ -57,13 +61,33 @@ const mockedRoutine = {
 };
 
 export default function RoutineDetailsAboutTab() {
+  const { scrollY } = useContext(ScrollingContext);
+
   const { colors } = useTheme<Theme>();
+
+  useEffect(() => {
+    console.log("inner scroll", scrollY);
+  }, [scrollY]);
 
   return (
     <Box flex={1} gap="xs" backgroundColor="surface">
-      <ScrollView
-        contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
+      <Animated.ScrollView
+        contentContainerStyle={{
+          gap: 16,
+          paddingBottom: 30,
+          paddingTop: HEADER_MAX_HEIGHT + TABVIEW_HEADER_HEIGHT,
+        }}
         showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onScroll={Animated.event([
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY,
+              },
+            },
+          },
+        ])}
       >
         <Box gap="s" paddingHorizontal="m">
           <Text variant="title" color="onSurface">
@@ -155,7 +179,7 @@ export default function RoutineDetailsAboutTab() {
             ]}
           />
         </Box>
-      </ScrollView>
+      </Animated.ScrollView>
     </Box>
   );
 }

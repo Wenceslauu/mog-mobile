@@ -9,6 +9,8 @@ import { useTheme } from "@shopify/restyle";
 import Box from "./Box";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 
+const HEADER_MAX_HEIGHT = 200;
+
 const Tab = createMaterialTopTabNavigator();
 
 type CustomTabNavigatorProps = {
@@ -17,8 +19,12 @@ type CustomTabNavigatorProps = {
     component: any;
   }[];
   initialRouteName?: string;
+
   scrollY?: Animated.Value;
+
   collapsible?: boolean;
+
+  parallax?: boolean;
 };
 
 export default function CustomTabNavigator({
@@ -26,13 +32,19 @@ export default function CustomTabNavigator({
   initialRouteName,
   scrollY,
   collapsible,
+  parallax,
 }: CustomTabNavigatorProps) {
   const layout = useWindowDimensions();
 
   return (
     <Tab.Navigator
       tabBar={(props) => (
-        <CustomTabBar {...props} scrollY={scrollY} collapsible={collapsible} />
+        <CustomTabBar
+          {...props}
+          scrollY={scrollY}
+          collapsible={collapsible}
+          parallax={parallax}
+        />
       )}
       style={{ position: collapsible ? "relative" : undefined }}
       initialRouteName={initialRouteName}
@@ -50,12 +62,14 @@ export default function CustomTabNavigator({
 type CustomTabBarProps = MaterialTopTabBarProps & {
   scrollY?: Animated.Value;
   collapsible?: boolean;
+  parallax?: boolean;
 };
 
 function CustomTabBar({
   state,
   scrollY,
   collapsible,
+  parallax,
   ...props
 }: CustomTabBarProps) {
   if (collapsible) {
@@ -91,6 +105,56 @@ function CustomTabBar({
           // backgroundColor: "red",
           position: "absolute",
           top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1,
+          elevation: 1,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+        }}
+      >
+        {state.routes.map((route, index) => {
+          return (
+            <CustomTabBarButton
+              {...props}
+              key={index}
+              state={state}
+              route={route}
+              index={index}
+            />
+          );
+        })}
+      </Animated.View>
+    );
+  }
+
+  if (parallax) {
+    let headerTranslate:
+      | Animated.AnimatedDiffClamp<string | number>
+      | number = 0;
+
+    if (scrollY) {
+      headerTranslate = scrollY.interpolate({
+        inputRange: [0, HEADER_MAX_HEIGHT],
+        outputRange: [0, -HEADER_MAX_HEIGHT],
+      });
+    }
+
+    return (
+      <Animated.View
+        style={{
+          flexDirection: "row",
+          gap: 8,
+          padding: 16,
+          transform: [{ translateY: headerTranslate }],
+          // backgroundColor: "red",
+          position: "absolute",
+          top: HEADER_MAX_HEIGHT,
           left: 0,
           right: 0,
           zIndex: 1,

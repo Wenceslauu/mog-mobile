@@ -10,7 +10,7 @@ import { Theme } from "@/constants/theme";
 
 import DiscoverTab from "./discover";
 import FollowingTab from "./following";
-import { HomeContext } from "@/contexts/navigators";
+import { ScrollingContext } from "@/contexts/scrolling";
 
 export default function HomeLayout() {
   const { colors } = useTheme<Theme>();
@@ -53,7 +53,7 @@ export default function HomeLayout() {
   }, [navigation, colors]);
 
   return (
-    <HomeContext.Provider value={{ scrollY }}>
+    <ScrollingContext.Provider value={{ scrollY }}>
       <CustomTabNavigator
         tabs={[
           {
@@ -65,6 +65,6 @@ export default function HomeLayout() {
         scrollY={scrollY}
         collapsible
       />
-    </HomeContext.Provider>
+    </ScrollingContext.Provider>
   );
 }

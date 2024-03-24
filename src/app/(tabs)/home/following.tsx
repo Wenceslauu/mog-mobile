@@ -4,7 +4,7 @@ import { useScrollToTop } from "@react-navigation/native";
 import { AnimatedFlashList } from "@shopify/flash-list";
 import { useContext, useRef } from "react";
 import { Animated } from "react-native";
-import { HomeContext } from "@/contexts/navigators";
+import { ScrollingContext } from "@/contexts/scrolling";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
 import useCommentSection from "@/hooks/useCommentSection";
@@ -126,7 +126,7 @@ const mockedPosts = [
 ];
 
 export default function FollowingTab() {
-  const { scrollY } = useContext(HomeContext);
+  const { scrollY } = useContext(ScrollingContext);
 
   const postsListRef = useRef(null);
 

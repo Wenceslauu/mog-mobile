@@ -9,7 +9,10 @@ import { useTheme } from "@shopify/restyle";
 import Box from "./Box";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import { getDefaultHeaderHeight } from "@react-navigation/elements";
-import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const HEADER_MAX_HEIGHT = 200;
 
@@ -148,8 +151,9 @@ function CustomTabBar({
 
     if (scrollY) {
       headerTranslate = scrollY.interpolate({
-        inputRange: [0, HEADER_MAX_HEIGHT],
-        outputRange: [0, -HEADER_MAX_HEIGHT],
+        inputRange: [0, HEADER_SCROLL_DISTANCE],
+        outputRange: [0, -HEADER_SCROLL_DISTANCE],
+        extrapolateRight: "clamp",
       });
     }
 

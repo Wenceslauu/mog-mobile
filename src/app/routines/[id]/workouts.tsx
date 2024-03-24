@@ -204,7 +204,8 @@ export default function RoutineDetailsWorkoutsTab() {
     <Animated.ScrollView
       contentContainerStyle={{
         paddingBottom: 30,
-        paddingTop: HEADER_MAX_HEIGHT + TABVIEW_HEADER_HEIGHT,
+        marginTop: TABVIEW_HEADER_HEIGHT - 16, // 16 is pproximately the bounce distance
+        paddingTop: HEADER_MAX_HEIGHT + 16,
       }}
       showsVerticalScrollIndicator={false}
       scrollEventThrottle={16}
@@ -297,7 +298,7 @@ export default function RoutineDetailsWorkoutsTab() {
         }}
         onIndexChange={setIndex}
         initialLayout={{ width: layout.width }}
-        style={{ height: 550}}
+        style={{ height: 550 }} // Approximately the remaining screen height
       />
     </Animated.ScrollView>
   );

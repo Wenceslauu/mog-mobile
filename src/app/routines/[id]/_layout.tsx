@@ -77,6 +77,12 @@ export default function RoutineDetails() {
   const imageTranslate = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
     outputRange: [0, 100],
+    extrapolateLeft: "clamp",
+  });
+
+  const imageScale = scrollY.interpolate({
+    inputRange: [-200, 0],
+    outputRange: [2, 1],
     extrapolate: "clamp",
   });
 
@@ -135,7 +141,10 @@ export default function RoutineDetails() {
             placeholder={blurhash}
             style={{
               height: HEADER_MAX_HEIGHT,
-              transform: [{ translateY: imageTranslate }],
+              transform: [
+                { translateY: imageTranslate },
+                { scale: imageScale },
+              ],
               opacity: imageOpacity,
               position: "absolute",
               top: 0,

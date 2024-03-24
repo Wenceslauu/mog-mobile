@@ -71,7 +71,8 @@ export default function RoutineDetailsAboutTab() {
         contentContainerStyle={{
           gap: 16,
           paddingBottom: 30,
-          paddingTop: HEADER_MAX_HEIGHT + TABVIEW_HEADER_HEIGHT,
+          marginTop: TABVIEW_HEADER_HEIGHT - 16, // 16 is approximately the bounce distance
+          paddingTop: HEADER_MAX_HEIGHT + 16, 
         }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}

@@ -86,45 +86,15 @@ export default function RoutineDetails() {
     extrapolate: "clamp",
   });
 
+  const iconBackdropBgColor = scrollY.interpolate({
+    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    outputRange: ["rgba(0, 0, 0, 0.5)", "rgba(0, 0, 0, 0)"],
+    extrapolate: "clamp",
+  });
+
   useEffect(() => {
     navigation.setOptions({
       title: name,
-      headerRight: () => (
-        <Box flexDirection="row">
-          <Link
-            href={{
-              pathname: "/create-routine/",
-              params: {
-                id: "teste",
-              },
-            }}
-            asChild
-          >
-            <Pressable>
-              {({ pressed }) => (
-                <Ionicons
-                  name="pencil-sharp"
-                  size={25}
-                  color={colors.onSurfaceContainer}
-                  style={{ marginRight: 11, opacity: pressed ? 0.5 : 1 }}
-                />
-              )}
-            </Pressable>
-          </Link>
-          <Link href="/teste" asChild>
-            <Pressable>
-              {({ pressed }) => (
-                <Ionicons
-                  name="share-outline"
-                  size={25}
-                  color={colors.onSurfaceContainer}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
-              )}
-            </Pressable>
-          </Link>
-        </Box>
-      ),
       header: ({ options, route }: any) => (
         <Animated.View
           style={{
@@ -162,10 +132,83 @@ export default function RoutineDetails() {
               transform: [{ translateY: defaultHeaderReverseTranslate }],
             }}
             headerLeft={() => (
-              <HeaderBackButton
-                labelVisible={false}
-                style={{ marginLeft: 5 }}
-              />
+              <Animated.View
+                style={{
+                  backgroundColor: iconBackdropBgColor,
+                  borderRadius: 1000,
+                  marginLeft: 5,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: 36,
+                  height: 36,
+                }}
+              >
+                <HeaderBackButton
+                  labelVisible={false}
+                  style={{ marginRight: -10 }}
+                />
+              </Animated.View>
+            )}
+            headerRight={() => (
+              <Box flexDirection="row" gap="xs">
+                <Link
+                  href={{
+                    pathname: "/create-routine/",
+                    params: {
+                      id: "teste",
+                    },
+                  }}
+                  asChild
+                >
+                  <Pressable>
+                    {({ pressed }) => (
+                      <Animated.View
+                        style={{
+                          backgroundColor: iconBackdropBgColor,
+                          borderRadius: 1000,
+                          marginLeft: 11,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: 36,
+                          height: 36,
+                          opacity: pressed ? 0.5 : 1,
+                        }}
+                      >
+                        <Ionicons
+                          name="pencil-sharp"
+                          size={25}
+                          color={colors.onSurfaceContainer}
+                        />
+                      </Animated.View>
+                    )}
+                  </Pressable>
+                </Link>
+                <Link href="/teste" asChild>
+                  <Pressable>
+                    {({ pressed }) => (
+                      <Animated.View
+                        style={{
+                          backgroundColor: iconBackdropBgColor,
+                          borderRadius: 1000,
+                          marginRight: 15,
+                          justifyContent: "center",
+                          alignItems: "center",
+                          width: 36,
+                          height: 36,
+                          opacity: pressed ? 0.5 : 1,
+                        }}
+                      >
+                        <Ionicons
+                          name="share-outline"
+                          size={25}
+                          color={colors.onSurfaceContainer}
+                          style={{ marginRight: -2 }}
+                        />
+                      </Animated.View>
+                    )}
+                  </Pressable>
+                </Link>
+              </Box>
             )}
             headerTitleContainerStyle={{
               opacity: headerOpacity,
@@ -188,13 +231,12 @@ export default function RoutineDetails() {
           <Animated.View
             style={{
               opacity: titleOpacity,
-              borderRadius: 10000,
               position: "absolute",
               bottom: 16,
               left: 16,
             }}
           >
-            <Text variant="title" color="onSurface">
+            <Text variant="headline" color="onSurface">
               {getHeaderTitle(options, route.name)}
             </Text>
           </Animated.View>

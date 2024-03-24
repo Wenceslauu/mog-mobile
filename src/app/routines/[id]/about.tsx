@@ -65,10 +65,6 @@ export default function RoutineDetailsAboutTab() {
 
   const { colors } = useTheme<Theme>();
 
-  useEffect(() => {
-    console.log("inner scroll", scrollY);
-  }, [scrollY]);
-
   return (
     <Box flex={1} gap="xs" backgroundColor="surface">
       <Animated.ScrollView
@@ -79,15 +75,18 @@ export default function RoutineDetailsAboutTab() {
         }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}
-        onScroll={Animated.event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: scrollY,
+        onScroll={Animated.event(
+          [
+            {
+              nativeEvent: {
+                contentOffset: {
+                  y: scrollY,
+                },
               },
             },
-          },
-        ])}
+          ],
+          { useNativeDriver: true }
+        )}
       >
         <Box gap="s" paddingHorizontal="m">
           <Text variant="title" color="onSurface">

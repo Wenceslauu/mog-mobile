@@ -19,6 +19,8 @@ import {
   Header,
   getHeaderTitle,
   getDefaultHeaderHeight,
+  HeaderBackground,
+  HeaderBackButton,
 } from "@react-navigation/elements";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
@@ -54,15 +56,15 @@ export default function RoutineDetails() {
     extrapolate: "clamp",
   });
 
-  const headerHeight = scrollY.interpolate({
+  const headerTranslate = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+    outputRange: [0, -HEADER_SCROLL_DISTANCE],
     extrapolate: "clamp",
   });
 
-  const titleTranslate = scrollY.interpolate({
+  const defaultHeaderReverseTranslate = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, -1],
+    outputRange: [0, HEADER_SCROLL_DISTANCE],
     extrapolate: "clamp",
   });
 
@@ -74,7 +76,7 @@ export default function RoutineDetails() {
 
   const imageTranslate = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, -50],
+    outputRange: [0, 100],
     extrapolate: "clamp",
   });
 
@@ -119,23 +121,24 @@ export default function RoutineDetails() {
           </Link>
         </Box>
       ),
-      // headerBackground: () => <Animated.View style={{ opacity: headerOpacity }}></Animated.View>,
       header: ({ options, route }: any) => (
         <Animated.View
           style={{
-            height: headerHeight,
+            height: HEADER_MAX_HEIGHT,
+            transform: [{ translateY: headerTranslate }],
             position: "absolute",
             top: 0,
             left: 0,
             right: 0,
+            overflow: "hidden",
           }}
         >
           <AnimatedExpoImage
             placeholder={blurhash}
             style={{
               height: HEADER_MAX_HEIGHT,
-              opacity: imageOpacity,
               transform: [{ translateY: imageTranslate }],
+              opacity: imageOpacity,
               position: "absolute",
               top: 0,
               left: 0,
@@ -145,10 +148,39 @@ export default function RoutineDetails() {
               "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             }
           />
+          <Header
+            {...options}
+            title={getHeaderTitle(options, route.name)}
+            headerStyle={{
+              transform: [{ translateY: defaultHeaderReverseTranslate }],
+            }}
+            headerLeft={() => (
+              <HeaderBackButton
+                labelVisible={false}
+                style={{ marginLeft: 5 }}
+              />
+            )}
+            headerTitleContainerStyle={{
+              opacity: headerOpacity,
+            }}
+            headerBackground={() => (
+              <HeaderBackground
+                style={{
+                  opacity: headerOpacity,
+                  borderBottomColor: colors.outlineVariant,
+                  borderBottomWidth: 1,
+                }}
+              />
+            )}
+            headerBackgroundContainerStyle={{
+              position: "absolute",
+            }}
+            headerTransparent="true"
+            headerStatusBarHeight={insets.top}
+          />
           <Animated.View
             style={{
               opacity: titleOpacity,
-              transform: [{ translateY: titleTranslate }],
               borderRadius: 10000,
               position: "absolute",
               bottom: 16,
@@ -159,18 +191,6 @@ export default function RoutineDetails() {
               {getHeaderTitle(options, route.name)}
             </Text>
           </Animated.View>
-          <Header
-            {...options}
-            title={getHeaderTitle(options, route.name)}
-            headerTitleContainerStyle={{
-              opacity: headerOpacity,
-            }}
-            headerBackgroundContainerStyle={{
-              position: "absolute",
-            }}
-            headerTransparent="true"
-            headerStatusBarHeight={insets.top}
-          />
         </Animated.View>
       ),
     });

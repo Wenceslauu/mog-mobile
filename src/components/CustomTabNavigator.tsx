@@ -8,6 +8,8 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Box from "./Box";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
+import { getDefaultHeaderHeight } from "@react-navigation/elements";
+import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const HEADER_MAX_HEIGHT = 200;
 
@@ -72,6 +74,12 @@ function CustomTabBar({
   parallax,
   ...props
 }: CustomTabBarProps) {
+  const frame = useSafeAreaFrame();
+  const insets = useSafeAreaInsets();
+
+  const HEADER_MIN_HEIGHT = getDefaultHeaderHeight(frame, false, insets.top);
+  const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+
   if (collapsible) {
     let headerTranslate:
       | Animated.AnimatedDiffClamp<string | number>

@@ -3,10 +3,13 @@ import Text from "@/components/Text";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { useEffect, useState } from "react";
-import { Pressable, useWindowDimensions } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { Animated, Pressable, useWindowDimensions } from "react-native";
 import { TabView } from "react-native-tab-view";
 import CycleTab from "@/components/routines/CycleTab";
+import { HEADER_MAX_HEIGHT } from "./_layout";
+import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
+import { ScrollingContext } from "@/contexts/scrolling";
 
 const mockedCycles = [
   {
@@ -184,6 +187,7 @@ const mockedCycles = [
 export default function RoutineDetailsWorkoutsTab() {
   const { colors } = useTheme<Theme>();
   const layout = useWindowDimensions();
+  const { scrollY } = useContext(ScrollingContext);
 
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState<{ key: string; title: string }[]>([]);
@@ -197,79 +201,104 @@ export default function RoutineDetailsWorkoutsTab() {
   }, []);
 
   return (
-    <TabView
-      renderTabBar={({ navigationState, jumpTo }) => {
-        const inputRange = navigationState.routes.map((x, i) => i);
+    <Animated.ScrollView
+      contentContainerStyle={{
+        paddingBottom: 30,
+        paddingTop: HEADER_MAX_HEIGHT + TABVIEW_HEADER_HEIGHT,
+      }}
+      showsVerticalScrollIndicator={false}
+      scrollEventThrottle={16}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                y: scrollY,
+              },
+            },
+          },
+        ],
+        { useNativeDriver: true }
+      )}
+    >
+      <TabView
+        renderTabBar={({ navigationState, jumpTo }) => {
+          const inputRange = navigationState.routes.map((x, i) => i);
 
-        return (
-          <Box
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-            paddingVertical="m"
-            backgroundColor="surface"
-            paddingHorizontal="m"
-          >
-            <Box>
-              <Text variant="title" color="onSurface">
-                {mockedCycles[navigationState.index].name}
-              </Text>
-              <Text variant="body" color="onSurface">
-                {mockedCycles[navigationState.index].weeks} weeks
-              </Text>
-            </Box>
-            <Box flexDirection="row" alignItems="center" gap="xs">
-              <Pressable
-                onPress={() => jumpTo((navigationState.index - 1).toString())}
-                disabled={navigationState.index === 0}
-                style={{
-                  opacity: navigationState.index === 0 ? 0.5 : 1,
-                }}
-              >
-                {({ pressed }) => (
-                  <Ionicons
-                    name="chevron-back"
-                    size={27}
-                    color={colors.onSurfaceContainer}
-                    style={{ opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-              <Text variant="body" color="onSurface">
-                {navigationState.index + 1} / {mockedCycles.length} cycles
-              </Text>
-              <Pressable
-                onPress={() => jumpTo((navigationState.index + 1).toString())}
-                disabled={
-                  navigationState.index === navigationState.routes.length - 1
-                }
-                style={{
-                  opacity:
+          return (
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+              paddingBottom="m"
+              backgroundColor="surface"
+              paddingHorizontal="m"
+            >
+              <Box>
+                <Text variant="title" color="onSurface">
+                  {mockedCycles[navigationState.index].name}
+                </Text>
+                <Text variant="body" color="onSurface">
+                  {mockedCycles[navigationState.index].weeks} weeks
+                </Text>
+              </Box>
+              <Box flexDirection="row" alignItems="center" gap="xs">
+                <Pressable
+                  onPress={() => jumpTo((navigationState.index - 1).toString())}
+                  disabled={navigationState.index === 0}
+                  style={{
+                    opacity: navigationState.index === 0 ? 0.5 : 1,
+                  }}
+                >
+                  {({ pressed }) => (
+                    <Ionicons
+                      name="chevron-back"
+                      size={27}
+                      color={colors.onSurfaceContainer}
+                      style={{ opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+                <Text variant="body" color="onSurface">
+                  {navigationState.index + 1} / {mockedCycles.length} cycles
+                </Text>
+                <Pressable
+                  onPress={() => jumpTo((navigationState.index + 1).toString())}
+                  disabled={
                     navigationState.index === navigationState.routes.length - 1
-                      ? 0.5
-                      : 1,
-                }}
-              >
-                {({ pressed }) => (
-                  <Ionicons
-                    name="chevron-forward"
-                    size={27}
-                    color={colors.onSurfaceContainer}
-                    style={{ opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
+                  }
+                  style={{
+                    opacity:
+                      navigationState.index ===
+                      navigationState.routes.length - 1
+                        ? 0.5
+                        : 1,
+                  }}
+                >
+                  {({ pressed }) => (
+                    <Ionicons
+                      name="chevron-forward"
+                      size={27}
+                      color={colors.onSurfaceContainer}
+                      style={{ opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              </Box>
             </Box>
-          </Box>
-        );
-      }}
-      navigationState={{ index, routes }}
-      // TODO: Try to optimize with shouldComponentUpdate?
-      renderScene={({ route }) => {
-        return <CycleTab workouts={mockedCycles[Number(route.key)].workouts} />;
-      }}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-    />
+          );
+        }}
+        navigationState={{ index, routes }}
+        // TODO: Try to optimize with shouldComponentUpdate?
+        renderScene={({ route }) => {
+          return (
+            <CycleTab workouts={mockedCycles[Number(route.key)].workouts} />
+          );
+        }}
+        onIndexChange={setIndex}
+        initialLayout={{ width: layout.width }}
+        style={{ height: 550}}
+      />
+    </Animated.ScrollView>
   );
 }

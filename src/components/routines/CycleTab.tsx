@@ -9,6 +9,7 @@ type CycleTabProps = {
 export default function CycleTab({ workouts }: CycleTabProps) {
   return (
     <ScrollView
+      nestedScrollEnabled
       contentContainerStyle={{
         gap: 16,
         paddingBottom: 30,

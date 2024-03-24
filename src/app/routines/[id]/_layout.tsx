@@ -80,8 +80,6 @@ export default function RoutineDetails() {
     extrapolate: "clamp",
   });
 
-  console.log("header height");
-
   useEffect(() => {
     navigation.setOptions({
       title: name,

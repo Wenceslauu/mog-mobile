@@ -4,7 +4,7 @@ import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
 import { Link, router, useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Animated, Pressable, ScrollView } from "react-native";
 
 import RoutineDetailsAboutTab from "./about";
@@ -23,6 +23,8 @@ import blurhash from "@/constants/blurhash";
 import Text from "@/components/Text";
 import useParallaxHeaderScrollDistance from "@/hooks/useParallaxHeaderScrollDistance";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
+import { setStatusBarStyle } from "expo-status-bar";
+import { ThemeContext } from "@/providers/theme";
 
 const AnimatedExpoImage = Animated.createAnimatedComponent(Image);
 
@@ -36,6 +38,26 @@ export default function RoutineDetails() {
   const { PARALLAX_HEADER_SCROLL_DISTANCE } = useParallaxHeaderScrollDistance();
 
   const scrollY = useRef(new Animated.Value(0)).current;
+
+  const { darkMode } = useContext(ThemeContext);
+
+  useEffect(() => {
+    if (!darkMode) {
+      setStatusBarStyle("light");
+
+      const updateStatusBar = scrollY.addListener(({ value }) => {
+        setStatusBarStyle(
+          value > PARALLAX_HEADER_SCROLL_DISTANCE / 2 ? "dark" : "light"
+        );
+      });
+
+      return () => {
+        setStatusBarStyle("dark");
+
+        scrollY.removeListener(updateStatusBar);
+      };
+    }
+  }, [darkMode]);
 
   const headerOpacity = scrollY.interpolate({
     inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
@@ -83,9 +105,9 @@ export default function RoutineDetails() {
     extrapolate: "clamp",
   });
 
-  const iconBackdropBgColor = scrollY.interpolate({
+  const iconBackdropOpacity = scrollY.interpolate({
     inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
-    outputRange: ["rgba(0, 0, 0, 0.5)", "rgba(0, 0, 0, 0)"],
+    outputRange: [0.5, 0],
     extrapolate: "clamp",
   });
 
@@ -132,24 +154,34 @@ export default function RoutineDetails() {
               transform: [{ translateY: defaultHeaderReverseTranslate }],
             }}
             headerLeft={() => (
-              <Animated.View
-                style={{
-                  backgroundColor: iconBackdropBgColor,
-                  borderRadius: 1000,
-                  marginLeft: 5,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: 36,
-                  height: 36,
-                }}
-              >
-                <HeaderBackButton
-                  canGoBack={router.canGoBack()}
-                  onPress={router.back}
-                  labelVisible={false}
-                  style={{ marginRight: -10 }}
-                />
-              </Animated.View>
+              <>
+                <Animated.View
+                  style={{
+                    backgroundColor: colors.surface,
+                    opacity: iconBackdropOpacity,
+                    borderRadius: 1000,
+                    marginLeft: 8,
+                    width: 36,
+                    height: 36,
+                    position: "absolute",
+                  }}
+                ></Animated.View>
+                <Box
+                  borderRadius="full"
+                  alignItems="center"
+                  justifyContent="center"
+                  width={36}
+                  height={36}
+                  marginLeft="s"
+                >
+                  <HeaderBackButton
+                    canGoBack={router.canGoBack()}
+                    onPress={router.back}
+                    labelVisible={false}
+                    style={{ marginRight: -10 }}
+                  />
+                </Box>
+              </>
             )}
             headerRight={() => (
               <Box flexDirection="row" gap="xs">
@@ -164,49 +196,67 @@ export default function RoutineDetails() {
                 >
                   <Pressable>
                     {({ pressed }) => (
-                      <Animated.View
-                        style={{
-                          backgroundColor: iconBackdropBgColor,
-                          borderRadius: 1000,
-                          marginLeft: 11,
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: 36,
-                          height: 36,
-                          opacity: pressed ? 0.5 : 1,
-                        }}
-                      >
-                        <Ionicons
-                          name="pencil-sharp"
-                          size={25}
-                          color={colors.onSurfaceContainer}
-                        />
-                      </Animated.View>
+                      <Box opacity={pressed ? 0.5 : 1}>
+                        <Animated.View
+                          style={{
+                            backgroundColor: colors.surface,
+                            opacity: iconBackdropOpacity,
+                            borderRadius: 1000,
+                            marginLeft: 8,
+                            width: 36,
+                            height: 36,
+                            position: "absolute",
+                          }}
+                        ></Animated.View>
+                        <Box
+                          borderRadius="full"
+                          alignItems="center"
+                          justifyContent="center"
+                          width={36}
+                          height={36}
+                          marginLeft="s"
+                        >
+                          <Ionicons
+                            name="pencil-sharp"
+                            size={25}
+                            color={colors.onSurfaceContainer}
+                          />
+                        </Box>
+                      </Box>
                     )}
                   </Pressable>
                 </Link>
                 <Link href="/teste" asChild>
                   <Pressable>
                     {({ pressed }) => (
-                      <Animated.View
-                        style={{
-                          backgroundColor: iconBackdropBgColor,
-                          borderRadius: 1000,
-                          marginRight: 15,
-                          justifyContent: "center",
-                          alignItems: "center",
-                          width: 36,
-                          height: 36,
-                          opacity: pressed ? 0.5 : 1,
-                        }}
-                      >
-                        <Ionicons
-                          name="share-outline"
-                          size={25}
-                          color={colors.onSurfaceContainer}
-                          style={{ marginRight: -2 }}
-                        />
-                      </Animated.View>
+                      <Box opacity={pressed ? 0.5 : 1}>
+                        <Animated.View
+                          style={{
+                            backgroundColor: colors.surface,
+                            opacity: pressed ? 0.5 : iconBackdropOpacity,
+                            borderRadius: 1000,
+                            marginRight: 16,
+                            width: 36,
+                            height: 36,
+                            position: "absolute",
+                          }}
+                        ></Animated.View>
+                        <Box
+                          borderRadius="full"
+                          alignItems="center"
+                          justifyContent="center"
+                          width={36}
+                          height={36}
+                          marginRight="m"
+                        >
+                          <Ionicons
+                            name="share-outline"
+                            size={25}
+                            color={colors.onSurfaceContainer}
+                            style={{ marginRight: -3 }}
+                          />
+                        </Box>
+                      </Box>
                     )}
                   </Pressable>
                 </Link>
@@ -232,7 +282,13 @@ export default function RoutineDetails() {
           />
           <Animated.View
             style={{
+              // TODO: Looks weird on light theme, the position: absolute approach (to leverage opacity) doesn't work here
+              // due to the title having a dynamic width
+              // backgroundColor: colors.surface,
               opacity: titleOpacity,
+              borderRadius: 32,
+              padding: 4,
+              paddingHorizontal: 8,
               position: "absolute",
               bottom: 16,
               left: 16,

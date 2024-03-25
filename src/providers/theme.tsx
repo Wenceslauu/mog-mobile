@@ -17,6 +17,7 @@ export type Appearance = "System" | "Light" | "Dark";
 type ThemeProviderData = {
   appearance: Appearance;
   setAppearance: Dispatch<SetStateAction<Appearance>>;
+  darkMode: boolean;
 };
 
 export const ThemeContext = createContext<ThemeProviderData>(
@@ -40,7 +41,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   return (
     <>
-      <ThemeContext.Provider value={{ appearance, setAppearance }}>
+      <ThemeContext.Provider value={{ appearance, setAppearance, darkMode }}>
         <RestyleProvider theme={darkMode ? darkTheme : lightTheme}>
           <NavigationProvider
             value={

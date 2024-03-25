@@ -3,7 +3,7 @@ import CustomTabNavigator from "@/components/CustomTabNavigator";
 import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { Link, useLocalSearchParams, useNavigation } from "expo-router";
+import { Link, router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Animated, Pressable, ScrollView } from "react-native";
 
@@ -144,6 +144,8 @@ export default function RoutineDetails() {
                 }}
               >
                 <HeaderBackButton
+                  canGoBack={router.canGoBack()}
+                  onPress={router.back}
                   labelVisible={false}
                   style={{ marginRight: -10 }}
                 />

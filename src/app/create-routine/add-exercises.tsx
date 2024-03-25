@@ -169,13 +169,6 @@ export default function AddExercisesModalScreen() {
     }
   };
 
-  // const onSubmit = () => {
-  //   router.push({
-  //     pathname: "/create-routine/edit-workout",
-  //     params: { selectedExercises: JSON.stringify(selectedExercises) },
-  //   });
-  // };
-
   return (
     <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
       <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">

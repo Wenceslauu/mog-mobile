@@ -2,8 +2,8 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import ExerciseCardDraft from "@/components/create-routine/ExerciseCardDraft";
 import { useCreateRoutine } from "@/providers/createRoutine";
-import { router, useLocalSearchParams } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { Link, router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { ScrollView } from "react-native";
 
@@ -42,7 +42,10 @@ export default function EditWorkoutScreen() {
     },
   });
 
-  const { fields, append, remove } = useFieldArray({ control, name: "exercises" });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "exercises",
+  });
 
   useEffect(() => {
     if (selectedExercises) {
@@ -61,16 +64,12 @@ export default function EditWorkoutScreen() {
 
     setIsDirty(true);
 
-    router.push("/create-routine/edit-cycles");
+    router.back();
   });
 
-  const handleAddExercise = () => {
-    router.push("/create-routine/add-exercises");
-  };
-
   const handleDeleteExercise = (exerciseIndex: number) => {
-    remove(exerciseIndex)
-  }
+    remove(exerciseIndex);
+  };
 
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
@@ -93,9 +92,9 @@ export default function EditWorkoutScreen() {
             />
           );
         })}
-        <Button variant="secondary" onPress={handleAddExercise}>
-          Add exercise
-        </Button>
+        <Link href="/create-routine/add-exercises" asChild>
+          <Button variant="secondary">Add exercise</Button>
+        </Link>
       </ScrollView>
       <Box
         backgroundColor="surfaceContainer"

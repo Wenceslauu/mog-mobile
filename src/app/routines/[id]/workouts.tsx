@@ -7,9 +7,9 @@ import { useContext, useEffect, useState } from "react";
 import { Animated, Pressable, useWindowDimensions } from "react-native";
 import { TabView } from "react-native-tab-view";
 import CycleTab from "@/components/routines/CycleTab";
-import { HEADER_MAX_HEIGHT } from "./_layout";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import { ScrollingContext } from "@/contexts/scrolling";
+import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
 
 const mockedCycles = [
   {
@@ -205,7 +205,7 @@ export default function RoutineDetailsWorkoutsTab() {
       contentContainerStyle={{
         paddingBottom: 30,
         marginTop: TABVIEW_HEADER_HEIGHT - 16, // 16 is approximately the bounce distance
-        paddingTop: HEADER_MAX_HEIGHT + 16,
+        paddingTop: PARALLAX_HEADER_MAX_HEIGHT + 16,
       }}
       showsVerticalScrollIndicator={false}
       scrollEventThrottle={16}

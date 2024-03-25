@@ -11,22 +11,18 @@ import RoutineDetailsAboutTab from "./about";
 import RoutineDetailsWorkoutsTab from "./workouts";
 import Button from "@/components/Button";
 import { ScrollingContext } from "@/contexts/scrolling";
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Header,
   getHeaderTitle,
-  getDefaultHeaderHeight,
   HeaderBackground,
   HeaderBackButton,
 } from "@react-navigation/elements";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
 import Text from "@/components/Text";
-
-export const HEADER_MAX_HEIGHT = 200;
+import useParallaxHeaderScrollDistance from "@/hooks/useParallaxHeaderScrollDistance";
+import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
 
 const AnimatedExpoImage = Animated.createAnimatedComponent(Image);
 
@@ -35,47 +31,48 @@ export default function RoutineDetails() {
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
-
-  const frame = useSafeAreaFrame();
   const insets = useSafeAreaInsets();
 
-  const HEADER_MIN_HEIGHT = getDefaultHeaderHeight(frame, false, insets.top);
-  const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+  const { PARALLAX_HEADER_SCROLL_DISTANCE } = useParallaxHeaderScrollDistance();
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const headerOpacity = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
     outputRange: [0, 1],
     extrapolate: "clamp",
   });
 
   const titleOpacity = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
     outputRange: [1, 0],
     extrapolate: "clamp",
   });
 
   const headerTranslate = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, -HEADER_SCROLL_DISTANCE],
+    inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
+    outputRange: [0, -PARALLAX_HEADER_SCROLL_DISTANCE],
     extrapolate: "clamp",
   });
 
   const defaultHeaderReverseTranslate = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
-    outputRange: [0, HEADER_SCROLL_DISTANCE],
+    inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
+    outputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
     extrapolate: "clamp",
   });
 
   const imageOpacity = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
+    inputRange: [
+      0,
+      PARALLAX_HEADER_SCROLL_DISTANCE / 2,
+      PARALLAX_HEADER_SCROLL_DISTANCE,
+    ],
     outputRange: [1, 1, 0],
     extrapolate: "clamp",
   });
 
   const imageTranslate = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
     outputRange: [0, 100],
     extrapolateLeft: "clamp",
   });
@@ -87,7 +84,7 @@ export default function RoutineDetails() {
   });
 
   const iconBackdropBgColor = scrollY.interpolate({
-    inputRange: [0, HEADER_SCROLL_DISTANCE],
+    inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
     outputRange: ["rgba(0, 0, 0, 0.5)", "rgba(0, 0, 0, 0)"],
     extrapolate: "clamp",
   });
@@ -98,7 +95,7 @@ export default function RoutineDetails() {
       header: ({ options, route }: any) => (
         <Animated.View
           style={{
-            height: HEADER_MAX_HEIGHT,
+            height: PARALLAX_HEADER_MAX_HEIGHT,
             transform: [{ translateY: headerTranslate }],
             position: "absolute",
             top: 0,
@@ -110,7 +107,7 @@ export default function RoutineDetails() {
           <AnimatedExpoImage
             placeholder={blurhash}
             style={{
-              height: HEADER_MAX_HEIGHT,
+              height: PARALLAX_HEADER_MAX_HEIGHT,
               transform: [
                 { translateY: imageTranslate },
                 { scale: imageScale },

@@ -10,10 +10,10 @@ import { Animated, Pressable } from "react-native";
 import Table from "@/components/Table";
 import TruncatedText from "@/components/TruncatedText";
 import { Link } from "expo-router";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ScrollingContext } from "@/contexts/scrolling";
-import { HEADER_MAX_HEIGHT } from "./_layout";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
+import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
 
 const mockedRoutine = {
   id: 1,
@@ -72,7 +72,7 @@ export default function RoutineDetailsAboutTab() {
           gap: 16,
           paddingBottom: 30,
           marginTop: TABVIEW_HEADER_HEIGHT - 16, // 16 is approximately the bounce distance
-          paddingTop: HEADER_MAX_HEIGHT + 16, 
+          paddingTop: PARALLAX_HEADER_MAX_HEIGHT + 16, 
         }}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={16}

@@ -8,13 +8,8 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Box from "./Box";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
-import { getDefaultHeaderHeight } from "@react-navigation/elements";
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-
-const HEADER_MAX_HEIGHT = 200;
+import useParallaxHeaderScrollDistance from "@/hooks/useParallaxHeaderScrollDistance";
+import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -77,11 +72,7 @@ function CustomTabBar({
   parallax,
   ...props
 }: CustomTabBarProps) {
-  const frame = useSafeAreaFrame();
-  const insets = useSafeAreaInsets();
-
-  const HEADER_MIN_HEIGHT = getDefaultHeaderHeight(frame, false, insets.top);
-  const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+  const { PARALLAX_HEADER_SCROLL_DISTANCE } = useParallaxHeaderScrollDistance();
 
   if (collapsible) {
     let headerTranslate:
@@ -151,9 +142,9 @@ function CustomTabBar({
 
     if (scrollY) {
       headerTranslate = scrollY.interpolate({
-        inputRange: [0, HEADER_SCROLL_DISTANCE],
-        outputRange: [0, -HEADER_SCROLL_DISTANCE],
-        extrapolateRight: "clamp",
+        inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
+        outputRange: [0, -PARALLAX_HEADER_SCROLL_DISTANCE],
+        extrapolate: "clamp",
       });
     }
 
@@ -164,9 +155,8 @@ function CustomTabBar({
           gap: 8,
           padding: 16,
           transform: [{ translateY: headerTranslate }],
-          // backgroundColor: "red",
           position: "absolute",
-          top: HEADER_MAX_HEIGHT,
+          top: PARALLAX_HEADER_MAX_HEIGHT,
           left: 0,
           right: 0,
           zIndex: 1,

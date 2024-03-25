@@ -144,7 +144,7 @@ function CustomTabBar({
       headerTranslate = scrollY.interpolate({
         inputRange: [0, PARALLAX_HEADER_SCROLL_DISTANCE],
         outputRange: [0, -PARALLAX_HEADER_SCROLL_DISTANCE],
-        extrapolate: "clamp",
+        extrapolateLeft: "clamp",
       });
     }
 

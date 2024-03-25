@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useRef } from "react";
-import { Animated, Pressable } from "react-native";
+import { Animated, Pressable, ScrollView } from "react-native";
 
 import RoutineDetailsAboutTab from "./about";
 import RoutineDetailsWorkoutsTab from "./workouts";
@@ -88,6 +88,9 @@ export default function RoutineDetails() {
     outputRange: ["rgba(0, 0, 0, 0.5)", "rgba(0, 0, 0, 0)"],
     extrapolate: "clamp",
   });
+
+  const aboutScrollViewRef = useRef<ScrollView>(null);
+  const workoutsScrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     navigation.setOptions({
@@ -244,7 +247,12 @@ export default function RoutineDetails() {
 
   return (
     <>
-      <ScrollingContext.Provider value={{ scrollY }}>
+      <ScrollingContext.Provider
+        value={{
+          scrollY,
+          scrollViewRefs: [aboutScrollViewRef, workoutsScrollViewRef],
+        }}
+      >
         <CustomTabNavigator
           tabs={[
             { name: "about", component: RoutineDetailsAboutTab },

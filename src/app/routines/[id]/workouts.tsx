@@ -4,7 +4,13 @@ import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
 import { useContext, useEffect, useState } from "react";
-import { Animated, Pressable, useWindowDimensions } from "react-native";
+import {
+  Animated,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 import { TabView } from "react-native-tab-view";
 import CycleTab from "@/components/routines/CycleTab";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
@@ -187,7 +193,10 @@ const mockedCycles = [
 export default function RoutineDetailsWorkoutsTab() {
   const { colors } = useTheme<Theme>();
   const layout = useWindowDimensions();
-  const { scrollY } = useContext(ScrollingContext);
+  const { scrollY, scrollViewRefs } = useContext(ScrollingContext);
+
+  const aboutScrollViewRef = scrollViewRefs![0];
+  const workoutsScrollViewRef = scrollViewRefs![1];
 
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState<{ key: string; title: string }[]>([]);
@@ -200,12 +209,23 @@ export default function RoutineDetailsWorkoutsTab() {
     setRoutes(cycleRoutes);
   }, []);
 
+  const keepScrollViewsInSync = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    aboutScrollViewRef.current?.scrollTo({
+      y: event.nativeEvent.contentOffset.y,
+      animated: false,
+    });
+  };
+
   return (
     <Animated.ScrollView
+      ref={workoutsScrollViewRef}
       contentContainerStyle={{
         paddingBottom: 30,
         marginTop: TABVIEW_HEADER_HEIGHT - 16, // 16 is approximately the bounce distance
         paddingTop: PARALLAX_HEADER_MAX_HEIGHT + 16,
+        minHeight: 1000,
       }}
       showsVerticalScrollIndicator={false}
       scrollEventThrottle={16}
@@ -221,6 +241,8 @@ export default function RoutineDetailsWorkoutsTab() {
         ],
         { useNativeDriver: true }
       )}
+      onScrollEndDrag={keepScrollViewsInSync}
+      onMomentumScrollEnd={keepScrollViewsInSync}
     >
       <TabView
         renderTabBar={({ navigationState, jumpTo }) => {

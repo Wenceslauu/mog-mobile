@@ -5,7 +5,7 @@ import LocalSearchBar from "@/components/LocalSearchBar";
 import ExerciseSelectionCard from "@/components/create-routine/ExerciseSelectionCard";
 import { ExerciseSelectionSimple } from "@/types/Exercise";
 import { FlashList } from "@shopify/flash-list";
-import { Link, router } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
 import { Platform } from "react-native";
@@ -152,6 +152,8 @@ const mockedExercises = [
 ];
 
 export default function AddExercisesModalScreen() {
+  const { pathBack } = useLocalSearchParams();
+
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
@@ -220,7 +222,7 @@ export default function AddExercisesModalScreen() {
         >
           <Link
             href={{
-              pathname: "/create-routine/edit-workout",
+              pathname: pathBack,
               params: { selectedExercises: JSON.stringify(selectedExercises) },
             }}
             asChild

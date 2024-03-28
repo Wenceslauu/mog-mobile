@@ -92,7 +92,15 @@ export default function EditWorkoutScreen() {
             />
           );
         })}
-        <Link href="/create-routine/add-exercises" asChild>
+        <Link
+          href={{
+            pathname: "/add-exercises",
+            params: {
+              pathBack: "/create-routine/edit-workout",
+            },
+          }}
+          asChild
+        >
           <Button variant="secondary">Add exercise</Button>
         </Link>
       </ScrollView>

@@ -79,7 +79,7 @@ function RootLayoutNav() {
           options={{ title: "Edit Workout" }}
         />
         <Stack.Screen
-          name="create-routine/add-exercises"
+          name="add-exercises"
           options={{ title: "Add Exercises", presentation: "modal" }}
         />
         <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
@@ -93,7 +93,7 @@ function RootLayoutNav() {
         <Stack.Screen
           name="exercises/[id]"
           getId={({ params }) => params?.id}
-          options={{ title: "Exercise Details" }}
+          options={{ title: "Exercise Details", presentation: "modal" }}
         />
         <Stack.Screen
           name="posts/[id]"

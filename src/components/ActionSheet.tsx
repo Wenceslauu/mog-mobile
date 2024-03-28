@@ -3,11 +3,12 @@ import {
   BottomSheetBackdrop,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
-import { forwardRef } from "react";
+import { forwardRef, useCallback } from "react";
 import Box from "./Box";
 import Text from "./Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
+import { FullWindowOverlay } from "react-native-screens";
 
 type ActionSheetProps = {
   actions: {
@@ -23,8 +24,18 @@ export default forwardRef(function ActionSheet(
 ) {
   const insets = useSafeAreaInsets();
 
+  // https://github.com/gorhom/react-native-bottom-sheet/issues/832#issuecomment-1936318986
+  // https://github.com/gorhom/react-native-bottom-sheet/issues/832#issuecomment-1949016304
+  const containerComponent = useCallback(
+    (props: any) => <FullWindowOverlay>{props.children}</FullWindowOverlay>,
+    []
+  );
+
   return (
     <BottomSheetModal
+      containerComponent={
+        Platform.OS === "ios" ? containerComponent : undefined
+      }
       ref={ref}
       index={0}
       enableHandlePanningGesture={false}

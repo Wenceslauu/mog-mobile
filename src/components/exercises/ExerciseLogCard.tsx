@@ -1,10 +1,8 @@
-import blurhash from "@/constants/blurhash";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
-import { Pressable } from "react-native";
+import { Link, useNavigation } from "expo-router";
+import { Platform, Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import { Image } from "expo-image";
 import { ExerciseLog } from "@/types/Exercise";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
@@ -17,6 +15,8 @@ type ExerciseLogCardProps = {
 export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
   const { colors } = useTheme<Theme>();
 
+  const navigation = useNavigation();
+
   return (
     <Box gap="s" padding="m" backgroundColor="surfaceContainer">
       <Link
@@ -25,7 +25,17 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
         }}
         asChild
       >
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            // TODO: Persist navigation state
+            // navigation.getParent()?.goBack();
+
+            // https://stackoverflow.com/a/75758827
+            // Close modal(s) when navigating to a non-modal screen
+            if (Platform.OS === "ios")
+              navigation.dispatch({ type: "POP_TO_TOP" });
+          }}
+        >
           {({ pressed }) => (
             <Box
               flexDirection="row"

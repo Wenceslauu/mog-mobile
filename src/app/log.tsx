@@ -2,6 +2,7 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import ExerciseLogCardDraft from "@/components/log/ExerciseLogCardDraft";
+import { WorkoutLogDraftFormData } from "@/types/WorkoutLog";
 import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -25,24 +26,10 @@ const mockedWorkout = {
   ],
 };
 
-type FormData = {
-  exercises: {
-    id: number;
-    name: string;
-    image?: string;
-    sets: {
-      targetReps?: number;
-      targetIntensity?: number;
-      weight: number;
-      reps: number;
-    }[];
-  }[];
-};
-
 export default function LogModalScreen() {
   const { selectedExercises } = useLocalSearchParams();
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, setValue, handleSubmit } = useForm<WorkoutLogDraftFormData>({
     defaultValues: {
       exercises: mockedWorkout.exercises,
     },
@@ -90,6 +77,7 @@ export default function LogModalScreen() {
               key={field.id}
               exerciseIndex={index}
               control={control}
+              setValue={setValue}
               handleDeleteExercise={handleDeleteExercise}
             />
           );

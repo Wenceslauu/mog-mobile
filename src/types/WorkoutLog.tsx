@@ -41,3 +41,20 @@ export interface ExerciseLog {
   name: string;
   sets: { reps: number; weight: number }[];
 }
+
+export interface WorkoutLogDraftFormData {
+  exercises: {
+    id: number;
+    name: string;
+    image?: string;
+    sets: SetLogDraft[];
+  }[];
+}
+
+export interface SetLogDraft {
+  targetReps?: number;
+  targetIntensity?: number;
+  weight: number;
+  reps: number;
+  done: boolean;
+}

@@ -1,18 +1,21 @@
-import { Controller, useWatch } from "react-hook-form";
+import { Controller, UseFormSetValue, useWatch } from "react-hook-form";
 import Box from "../Box";
 import Text from "../Text";
 import TextInput from "../TextInput";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
-import { useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Pressable, TextInput as RNTextInput } from "react-native";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
+import { Ionicons } from "@expo/vector-icons";
+import { WorkoutLogDraftFormData } from "@/types/WorkoutLog";
 
 type SetRowDraftProps = {
   control: any;
   index: number;
   exerciseIndex: number;
+  setValue: UseFormSetValue<WorkoutLogDraftFormData>;
   handleDeleteSet: (setIndex: number) => void;
 };
 
@@ -20,6 +23,7 @@ export default function SetRowDraft({
   control,
   index,
   exerciseIndex,
+  setValue,
   handleDeleteSet,
 }: SetRowDraftProps) {
   const { colors } = useTheme<Theme>();
@@ -33,6 +37,16 @@ export default function SetRowDraft({
     control,
     name: `exercises.${exerciseIndex}.sets.${index}`,
   });
+
+  const setFilled = useMemo(() => {
+    return setDraft.reps && setDraft.weight;
+  }, [setDraft]);
+
+  useEffect(() => {
+    if (!setFilled) {
+      setValue(`exercises.${exerciseIndex}.sets.${index}.done`, false);
+    }
+  }, [setFilled]);
 
   return (
     <Pressable
@@ -155,6 +169,39 @@ export default function SetRowDraft({
                 />
               )}
               name={`exercises.${exerciseIndex}.sets.${index}.reps`}
+            />
+          </Box>
+          <Box flex={1}>
+            <Controller
+              control={control}
+              render={({ field: { value } }) => (
+                <Pressable
+                  onPress={() => {
+                    setValue(
+                      `exercises.${exerciseIndex}.sets.${index}.done`,
+                      value ? !value : true
+                    );
+                  }}
+                  disabled={!setFilled}
+                  style={{ opacity: !setFilled ? 0.5 : 1 }}
+                >
+                  {({ pressed }) => (
+                    <Ionicons
+                      name={`checkmark-circle${
+                        setFilled && value ? "" : "-outline"
+                      }`}
+                      size={28}
+                      color={
+                        setFilled && value
+                          ? colors.primary
+                          : colors.onSurfaceContainer
+                      }
+                      style={{ opacity: pressed ? 0.5 : 1 }}
+                    />
+                  )}
+                </Pressable>
+              )}
+              name={`exercises.${exerciseIndex}.sets.${index}.done`}
             />
           </Box>
         </Box>

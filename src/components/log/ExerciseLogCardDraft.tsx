@@ -8,20 +8,24 @@ import blurhash from "@/constants/blurhash";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
-import { useFieldArray, useWatch } from "react-hook-form";
+import { UseFormSetValue, useFieldArray, useWatch } from "react-hook-form";
 import SetRowLogDraft from "./SetRowLogDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
+import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/WorkoutLog";
+import { useMemo } from "react";
 
 type ExerciseCardDraftProps = {
   control: any;
   exerciseIndex: number;
+  setValue: UseFormSetValue<WorkoutLogDraftFormData>;
   handleDeleteExercise: (exerciseIndex: number) => void;
 };
 
 export default function ExerciseCardDraft({
   control,
   exerciseIndex,
+  setValue,
   handleDeleteExercise,
 }: ExerciseCardDraftProps) {
   const { colors } = useTheme<Theme>();
@@ -37,6 +41,16 @@ export default function ExerciseCardDraft({
     control,
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
+
+  const allSetsFilled = useMemo(() => {
+    return exerciseDraft.sets.every(
+      (set: SetLogDraft) => set.reps && set.weight
+    );
+  }, [exerciseDraft.sets]);
+
+  const allSetsDone = useMemo(() => {
+    return exerciseDraft.sets.every((set: SetLogDraft) => set.done);
+  }, [exerciseDraft.sets]);
 
   const handleAddSet = () => {
     append({
@@ -117,6 +131,8 @@ export default function ExerciseCardDraft({
         borderBottomColor="outlineVariant"
         paddingVertical="s"
         borderBottomWidth={1}
+        alignItems="center"
+        height={46}
       >
         <Box flex={3}>
           <Text variant="label" color="onSurface">
@@ -143,6 +159,33 @@ export default function ExerciseCardDraft({
             Reps
           </Text>
         </Box>
+        <Box flex={1}>
+          {allSetsFilled && (
+            <Pressable
+              onPress={() => {
+                exerciseDraft.sets.forEach((_: unknown, index: number) => {
+                  setValue(
+                    `exercises.${exerciseIndex}.sets.${index}.done`,
+                    allSetsDone ? false : true
+                  );
+                });
+              }}
+            >
+              {({ pressed }) => (
+                <Ionicons
+                  name={`checkmark-done-circle${allSetsDone ? "" : "-outline"}`}
+                  size={28}
+                  color={
+                    !allSetsDone ? colors.onSurfaceContainer : colors.primary
+                  }
+                  style={{
+                    opacity: pressed ? 0.5 : 1,
+                  }}
+                />
+              )}
+            </Pressable>
+          )}
+        </Box>
       </Box>
       <Box gap="m">
         {fields.map((field, index) => {
@@ -152,6 +195,7 @@ export default function ExerciseCardDraft({
               index={index}
               control={control}
               exerciseIndex={exerciseIndex}
+              setValue={setValue}
               handleDeleteSet={handleDeleteSet}
             />
           );

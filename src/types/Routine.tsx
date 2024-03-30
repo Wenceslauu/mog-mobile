@@ -50,6 +50,7 @@ export interface RoutineDraft {
         id: number;
         name: string;
         image?: string;
+        authorNotes?: string;
         sets: {
           reps?: number;
           intensity?: number;

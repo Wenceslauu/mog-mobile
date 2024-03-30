@@ -29,6 +29,7 @@ const mockedRoutine = {
             {
               id: 1,
               name: "Bench Press",
+              authorNotes: "Use foot drive!",
               sets: [
                 {
                   reps: 12,

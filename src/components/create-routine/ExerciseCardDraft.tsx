@@ -8,10 +8,12 @@ import blurhash from "@/constants/blurhash";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
-import { useFieldArray, useWatch } from "react-hook-form";
+import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import SetRowDraft from "./SetRowDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
+import { useState } from "react";
+import TextInput from "../TextInput";
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -24,6 +26,8 @@ export default function ExerciseCardDraft({
   exerciseIndex,
   handleDeleteExercise,
 }: ExerciseCardDraftProps) {
+  const [editing, setEditing] = useState(false);
+
   const { colors } = useTheme<Theme>();
 
   const { openActionSheet } = useActionSheet();
@@ -111,6 +115,48 @@ export default function ExerciseCardDraft({
           )}
         </Pressable>
       </Link>
+      <Pressable onPress={() => setEditing(true)}>
+        {({ pressed }) => (
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            gap="xs"
+            opacity={pressed ? 0.5 : 1}
+          >
+            <Ionicons name="school" size={16} color={colors.tertiary} />
+            {editing ? (
+              <Controller
+                control={control}
+                render={({ field: { value, onChange, onBlur } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setEditing(false);
+                      onBlur();
+                    }}
+                    onChangeText={onChange}
+                    value={value}
+                    variant="label"
+                    color="tertiary"
+                    autoFocus
+                  />
+                )}
+                name={`exercises.${exerciseIndex}.authorNotes`}
+              />
+            ) : (
+              <Text variant="label" color="tertiary">
+                {exerciseDraft.authorNotes || "Add notes here"}
+              </Text>
+            )}
+            {!editing && (
+              <Ionicons
+                name="create-outline"
+                size={16}
+                color={colors.tertiary}
+              />
+            )}
+          </Box>
+        )}
+      </Pressable>
       <Box
         flexDirection="row"
         justifyContent="space-between"

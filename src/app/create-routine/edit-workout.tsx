@@ -81,6 +81,7 @@ export default function EditWorkoutScreen() {
         }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="always"
       >
         {fields.map((field, index) => {
           return (

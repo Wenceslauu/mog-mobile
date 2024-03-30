@@ -1,6 +1,7 @@
 import ActionSheet from "@/components/ActionSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ReactNode, createContext, useContext, useRef, useState } from "react";
+import { Keyboard } from "react-native";
 
 export type ActionSheetContextData = {
   openActionSheet: (
@@ -37,6 +38,7 @@ export default function ActionSheetProvider({
       callback: () => void;
     }[]
   ) => {
+    Keyboard.dismiss();
     setActions(actions);
 
     actionSheetRef.current?.present();

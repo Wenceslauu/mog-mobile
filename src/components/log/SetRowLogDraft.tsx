@@ -40,6 +40,10 @@ export default function SetRowDraft({
     name: `exercises.${exerciseIndex}.sets.${index}`,
   });
 
+  const setPreFilled = useMemo(() => {
+    return setDraft.targetReps && setDraft.weight;
+  }, [setDraft]);
+
   const setFilled = useMemo(() => {
     return setDraft.reps && setDraft.weight;
   }, [setDraft]);
@@ -175,6 +179,9 @@ export default function SetRowDraft({
                 color="onSecondaryContainer"
                 selectionColor={colors.primary}
                 textAlign="center"
+                placeholder={
+                  setDraft.targetReps ? String(setDraft.targetReps) : ""
+                }
               />
             )}
             name={`exercises.${exerciseIndex}.sets.${index}.reps`}
@@ -186,13 +193,20 @@ export default function SetRowDraft({
             render={({ field: { value } }) => (
               <Pressable
                 onPress={() => {
+                  if (!setDraft.reps && setDraft.targetReps) {
+                    setValue(
+                      `exercises.${exerciseIndex}.sets.${index}.reps`,
+                      setDraft.targetReps
+                    );
+                  }
+
                   setValue(
                     `exercises.${exerciseIndex}.sets.${index}.done`,
                     value ? !value : true
                   );
                 }}
-                disabled={!setFilled}
-                style={{ opacity: !setFilled ? 0.5 : 1 }}
+                disabled={!setPreFilled && !setFilled}
+                style={{ opacity: !setPreFilled && !setFilled ? 0.5 : 1 }}
               >
                 {({ pressed }) => (
                   <Ionicons

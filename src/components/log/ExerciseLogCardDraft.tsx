@@ -53,9 +53,9 @@ export default function ExerciseCardDraft({
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
 
-  const allSetsFilled = useMemo(() => {
+  const allSetsFilledOrPreFilled = useMemo(() => {
     return exerciseDraft.sets.every(
-      (set: SetLogDraft) => set.reps && set.weight
+      (set: SetLogDraft) => set.weight && (set.reps || set.targetReps)
     );
   }, [exerciseDraft.sets]);
 
@@ -235,15 +235,23 @@ export default function ExerciseCardDraft({
           </Text>
         </Box>
         <Box flex={1}>
-          {allSetsFilled && (
+          {allSetsFilledOrPreFilled && (
             <Pressable
               onPress={() => {
-                exerciseDraft.sets.forEach((_: unknown, index: number) => {
-                  setValue(
-                    `exercises.${exerciseIndex}.sets.${index}.done`,
-                    allSetsDone ? false : true
-                  );
-                });
+                exerciseDraft.sets.forEach(
+                  (set: SetLogDraft, index: number) => {
+                    if (!set.reps && set.targetReps)
+                      setValue(
+                        `exercises.${exerciseIndex}.sets.${index}.reps`,
+                        set.targetReps
+                      );
+
+                    setValue(
+                      `exercises.${exerciseIndex}.sets.${index}.done`,
+                      allSetsDone ? false : true
+                    );
+                  }
+                );
               }}
             >
               {({ pressed }) => (

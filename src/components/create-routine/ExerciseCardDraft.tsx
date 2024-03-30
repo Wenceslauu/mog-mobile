@@ -1,7 +1,7 @@
 import { Link } from "expo-router";
 import Box from "../Box";
 import Text from "../Text";
-import { Pressable } from "react-native";
+import { Animated, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
@@ -14,6 +14,7 @@ import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
 import { useState } from "react";
 import TextInput from "../TextInput";
+import useLongPressStyle from "@/hooks/useLongPressStyle";
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -31,6 +32,7 @@ export default function ExerciseCardDraft({
   const { colors } = useTheme<Theme>();
 
   const { openActionSheet } = useActionSheet();
+  const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
   const exerciseDraft = useWatch({
     control,
@@ -68,6 +70,8 @@ export default function ExerciseCardDraft({
         asChild
       >
         <Pressable
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
           onLongPress={() => {
             Haptics.selectionAsync();
 
@@ -81,38 +85,34 @@ export default function ExerciseCardDraft({
             ]);
           }}
         >
-          {({ pressed }) => (
-            <Box
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box
-                gap="s"
-                flexDirection="row"
-                alignItems="center"
-                opacity={pressed ? 0.5 : 1}
-              >
-                <Image
-                  source={exerciseDraft.image}
-                  placeholder={blurhash}
-                  style={{
-                    width: 50,
-                    height: 50,
-                  }}
-                />
-                <Text variant="title" color="onSurface">
-                  {exerciseDraft.name}
-                </Text>
-              </Box>
-              <Ionicons
-                name="chevron-forward"
-                size={27}
-                color={colors.onSurfaceContainer}
-                style={{ opacity: pressed ? 0.5 : 1 }}
+          <Animated.View
+            style={{
+              opacity: opacity,
+              transform: [{ scale }],
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box gap="s" flexDirection="row" alignItems="center">
+              <Image
+                source={exerciseDraft.image}
+                placeholder={blurhash}
+                style={{
+                  width: 50,
+                  height: 50,
+                }}
               />
+              <Text variant="title" color="onSurface">
+                {exerciseDraft.name}
+              </Text>
             </Box>
-          )}
+            <Ionicons
+              name="chevron-forward"
+              size={27}
+              color={colors.onSurfaceContainer}
+            />
+          </Animated.View>
         </Pressable>
       </Link>
       <Pressable onPress={() => setEditing(true)}>

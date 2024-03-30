@@ -49,6 +49,7 @@ export interface WorkoutLogDraftFormData {
     image?: string;
     authorNotes?: string;
     athleteNotes?: string;
+    restDuration?: number;
     sets: SetLogDraft[];
   }[];
 }

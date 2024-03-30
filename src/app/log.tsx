@@ -19,6 +19,7 @@ const mockedWorkout = {
       image: "https://source.unsplash.com/random",
       authorNotes: "Arch you back!",
       athleteNotes: "I felt a bit of pain in my shoulder",
+      restDuration: 60,
       sets: [
         { targetReps: 12, targetIntensity: 7 },
         { targetReps: 10, targetIntensity: 8 },

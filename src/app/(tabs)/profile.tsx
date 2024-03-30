@@ -196,7 +196,7 @@ export default function ProfileTab() {
           <Pressable>
             {({ pressed }) => (
               <Ionicons
-                name="settings-outline"
+                name="settings"
                 size={25}
                 color={colors.onSurfaceContainer}
                 style={{ marginLeft: 15, opacity: pressed ? 0.5 : 1 }}

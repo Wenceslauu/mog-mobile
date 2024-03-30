@@ -21,6 +21,7 @@ import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/WorkoutLog";
 import { useMemo, useState } from "react";
 import TextInput from "../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
+import dayjs from "@/lib/dayjs";
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -121,9 +122,26 @@ export default function ExerciseCardDraft({
                   height: 50,
                 }}
               />
-              <Text variant="title" color="onSurface">
-                {exerciseDraft.name}
-              </Text>
+              <Box gap="xs">
+                <Text variant="title" color="onSurface">
+                  {exerciseDraft.name}
+                </Text>
+                {exerciseDraft.restDuration && (
+                  <Box
+                    flexDirection="row"
+                    alignItems="center"
+                    gap="xs"
+                    height={16}
+                  >
+                    <Ionicons name="timer" size={16} color={colors.primary} />
+                    <Text variant="label" color="primary">
+                      {dayjs
+                        .duration(exerciseDraft.restDuration, "s")
+                        .format("mm:ss")}
+                    </Text>
+                  </Box>
+                )}
+              </Box>
             </Box>
             <Ionicons
               name="chevron-forward"

@@ -8,12 +8,18 @@ import blurhash from "@/constants/blurhash";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
-import { UseFormSetValue, useFieldArray, useWatch } from "react-hook-form";
+import {
+  Controller,
+  UseFormSetValue,
+  useFieldArray,
+  useWatch,
+} from "react-hook-form";
 import SetRowLogDraft from "./SetRowLogDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
 import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/WorkoutLog";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import TextInput from "../TextInput";
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -28,6 +34,8 @@ export default function ExerciseCardDraft({
   setValue,
   handleDeleteExercise,
 }: ExerciseCardDraftProps) {
+  const [editing, setEditing] = useState(false);
+
   const { colors } = useTheme<Theme>();
 
   const { openActionSheet } = useActionSheet();
@@ -125,11 +133,60 @@ export default function ExerciseCardDraft({
           )}
         </Pressable>
       </Link>
+      {exerciseDraft.authorNotes && (
+        <Box flexDirection="row" alignItems="center" gap="xs">
+          <Ionicons name="school" size={16} color={colors.tertiary} />
+          <Text variant="label" color="tertiary">
+            {exerciseDraft.authorNotes}
+          </Text>
+        </Box>
+      )}
+      <Pressable onPress={() => setEditing(true)}>
+        {({ pressed }) => (
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            gap="xs"
+            opacity={pressed ? 0.5 : 1}
+          >
+            <Ionicons name="bulb" size={16} color={colors.secondary} />
+            {editing ? (
+              <Controller
+                control={control}
+                render={({ field: { value, onChange, onBlur } }) => (
+                  <TextInput
+                    onBlur={() => {
+                      setEditing(false);
+                      onBlur();
+                    }}
+                    onChangeText={onChange}
+                    value={value}
+                    variant="label"
+                    color="secondary"
+                    autoFocus
+                  />
+                )}
+                name={`exercises.${exerciseIndex}.athleteNotes`}
+              />
+            ) : (
+              <Text variant="label" color="secondary">
+                {exerciseDraft.athleteNotes || "Add notes here"}
+              </Text>
+            )}
+            {!editing && (
+              <Ionicons
+                name="create-outline"
+                size={16}
+                color={colors.secondary}
+              />
+            )}
+          </Box>
+        )}
+      </Pressable>
       <Box
         flexDirection="row"
         justifyContent="space-between"
         borderBottomColor="outlineVariant"
-        paddingVertical="s"
         borderBottomWidth={1}
         alignItems="center"
         height={46}

@@ -7,7 +7,8 @@ import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { Platform, ScrollView } from "react-native";
+import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const mockedWorkout = {
   name: "Upper",
@@ -16,6 +17,8 @@ const mockedWorkout = {
       id: 1,
       name: "Bench Press",
       image: "https://source.unsplash.com/random",
+      authorNotes: "Arch you back!",
+      athleteNotes: "I felt a bit of pain in my shoulder",
       sets: [
         { targetReps: 12, targetIntensity: 7 },
         { targetReps: 10, targetIntensity: 8 },
@@ -41,6 +44,7 @@ export default function LogModalScreen() {
   });
 
   useEffect(() => {
+    // TODO: Appending exercises every time the page loads is not ideal, it should be done only once
     if (selectedExercises) {
       const parsedSelectedExercises = JSON.parse(selectedExercises as string);
 
@@ -63,6 +67,17 @@ export default function LogModalScreen() {
       <Text variant="title" color="onSurface">
         {mockedWorkout.name}
       </Text>
+      {/* <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : undefined}
+      > */}
+      {/* <KeyboardAwareScrollView
+        contentContainerStyle={{
+          gap: 16,
+          paddingBottom: 30,
+        }}
+        showsVerticalScrollIndicator={false}
+        keyboardDismissMode="on-drag"
+      > */}
       <ScrollView
         contentContainerStyle={{
           gap: 16,
@@ -70,6 +85,8 @@ export default function LogModalScreen() {
         }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"
+        automaticallyAdjustKeyboardInsets={true}
+        keyboardShouldPersistTaps="always"
       >
         {fields.map((field, index) => {
           return (
@@ -94,7 +111,9 @@ export default function LogModalScreen() {
           <Button variant="secondary">Add exercise</Button>
         </Link>
       </ScrollView>
-      <StatusBar style={Platform.OS === "ios" ? "dark" : "light"} />
+      {/* </KeyboardAwareScrollView> */}
+      {/* </KeyboardAvoidingView> */}
+      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </Box>
   );
 }

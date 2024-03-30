@@ -47,13 +47,15 @@ export interface WorkoutLogDraftFormData {
     id: number;
     name: string;
     image?: string;
+    authorNotes?: string;
+    athleteNotes?: string;
     sets: SetLogDraft[];
   }[];
 }
 
 export interface SetLogDraft {
-  targetReps?: number;
   targetIntensity?: number;
+  targetReps?: number;
   weight: number;
   reps: number;
   done: boolean;

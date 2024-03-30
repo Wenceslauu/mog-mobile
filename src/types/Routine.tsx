@@ -51,6 +51,7 @@ export interface RoutineDraft {
         name: string;
         image?: string;
         authorNotes?: string;
+        restDuration?: number;
         sets: {
           reps?: number;
           intensity?: number;

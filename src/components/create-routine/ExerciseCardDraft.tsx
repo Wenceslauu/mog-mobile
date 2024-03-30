@@ -15,6 +15,7 @@ import * as Haptics from "expo-haptics";
 import { useState } from "react";
 import TextInput from "../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
+import dayjs from "@/lib/dayjs";
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -103,9 +104,34 @@ export default function ExerciseCardDraft({
                   height: 50,
                 }}
               />
-              <Text variant="title" color="onSurface">
-                {exerciseDraft.name}
-              </Text>
+              <Box gap="xs">
+                <Text variant="title" color="onSurface">
+                  {exerciseDraft.name}
+                </Text>
+                <Pressable onPress={() => console.log("pressed")}>
+                  {({ pressed }) => (
+                    <Box
+                      flexDirection="row"
+                      alignItems="center"
+                      gap="xs"
+                      height={16}
+                      opacity={pressed ? 0.5 : 1}
+                    >
+                      <Ionicons name="timer" size={16} color={colors.primary} />
+                      <Text variant="label" color="primary">
+                        {dayjs
+                          .duration(exerciseDraft.restDuration, "s")
+                          .format("mm:ss")}
+                      </Text>
+                      <Ionicons
+                        name="create-outline"
+                        size={16}
+                        color={colors.primary}
+                      />
+                    </Box>
+                  )}
+                </Pressable>
+              </Box>
             </Box>
             <Ionicons
               name="chevron-forward"

@@ -39,6 +39,7 @@ export default function CreateRoutineProvider({
                 name: "Bench Press",
                 image: "https://source.unsplash.com/random",
                 authorNotes: "Bend the bar!",
+                restDuration: 90,
                 sets: [
                   {
                     reps: undefined,
@@ -71,6 +72,7 @@ export default function CreateRoutineProvider({
                   name: "Bench Press",
                   image: "https://source.unsplash.com/random",
                   authorNotes: "Bend the bar!",
+                  restDuration: 90,
                   sets: [
                     {
                       reps: undefined,

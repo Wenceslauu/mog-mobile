@@ -1,6 +1,6 @@
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
-import { Pressable } from "react-native";
+import { Animated, Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +9,7 @@ import { useActionSheet } from "@/providers/actionSheet";
 import TextInput from "../TextInput";
 import { useState } from "react";
 import * as Haptics from "expo-haptics";
+import useLongPressStyle from "@/hooks/useLongPressStyle";
 
 type WorkoutCardProps = {
   name: string;
@@ -35,6 +36,7 @@ export default function WorkoutCardDraft({
   const { colors } = useTheme<Theme>();
 
   const { openActionSheet } = useActionSheet();
+  const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
   return (
     <Link
@@ -48,6 +50,8 @@ export default function WorkoutCardDraft({
       asChild
     >
       <Pressable
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
         onLongPress={() => {
           Haptics.selectionAsync();
 
@@ -67,47 +71,46 @@ export default function WorkoutCardDraft({
           ]);
         }}
       >
-        {({ pressed }) => {
-          return (
-            <Box
-              borderRadius="l"
-              backgroundColor="surfaceContainer"
-              padding="m"
-              gap="m"
-              opacity={pressed ? 0.5 : 1}
-            >
-              <Box
-                flexDirection="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                {editing ? (
-                  <TextInput
-                    value={title}
-                    onChangeText={setTitle}
-                    onBlur={() => {
-                      handleRenameWorkout(title, cycleIndex, workoutIndex);
-                      setEditing(false);
-                    }}
-                    variant="title"
-                    color="onSurface"
-                    selectionColor={colors.primary}
-                    autoFocus
-                  />
-                ) : (
-                  <Text variant="title" color="onSurface">
-                    {name}
-                  </Text>
-                )}
-                <Ionicons
-                  name="pencil-sharp"
-                  size={25}
-                  color={colors.onSurfaceContainer}
-                />
-              </Box>
-            </Box>
-          );
-        }}
+        <Animated.View
+          style={{
+            borderRadius: 16,
+            backgroundColor: colors.surfaceContainer,
+            padding: 16,
+            gap: 16,
+            transform: [{ scale }],
+            opacity,
+          }}
+        >
+          <Box
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            {editing ? (
+              <TextInput
+                value={title}
+                onChangeText={setTitle}
+                onBlur={() => {
+                  handleRenameWorkout(title, cycleIndex, workoutIndex);
+                  setEditing(false);
+                }}
+                variant="title"
+                color="onSurface"
+                selectionColor={colors.primary}
+                autoFocus
+              />
+            ) : (
+              <Text variant="title" color="onSurface">
+                {name}
+              </Text>
+            )}
+            <Ionicons
+              name="pencil-sharp"
+              size={25}
+              color={colors.onSurfaceContainer}
+            />
+          </Box>
+        </Animated.View>
       </Pressable>
     </Link>
   );

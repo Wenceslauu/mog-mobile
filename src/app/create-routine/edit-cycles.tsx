@@ -22,6 +22,7 @@ import Button from "@/components/Button";
 import { Link } from "expo-router";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
+import useLongPressStyle from "@/hooks/useLongPressStyle";
 
 export default function EditCyclesScreen() {
   const { routine, setRoutine, setIsDirty } = useCreateRoutine();
@@ -212,6 +213,7 @@ function CustomTabBarButton({
   const [title, setTitle] = useState(navigationState.routes[index].title);
 
   const { openActionSheet } = useActionSheet();
+  const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
   const { colors } = useTheme<Theme>();
 
@@ -234,6 +236,8 @@ function CustomTabBarButton({
   return (
     // TODO: Create tooltip, or onboarding step to show how to edit cycle name
     <Pressable
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
       // Only disable onPress, not onLongPress
       onPress={!focused ? () => jumpTo(index.toString()) : undefined}
       onLongPress={() => {
@@ -255,40 +259,39 @@ function CustomTabBarButton({
         ]);
       }}
     >
-      {({ pressed }) => (
-        <Animated.View
-          style={{
-            padding: 16,
-            borderRadius: 15,
-            opacity: pressed ? 0.5 : 1,
-            backgroundColor,
-          }}
-        >
-          {editing ? (
-            <TextInput
-              value={title}
-              onChangeText={setTitle}
-              onBlur={() => {
-                handleRenameCycle(title, index);
-                setEditing(false);
-              }}
-              variant="body"
-              color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
-              textTransform="capitalize"
-              selectionColor={colors.primary}
-              autoFocus
-            />
-          ) : (
-            <Text
-              variant="body"
-              textTransform="capitalize"
-              color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
-            >
-              {navigationState.routes[index].title}
-            </Text>
-          )}
-        </Animated.View>
-      )}
+      <Animated.View
+        style={{
+          padding: 16,
+          borderRadius: 15,
+          opacity: focused ? 1 : opacity,
+          transform: [{ scale }],
+          backgroundColor,
+        }}
+      >
+        {editing ? (
+          <TextInput
+            value={title}
+            onChangeText={setTitle}
+            onBlur={() => {
+              handleRenameCycle(title, index);
+              setEditing(false);
+            }}
+            variant="body"
+            color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
+            textTransform="capitalize"
+            selectionColor={colors.primary}
+            autoFocus
+          />
+        ) : (
+          <Text
+            variant="body"
+            textTransform="capitalize"
+            color={focused ? "onSecondaryContainer" : "onSurfaceContainer"}
+          >
+            {navigationState.routes[index].title}
+          </Text>
+        )}
+      </Animated.View>
     </Pressable>
   );
 }

@@ -1,4 +1,5 @@
 export interface Notification {
+  id: number;
   triggerUser: {
     id: number;
     name: string;
@@ -24,4 +25,22 @@ export enum NotificationType {
   Athlete,
   Review,
   Follow,
+}
+
+export interface Request {
+  id: number;
+  requestorUser: {
+    id: number;
+    name: string;
+    image?: string;
+  };
+  timestamp: Date;
+  status: RequestStatus;
+  isRead: boolean;
+}
+
+export enum RequestStatus {
+  Pending,
+  Accepted,
+  Rejected,
 }

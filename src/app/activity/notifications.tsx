@@ -1,10 +1,11 @@
 import Box from "@/components/Box";
 import NotificationCard from "@/components/activity/NotificationCard";
-import { Notification, NotificationType } from "@/types/Notification";
+import { Notification, NotificationType } from "@/types/Activity";
 import { FlashList } from "@shopify/flash-list";
 
 const mockedNotifications: Notification[] = [
   {
+    id: 1,
     triggerUser: {
       id: 2,
       name: "Henry",
@@ -19,6 +20,7 @@ const mockedNotifications: Notification[] = [
     isRead: false,
   },
   {
+    id: 2,
     triggerUser: {
       id: 2,
       name: "Henry",
@@ -34,6 +36,7 @@ const mockedNotifications: Notification[] = [
     isRead: false,
   },
   {
+    id: 3,
     triggerUser: {
       id: 2,
       name: "Lui",
@@ -48,6 +51,7 @@ const mockedNotifications: Notification[] = [
     isRead: true,
   },
   {
+    id: 4,
     triggerUser: {
       id: 1,
       name: "Thigas",
@@ -62,6 +66,7 @@ const mockedNotifications: Notification[] = [
     isRead: true,
   },
   {
+    id: 5,
     triggerUser: {
       id: 1,
       name: "Pedro",

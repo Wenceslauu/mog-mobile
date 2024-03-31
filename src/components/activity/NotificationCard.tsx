@@ -109,51 +109,150 @@ export default function NotificationCard({
       <Pressable>
         {({ pressed }) => (
           <Box
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
             backgroundColor={
               notification.isRead ? "surfaceContainer" : "secondaryContainer"
             }
             paddingVertical="s"
             paddingRight="m"
+            gap="s"
             opacity={pressed ? 0.5 : 1}
           >
             <Box
-              style={{
-                paddingHorizontal: 5,
-                width: 16,
-              }}
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              {!notification.isRead && (
-                <Box
-                  height={6}
-                  width={6}
-                  backgroundColor="primary"
-                  borderRadius="full"
-                />
-              )}
-            </Box>
-            <Box flexDirection="row" gap="s" flexShrink={1} flex={1}>
-              <Link
-                href={{
-                  pathname: `/profiles/${notification.triggerUser.id}`,
-                  params: { name: notification.triggerUser.name },
+              <Box
+                style={{
+                  paddingHorizontal: 5,
+                  width: 16,
                 }}
-                asChild
               >
-                <Pressable>
+                {!notification.isRead && (
+                  <Box
+                    height={6}
+                    width={6}
+                    backgroundColor="primary"
+                    borderRadius="full"
+                  />
+                )}
+              </Box>
+              <Box flexDirection="row" gap="s" flex={1}>
+                <Link
+                  href={{
+                    pathname: `/profiles/${notification.triggerUser.id}`,
+                    params: { name: notification.triggerUser.name },
+                  }}
+                  asChild
+                >
+                  <Pressable>
+                    {({ pressed }) => (
+                      <Box opacity={pressed ? 0.5 : 1}>
+                        <Avatar
+                          size="m"
+                          source={notification.triggerUser.image}
+                        />
+                      </Box>
+                    )}
+                  </Pressable>
+                </Link>
+                <Box flexShrink={1} gap="xs">
+                  <Text
+                    variant="body"
+                    color={
+                      notification.isRead
+                        ? "onSurfaceContainer"
+                        : "onSecondaryContainer"
+                    }
+                    numberOfLines={2}
+                  >
+                    <Link
+                      href={{
+                        pathname: `/profiles/${notification.triggerUser.id}`,
+                        params: { name: notification.triggerUser.name },
+                      }}
+                      asChild
+                      style={{ marginBottom: -3 }}
+                    >
+                      <Pressable>
+                        {({ pressed }) => (
+                          <Text
+                            fontWeight="bold"
+                            variant="body"
+                            color={
+                              notification.isRead
+                                ? "onSurfaceContainer"
+                                : "onSecondaryContainer"
+                            }
+                            opacity={pressed ? 0.5 : 1}
+                          >
+                            {notification.triggerUser.name}
+                          </Text>
+                        )}
+                      </Pressable>
+                    </Link>{" "}
+                    {generateNotificationMessage(notification.type)}{" "}
+                    <Text fontWeight="bold">
+                      {generateNotificationTarget(
+                        notification.type,
+                        notification.post?.text,
+                        notification.routine?.name
+                      )}
+                    </Text>
+                  </Text>
+                  <Text
+                    variant="label"
+                    color={
+                      notification.isRead
+                        ? "onSurfaceContainer"
+                        : "onSecondaryContainer"
+                    }
+                  >
+                    {dayjs(notification.timestamp).fromNow()}
+                  </Text>
+                </Box>
+              </Box>
+              <Box>
+                <Pressable
+                  onPress={() => {
+                    openActionSheet([
+                      {
+                        name: "Silence this type of notification",
+                        callback: () =>
+                          console.log("Silence this type of notification"),
+                      },
+                      {
+                        name: "Delete notification",
+                        callback: () => console.log("Delete notification"),
+                      },
+                    ]);
+                  }}
+                >
                   {({ pressed }) => (
-                    <Box opacity={pressed ? 0.5 : 1}>
-                      <Avatar
-                        size="m"
-                        source={notification.triggerUser.image}
-                      />
-                    </Box>
+                    <MaterialCommunityIcons
+                      name="dots-horizontal"
+                      size={29}
+                      color={
+                        notification.isRead
+                          ? colors.onSurfaceContainer
+                          : colors.onSecondaryContainer
+                      }
+                      style={{
+                        opacity: pressed ? 0.5 : 1,
+                      }}
+                    />
                   )}
                 </Pressable>
-              </Link>
-              <Box flexShrink={1}>
+              </Box>
+            </Box>
+            {notification.comment && (
+              <Box
+                paddingLeft="m"
+                style={{
+                  paddingLeft: 94,
+                  paddingRight: 45,
+                }}
+              >
                 <Text
                   variant="body"
                   color={
@@ -161,85 +260,13 @@ export default function NotificationCard({
                       ? "onSurfaceContainer"
                       : "onSecondaryContainer"
                   }
+                  opacity={0.75}
+                  numberOfLines={2}
                 >
-                  <Link
-                    href={{
-                      pathname: `/profiles/${notification.triggerUser.id}`,
-                      params: { name: notification.triggerUser.name },
-                    }}
-                    asChild
-                    style={{ marginBottom: -3 }}
-                  >
-                    <Pressable>
-                      {({ pressed }) => (
-                        <Text
-                          fontWeight="bold"
-                          variant="body"
-                          color={
-                            notification.isRead
-                              ? "onSurfaceContainer"
-                              : "onSecondaryContainer"
-                          }
-                          opacity={pressed ? 0.5 : 1}
-                        >
-                          {notification.triggerUser.name}
-                        </Text>
-                      )}
-                    </Pressable>
-                  </Link>{" "}
-                  {generateNotificationMessage(notification.type)}{" "}
-                  <Text fontWeight="bold">
-                    {generateNotificationTarget(
-                      notification.type,
-                      notification.post?.text,
-                      notification.routine?.name
-                    )}
-                  </Text>
-                </Text>
-                <Text
-                  variant="label"
-                  color={
-                    notification.isRead
-                      ? "onSurfaceContainer"
-                      : "onSecondaryContainer"
-                  }
-                >
-                  {dayjs(notification.timestamp).fromNow()}
+                  {notification?.comment}
                 </Text>
               </Box>
-            </Box>
-            <Box>
-              <Pressable
-                onPress={() => {
-                  openActionSheet([
-                    {
-                      name: "Silence this type of notification",
-                      callback: () =>
-                        console.log("Silence this type of notification"),
-                    },
-                    {
-                      name: "Delete notification",
-                      callback: () => console.log("Delete notification"),
-                    },
-                  ]);
-                }}
-              >
-                {({ pressed }) => (
-                  <MaterialCommunityIcons
-                    name="dots-horizontal"
-                    size={29}
-                    color={
-                      notification.isRead
-                        ? colors.onSurfaceContainer
-                        : colors.onSecondaryContainer
-                    }
-                    style={{
-                      opacity: pressed ? 0.5 : 1,
-                    }}
-                  />
-                )}
-              </Pressable>
-            </Box>
+            )}
           </Box>
         )}
       </Pressable>

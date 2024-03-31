@@ -1,6 +1,6 @@
 import Box from "@/components/Box";
 import NotificationCard from "@/components/activity/NotificationCard";
-import { Notification } from "@/types/Notification";
+import { Notification, NotificationType } from "@/types/Notification";
 import { FlashList } from "@shopify/flash-list";
 
 const mockedNotifications: Notification[] = [
@@ -10,7 +10,7 @@ const mockedNotifications: Notification[] = [
       name: "Henry",
       // image: ""
     },
-    type: 0,
+    type: NotificationType.Like,
     post: {
       id: 2,
       text: "Com direito a PR no supino inclinado",
@@ -24,11 +24,12 @@ const mockedNotifications: Notification[] = [
       name: "Henry",
       // image: ""
     },
-    type: 1,
+    type: NotificationType.Comment,
     post: {
       id: 1,
       text: "Com direito a PR no supino inclinado",
     },
+    comment: "Parabéns, Thigas!",
     timestamp: new Date(2024, 0, 30, 11),
     isRead: false,
   },
@@ -38,7 +39,7 @@ const mockedNotifications: Notification[] = [
       name: "Lui",
       // image: ""
     },
-    type: 2,
+    type: NotificationType.Athlete,
     routine: {
       id: 2,
       name: "Panturrilha de aço",
@@ -52,7 +53,7 @@ const mockedNotifications: Notification[] = [
       name: "Thigas",
       // image: ""
     },
-    type: 3,
+    type: NotificationType.Review,
     routine: {
       id: 1,
       name: "Braço de 50cm",
@@ -66,7 +67,7 @@ const mockedNotifications: Notification[] = [
       name: "Pedro",
       // image: ""
     },
-    type: 4,
+    type: NotificationType.Follow,
     timestamp: new Date(2024, 0, 30, 12),
     isRead: true,
   },

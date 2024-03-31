@@ -12,6 +12,7 @@ export interface Notification {
     id: number;
     text: string;
   };
+  comment?: string;
   type: NotificationType;
   timestamp: Date;
   isRead: boolean;

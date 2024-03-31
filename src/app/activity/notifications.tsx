@@ -6,22 +6,22 @@ import { FlashList } from "@shopify/flash-list";
 const mockedNotifications: Notification[] = [
   {
     triggerUser: {
-      id: 1,
-      name: "Thigas",
+      id: 2,
+      name: "Henry",
       // image: ""
     },
-    type: 4,
-    routine: {
-      id: 1,
-      name: "Braço de 50cm",
+    type: 0,
+    post: {
+      id: 2,
+      text: "Com direito a PR no supino inclinado",
     },
-    timestamp: new Date(2024, 0, 30, 12),
+    timestamp: new Date(2024, 0, 30, 11),
     isRead: false,
   },
   {
     triggerUser: {
       id: 2,
-      name: "Lui",
+      name: "Henry",
       // image: ""
     },
     type: 1,
@@ -31,6 +31,44 @@ const mockedNotifications: Notification[] = [
     },
     timestamp: new Date(2024, 0, 30, 11),
     isRead: false,
+  },
+  {
+    triggerUser: {
+      id: 2,
+      name: "Lui",
+      // image: ""
+    },
+    type: 2,
+    routine: {
+      id: 2,
+      name: "Panturrilha de aço",
+    },
+    timestamp: new Date(2024, 0, 30, 11),
+    isRead: true,
+  },
+  {
+    triggerUser: {
+      id: 1,
+      name: "Thigas",
+      // image: ""
+    },
+    type: 3,
+    routine: {
+      id: 1,
+      name: "Braço de 50cm",
+    },
+    timestamp: new Date(2024, 0, 30, 12),
+    isRead: true,
+  },
+  {
+    triggerUser: {
+      id: 1,
+      name: "Pedro",
+      // image: ""
+    },
+    type: 4,
+    timestamp: new Date(2024, 0, 30, 12),
+    isRead: true,
   },
 ];
 

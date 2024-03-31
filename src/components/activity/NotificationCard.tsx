@@ -112,11 +112,29 @@ export default function NotificationCard({
             flexDirection="row"
             justifyContent="space-between"
             alignItems="center"
-            backgroundColor="surfaceContainer"
-            padding="s"
+            backgroundColor={
+              notification.isRead ? "surfaceContainer" : "secondaryContainer"
+            }
+            paddingVertical="s"
+            paddingRight="m"
             opacity={pressed ? 0.5 : 1}
           >
-            <Box flexDirection="row" gap="s" flexShrink={1}>
+            <Box
+              style={{
+                paddingHorizontal: 5,
+                width: 16,
+              }}
+            >
+              {!notification.isRead && (
+                <Box
+                  height={6}
+                  width={6}
+                  backgroundColor="primary"
+                  borderRadius="full"
+                />
+              )}
+            </Box>
+            <Box flexDirection="row" gap="s" flexShrink={1} flex={1}>
               <Link
                 href={{
                   pathname: `/profiles/${notification.triggerUser.id}`,
@@ -136,7 +154,14 @@ export default function NotificationCard({
                 </Pressable>
               </Link>
               <Box flexShrink={1}>
-                <Text variant="body" color="onSurfaceContainer">
+                <Text
+                  variant="body"
+                  color={
+                    notification.isRead
+                      ? "onSurfaceContainer"
+                      : "onSecondaryContainer"
+                  }
+                >
                   <Link
                     href={{
                       pathname: `/profiles/${notification.triggerUser.id}`,
@@ -150,7 +175,11 @@ export default function NotificationCard({
                         <Text
                           fontWeight="bold"
                           variant="body"
-                          color="onSurfaceContainer"
+                          color={
+                            notification.isRead
+                              ? "onSurfaceContainer"
+                              : "onSecondaryContainer"
+                          }
                           opacity={pressed ? 0.5 : 1}
                         >
                           {notification.triggerUser.name}
@@ -167,7 +196,14 @@ export default function NotificationCard({
                     )}
                   </Text>
                 </Text>
-                <Text variant="label" color="onSurfaceContainer">
+                <Text
+                  variant="label"
+                  color={
+                    notification.isRead
+                      ? "onSurfaceContainer"
+                      : "onSecondaryContainer"
+                  }
+                >
                   {dayjs(notification.timestamp).fromNow()}
                 </Text>
               </Box>
@@ -192,10 +228,12 @@ export default function NotificationCard({
                   <MaterialCommunityIcons
                     name="dots-horizontal"
                     size={29}
-                    color={colors.onSurfaceContainer}
+                    color={
+                      notification.isRead
+                        ? colors.onSurfaceContainer
+                        : colors.onSecondaryContainer
+                    }
                     style={{
-                      marginRight: 15,
-                      marginTop: 1,
                       opacity: pressed ? 0.5 : 1,
                     }}
                   />

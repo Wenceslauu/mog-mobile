@@ -20,7 +20,7 @@ export interface Notification {
 export enum NotificationType {
   Like,
   Comment,
+  Athlete,
   Review,
   Follow,
-  Athlete,
 }

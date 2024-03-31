@@ -83,7 +83,9 @@ export default function NotificationsTab() {
     <Box flex={1} gap="xs" backgroundColor="surface">
       <FlashList
         data={mockedNotifications}
-        estimatedItemSize={100}
+        // All notification types are 86 pixels tall except for the comment one which is about 120
+        // For most people, comments won't be the most common notification type, so we can estimate the item size down to 92
+        estimatedItemSize={92}
         renderItem={({ item }) => <NotificationCard notification={item} />}
         contentContainerStyle={{
           paddingBottom: 30,

@@ -1,4 +1,4 @@
-import { Notification, NotificationType } from "@/types/Notification";
+import { Notification, NotificationType } from "@/types/Activity";
 import Box from "../Box";
 import Text from "../Text";
 import Avatar from "../Avatar";

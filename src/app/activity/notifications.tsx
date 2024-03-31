@@ -1,17 +1,52 @@
 import Box from "@/components/Box";
-import Text from "@/components/Text";
+import NotificationCard from "@/components/activity/NotificationCard";
+import { Notification } from "@/types/Notification";
+import { FlashList } from "@shopify/flash-list";
+
+const mockedNotifications: Notification[] = [
+  {
+    triggerUser: {
+      id: 1,
+      name: "Thigas",
+      // image: ""
+    },
+    type: 4,
+    routine: {
+      id: 1,
+      name: "Braço de 50cm",
+    },
+    timestamp: new Date(2024, 0, 30, 12),
+    isRead: false,
+  },
+  {
+    triggerUser: {
+      id: 2,
+      name: "Lui",
+      // image: ""
+    },
+    type: 1,
+    post: {
+      id: 1,
+      text: "Com direito a PR no supino inclinado",
+    },
+    timestamp: new Date(2024, 0, 30, 11),
+    isRead: false,
+  },
+];
 
 export default function NotificationsTab() {
   return (
-    <Box
-      flex={1}
-      justifyContent="center"
-      alignItems="center"
-      backgroundColor="surface"
-    >
-      <Text variant="title" color="onSurface">
-        Notifications
-      </Text>
+    <Box flex={1} gap="xs" backgroundColor="surface">
+      <FlashList
+        data={mockedNotifications}
+        estimatedItemSize={100}
+        renderItem={({ item }) => <NotificationCard notification={item} />}
+        contentContainerStyle={{
+          paddingBottom: 30,
+        }}
+        ItemSeparatorComponent={() => <Box height={8} />}
+        showsVerticalScrollIndicator={false}
+      />
     </Box>
   );
 }

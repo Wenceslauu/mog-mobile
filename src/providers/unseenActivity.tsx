@@ -20,7 +20,7 @@ export default function UnseenActivityProvider({
   // TODO: Check if there are any unseen activity on load and keep track with Websocket afterwards
   // TODO: Change initial state to false
   const [hasUnseenNotifications, setHasUnseenNotifications] = useState(true);
-  const [hasUnseenRequests, setHasUnseenRequests] = useState(true);
+  const [hasUnseenRequests, setHasUnseenRequests] = useState(false);
 
   const hasUnseenActivity = hasUnseenNotifications || hasUnseenRequests;
 

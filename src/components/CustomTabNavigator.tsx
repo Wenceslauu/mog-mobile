@@ -10,6 +10,7 @@ import Box from "./Box";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import useParallaxHeaderScrollDistance from "@/hooks/useParallaxHeaderScrollDistance";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
+import UnseenBadge from "./UnseenBadge";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,6 +20,11 @@ type CustomTabNavigatorProps = {
     component: any;
   }[];
   initialRouteName?: string;
+
+  unseenStatuses?: {
+    name: string;
+    hasUnseenItems: boolean;
+  }[];
 
   scrollY?: Animated.Value;
 
@@ -30,6 +36,7 @@ type CustomTabNavigatorProps = {
 export default function CustomTabNavigator({
   tabs,
   initialRouteName,
+  unseenStatuses,
   scrollY,
   collapsible,
   parallax,
@@ -41,6 +48,7 @@ export default function CustomTabNavigator({
       tabBar={(props) => (
         <CustomTabBar
           {...props}
+          unseenStatuses={unseenStatuses}
           scrollY={scrollY}
           collapsible={collapsible}
           parallax={parallax}
@@ -63,6 +71,11 @@ type CustomTabBarProps = MaterialTopTabBarProps & {
   scrollY?: Animated.Value;
   collapsible?: boolean;
   parallax?: boolean;
+
+  unseenStatuses?: {
+    name: string;
+    hasUnseenItems: boolean;
+  }[];
 };
 
 function CustomTabBar({
@@ -70,6 +83,7 @@ function CustomTabBar({
   scrollY,
   collapsible,
   parallax,
+  unseenStatuses,
   ...props
 }: CustomTabBarProps) {
   const { PARALLAX_HEADER_SCROLL_DISTANCE } = useParallaxHeaderScrollDistance();
@@ -189,13 +203,17 @@ function CustomTabBar({
     <Box flexDirection="row" gap="s" padding="m">
       {state.routes.map((route, index) => {
         return (
-          <CustomTabBarButton
-            {...props}
-            key={index}
-            state={state}
-            route={route}
-            index={index}
-          />
+          <Box>
+            <CustomTabBarButton
+              {...props}
+              key={index}
+              state={state}
+              route={route}
+              index={index}
+            />
+            {unseenStatuses?.find((status) => status.name === route.name)
+              ?.hasUnseenItems && <UnseenBadge />}
+          </Box>
         );
       })}
     </Box>

@@ -7,7 +7,7 @@ import dayjs from "@/lib/dayjs";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams } from "expo-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Pressable, useWindowDimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { Image } from "expo-image";
@@ -119,7 +119,9 @@ const mockedPost = {
   ],
   comments: [
     {
+      id: 1,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -127,7 +129,9 @@ const mockedPost = {
       timestamp: new Date(2024, 0, 23, 20),
     },
     {
+      id: 2,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -135,7 +139,9 @@ const mockedPost = {
       timestamp: new Date(2024, 0, 23, 20),
     },
     {
+      id: 3,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -143,7 +149,9 @@ const mockedPost = {
       timestamp: new Date(2024, 0, 23, 20),
     },
     {
+      id: 4,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -151,7 +159,9 @@ const mockedPost = {
       timestamp: new Date(2024, 0, 23, 20),
     },
     {
+      id: 5,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -159,7 +169,9 @@ const mockedPost = {
       timestamp: new Date(2024, 0, 23, 20),
     },
     {
+      id: 6,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -167,7 +179,9 @@ const mockedPost = {
       timestamp: new Date(2024, 0, 23, 20),
     },
     {
+      id: 7,
       author: {
+        id: 1,
         name: "lui",
         picture: "https://unavatar.io/github/pedroandrade03",
       },
@@ -421,7 +435,7 @@ function PostDetailsFlashListHeader({
 }
 
 export default function PostDetails() {
-  const { id } = useLocalSearchParams();
+  const { id, highlightedCommentId } = useLocalSearchParams();
 
   const averageHeight = useMemo(() => {
     const sum = mockedPost.exercises.reduce(
@@ -444,6 +458,12 @@ export default function PostDetails() {
     focusCommentSectionTextInput,
   } = useCommentSection();
 
+  useEffect(() => {
+    if (highlightedCommentId) {
+      openCommentSection(mockedPost.id);
+    }
+  }, [highlightedCommentId]);
+
   return (
     <>
       <FlashList
@@ -461,8 +481,16 @@ export default function PostDetails() {
       />
       <CommentsBottomSheetModal
         commentSectionId={commentSectionId}
+        highlightedCommentId={
+          highlightedCommentId ? Number(highlightedCommentId) : undefined
+        }
         onCloseCommentSection={onCloseCommentSection}
-        ref={{ bottomSheetModalRef, bottomSheetTextInputRef } as any}
+        ref={
+          {
+            bottomSheetModalRef,
+            bottomSheetTextInputRef,
+          } as any
+        }
       />
     </>
   );

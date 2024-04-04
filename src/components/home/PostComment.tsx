@@ -33,7 +33,9 @@ export default function PostComment({
         </Pressable>
       </Link>
       <Box
-        backgroundColor="secondaryContainer"
+        backgroundColor={
+          comment.highlighted ? "primaryContainer" : "secondaryContainer"
+        }
         flex={1}
         padding="m"
         paddingTop="s"

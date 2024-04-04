@@ -19,6 +19,7 @@ export interface Post {
 }
 
 export interface Comment {
+  id: number;
   author: {
     id: number;
     name: string;
@@ -26,6 +27,7 @@ export interface Comment {
   };
   text: string;
   timestamp: Date;
+  highlighted?: boolean;
 }
 
 export interface ExerciseLogPreview {

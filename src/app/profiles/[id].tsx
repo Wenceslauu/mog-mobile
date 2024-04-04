@@ -103,6 +103,7 @@ const mockedUser = {
       ],
       comments: [
         {
+          id: 1,
           author: {
             id: 2,
             name: "Lui",
@@ -158,6 +159,7 @@ const mockedUser = {
       ],
       comments: [
         {
+          id: 2,
           author: {
             id: 2,
             name: "lui",

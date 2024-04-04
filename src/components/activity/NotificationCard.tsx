@@ -61,11 +61,15 @@ function generateNotificationHref(
   post?: {
     id: number;
     text: string;
+  },
+  comment?: {
+    id: number;
+    text: string;
   }
 ) {
   switch (type) {
     case NotificationType.Follow:
-      if (!triggerUser) return;
+      if (!triggerUser) return {};
 
       return {
         pathname: `/profiles/${triggerUser.id}`,
@@ -73,18 +77,26 @@ function generateNotificationHref(
       };
     case NotificationType.Review:
     case NotificationType.Athlete:
-      if (!routine) return;
+      if (!routine) return {};
 
       return {
         pathname: `/routines/${routine.id}`,
         params: { name: routine.name },
       };
     case NotificationType.Like:
-    case NotificationType.Comment:
-      if (!post) return;
+      if (!post) return {};
 
       return {
         pathname: `/posts/${post.id}`,
+      };
+    case NotificationType.Comment:
+      if (!post || !comment) return {};
+
+      return {
+        pathname: `/posts/${post.id}`,
+        params: {
+          highlightedCommentId: comment.id,
+        },
       };
   }
 }
@@ -102,7 +114,8 @@ export default function NotificationCard({
         notification.type,
         notification.triggerUser,
         notification.routine,
-        notification.post
+        notification.post,
+        notification.comment
       )}
       asChild
     >
@@ -263,7 +276,7 @@ export default function NotificationCard({
                   opacity={0.75}
                   numberOfLines={2}
                 >
-                  {notification?.comment}
+                  {notification?.comment.text}
                 </Text>
               </Box>
             )}

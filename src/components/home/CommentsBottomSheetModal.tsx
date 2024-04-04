@@ -16,13 +16,30 @@ import { useWindowDimensions } from "react-native";
 import { forwardRef } from "react";
 import Constants from "expo-constants";
 
+const mockedHightlightedComment = {
+  id: 99,
+  author: {
+    id: 1,
+    name: "wences",
+    picture: "https://unavatar.io/github/Wenceslauu",
+  },
+  text: "em destaque",
+  timestamp: new Date(2024, 0, 17, 20),
+  highlighted: true,
+};
+
 type CommentsBottomSheetModalProps = {
   commentSectionId: number | null;
+  highlightedCommentId?: number;
   onCloseCommentSection?: () => void;
 };
 
 export default forwardRef(function CommentsBottomSheetModal(
-  { commentSectionId, onCloseCommentSection }: CommentsBottomSheetModalProps,
+  {
+    commentSectionId,
+    highlightedCommentId,
+    onCloseCommentSection,
+  }: CommentsBottomSheetModalProps,
   ref: any
 ) {
   const { bottomSheetModalRef, bottomSheetTextInputRef } = ref;
@@ -33,6 +50,7 @@ export default forwardRef(function CommentsBottomSheetModal(
       : commentSectionId === 1
       ? [
           {
+            id: 2,
             author: {
               id: 2,
               name: "lui",
@@ -42,6 +60,7 @@ export default forwardRef(function CommentsBottomSheetModal(
             timestamp: new Date(2024, 0, 23, 20),
           },
           {
+            id: 3,
             author: {
               id: 2,
               name: "lui",
@@ -51,6 +70,7 @@ export default forwardRef(function CommentsBottomSheetModal(
             timestamp: new Date(2024, 0, 23, 20),
           },
           {
+            id: 4,
             author: {
               id: 2,
               name: "lui",
@@ -60,6 +80,7 @@ export default forwardRef(function CommentsBottomSheetModal(
             timestamp: new Date(2024, 0, 23, 20),
           },
           {
+            id: 5,
             author: {
               id: 2,
               name: "lui",
@@ -69,6 +90,7 @@ export default forwardRef(function CommentsBottomSheetModal(
             timestamp: new Date(2024, 0, 23, 20),
           },
           {
+            id: 6,
             author: {
               id: 2,
               name: "lui",
@@ -78,6 +100,7 @@ export default forwardRef(function CommentsBottomSheetModal(
             timestamp: new Date(2024, 0, 23, 20),
           },
           {
+            id: 7,
             author: {
               id: 2,
               name: "lui",
@@ -87,6 +110,7 @@ export default forwardRef(function CommentsBottomSheetModal(
             timestamp: new Date(2024, 0, 23, 20),
           },
           {
+            id: 8,
             author: {
               id: 2,
               name: "lui",
@@ -99,6 +123,7 @@ export default forwardRef(function CommentsBottomSheetModal(
       : commentSectionId === 2
       ? [
           {
+            id: 1,
             author: {
               id: 1,
               name: "wences",
@@ -164,7 +189,11 @@ export default forwardRef(function CommentsBottomSheetModal(
         </Text>
       </Box>
       <BottomSheetFlatList
-        data={mockedComments}
+        data={
+          highlightedCommentId
+            ? [mockedHightlightedComment, ...mockedComments]
+            : mockedComments
+        }
         renderItem={({ item }) => (
           <PostComment
             comment={item}

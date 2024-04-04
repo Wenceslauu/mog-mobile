@@ -31,7 +31,10 @@ const mockedNotifications: Notification[] = [
       id: 1,
       text: "Com direito a PR no supino inclinado",
     },
-    comment: "Parabéns, Thigas!",
+    comment: {
+      id: 100,
+      text: "Parabéns, Thigas!",
+    },
     timestamp: new Date(2024, 0, 30, 11),
     isRead: false,
   },

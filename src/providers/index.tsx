@@ -3,6 +3,7 @@ import { ThemeProvider } from "./theme";
 import CreateRoutineProvider from "./createRoutine";
 import { ReactNode } from "react";
 import ActionSheetProvider from "./actionSheet";
+import UnseenNotificationsProvider from "./unseenActivity";
 
 type ProvidersProps = {
   children: ReactNode;
@@ -13,7 +14,9 @@ export default function Providers({ children }: ProvidersProps) {
     <ThemeProvider>
       <BottomSheetModalProvider>
         <ActionSheetProvider>
-          <CreateRoutineProvider>{children}</CreateRoutineProvider>
+          <UnseenNotificationsProvider>
+            <CreateRoutineProvider>{children}</CreateRoutineProvider>
+          </UnseenNotificationsProvider>
         </ActionSheetProvider>
       </BottomSheetModalProvider>
     </ThemeProvider>

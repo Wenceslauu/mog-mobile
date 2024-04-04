@@ -6,12 +6,16 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
+import Box from "@/components/Box";
+import { useUnseenActivity } from "@/providers/unseenActivity";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 export default function TabsLayout() {
   const { colors } = useTheme<Theme>();
+
+  const { hasUnseenActivity } = useUnseenActivity();
 
   return (
     <Tabs
@@ -29,12 +33,27 @@ export default function TabsLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ focused, color }) => (
-            <Ionicons
-              name={`home${focused ? "" : "-outline"}`}
-              size={28}
-              style={{ marginBottom: -3 }}
-              color={color}
-            />
+            <Box>
+              <Ionicons
+                name={`home${focused ? "" : "-outline"}`}
+                size={28}
+                style={{ marginBottom: -3 }}
+                color={color}
+              />
+              {hasUnseenActivity && (
+                <Box
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    width: 10,
+                    height: 10,
+                    borderRadius: 5,
+                    backgroundColor: colors.error,
+                  }}
+                />
+              )}
+            </Box>
           ),
         }}
       />

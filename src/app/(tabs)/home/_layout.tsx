@@ -11,6 +11,7 @@ import { Theme } from "@/constants/theme";
 import DiscoverTab from "./discover";
 import FollowingTab from "./following";
 import { ScrollingContext } from "@/contexts/scrolling";
+import { useUnseenActivity } from "@/providers/unseenActivity";
 
 export default function HomeLayout() {
   const { colors } = useTheme<Theme>();
@@ -19,6 +20,8 @@ export default function HomeLayout() {
   // There's no need to update the ref value, pass the ref.current
   const scrollY = useRef(new Animated.Value(0)).current;
 
+  const { hasUnseenActivity } = useUnseenActivity();
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -26,12 +29,27 @@ export default function HomeLayout() {
           <Link href="/activity" asChild>
             <Pressable>
               {({ pressed }) => (
-                <Ionicons
-                  name="notifications"
-                  size={25}
-                  color={colors.onSurfaceContainer}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
+                <Box marginRight="m" opacity={pressed ? 0.5 : 1}>
+                  <Ionicons
+                    name="notifications"
+                    size={25}
+                    color={colors.onSurfaceContainer}
+                    style={{ opacity: pressed ? 0.5 : 1 }}
+                  />
+                  {hasUnseenActivity && (
+                    <Box
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        width: 10,
+                        height: 10,
+                        borderRadius: 5,
+                        backgroundColor: colors.error,
+                      }}
+                    />
+                  )}
+                </Box>
               )}
             </Pressable>
           </Link>

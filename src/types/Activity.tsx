@@ -19,6 +19,7 @@ export interface Notification {
   };
   type: NotificationType;
   timestamp: Date;
+  isSeen: boolean;
   isRead: boolean;
 }
 
@@ -39,6 +40,7 @@ export interface Request {
   };
   timestamp: Date;
   status: RequestStatus;
+  isSeen: boolean;
   isRead: boolean;
 }
 

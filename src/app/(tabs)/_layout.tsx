@@ -8,6 +8,7 @@ import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 import Box from "@/components/Box";
 import { useUnseenActivity } from "@/providers/unseenActivity";
+import UnseenBadge from "@/components/UnseenBadge";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -40,19 +41,7 @@ export default function TabsLayout() {
                 style={{ marginBottom: -3 }}
                 color={color}
               />
-              {hasUnseenActivity && (
-                <Box
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: colors.error,
-                  }}
-                />
-              )}
+              {hasUnseenActivity && <UnseenBadge />}
             </Box>
           ),
         }}

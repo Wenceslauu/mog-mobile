@@ -12,6 +12,7 @@ import DiscoverTab from "./discover";
 import FollowingTab from "./following";
 import { ScrollingContext } from "@/contexts/scrolling";
 import { useUnseenActivity } from "@/providers/unseenActivity";
+import UnseenBadge from "@/components/UnseenBadge";
 
 export default function HomeLayout() {
   const { colors } = useTheme<Theme>();
@@ -36,19 +37,7 @@ export default function HomeLayout() {
                     color={colors.onSurfaceContainer}
                     style={{ opacity: pressed ? 0.5 : 1 }}
                   />
-                  {hasUnseenActivity && (
-                    <Box
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        right: 0,
-                        width: 10,
-                        height: 10,
-                        borderRadius: 5,
-                        backgroundColor: colors.error,
-                      }}
-                    />
-                  )}
+                  {hasUnseenActivity && <UnseenBadge />}
                 </Box>
               )}
             </Pressable>

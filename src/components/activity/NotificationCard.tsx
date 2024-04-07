@@ -9,6 +9,7 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import { useActionSheet } from "@/providers/actionSheet";
 import { Link } from "expo-router";
+import { RatingStars } from "../routines/RoutineReviewCard";
 
 type NotificationCardProps = {
   notification: Notification;
@@ -58,6 +59,11 @@ function generateNotificationHref(
     id: number;
     name: string;
   },
+  review?: {
+    id: number;
+    rating: number;
+    text: string;
+  },
   post?: {
     id: number;
     text: string;
@@ -76,6 +82,14 @@ function generateNotificationHref(
         params: { name: triggerUser.name },
       };
     case NotificationType.Review:
+      if (!routine || !review) return {};
+
+      return {
+        pathname: `/routines/${routine.id}/reviews`,
+        params: {
+          highlightedReviewId: review.id,
+        },
+      };
     case NotificationType.Athlete:
       if (!routine) return {};
 
@@ -114,6 +128,7 @@ export default function NotificationCard({
         notification.type,
         notification.triggerUser,
         notification.routine,
+        notification.review,
         notification.post,
         notification.comment
       )}
@@ -258,7 +273,17 @@ export default function NotificationCard({
                 </Pressable>
               </Box>
             </Box>
-            {notification.comment && (
+            {notification.review && (
+              <Box
+                style={{
+                  paddingLeft: 94,
+                  paddingRight: 45,
+                }}
+              >
+                <RatingStars rating={notification.review.rating} />
+              </Box>
+            )}
+            {(notification.comment || notification.review) && (
               <Box
                 paddingLeft="m"
                 style={{
@@ -276,7 +301,8 @@ export default function NotificationCard({
                   opacity={0.75}
                   numberOfLines={2}
                 >
-                  {notification?.comment.text}
+                  {notification.comment && notification.comment.text}
+                  {notification.review && notification.review.text}
                 </Text>
               </Box>
             )}

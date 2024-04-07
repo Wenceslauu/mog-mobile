@@ -9,6 +9,11 @@ export interface Notification {
     id: number;
     name: string;
   };
+  review?: {
+    id: number;
+    rating: number;
+    text: string;
+  };
   post?: {
     id: number;
     text: string;

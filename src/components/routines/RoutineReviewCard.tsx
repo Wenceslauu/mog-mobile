@@ -25,7 +25,9 @@ export default function RoutineReviewCard({
       width={preview ? 300 : "100%"}
       height={preview ? 200 : "auto"}
       minHeight={200}
-      backgroundColor="surfaceContainer"
+      backgroundColor={
+        review.highlighted ? "secondaryContainer" : "surfaceContainer"
+      }
       padding="m"
     >
       <Box flexDirection="row" justifyContent="space-between">
@@ -66,18 +68,19 @@ export default function RoutineReviewCard({
   );
 }
 
-function RatingStars({ rating }: { rating: number }) {
+export function RatingStars({ rating }: { rating: number }) {
   const { colors } = useTheme<Theme>();
 
   return (
-    <Box flexDirection="row" gap="s">
+    <Box flexDirection="row" gap="xs" style={{
+      gap: 2
+    }}>
       {[...Array(5)].map((_, index) => (
         <Ionicons
           key={index}
           name="star"
           size={16}
           color={index < rating ? colors.tertiary : colors.tertiaryContainer}
-          style={{ marginLeft: -6 }}
         />
       ))}
     </Box>

@@ -26,6 +26,7 @@ export interface RoutineReview {
   rating: number;
   text?: string;
   date: Date;
+  highlighted?: boolean;
 }
 
 export interface Workout {

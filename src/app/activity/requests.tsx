@@ -14,6 +14,7 @@ const mockedRequests: Request[] = [
     timestamp: new Date(2024, 0, 30, 11),
     status: RequestStatus.Pending,
     isRead: false,
+    isSeen: true,
   },
   {
     id: 2,
@@ -25,6 +26,7 @@ const mockedRequests: Request[] = [
     timestamp: new Date(2024, 0, 20, 11),
     status: RequestStatus.Pending,
     isRead: false,
+    isSeen: true,
   },
   {
     id: 3,
@@ -36,6 +38,7 @@ const mockedRequests: Request[] = [
     timestamp: new Date(2024, 0, 20, 11),
     status: RequestStatus.Pending,
     isRead: true,
+    isSeen: true,
   },
 ];
 

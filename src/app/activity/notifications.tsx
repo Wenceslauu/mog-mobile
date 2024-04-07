@@ -18,6 +18,7 @@ const mockedNotifications: Notification[] = [
     },
     timestamp: new Date(2024, 0, 30, 11),
     isRead: false,
+    isSeen: false,
   },
   {
     id: 2,
@@ -37,6 +38,7 @@ const mockedNotifications: Notification[] = [
     },
     timestamp: new Date(2024, 0, 30, 11),
     isRead: false,
+    isSeen: false,
   },
   {
     id: 3,
@@ -52,6 +54,7 @@ const mockedNotifications: Notification[] = [
     },
     timestamp: new Date(2024, 0, 30, 11),
     isRead: true,
+    isSeen: false,
   },
   {
     id: 4,
@@ -65,8 +68,14 @@ const mockedNotifications: Notification[] = [
       id: 1,
       name: "Braço de 50cm",
     },
+    review: {
+      id: 4,
+      rating: 5,
+      text: "Não estou mais passando pelas portas",
+    },
     timestamp: new Date(2024, 0, 30, 12),
     isRead: true,
+    isSeen: false,
   },
   {
     id: 5,
@@ -78,6 +87,7 @@ const mockedNotifications: Notification[] = [
     type: NotificationType.Follow,
     timestamp: new Date(2024, 0, 30, 12),
     isRead: true,
+    isSeen: false,
   },
 ];
 

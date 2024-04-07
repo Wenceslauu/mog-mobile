@@ -2,6 +2,20 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import RoutineReviewCard from "@/components/routines/RoutineReviewCard";
 import { FlashList } from "@shopify/flash-list";
+import { useLocalSearchParams } from "expo-router";
+
+const mockedHighlightedReview = {
+  id: 4,
+  rating: 5,
+  text: "Não estou mais passando pelas portas",
+  date: new Date(2024, 1, 2),
+  author: {
+    id: 1,
+    name: "Wenceslauu",
+    picture: "https://unavatar.io/github/Wenceslauu",
+  },
+  highlighted: true,
+};
 
 const mockedReviews = [
   {
@@ -40,11 +54,17 @@ const mockedReviews = [
 ];
 
 export default function RoutineDetailsReviews() {
+  const { id, highlightedReviewId } = useLocalSearchParams();
+
   return (
     <>
       <Box flex={1} gap="m" padding="m" backgroundColor="surface">
         <FlashList
-          data={mockedReviews}
+          data={
+            highlightedReviewId
+              ? [mockedHighlightedReview, ...mockedReviews]
+              : mockedReviews
+          }
           estimatedItemSize={100}
           renderItem={({ item }) => <RoutineReviewCard review={item} />}
           ItemSeparatorComponent={() => <Box height={8} />}

@@ -12,7 +12,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { TabView } from "react-native-tab-view";
-import CycleTab from "@/components/routines/CycleTab";
+import CycleTab from "@/components/routineDetails/CycleTab";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import { ScrollingContext } from "@/contexts/scrolling";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";

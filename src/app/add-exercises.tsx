@@ -2,7 +2,7 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import FilterDropdown from "@/components/FilterDropdown";
 import LocalSearchBar from "@/components/LocalSearchBar";
-import ExerciseSelectionCard from "@/components/create-routine/ExerciseSelectionCard";
+import ExerciseSelectionCard from "@/components/addExercises/ExerciseSelectionCard";
 import { ExerciseSelectionSimple } from "@/types/Exercise";
 import { FlashList } from "@shopify/flash-list";
 import { Link, useLocalSearchParams } from "expo-router";

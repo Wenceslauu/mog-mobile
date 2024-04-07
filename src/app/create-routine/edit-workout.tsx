@@ -1,6 +1,6 @@
 import Box from "@/components/Box";
 import Button from "@/components/Button";
-import ExerciseCardDraft from "@/components/create-routine/ExerciseCardDraft";
+import ExerciseCardDraft from "@/components/createRoutine/editWorkout/ExerciseCardDraft";
 import { useCreateRoutine } from "@/providers/createRoutine";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";

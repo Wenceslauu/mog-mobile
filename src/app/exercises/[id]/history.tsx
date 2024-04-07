@@ -1,5 +1,5 @@
 import Box from "@/components/Box";
-import ExerciseLogCard from "@/components/exercises/ExerciseLogCard";
+import ExerciseLogCard from "@/components/exerciseDetails/ExerciseLogCard";
 import { FlashList } from "@shopify/flash-list";
 
 const mockedLogs = [

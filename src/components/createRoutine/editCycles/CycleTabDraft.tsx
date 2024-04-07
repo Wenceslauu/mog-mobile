@@ -1,6 +1,6 @@
 import { ScrollView } from "react-native";
 import WorkoutCardDraft from "./WorkoutCardDraft";
-import Button from "../Button";
+import Button from "../../Button";
 
 type CycleTabProps = {
   workoutDrafts: {

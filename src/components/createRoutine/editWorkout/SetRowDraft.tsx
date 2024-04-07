@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form";
-import Box from "../Box";
-import Text from "../Text";
-import TextInput from "../TextInput";
+import Box from "../../Box";
+import Text from "../../Text";
+import TextInput from "../../TextInput";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import { useRef } from "react";

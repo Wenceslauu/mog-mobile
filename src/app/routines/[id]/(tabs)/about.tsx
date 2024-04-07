@@ -1,7 +1,7 @@
 import Avatar from "@/components/Avatar";
 import Box from "@/components/Box";
 import Text from "@/components/Text";
-import RoutineReviewCard from "@/components/routines/RoutineReviewCard";
+import RoutineReviewCard from "@/components/routineDetails/RoutineReviewCard";
 import { Theme } from "@/constants/theme";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { FlashList } from "@shopify/flash-list";
@@ -180,7 +180,7 @@ export default function RoutineDetailsAboutTab() {
                     data={mockedRoutine.reviews}
                     estimatedItemSize={300}
                     renderItem={({ item }) => (
-                      <RoutineReviewCard review={item} preview/>
+                      <RoutineReviewCard review={item} preview />
                     )}
                     contentContainerStyle={{ paddingHorizontal: 16 }}
                     ItemSeparatorComponent={() => <Box width={20} />}

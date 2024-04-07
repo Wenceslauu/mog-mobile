@@ -1,12 +1,12 @@
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import { Animated, Pressable } from "react-native";
-import Box from "../Box";
-import Text from "../Text";
+import Box from "../../Box";
+import Text from "../../Text";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { useActionSheet } from "@/providers/actionSheet";
-import TextInput from "../TextInput";
+import TextInput from "../../TextInput";
 import { useState } from "react";
 import * as Haptics from "expo-haptics";
 import useLongPressStyle from "@/hooks/useLongPressStyle";

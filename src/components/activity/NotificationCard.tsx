@@ -9,7 +9,7 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import { useActionSheet } from "@/providers/actionSheet";
 import { Link } from "expo-router";
-import { RatingStars } from "../routines/RoutineReviewCard";
+import { RatingStars } from "../routineDetails/RoutineReviewCard";
 
 type NotificationCardProps = {
   notification: Notification;

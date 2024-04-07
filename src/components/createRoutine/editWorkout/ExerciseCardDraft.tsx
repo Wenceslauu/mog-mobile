@@ -1,19 +1,19 @@
 import { Link } from "expo-router";
-import Box from "../Box";
-import Text from "../Text";
+import Box from "../../Box";
+import Text from "../../Text";
 import { Animated, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
-import Button from "../Button";
+import Button from "../../Button";
 import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import SetRowDraft from "./SetRowDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
 import { useState } from "react";
-import TextInput from "../TextInput";
+import TextInput from "../../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
 

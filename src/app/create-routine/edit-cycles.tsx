@@ -15,7 +15,7 @@ import {
   TabView,
 } from "react-native-tab-view";
 import { useCreateRoutine } from "@/providers/createRoutine";
-import CycleTabDraft from "@/components/create-routine/CycleTabDraft";
+import CycleTabDraft from "@/components/createRoutine/editCycles/CycleTabDraft";
 import { Ionicons } from "@expo/vector-icons";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";

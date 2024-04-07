@@ -1,6 +1,6 @@
 import Box from "@/components/Box";
 import Button from "@/components/Button";
-import RoutineReviewCard from "@/components/routines/RoutineReviewCard";
+import RoutineReviewCard from "@/components/routineDetails/RoutineReviewCard";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
 
@@ -69,6 +69,7 @@ export default function RoutineDetailsReviews() {
           renderItem={({ item }) => <RoutineReviewCard review={item} />}
           ItemSeparatorComponent={() => <Box height={8} />}
           contentContainerStyle={{ paddingBottom: 30 }}
+          showsVerticalScrollIndicator={false}
         />
       </Box>
       <Box

@@ -85,10 +85,15 @@ function RootLayoutNav() {
         <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
         <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />
         <Stack.Screen
-          name="routines/[id]"
+          name="routines/[id]/(tabs)"
           // https://github.com/expo/router/issues/519#issuecomment-1531038030
           getId={({ params }) => params?.id}
           options={{ title: "Routine Details" }}
+        />
+        <Stack.Screen
+          name="routines/[id]/reviews"
+          getId={({ params }) => params?.id}
+          options={{ title: "Routine Reviews" }}
         />
         <Stack.Screen
           name="exercises/[id]"

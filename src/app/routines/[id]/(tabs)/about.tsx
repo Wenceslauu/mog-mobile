@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import Table from "@/components/Table";
 import TruncatedText from "@/components/TruncatedText";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { useContext } from "react";
 import { ScrollingContext } from "@/contexts/scrolling";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
@@ -66,6 +66,8 @@ const mockedRoutine = {
 };
 
 export default function RoutineDetailsAboutTab() {
+  const { id } = useLocalSearchParams();
+
   const { scrollY, scrollViewRefs } = useContext(ScrollingContext);
 
   const aboutScrollViewRef = scrollViewRefs![0];
@@ -142,48 +144,54 @@ export default function RoutineDetailsAboutTab() {
         <TruncatedText text={mockedRoutine.description} />
       </Box>
       <Box gap="s">
-        <Pressable>
-          {({ pressed }) => (
-            <Box
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-              opacity={pressed ? 0.5 : 1}
-            >
-              <Text variant="title" color="onSurface" paddingLeft="m">
-                Reviews
-              </Text>
-              <Box
-                flexDirection="row"
-                alignItems="center"
-                gap="xs"
-                paddingRight="m"
-              >
-                <Ionicons name="star" size={16} color={colors.onSurface} />
-                <Text variant="body" color="onSurface">
-                  {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
-                </Text>
-                <Ionicons
-                  name="chevron-forward"
-                  size={27}
-                  color={colors.onSurfaceContainer}
-                />
+        <Link href={`/routines/${id}/reviews`} asChild>
+          <Pressable>
+            {({ pressed }) => (
+              <Box opacity={pressed ? 0.5 : 1}>
+                <Box
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  opacity={pressed ? 0.5 : 1}
+                >
+                  <Text variant="title" color="onSurface" paddingLeft="m">
+                    Reviews
+                  </Text>
+                  <Box
+                    flexDirection="row"
+                    alignItems="center"
+                    gap="xs"
+                    paddingRight="m"
+                  >
+                    <Ionicons name="star" size={16} color={colors.onSurface} />
+                    <Text variant="body" color="onSurface">
+                      {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
+                    </Text>
+                    <Ionicons
+                      name="chevron-forward"
+                      size={27}
+                      color={colors.onSurfaceContainer}
+                    />
+                  </Box>
+                </Box>
+                <Box flexDirection="row" gap="m">
+                  <FlashList
+                    horizontal={true}
+                    data={mockedRoutine.reviews}
+                    estimatedItemSize={300}
+                    renderItem={({ item }) => (
+                      <RoutineReviewCard review={item} preview/>
+                    )}
+                    contentContainerStyle={{ paddingHorizontal: 16 }}
+                    ItemSeparatorComponent={() => <Box width={20} />}
+                    showsHorizontalScrollIndicator={false}
+                    bounces={false}
+                  />
+                </Box>
               </Box>
-            </Box>
-          )}
-        </Pressable>
-        <Box flexDirection="row" gap="m">
-          <FlashList
-            horizontal={true}
-            data={mockedRoutine.reviews}
-            estimatedItemSize={300}
-            renderItem={({ item }) => <RoutineReviewCard review={item} />}
-            contentContainerStyle={{ paddingHorizontal: 16 }}
-            ItemSeparatorComponent={() => <Box width={20} />}
-            showsHorizontalScrollIndicator={false}
-            bounces={false}
-          />
-        </Box>
+            )}
+          </Pressable>
+        </Link>
       </Box>
       <Box gap="s" paddingHorizontal="m">
         <Text variant="title" color="onSurface">

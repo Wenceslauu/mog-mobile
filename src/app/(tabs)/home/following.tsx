@@ -1,12 +1,12 @@
 import Box from "@/components/Box";
-import PostCard from "@/components/home/PostCard";
+import PostCard from "@/components/posts/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
 import { AnimatedFlashList } from "@shopify/flash-list";
 import { useContext, useRef } from "react";
 import { Animated } from "react-native";
 import { ScrollingContext } from "@/contexts/scrolling";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
-import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
+import CommentsBottomSheetModal from "@/components/posts/CommentsBottomSheetModal";
 import useCommentSection from "@/hooks/useCommentSection";
 
 const mockedPosts = [

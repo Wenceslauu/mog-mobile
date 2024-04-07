@@ -1,7 +1,7 @@
 import Avatar from "@/components/Avatar";
 import Box from "@/components/Box";
 import Text from "@/components/Text";
-import PostComment from "@/components/home/PostComment";
+import PostComment from "@/components/posts/PostComment";
 import { Theme } from "@/constants/theme";
 import dayjs from "@/lib/dayjs";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,8 +13,8 @@ import Carousel from "react-native-reanimated-carousel";
 import { Image } from "expo-image";
 import AnimatedDotsCarousel from "react-native-animated-dots-carousel";
 import { FlashList } from "@shopify/flash-list";
-import ExerciseLogCard from "@/components/home/ExerciseLogCard";
-import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
+import ExerciseLogCard from "@/components/postDetails/ExerciseLogCard";
+import CommentsBottomSheetModal from "@/components/posts/CommentsBottomSheetModal";
 import useCommentSection from "@/hooks/useCommentSection";
 
 const mockedPost = {

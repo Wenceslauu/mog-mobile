@@ -9,10 +9,10 @@ import { Theme } from "@/constants/theme";
 import Avatar from "@/components/Avatar";
 import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
-import PostCard from "@/components/home/PostCard";
+import PostCard from "@/components/posts/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
 import useCommentSection from "@/hooks/useCommentSection";
-import CommentsBottomSheetModal from "@/components/home/CommentsBottomSheetModal";
+import CommentsBottomSheetModal from "@/components/posts/CommentsBottomSheetModal";
 
 const mockedUser = {
   picture: "https://unavatar.io/github/Wenceslauu",

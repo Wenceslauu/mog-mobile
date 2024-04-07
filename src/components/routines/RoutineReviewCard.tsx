@@ -11,17 +11,20 @@ import { Link } from "expo-router";
 
 type RoutineReviewPreviewCardProps = {
   review: RoutineReview;
+  preview?: boolean;
 };
 
 export default function RoutineReviewCard({
   review,
+  preview,
 }: RoutineReviewPreviewCardProps) {
   return (
     <Box
       gap="m"
       borderRadius="xl"
-      width={300}
-      height={200}
+      width={preview ? 300 : "100%"}
+      height={preview ? 200 : "auto"}
+      minHeight={200}
       backgroundColor="surfaceContainer"
       padding="m"
     >
@@ -73,7 +76,7 @@ function RatingStars({ rating }: { rating: number }) {
           key={index}
           name="star"
           size={16}
-          color={index < rating ? colors.onSurfaceContainer : colors.onSurface}
+          color={index < rating ? colors.tertiary : colors.tertiaryContainer}
           style={{ marginLeft: -6 }}
         />
       ))}

@@ -187,7 +187,7 @@ export default function CreateRoutineScreen() {
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
       <Box flex={1} gap="l" paddingHorizontal="m">
-        <Box gap="m">
+        <Box gap="m" height={80}>
           <Text variant="label" color="onSurface">
             Name
           </Text>
@@ -198,7 +198,7 @@ export default function CreateRoutineScreen() {
             }}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder="Routine name"
+                // placeholder="Routine name"
                 onBlur={() => {
                   if (routine.name !== value) {
                     setRoutine((draft) => {
@@ -214,17 +214,20 @@ export default function CreateRoutineScreen() {
                 value={value}
                 selectionColor={colors.primary}
                 flex={1}
-                height={50}
                 color="onSurface"
                 padding="s"
-                paddingLeft="xl"
+                paddingLeft="l"
+                backgroundColor="surfaceContainer"
+                borderRadius="s"
               />
             )}
             name="name"
           />
           {errors.name && <Text>This is required.</Text>}
         </Box>
-        <Box gap="m">
+
+        {/* TODO: Rich text on description */}
+        <Box gap="m" minHeight={200}>
           <Text variant="label" color="onSurface">
             Description
           </Text>
@@ -232,7 +235,7 @@ export default function CreateRoutineScreen() {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder="Routine description"
+                // placeholder="Routine description"
                 onBlur={() => {
                   if (routine.description !== value) {
                     setRoutine((draft) => {
@@ -248,10 +251,16 @@ export default function CreateRoutineScreen() {
                 value={value}
                 selectionColor={colors.primary}
                 flex={1}
-                height={50}
                 color="onSurface"
                 padding="s"
-                paddingLeft="xl"
+                paddingTop="m"
+                paddingLeft="l"
+                backgroundColor="surfaceContainer"
+                borderRadius="s"
+                multiline
+                numberOfLines={8}
+                blurOnSubmit={true}
+                textAlignVertical="top"
               />
             )}
             name="description"

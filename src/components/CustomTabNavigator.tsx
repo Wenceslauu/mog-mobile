@@ -203,10 +203,9 @@ function CustomTabBar({
     <Box flexDirection="row" gap="s" padding="m">
       {state.routes.map((route, index) => {
         return (
-          <Box>
+          <Box key={index}>
             <CustomTabBarButton
               {...props}
-              key={index}
               state={state}
               route={route}
               index={index}

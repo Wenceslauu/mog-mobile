@@ -8,11 +8,11 @@ export interface Routine {
     picture: string;
   };
   rating: number;
-  category: Category;
+  category: CategoryEnum;
   daysPerWeek: string;
   duration: string;
-  difficulty: Difficulty;
-  equipment: Equipment;
+  difficulty: DifficultyEnum;
+  equipment: EquipmentEnum;
   numberOfAthletes: number;
 }
 

@@ -7,7 +7,7 @@ export interface Exercise {
     weight: number;
     reps: number;
   };
-  targetMuscle: TargetMuscle;
+  targetMuscle: TargetMuscleEnum;
 }
 
 export interface ExerciseLog {

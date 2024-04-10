@@ -26,7 +26,7 @@ const mockedExercises: Exercise[] = [
       weight: 225,
       reps: 5,
     },
-    targetMuscle: "Chest",
+    targetMuscle: TargetMuscleEnum.Chest,
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ const mockedExercises: Exercise[] = [
       weight: 315,
       reps: 5,
     },
-    targetMuscle: "Quads",
+    targetMuscle: TargetMuscleEnum.Quads,
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ const mockedExercises: Exercise[] = [
       weight: 405,
       reps: 5,
     },
-    targetMuscle: "Back",
+    targetMuscle: TargetMuscleEnum.Back,
   },
   {
     id: 4,
@@ -59,7 +59,7 @@ const mockedExercises: Exercise[] = [
       weight: 135,
       reps: 5,
     },
-    targetMuscle: "Shoulders",
+    targetMuscle: TargetMuscleEnum.Shoulders,
   },
   {
     id: 5,
@@ -70,7 +70,7 @@ const mockedExercises: Exercise[] = [
       weight: 225,
       reps: 5,
     },
-    targetMuscle: "Back",
+    targetMuscle: TargetMuscleEnum.Back,
   },
   {
     id: 6,
@@ -81,7 +81,7 @@ const mockedExercises: Exercise[] = [
       weight: 0,
       reps: 10,
     },
-    targetMuscle: "Back",
+    targetMuscle: TargetMuscleEnum.Back,
   },
   {
     id: 7,
@@ -92,7 +92,7 @@ const mockedExercises: Exercise[] = [
       weight: 50,
       reps: 10,
     },
-    targetMuscle: "Biceps",
+    targetMuscle: TargetMuscleEnum.Biceps,
   },
   {
     id: 8,
@@ -103,7 +103,7 @@ const mockedExercises: Exercise[] = [
       weight: 50,
       reps: 10,
     },
-    targetMuscle: "Triceps",
+    targetMuscle: TargetMuscleEnum.Triceps,
   },
   {
     id: 9,
@@ -114,7 +114,7 @@ const mockedExercises: Exercise[] = [
       weight: 500,
       reps: 10,
     },
-    targetMuscle: "Quads",
+    targetMuscle: TargetMuscleEnum.Quads,
   },
   {
     id: 10,
@@ -125,7 +125,7 @@ const mockedExercises: Exercise[] = [
       weight: 200,
       reps: 10,
     },
-    targetMuscle: "Hamstrings",
+    targetMuscle: TargetMuscleEnum.Hamstrings,
   },
   {
     id: 11,
@@ -136,7 +136,7 @@ const mockedExercises: Exercise[] = [
       weight: 200,
       reps: 10,
     },
-    targetMuscle: "Calves",
+    targetMuscle: TargetMuscleEnum.Calves,
   },
   {
     id: 12,
@@ -147,7 +147,7 @@ const mockedExercises: Exercise[] = [
       weight: 0,
       reps: 25,
     },
-    targetMuscle: "Abs",
+    targetMuscle: TargetMuscleEnum.Abs,
   },
   {
     id: 13,
@@ -158,7 +158,7 @@ const mockedExercises: Exercise[] = [
       weight: 0,
       reps: 25,
     },
-    targetMuscle: "Abs",
+    targetMuscle: TargetMuscleEnum.Abs,
   },
   {
     id: 14,
@@ -169,7 +169,7 @@ const mockedExercises: Exercise[] = [
       weight: 0,
       reps: 120,
     },
-    targetMuscle: "Abs",
+    targetMuscle: TargetMuscleEnum.Abs,
   },
   {
     id: 15,
@@ -180,7 +180,7 @@ const mockedExercises: Exercise[] = [
       weight: 50,
       reps: 10,
     },
-    targetMuscle: "Chest",
+    targetMuscle: TargetMuscleEnum.Chest,
   },
   {
     id: 16,
@@ -191,7 +191,7 @@ const mockedExercises: Exercise[] = [
       weight: 50,
       reps: 10,
     },
-    targetMuscle: "Chest",
+    targetMuscle: TargetMuscleEnum.Chest,
   },
   {
     id: 17,
@@ -202,7 +202,7 @@ const mockedExercises: Exercise[] = [
       weight: 30,
       reps: 10,
     },
-    targetMuscle: "Shoulders",
+    targetMuscle: TargetMuscleEnum.Shoulders,
   },
   {
     id: 18,
@@ -213,7 +213,7 @@ const mockedExercises: Exercise[] = [
       weight: 30,
       reps: 10,
     },
-    targetMuscle: "Shoulders",
+    targetMuscle: TargetMuscleEnum.Shoulders,
   },
 ];
 
@@ -305,8 +305,7 @@ export default function ExercisesTab() {
           data={mockedExercises.filter(
             (exercise) =>
               searchRegex.test(exercise.name) &&
-              (!targetMuscle ||
-                exercise.targetMuscle === TargetMuscleEnum[targetMuscle])
+              (!targetMuscle || exercise.targetMuscle === targetMuscle)
           )}
           estimatedItemSize={106}
           renderItem={({ item }) => <ExerciseCard exercise={item} />}

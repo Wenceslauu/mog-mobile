@@ -3,7 +3,7 @@ import { useTheme } from "@shopify/restyle";
 import { Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import { Exercise } from "@/types/Exercise";
+import { Exercise, TargetMuscleEnum } from "@/types/Exercise";
 import { Image } from "expo-image";
 import { Theme } from "@/constants/theme";
 import blurhash from "@/constants/blurhash";
@@ -49,7 +49,7 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
                   {exercise.name}
                 </Text>
                 <Text variant="label" color="onSurface">
-                  {exercise.targetMuscle}
+                  {TargetMuscleEnum[exercise.targetMuscle]}
                 </Text>
               </Box>
               <Box flexDirection="row" gap="s">
@@ -67,7 +67,9 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
                     <Ionicons
                       name={`bookmark${exercise.isFavorite ? "" : "-outline"}`}
                       size={29}
-                      color={exercise.isFavorite ? colors.primary : colors.onSurface}
+                      color={
+                        exercise.isFavorite ? colors.primary : colors.onSurface
+                      }
                       style={{
                         opacity: pressed ? 0.5 : 1,
                       }}

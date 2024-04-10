@@ -13,6 +13,7 @@ import PostCard from "@/components/posts/PostCard";
 import { useScrollToTop } from "@react-navigation/native";
 import useCommentSection from "@/hooks/useCommentSection";
 import CommentsBottomSheetModal from "@/components/posts/CommentsBottomSheetModal";
+import { CategoryEnum, DifficultyEnum, EquipmentEnum } from "@/types/Routine";
 
 const mockedUser = {
   picture: "https://unavatar.io/github/Wenceslauu",
@@ -32,11 +33,11 @@ const mockedUser = {
         picture: "https://unavatar.io/github/Wenceslauu",
       },
       rating: 4.5,
-      category: "Hypertrophy",
-      difficulty: "Intermediate",
+      category: CategoryEnum.Bodybuilding,
+      difficulty: DifficultyEnum.Intermediate,
       daysPerWeek: "4 days/week",
       duration: "8 weeks",
-      equipment: "Full gym",
+      equipment: EquipmentEnum["Full Gym"],
       numberOfAthletes: 10,
     },
     {
@@ -49,11 +50,11 @@ const mockedUser = {
         picture: "https://unavatar.io/github/Wenceslauu",
       },
       rating: 5,
-      category: "Hypertrophy",
-      difficulty: "Intermediate",
+      category: CategoryEnum.Bodybuilding,
+      difficulty: DifficultyEnum.Intermediate,
       daysPerWeek: "6 days/week",
       duration: "20 weeks",
-      equipment: "At home",
+      equipment: EquipmentEnum["At Home"],
       numberOfAthletes: 1,
     },
   ],

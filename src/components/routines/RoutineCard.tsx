@@ -1,7 +1,12 @@
 import { Pressable, ScrollView } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import { Routine } from "@/types/Routine";
+import {
+  CategoryEnum,
+  DifficultyEnum,
+  EquipmentEnum,
+  Routine,
+} from "@/types/Routine";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
@@ -96,7 +101,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {routine.category}
+                      {CategoryEnum[routine.category]}
                     </Text>
                   </Box>
                 </Pressable>
@@ -120,7 +125,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {routine.difficulty}
+                      {DifficultyEnum[routine.difficulty]}
                     </Text>
                   </Box>
                 </Pressable>
@@ -132,7 +137,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {routine.equipment}
+                      {EquipmentEnum[routine.equipment]}
                     </Text>
                   </Box>
                 </Pressable>

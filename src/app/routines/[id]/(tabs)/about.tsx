@@ -19,6 +19,7 @@ import { useContext } from "react";
 import { ScrollingContext } from "@/contexts/scrolling";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
+import { CategoryEnum, DifficultyEnum, EquipmentEnum } from "@/types/Routine";
 
 const mockedRoutine = {
   id: 1,
@@ -29,11 +30,11 @@ const mockedRoutine = {
     name: "wences",
     picture: "https://unavatar.io/github/Wenceslauu",
   },
-  category: "Hypertrophy",
-  difficulty: "Intermediate",
+  category: CategoryEnum.Bodybuilding,
+  difficulty: DifficultyEnum.Intermediate,
   daysPerWeek: "4 days/week",
   duration: "8 weeks",
-  equipment: "Full gym",
+  equipment: EquipmentEnum["Full Gym"],
   numberOfAthletes: 10,
   description:
     "Esse é um programa destinado a transformar os seus bracinhos em membros de um mutante. Aqui os seus bíceps serão esmagados, os seus tríceps serão completamente esmagados, sem dó nem piedade. Prepare-se para o braço de 50 cm!",
@@ -199,10 +200,16 @@ export default function RoutineDetailsAboutTab() {
         </Text>
         <Table
           rows={[
-            { label: "Category", value: mockedRoutine.category },
+            { label: "Category", value: CategoryEnum[mockedRoutine.category] },
             { label: "Frequency", value: mockedRoutine.daysPerWeek },
-            { label: "Equipment", value: mockedRoutine.equipment },
-            { label: "Difficulty", value: mockedRoutine.difficulty },
+            {
+              label: "Equipment",
+              value: EquipmentEnum[mockedRoutine.equipment],
+            },
+            {
+              label: "Difficulty",
+              value: DifficultyEnum[mockedRoutine.difficulty],
+            },
           ]}
         />
       </Box>

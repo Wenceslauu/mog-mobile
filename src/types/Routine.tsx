@@ -8,11 +8,11 @@ export interface Routine {
     picture: string;
   };
   rating: number;
-  category: string;
+  category: Category;
   daysPerWeek: string;
   duration: string;
-  difficulty: string;
-  equipment: string;
+  difficulty: Difficulty;
+  equipment: Equipment;
   numberOfAthletes: number;
 }
 
@@ -61,3 +61,24 @@ export interface RoutineDraft {
     }[];
   }[];
 }
+
+export enum CategoryEnum {
+  Bodybuilding,
+  Powerlifting,
+  "Bodyweight Fitness",
+}
+export type Category = keyof typeof CategoryEnum;
+
+export enum DifficultyEnum {
+  Beginner,
+  Intermediate,
+  Advanced,
+}
+export type Difficulty = keyof typeof DifficultyEnum;
+
+export enum EquipmentEnum {
+  "Full Gym",
+  "Dumbbells Only",
+  "At Home",
+}
+export type Equipment = keyof typeof EquipmentEnum;

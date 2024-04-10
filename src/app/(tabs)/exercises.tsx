@@ -14,20 +14,9 @@ import { Theme } from "@/constants/theme";
 import ExerciseCard from "@/components/exercises/ExerciseCard";
 import { useScrollToTop } from "@react-navigation/native";
 import { useActionSheet } from "@/providers/actionSheet";
+import { Exercise, TargetMuscle, TargetMuscleEnum } from "@/types/Exercise";
 
-type TargetMuscle =
-  | "Chest"
-  | "Back"
-  | "Quads"
-  | "Hamstrings"
-  | "Calves"
-  | "Abs"
-  | "Shoulders"
-  | "Biceps"
-  | "Triceps"
-  | null;
-
-const mockedExercises = [
+const mockedExercises: Exercise[] = [
   {
     id: 1,
     image: require("../../../assets/images/bench-press.jpg"),
@@ -232,7 +221,9 @@ export default function ExercisesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [targetMuscle, setTargetMuscle] = useState<TargetMuscle>(null);
+  const [targetMuscle, setTargetMuscle] = useState<TargetMuscleEnum | null>(
+    null
+  );
 
   const { openActionSheet } = useActionSheet();
 
@@ -294,21 +285,17 @@ export default function ExercisesTab() {
         <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
           <LocalSearchBar text={searchText} setText={setSearchText} />
           <Box height={70} alignSelf="flex-start">
-            <FilterDropdown<TargetMuscle>
+            <FilterDropdown<TargetMuscleEnum, typeof TargetMuscleEnum>
               name="Muscle Group"
               selected={targetMuscle}
               setSelected={setTargetMuscle}
-              options={[
-                "Chest",
-                "Back",
-                "Quads",
-                "Hamstrings",
-                "Calves",
-                "Abs",
-                "Shoulders",
-                "Biceps",
-                "Triceps",
-              ]}
+              options={Object.keys(TargetMuscleEnum)
+                .filter((key) => isNaN(Number(key)))
+                .map((key) => ({
+                  label: key,
+                  value: TargetMuscleEnum[key as TargetMuscle],
+                }))}
+              enumMap={TargetMuscleEnum}
             />
           </Box>
         </Box>
@@ -318,7 +305,8 @@ export default function ExercisesTab() {
           data={mockedExercises.filter(
             (exercise) =>
               searchRegex.test(exercise.name) &&
-              (!targetMuscle || exercise.targetMuscle === targetMuscle)
+              (!targetMuscle ||
+                exercise.targetMuscle === TargetMuscleEnum[targetMuscle])
           )}
           estimatedItemSize={106}
           renderItem={({ item }) => <ExerciseCard exercise={item} />}

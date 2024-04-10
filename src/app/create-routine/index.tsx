@@ -10,10 +10,12 @@ import TextInput from "@/components/TextInput";
 import { Alert, AlertButton } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
 import { useCreateRoutine } from "@/providers/createRoutine";
+import { CategoryEnum } from "@/types/Routine";
 
 type FormData = {
   name: string;
   description: string;
+  category: CategoryEnum;
 };
 
 const mockedRoutine = {
@@ -264,6 +266,17 @@ export default function CreateRoutineScreen() {
               />
             )}
             name="description"
+          />
+        </Box>
+
+        <Box gap="m">
+          <Text variant="label" color="onSurface">
+            Category
+          </Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => <Box></Box>}
+            name="category"
           />
         </Box>
       </Box>

@@ -11,16 +11,17 @@ import FilterDropdown from "@/components/FilterDropdown";
 import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 import { useScrollToTop } from "@react-navigation/native";
+import {
+  Category,
+  CategoryEnum,
+  Difficulty,
+  DifficultyEnum,
+  Equipment,
+  EquipmentEnum,
+  Routine,
+} from "@/types/Routine";
 
-type Category = "Bodybuilding" | "Powerlifting" | "Bodyweight" | null;
-
-type DaysPerWeek = "2 Days" | "3 Days" | "4 Days" | "5 Days" | "6 Days" | null;
-
-type Difficulty = "Beginner" | "Intermediate" | "Advanced" | null;
-
-type Equipment = "Full Gym" | "Dumbbells Only" | "At home" | null;
-
-const mockedRoutines = [
+const mockedRoutines: Routine[] = [
   {
     id: 1,
     thumbnail: require("../../../assets/images/bench-press.jpg"),
@@ -31,11 +32,11 @@ const mockedRoutines = [
       picture: "https://unavatar.io/github/Wenceslauu",
     },
     rating: 4.5,
-    category: "Hypertrophy",
+    category: "Bodybuilding",
     difficulty: "Intermediate",
     daysPerWeek: "4 days/week",
     duration: "8 weeks",
-    equipment: "Full gym",
+    equipment: "Full Gym",
     numberOfAthletes: 10,
   },
   {
@@ -48,11 +49,11 @@ const mockedRoutines = [
       picture: "https://unavatar.io/github/pedroandrade03",
     },
     rating: 3,
-    category: "Hypertrophy",
+    category: "Bodybuilding",
     difficulty: "Intermediate",
     daysPerWeek: "4 days/week",
     duration: "12 weeks",
-    equipment: "At home",
+    equipment: "At Home",
     numberOfAthletes: 2,
   },
 ];
@@ -61,10 +62,10 @@ export default function RoutinesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [category, setCategory] = useState<Category>(null);
-  const [equipment, setEquipment] = useState<Equipment>(null);
-  const [difficulty, setDifficulty] = useState<Difficulty>(null);
-  const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek>(null);
+  const [category, setCategory] = useState<CategoryEnum | null>(null);
+  const [equipment, setEquipment] = useState<EquipmentEnum | null>(null);
+  const [difficulty, setDifficulty] = useState<DifficultyEnum | null>(null);
+  // const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek | null>(null);
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -109,29 +110,47 @@ export default function RoutinesTab() {
           showsHorizontalScrollIndicator={false}
           style={{ height: 70 }}
         >
-          <FilterDropdown<Category>
+          <FilterDropdown<CategoryEnum, typeof CategoryEnum>
             name="Category"
             selected={category}
             setSelected={setCategory}
-            options={["Bodybuilding", "Powerlifting", "Bodyweight"]}
+            options={Object.keys(CategoryEnum)
+              .filter((key) => isNaN(Number(key)))
+              .map((key) => ({
+                label: key,
+                value: CategoryEnum[key as Category],
+              }))}
+            enumMap={CategoryEnum}
           />
-          <FilterDropdown<DaysPerWeek>
+          {/* <FilterDropdown<DaysPerWeek>
             name="Frequency"
             selected={daysPerWeek}
             setSelected={setDaysPerWeek}
             options={["2 Days", "3 Days", "4 Days", "5 Days", "6 Days"]}
-          />
-          <FilterDropdown<Difficulty>
+          /> */}
+          <FilterDropdown<DifficultyEnum, typeof DifficultyEnum>
             name="Difficulty"
             selected={difficulty}
             setSelected={setDifficulty}
-            options={["Beginner", "Intermediate", "Advanced"]}
+            options={Object.keys(DifficultyEnum)
+              .filter((key) => isNaN(Number(key)))
+              .map((key) => ({
+                label: key,
+                value: DifficultyEnum[key as Difficulty],
+              }))}
+            enumMap={DifficultyEnum}
           />
-          <FilterDropdown<Equipment>
+          <FilterDropdown<EquipmentEnum, typeof EquipmentEnum>
             name="Equipment"
             selected={equipment}
             setSelected={setEquipment}
-            options={["Full Gym", "Dumbbells Only", "At home"]}
+            options={Object.keys(EquipmentEnum)
+              .filter((key) => isNaN(Number(key)))
+              .map((key) => ({
+                label: key,
+                value: EquipmentEnum[key as Equipment],
+              }))}
+            enumMap={EquipmentEnum}
           />
         </ScrollView>
       </Box>

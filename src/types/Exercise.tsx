@@ -7,7 +7,7 @@ export interface Exercise {
     weight: number;
     reps: number;
   };
-  targetMuscle: string;
+  targetMuscle: TargetMuscle;
 }
 
 export interface ExerciseLog {
@@ -25,7 +25,7 @@ export interface ExerciseSelection {
   image?: any;
   name: string;
   isFavorite: boolean;
-  targetMuscle: string;
+  targetMuscle: TargetMuscle;
 }
 
 export interface ExerciseSelectionSimple {
@@ -34,3 +34,16 @@ export interface ExerciseSelectionSimple {
   name: string;
   sets: [{}];
 }
+
+export enum TargetMuscleEnum {
+  Chest,
+  Back,
+  Quads,
+  Hamstrings,
+  Calves,
+  Abs,
+  Shoulders,
+  Biceps,
+  Triceps,
+}
+export type TargetMuscle = keyof typeof TargetMuscleEnum;

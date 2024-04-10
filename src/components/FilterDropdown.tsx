@@ -7,19 +7,26 @@ import Text from "./Text";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 
-type FilterDropdownProps<T> = {
-  name: string;
-  selected: T;
-  setSelected: Dispatch<SetStateAction<T>>;
-  options: T[];
+type SelectOption<T> = {
+  label: string;
+  value: T;
 };
 
-export default function FilterDropdown<T extends string | null>({
+type FilterDropdownProps<T, U> = {
+  name: string;
+  selected: T | null;
+  setSelected: Dispatch<SetStateAction<T | null>>;
+  options: SelectOption<T>[];
+  enumMap?: U;
+};
+
+export default function FilterDropdown<T extends number, U>({
   name,
   selected,
   setSelected,
   options,
-}: FilterDropdownProps<T>) {
+  enumMap,
+}: FilterDropdownProps<T, U>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [dropdownButtonPosition, setDropdownButtonPosition] = useState({
@@ -37,7 +44,7 @@ export default function FilterDropdown<T extends string | null>({
 
   const toggleFilter = (item: T) => {
     if (selected === item) {
-      setSelected(null as T);
+      setSelected(null);
     } else {
       setSelected(item);
     }
@@ -79,16 +86,20 @@ export default function FilterDropdown<T extends string | null>({
             paddingHorizontal="m"
             marginVertical="s"
             opacity={pressed ? 0.5 : 1}
-            backgroundColor={selected ? "primary" : "surfaceContainer"}
+            backgroundColor={selected != null ? "primary" : "surfaceContainer"}
           >
-            <Text variant="body" color={selected ? "onPrimary" : "onSurface"}>
-              {selected ? selected : name}
+            <Text
+              variant="body"
+              color={selected != null ? "onPrimary" : "onSurface"}
+            >
+              {/* TODO */}
+              {selected != null ? enumMap[selected] : name}
             </Text>
             <Ionicons
               name="chevron-down"
               size={28}
               style={{ marginBottom: -3 }}
-              color={selected ? colors.onPrimary : colors.onSurface}
+              color={selected != null ? colors.onPrimary : colors.onSurface}
             />
           </Box>
         )}
@@ -110,25 +121,27 @@ export default function FilterDropdown<T extends string | null>({
               <FlashList
                 data={options}
                 renderItem={({ item }) => (
-                  <Pressable onPress={() => toggleFilter(item)}>
+                  <Pressable onPress={() => toggleFilter(item.value)}>
                     {({ pressed }) => (
                       <Box
                         padding="m"
                         borderRadius="s"
                         opacity={pressed ? 0.5 : 1}
                         backgroundColor={
-                          selected === item ? "primary" : "surfaceContainer"
+                          selected === item.value
+                            ? "primary"
+                            : "surfaceContainer"
                         }
                       >
                         <Text
                           variant="body"
                           color={
-                            selected === item
+                            selected === item.value
                               ? "onPrimary"
                               : "onSurfaceContainer"
                           }
                         >
-                          {item}
+                          {item.label}
                         </Text>
                       </Box>
                     )}

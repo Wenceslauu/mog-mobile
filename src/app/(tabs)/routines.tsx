@@ -14,6 +14,7 @@ import { useScrollToTop } from "@react-navigation/native";
 import {
   Category,
   CategoryEnum,
+  DaysPerWeek,
   Difficulty,
   DifficultyEnum,
   Equipment,
@@ -65,7 +66,7 @@ export default function RoutinesTab() {
   const [category, setCategory] = useState<CategoryEnum | null>(null);
   const [equipment, setEquipment] = useState<EquipmentEnum | null>(null);
   const [difficulty, setDifficulty] = useState<DifficultyEnum | null>(null);
-  // const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek | null>(null);
+  const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek | null>(null);
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -122,12 +123,41 @@ export default function RoutinesTab() {
               }))}
             enumMap={CategoryEnum}
           />
-          {/* <FilterDropdown<DaysPerWeek>
+          <FilterDropdown<DaysPerWeek>
             name="Frequency"
             selected={daysPerWeek}
             setSelected={setDaysPerWeek}
-            options={["2 Days", "3 Days", "4 Days", "5 Days", "6 Days"]}
-          /> */}
+            options={[
+              {
+                label: "1 day",
+                value: 1,
+              },
+              {
+                label: "2 days",
+                value: 2,
+              },
+              {
+                label: "3 days",
+                value: 3,
+              },
+              {
+                label: "4 days",
+                value: 4,
+              },
+              {
+                label: "5 days",
+                value: 5,
+              },
+              {
+                label: "6 days",
+                value: 6,
+              },
+              {
+                label: "7 days",
+                value: 7,
+              },
+            ]}
+          />
           <FilterDropdown<DifficultyEnum, typeof DifficultyEnum>
             name="Difficulty"
             selected={difficulty}

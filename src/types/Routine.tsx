@@ -82,3 +82,5 @@ export enum EquipmentEnum {
   "At Home",
 }
 export type Equipment = keyof typeof EquipmentEnum;
+
+export type DaysPerWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7;

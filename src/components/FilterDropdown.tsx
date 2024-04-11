@@ -20,7 +20,7 @@ type FilterDropdownProps<T, U> = {
   enumMap?: U;
 };
 
-export default function FilterDropdown<T extends number, U>({
+export default function FilterDropdown<T extends number, U = any>({
   name,
   selected,
   setSelected,
@@ -86,20 +86,23 @@ export default function FilterDropdown<T extends number, U>({
             paddingHorizontal="m"
             marginVertical="s"
             opacity={pressed ? 0.5 : 1}
-            backgroundColor={selected != null ? "primary" : "surfaceContainer"}
+            backgroundColor={selected !== null ? "primary" : "surfaceContainer"}
           >
             <Text
               variant="body"
-              color={selected != null ? "onPrimary" : "onSurface"}
+              color={selected !== null ? "onPrimary" : "onSurface"}
             >
-              {/* TODO */}
-              {selected != null ? enumMap[selected] : name}
+              {selected === null
+                ? name
+                : enumMap
+                ? enumMap[selected]
+                : options.find((option) => option.value === selected)?.label}
             </Text>
             <Ionicons
               name="chevron-down"
               size={28}
               style={{ marginBottom: -3 }}
-              color={selected != null ? colors.onPrimary : colors.onSurface}
+              color={selected !== null ? colors.onPrimary : colors.onSurface}
             />
           </Box>
         )}

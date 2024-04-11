@@ -15,6 +15,7 @@ import ExerciseCard from "@/components/exercises/ExerciseCard";
 import { useScrollToTop } from "@react-navigation/native";
 import { useActionSheet } from "@/providers/actionSheet";
 import { Exercise, TargetMuscle, TargetMuscleEnum } from "@/types/Exercise";
+import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 
 const mockedExercises: Exercise[] = [
   {
@@ -289,12 +290,9 @@ export default function ExercisesTab() {
               name="Muscle Group"
               selected={targetMuscle}
               setSelected={setTargetMuscle}
-              options={Object.keys(TargetMuscleEnum)
-                .filter((key) => isNaN(Number(key)))
-                .map((key) => ({
-                  label: key,
-                  value: TargetMuscleEnum[key as TargetMuscle],
-                }))}
+              options={generateDropdownOptionsFromEnum<typeof TargetMuscleEnum>(
+                TargetMuscleEnum
+              )}
               enumMap={TargetMuscleEnum}
             />
           </Box>

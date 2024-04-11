@@ -12,15 +12,13 @@ import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 import { useScrollToTop } from "@react-navigation/native";
 import {
-  Category,
   CategoryEnum,
   DaysPerWeek,
-  Difficulty,
   DifficultyEnum,
-  Equipment,
   EquipmentEnum,
   Routine,
 } from "@/types/Routine";
+import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 
 const mockedRoutines: Routine[] = [
   {
@@ -115,12 +113,9 @@ export default function RoutinesTab() {
             name="Category"
             selected={category}
             setSelected={setCategory}
-            options={Object.keys(CategoryEnum)
-              .filter((key) => isNaN(Number(key)))
-              .map((key) => ({
-                label: key,
-                value: CategoryEnum[key as Category],
-              }))}
+            options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
+              CategoryEnum
+            )}
             enumMap={CategoryEnum}
           />
           <FilterDropdown<DaysPerWeek>
@@ -162,24 +157,18 @@ export default function RoutinesTab() {
             name="Difficulty"
             selected={difficulty}
             setSelected={setDifficulty}
-            options={Object.keys(DifficultyEnum)
-              .filter((key) => isNaN(Number(key)))
-              .map((key) => ({
-                label: key,
-                value: DifficultyEnum[key as Difficulty],
-              }))}
+            options={generateDropdownOptionsFromEnum<typeof DifficultyEnum>(
+              DifficultyEnum
+            )}
             enumMap={DifficultyEnum}
           />
           <FilterDropdown<EquipmentEnum, typeof EquipmentEnum>
             name="Equipment"
             selected={equipment}
             setSelected={setEquipment}
-            options={Object.keys(EquipmentEnum)
-              .filter((key) => isNaN(Number(key)))
-              .map((key) => ({
-                label: key,
-                value: EquipmentEnum[key as Equipment],
-              }))}
+            options={generateDropdownOptionsFromEnum<typeof EquipmentEnum>(
+              EquipmentEnum
+            )}
             enumMap={EquipmentEnum}
           />
         </ScrollView>

@@ -12,21 +12,19 @@ type SelectOption<T> = {
   value: T;
 };
 
-type FilterDropdownProps<T, U> = {
+type FilterDropdownProps<T> = {
   name: string;
   selected: T | null;
   setSelected: Dispatch<SetStateAction<T | null>>;
   options: SelectOption<T>[];
-  enumMap?: U;
 };
 
-export default function FilterDropdown<T, U = any>({
+export default function FilterDropdown<T>({
   name,
   selected,
   setSelected,
   options,
-  enumMap,
-}: FilterDropdownProps<T, U>) {
+}: FilterDropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const [dropdownButtonPosition, setDropdownButtonPosition] = useState({
@@ -94,8 +92,6 @@ export default function FilterDropdown<T, U = any>({
             >
               {selected == null
                 ? name
-                : enumMap
-                ? enumMap[selected]
                 : options.find((option) => option.value === selected)?.label}
             </Text>
             <Ionicons

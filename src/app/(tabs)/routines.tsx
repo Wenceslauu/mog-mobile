@@ -109,14 +109,13 @@ export default function RoutinesTab() {
           showsHorizontalScrollIndicator={false}
           style={{ height: 70 }}
         >
-          <FilterDropdown<CategoryEnum, typeof CategoryEnum>
+          <FilterDropdown<CategoryEnum>
             name="Category"
             selected={category}
             setSelected={setCategory}
             options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
               CategoryEnum
             )}
-            enumMap={CategoryEnum}
           />
           <FilterDropdown<DaysPerWeek>
             name="Frequency"
@@ -153,23 +152,21 @@ export default function RoutinesTab() {
               },
             ]}
           />
-          <FilterDropdown<DifficultyEnum, typeof DifficultyEnum>
+          <FilterDropdown<DifficultyEnum>
             name="Difficulty"
             selected={difficulty}
             setSelected={setDifficulty}
             options={generateDropdownOptionsFromEnum<typeof DifficultyEnum>(
               DifficultyEnum
             )}
-            enumMap={DifficultyEnum}
           />
-          <FilterDropdown<EquipmentEnum, typeof EquipmentEnum>
+          <FilterDropdown<EquipmentEnum>
             name="Equipment"
             selected={equipment}
             setSelected={setEquipment}
             options={generateDropdownOptionsFromEnum<typeof EquipmentEnum>(
               EquipmentEnum
             )}
-            enumMap={EquipmentEnum}
           />
         </ScrollView>
       </Box>

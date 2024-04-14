@@ -286,14 +286,13 @@ export default function ExercisesTab() {
         <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
           <LocalSearchBar text={searchText} setText={setSearchText} />
           <Box height={70} alignSelf="flex-start">
-            <FilterDropdown<TargetMuscleEnum, typeof TargetMuscleEnum>
+            <FilterDropdown<TargetMuscleEnum>
               name="Muscle Group"
               selected={targetMuscle}
               setSelected={setTargetMuscle}
               options={generateDropdownOptionsFromEnum<typeof TargetMuscleEnum>(
                 TargetMuscleEnum
               )}
-              enumMap={TargetMuscleEnum}
             />
           </Box>
         </Box>

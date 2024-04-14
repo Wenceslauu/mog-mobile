@@ -9,12 +9,12 @@ type SelectOption<T> = {
 };
 
 type CheckboxGroupProps<T> = {
+  mode: "single" | "multiple";
   selected: T | T[] | null;
   handleSelect:
     | ((newValue: T | T[] | null) => void)
     | Dispatch<SetStateAction<T | T[] | null>>;
   options: SelectOption<T>[];
-  mode: "single" | "multiple";
 };
 
 export default function CheckboxGroup<T>({

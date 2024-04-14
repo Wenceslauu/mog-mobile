@@ -21,71 +21,46 @@ type CreateRoutineProviderProps = {
   children: ReactNode;
 };
 
-export default function CreateRoutineProvider({
-  children,
-}: CreateRoutineProviderProps) {
-  const [routine, setRoutine] = useImmer({
-    name: "",
-    description: "",
-    cycles: [
-      {
-        name: "New Cycle",
-        workouts: [
-          {
-            name: "New Workout",
-            exercises: [
-              {
-                id: 1,
-                name: "Bench Press",
-                image: "https://source.unsplash.com/random",
-                authorNotes: "Bend the bar!",
-                restDuration: 90,
-                sets: [
-                  {
-                    reps: undefined,
-                    intensity: undefined,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  });
-
-  const [isDirty, setIsDirty] = useState(false);
-
-  const resetRoutine = () => {
-    setRoutine({
-      name: "",
-      description: "",
-      cycles: [
+const mockedCreationRoutine = {
+  name: "",
+  description: "",
+  categories: [],
+  cycles: [
+    {
+      name: "New Cycle",
+      workouts: [
         {
-          name: "New Cycle",
-          workouts: [
+          name: "New Workout",
+          exercises: [
             {
-              name: "New Workout",
-              exercises: [
+              id: 1,
+              name: "Bench Press",
+              image: "https://source.unsplash.com/random",
+              authorNotes: "Bend the bar!",
+              restDuration: 90,
+              sets: [
                 {
-                  id: 1,
-                  name: "Bench Press",
-                  image: "https://source.unsplash.com/random",
-                  authorNotes: "Bend the bar!",
-                  restDuration: 90,
-                  sets: [
-                    {
-                      reps: undefined,
-                      intensity: undefined,
-                    },
-                  ],
+                  reps: undefined,
+                  intensity: undefined,
                 },
               ],
             },
           ],
         },
       ],
-    });
+    },
+  ],
+};
+
+export default function CreateRoutineProvider({
+  children,
+}: CreateRoutineProviderProps) {
+  const [routine, setRoutine] = useImmer(mockedCreationRoutine);
+
+  const [isDirty, setIsDirty] = useState(false);
+
+  const resetRoutine = () => {
+    setRoutine(mockedCreationRoutine);
   };
 
   return (

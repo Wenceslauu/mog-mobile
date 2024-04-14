@@ -5,22 +5,27 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useCallback, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import TextInput from "@/components/TextInput";
 import { Alert, AlertButton } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
 import { useCreateRoutine } from "@/providers/createRoutine";
-import { CategoryEnum } from "@/types/Routine";
+import { CategoryEnum, DifficultyEnum } from "@/types/Routine";
+import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
+import CheckboxGroup from "@/components/CheckboxGroup";
 
 type FormData = {
   name: string;
   description: string;
-  category: CategoryEnum;
+  categories: CategoryEnum[];
+  difficulty: DifficultyEnum;
 };
 
-const mockedRoutine = {
+const mockedEditionRoutine = {
   name: "Teste",
   description: "Teste",
+  categories: [CategoryEnum.Bodybuilding],
+  difficulty: DifficultyEnum.Beginner,
   cycles: [
     {
       name: "Beginning",
@@ -99,19 +104,32 @@ export default function CreateRoutineScreen() {
     defaultValues: {
       name: routine.name,
       description: routine.description,
+      categories: routine.categories,
+      difficulty: routine.difficulty,
     },
   });
 
   useEffect(() => {
     if (id) {
-      setRoutine(mockedRoutine);
+      setRoutine(mockedEditionRoutine);
 
       reset({
-        name: mockedRoutine.name,
-        description: mockedRoutine.description,
+        name: mockedEditionRoutine.name,
+        description: mockedEditionRoutine.description,
+        categories: mockedEditionRoutine.categories,
+        difficulty: mockedEditionRoutine.difficulty,
       });
     }
   }, []);
+
+  const diff = useWatch({
+    control,
+    name: `difficulty`,
+  });
+
+  useEffect(() => {
+    console.log(diff);
+  }, [diff]);
 
   const onBeforeRemove = useCallback(() => {
     if (id && !isDirty) {
@@ -275,8 +293,52 @@ export default function CreateRoutineScreen() {
           </Text>
           <Controller
             control={control}
-            render={({ field: { onChange, onBlur, value } }) => <Box></Box>}
-            name="category"
+            render={({ field: { onChange, value } }) => (
+              <CheckboxGroup
+                mode="multiple"
+                selected={value}
+                handleSelect={(newValue: any): void => {
+                  onChange(newValue);
+
+                  setRoutine((draft) => {
+                    draft.categories = newValue;
+                  });
+
+                  setIsDirty(true);
+                }}
+                options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
+                  CategoryEnum
+                )}
+              />
+            )}
+            name="categories"
+          />
+        </Box>
+        <Box gap="m">
+          <Text variant="label" color="onSurface">
+            Difficulty
+          </Text>
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <CheckboxGroup
+                mode="single"
+                selected={value}
+                handleSelect={(newValue: any): void => {
+                  onChange(newValue);
+
+                  setRoutine((draft) => {
+                    draft.difficulty = newValue;
+                  });
+
+                  setIsDirty(true);
+                }}
+                options={generateDropdownOptionsFromEnum<typeof DifficultyEnum>(
+                  DifficultyEnum
+                )}
+              />
+            )}
+            name="difficulty"
           />
         </Box>
       </Box>

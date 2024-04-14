@@ -20,7 +20,7 @@ type FilterDropdownProps<T, U> = {
   enumMap?: U;
 };
 
-export default function FilterDropdown<T extends number, U = any>({
+export default function FilterDropdown<T, U = any>({
   name,
   selected,
   setSelected,
@@ -77,7 +77,7 @@ export default function FilterDropdown<T extends number, U = any>({
         {({ pressed }) => (
           <Box
             ref={dropdownButtonRef}
-            flex={1}
+            height={55}
             flexDirection="row"
             alignItems="center"
             justifyContent="center"
@@ -86,13 +86,13 @@ export default function FilterDropdown<T extends number, U = any>({
             paddingHorizontal="m"
             marginVertical="s"
             opacity={pressed ? 0.5 : 1}
-            backgroundColor={selected !== null ? "primary" : "surfaceContainer"}
+            backgroundColor={selected != null ? "primary" : "surfaceContainer"}
           >
             <Text
               variant="body"
-              color={selected !== null ? "onPrimary" : "onSurface"}
+              color={selected != null ? "onPrimary" : "onSurface"}
             >
-              {selected === null
+              {selected == null
                 ? name
                 : enumMap
                 ? enumMap[selected]
@@ -102,7 +102,7 @@ export default function FilterDropdown<T extends number, U = any>({
               name="chevron-down"
               size={28}
               style={{ marginBottom: -3 }}
-              color={selected !== null ? colors.onPrimary : colors.onSurface}
+              color={selected != null ? colors.onPrimary : colors.onSurface}
             />
           </Box>
         )}

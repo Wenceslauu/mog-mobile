@@ -42,6 +42,8 @@ export interface Workout {
 export interface RoutineDraft {
   name: string;
   description?: string;
+  categories: CategoryEnum[];
+  difficulty?: DifficultyEnum;
   cycles: {
     name: string;
     duration?: number;

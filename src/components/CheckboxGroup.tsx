@@ -33,7 +33,15 @@ export default function CheckboxGroup<T>({
               label={option.label}
               checked={selected === option.value}
               handleCheck={() => {
-                handleSelect(option.value);
+                if (selected == null) {
+                  handleSelect(option.value);
+                } else {
+                  if (selected === option.value) {
+                    handleSelect(null);
+                  } else {
+                    handleSelect(option.value);
+                  }
+                }
               }}
             />
           );

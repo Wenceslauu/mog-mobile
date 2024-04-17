@@ -122,15 +122,6 @@ export default function CreateRoutineScreen() {
     }
   }, []);
 
-  const diff = useWatch({
-    control,
-    name: `difficulty`,
-  });
-
-  useEffect(() => {
-    console.log(diff);
-  }, [diff]);
-
   const onBeforeRemove = useCallback(() => {
     if (id && !isDirty) {
       resetRoutine();

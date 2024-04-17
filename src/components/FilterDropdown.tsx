@@ -1,7 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
 import { FlashList } from "@shopify/flash-list";
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from "react";
-import { Modal, Pressable, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  Animated,
+  Modal,
+  Pressable,
+  TouchableWithoutFeedback,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import Box from "./Box";
 import Text from "./Text";
 import { useTheme } from "@shopify/restyle";
@@ -26,18 +40,38 @@ export default function FilterDropdown<T>({
   options,
 }: FilterDropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
+  const isOpenAnimated = useRef(new Animated.Value(0)).current;
 
   const [dropdownButtonPosition, setDropdownButtonPosition] = useState({
     x: 0,
     y: 0,
   });
 
+  const { width: windowWidth } = useWindowDimensions();
+
   const dropdownButtonRef = useRef<View>(null);
+  const dropdownButtonWidth = useRef<number>(0);
 
   const { colors } = useTheme<Theme>();
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    if (isOpen) {
+      Animated.timing(isOpenAnimated, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(({ finished }) => {
+        if (finished) setIsOpen(false);
+      });
+    } else {
+      setIsOpen(true);
+
+      Animated.timing(isOpenAnimated, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
   };
 
   const toggleFilter = (item: T) => {
@@ -47,22 +81,69 @@ export default function FilterDropdown<T>({
       setSelected(item);
     }
 
-    setIsOpen(false);
+    toggleDropdown();
   };
 
   const measureDropdownButtonPosition = useCallback(() => {
     dropdownButtonRef.current?.measure(
       (_x, _y, width, height, pageX, pageY) => {
-        if (pageX < 4) {
-          pageX = 4;
-        } else if (pageX > 240) {
-          pageX = 240;
+        dropdownButtonWidth.current = width;
+
+        if (pageX < 0) {
+          pageX = 0;
+        } else if (pageX + width > windowWidth) {
+          pageX = windowWidth - width;
         }
 
         setDropdownButtonPosition({ x: pageX, y: pageY });
       }
     );
   }, []);
+
+  const backdropOpacity = isOpenAnimated.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+
+  const scale = isOpenAnimated.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+
+  const cappedHeight = useMemo(
+    () => (options.length >= 6 ? 5 * 52 : (options.length - 1) * 52),
+    [options]
+  );
+
+  const dropdownAnimatesToTheRight = useMemo(
+    () => dropdownButtonPosition.x <= 0,
+    [dropdownButtonPosition]
+  );
+
+  const dropdownAnimatesToTheLeft = useMemo(
+    () => dropdownButtonPosition.x >= windowWidth - dropdownButtonWidth.current,
+    [dropdownButtonPosition]
+  );
+
+  const transformArray = [
+    {
+      translateX: dropdownAnimatesToTheRight
+        ? -90
+        : dropdownAnimatesToTheLeft
+        ? 90
+        : 0,
+    },
+    { translateY: -(cappedHeight / 2) },
+    { scale },
+    {
+      translateX: dropdownAnimatesToTheRight
+        ? 110
+        : dropdownAnimatesToTheLeft
+        ? -135
+        : 0,
+    },
+    { translateY: cappedHeight / 2 },
+  ];
 
   return (
     <>
@@ -106,16 +187,19 @@ export default function FilterDropdown<T>({
       {isOpen && (
         <>
           <Modal transparent={true}>
-            <Box
-              backgroundColor="surfaceContainer"
-              position="absolute"
-              top={dropdownButtonPosition.y - 5}
-              left={dropdownButtonPosition.x - 5}
-              borderRadius="s"
-              width={180}
-              height={options.length * 52}
-              maxHeight={310}
-              zIndex={1}
+            <Animated.View
+              style={{
+                backgroundColor: colors.surfaceContainer,
+                position: "absolute",
+                top: dropdownButtonPosition.y - 5,
+                left: dropdownButtonPosition.x - 5,
+                borderRadius: 8,
+                width: 180,
+                height: options.length * 52,
+                maxHeight: 310,
+                zIndex: 1,
+                transform: transformArray,
+              }}
             >
               <FlashList
                 data={options}
@@ -148,17 +232,19 @@ export default function FilterDropdown<T>({
                 )}
                 estimatedItemSize={20}
               />
-            </Box>
-            <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
-              <Box
-                position="absolute"
-                left={0}
-                right={0}
-                top={0}
-                bottom={0}
-                opacity={0.5}
-                style={{ backgroundColor: "rgb(0, 0, 0)" }}
-              ></Box>
+            </Animated.View>
+            <TouchableWithoutFeedback onPress={toggleDropdown}>
+              <Animated.View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  opacity: backdropOpacity,
+                }}
+              ></Animated.View>
             </TouchableWithoutFeedback>
           </Modal>
         </>

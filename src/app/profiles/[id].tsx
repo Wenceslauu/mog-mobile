@@ -244,22 +244,34 @@ export default function ProfileDetails() {
                         {mockedUser.workouts}
                       </Text>
                     </Box>
-                    <Box alignItems="center">
-                      <Text variant="label" color="onSurface">
-                        seguidores
-                      </Text>
-                      <Text variant="body" color="onSurface">
-                        {mockedUser.followers}
-                      </Text>
-                    </Box>
-                    <Box alignItems="center">
-                      <Text variant="label" color="onSurface">
-                        treinos
-                      </Text>
-                      <Text variant="body" color="onSurface">
-                        {mockedUser.following}
-                      </Text>
-                    </Box>
+                    <Link href="/network/followers" asChild>
+                      <Pressable>
+                        {({ pressed }) => (
+                          <Box alignItems="center" opacity={pressed ? 0.5 : 1}>
+                            <Text variant="label" color="onSurface">
+                              seguidores
+                            </Text>
+                            <Text variant="body" color="onSurface">
+                              {mockedUser.followers}
+                            </Text>
+                          </Box>
+                        )}
+                      </Pressable>
+                    </Link>
+                    <Link href="/network/following" asChild>
+                      <Pressable>
+                        {({ pressed }) => (
+                          <Box alignItems="center" opacity={pressed ? 0.5 : 1}>
+                            <Text variant="label" color="onSurface">
+                              seguindo
+                            </Text>
+                            <Text variant="body" color="onSurface">
+                              {mockedUser.following}
+                            </Text>
+                          </Box>
+                        )}
+                      </Pressable>
+                    </Link>
                   </Box>
                 </Box>
               </Box>

@@ -20,6 +20,7 @@ import Box from "./Box";
 import Text from "./Text";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
+import * as Haptics from "expo-haptics";
 
 type SelectOption<T> = {
   label: string;
@@ -65,7 +66,8 @@ export default function FilterDropdown<T>({
       });
     } else {
       setIsOpen(true);
-
+      Haptics.selectionAsync();
+      
       Animated.timing(isOpenAnimated, {
         toValue: 1,
         duration: 200,

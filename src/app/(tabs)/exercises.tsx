@@ -284,7 +284,11 @@ export default function ExercisesTab() {
     <>
       <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
         <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
-          <LocalSearchBar text={searchText} setText={setSearchText} />
+          <LocalSearchBar
+            text={searchText}
+            setText={setSearchText}
+            placeholder="Search exercises"
+          />
           <Box height={70} alignSelf="flex-start">
             <FilterDropdown<TargetMuscleEnum>
               name="Muscle Group"

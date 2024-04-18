@@ -56,6 +56,7 @@ function RootLayoutNav() {
           options={{ title: "Log", presentation: "modal" }}
         />
         <Stack.Screen name="activity" options={{ title: "Activity" }} />
+        <Stack.Screen name="network" options={{ title: "Network" }} />
         <Stack.Screen
           name="search"
           options={{

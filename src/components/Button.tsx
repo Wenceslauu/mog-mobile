@@ -10,7 +10,7 @@ type ButtonProps = {
   children?: ReactNode;
   icon?: (color: string, size: number) => ReactNode;
   variant: "primary" | "secondary" | "tertiary";
-  size: "s" | "m" | "l";
+  size?: "s" | "m" | "l";
   onPress?: () => void;
 };
 

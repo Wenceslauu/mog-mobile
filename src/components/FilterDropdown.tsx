@@ -180,7 +180,7 @@ export default function FilterDropdown<T>({
             <Ionicons
               name="chevron-down"
               size={28}
-              style={{ marginBottom: -3 }}
+              style={{ marginBottom: -3, opacity: 0.75 }}
               color={selected != null ? colors.onPrimary : colors.onSurface}
             />
           </Box>

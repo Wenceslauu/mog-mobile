@@ -289,7 +289,7 @@ export default function ExercisesTab() {
             setText={setSearchText}
             placeholder="Search exercises"
           />
-          <Box height={70} alignSelf="flex-start">
+          <Box alignSelf="flex-start">
             <FilterDropdown<TargetMuscleEnum>
               name="Muscle Group"
               selected={targetMuscle}

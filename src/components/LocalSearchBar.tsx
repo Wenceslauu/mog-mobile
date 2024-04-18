@@ -85,7 +85,7 @@ export default function LocalSearchBar({
           }}
           selectionColor={colors.primary}
           flex={1}
-          height={40}
+          height={41}
           color="onSurface"
           padding="s"
           paddingLeft="xl"

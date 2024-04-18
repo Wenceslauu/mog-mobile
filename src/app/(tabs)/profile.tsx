@@ -287,7 +287,7 @@ export default function ProfileTab() {
                 </Box>
               </Box>
               <Box gap="s">
-                <Text variant="title" color="onSurface" paddingHorizontal="m">
+                <Text variant="headline" color="onSurface" paddingHorizontal="m">
                   Rotinas
                 </Text>
                 <FlashList
@@ -303,7 +303,7 @@ export default function ProfileTab() {
                   showsHorizontalScrollIndicator={false}
                 />
               </Box>
-              <Text variant="title" color="onSurface" paddingHorizontal="m">
+              <Text variant="headline" color="onSurface" paddingHorizontal="m">
                 Posts
               </Text>
             </Box>

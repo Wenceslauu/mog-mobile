@@ -108,7 +108,6 @@ export default function RoutinesTab() {
           horizontal={true}
           contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
           showsHorizontalScrollIndicator={false}
-          style={{ height: 70 }}
         >
           <FilterDropdown<CategoryEnum>
             name="Category"

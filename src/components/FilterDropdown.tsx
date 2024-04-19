@@ -67,7 +67,7 @@ export default function FilterDropdown<T>({
     } else {
       setIsOpen(true);
       Haptics.selectionAsync();
-      
+
       Animated.timing(isOpenAnimated, {
         toValue: 1,
         duration: 200,
@@ -186,71 +186,65 @@ export default function FilterDropdown<T>({
           </Box>
         )}
       </Pressable>
-      {isOpen && (
-        <>
-          <Modal transparent={true}>
-            <Animated.View
-              style={{
-                backgroundColor: colors.surfaceContainer,
-                position: "absolute",
-                top: dropdownButtonPosition.y - 5,
-                left: dropdownButtonPosition.x - 5,
-                borderRadius: 8,
-                width: 180,
-                height: options.length * 52,
-                maxHeight: 310,
-                zIndex: 1,
-                transform: transformArray,
-              }}
-            >
-              <FlashList
-                data={options}
-                renderItem={({ item }) => (
-                  <Pressable onPress={() => toggleFilter(item.value)}>
-                    {({ pressed }) => (
-                      <Box
-                        padding="m"
-                        borderRadius="s"
-                        opacity={pressed ? 0.5 : 1}
-                        backgroundColor={
-                          selected === item.value
-                            ? "primary"
-                            : "surfaceContainer"
-                        }
-                      >
-                        <Text
-                          variant="body"
-                          color={
-                            selected === item.value
-                              ? "onPrimary"
-                              : "onSurfaceContainer"
-                          }
-                        >
-                          {item.label}
-                        </Text>
-                      </Box>
-                    )}
-                  </Pressable>
+      <Modal transparent={true} visible={isOpen}>
+        <Animated.View
+          style={{
+            backgroundColor: colors.surfaceContainer,
+            position: "absolute",
+            top: dropdownButtonPosition.y - 5,
+            left: dropdownButtonPosition.x - 5,
+            borderRadius: 8,
+            width: 180,
+            height: options.length * 52,
+            maxHeight: 310,
+            zIndex: 1,
+            transform: transformArray,
+          }}
+        >
+          <FlashList
+            data={options}
+            renderItem={({ item }) => (
+              <Pressable onPress={() => toggleFilter(item.value)}>
+                {({ pressed }) => (
+                  <Box
+                    padding="m"
+                    borderRadius="s"
+                    opacity={pressed ? 0.5 : 1}
+                    backgroundColor={
+                      selected === item.value ? "primary" : "surfaceContainer"
+                    }
+                  >
+                    <Text
+                      variant="body"
+                      color={
+                        selected === item.value
+                          ? "onPrimary"
+                          : "onSurfaceContainer"
+                      }
+                    >
+                      {item.label}
+                    </Text>
+                  </Box>
                 )}
-                estimatedItemSize={20}
-              />
-            </Animated.View>
-            <TouchableWithoutFeedback onPress={toggleDropdown}>
-              <Animated.View
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  opacity: backdropOpacity,
-                }}
-              ></Animated.View>
-            </TouchableWithoutFeedback>
-          </Modal>
-        </>
-      )}
+              </Pressable>
+            )}
+            estimatedItemSize={20}
+          />
+        </Animated.View>
+        <TouchableWithoutFeedback onPress={toggleDropdown}>
+          <Animated.View
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              opacity: backdropOpacity,
+            }}
+          ></Animated.View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </>
   );
 }

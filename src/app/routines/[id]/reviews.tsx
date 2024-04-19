@@ -1,8 +1,11 @@
 import Box from "@/components/Box";
 import Button from "@/components/Button";
+import ReviewDraftModal from "@/components/routineDetails/ReviewDraftModal";
 import RoutineReviewCard from "@/components/routineDetails/RoutineReviewCard";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
+import { useRef, useState } from "react";
+import { Animated } from "react-native";
 
 const mockedHighlightedReview = {
   id: 4,
@@ -56,6 +59,29 @@ const mockedReviews = [
 export default function RoutineDetailsReviews() {
   const { id, highlightedReviewId } = useLocalSearchParams();
 
+  const [isDraftingReview, setIsDraftingReview] = useState(false);
+  const isOpenAnimated = useRef(new Animated.Value(0)).current;
+
+  const toggleDraftModal = () => {
+    if (isDraftingReview) {
+      Animated.timing(isOpenAnimated, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(({ finished }) => {
+        if (finished) setIsDraftingReview(false);
+      });
+    } else {
+      setIsDraftingReview(true);
+
+      Animated.timing(isOpenAnimated, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
   return (
     <>
       <Box flex={1} gap="m" padding="m" backgroundColor="surface">
@@ -78,10 +104,15 @@ export default function RoutineDetailsReviews() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Button variant="primary" onPress={() => console.log("Create review")}>
+        <Button variant="primary" onPress={toggleDraftModal}>
           Create review
         </Button>
       </Box>
+      <ReviewDraftModal
+        isDraftingReview={isDraftingReview}
+        isOpenAnimated={isOpenAnimated}
+        toggleDraftModal={toggleDraftModal}
+      />
     </>
   );
 }

@@ -29,7 +29,7 @@ import { ThemeContext } from "@/providers/theme";
 const AnimatedExpoImage = Animated.createAnimatedComponent(Image);
 
 export default function RoutineDetails() {
-  const { name } = useLocalSearchParams();
+  const { id, name } = useLocalSearchParams();
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -189,7 +189,7 @@ export default function RoutineDetails() {
                   href={{
                     pathname: "/create-routine/",
                     params: {
-                      id: "teste",
+                      id,
                     },
                   }}
                   asChild

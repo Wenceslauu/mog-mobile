@@ -12,7 +12,7 @@ import ExerciseDetailsChartsTab from "./charts";
 import ExerciseDetailsHistoryTab from "./history";
 
 export default function ExerciseDetails() {
-  const { name } = useLocalSearchParams();
+  const { id, name } = useLocalSearchParams();
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
 
@@ -21,7 +21,15 @@ export default function ExerciseDetails() {
       title: name,
       headerRight: () => (
         <Box flexDirection="row">
-          <Link href="/teste" asChild>
+          <Link
+            href={{
+              pathname: "/create-exercise/",
+              params: {
+                id,
+              },
+            }}
+            asChild
+          >
             <Pressable>
               {({ pressed }) => (
                 <Ionicons

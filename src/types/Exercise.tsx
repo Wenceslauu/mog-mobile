@@ -47,3 +47,21 @@ export enum TargetMuscleEnum {
   Triceps,
 }
 export type TargetMuscle = keyof typeof TargetMuscleEnum;
+
+// export enum EquipmentEnum {
+
+// }
+// export type Equipment = keyof typeof EquipmentEnum;
+
+export enum ForceEnum {
+  Push,
+  Pull,
+  Isometric,
+}
+export type Force = keyof typeof ForceEnum;
+
+export enum MechanicEnum {
+  Compound,
+  Isolation,
+}
+export type Mechanic = keyof typeof MechanicEnum;

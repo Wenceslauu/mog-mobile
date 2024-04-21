@@ -5,7 +5,7 @@ import RoutineReviewCard from "@/components/routineDetails/RoutineReviewCard";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
-import { Animated } from "react-native";
+import { Animated, Keyboard } from "react-native";
 
 const mockedHighlightedReview = {
   id: 4,
@@ -64,6 +64,7 @@ export default function RoutineDetailsReviews() {
 
   const toggleDraftModal = () => {
     if (isDraftingReview) {
+      Keyboard.dismiss();
       Animated.timing(isOpenAnimated, {
         toValue: 0,
         duration: 200,
@@ -94,7 +95,7 @@ export default function RoutineDetailsReviews() {
           estimatedItemSize={100}
           renderItem={({ item }) => <RoutineReviewCard review={item} />}
           ItemSeparatorComponent={() => <Box height={8} />}
-          contentContainerStyle={{ paddingBottom: 30 }}
+          contentContainerStyle={{ paddingBottom: 40 }}
           showsVerticalScrollIndicator={false}
         />
       </Box>

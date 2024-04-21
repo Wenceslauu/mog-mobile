@@ -27,7 +27,7 @@ export default function CycleTabDraft({
     <ScrollView
       contentContainerStyle={{
         gap: 16,
-        paddingBottom: 30,
+        paddingBottom: 40,
         paddingHorizontal: 16,
       }}
       showsVerticalScrollIndicator={false}

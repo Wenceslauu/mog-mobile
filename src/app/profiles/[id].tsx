@@ -216,7 +216,7 @@ export default function ProfileDetails() {
 
   return (
     <>
-      <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">
+      <Box flex={1} gap="m" backgroundColor="surface">
         <FlashList
           ref={postsListRef}
           keyboardDismissMode="on-drag"
@@ -307,7 +307,7 @@ export default function ProfileDetails() {
               }
             />
           )}
-          contentContainerStyle={{ paddingBottom: 30 }}
+          contentContainerStyle={{ paddingTop: 16, paddingBottom: 40 }}
           ItemSeparatorComponent={() => <Box height={20} />}
           showsVerticalScrollIndicator={false}
         />

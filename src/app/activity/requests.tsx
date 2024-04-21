@@ -50,7 +50,7 @@ export default function RequestsTab() {
         estimatedItemSize={86}
         renderItem={({ item }) => <RequestCard request={item} />}
         contentContainerStyle={{
-          paddingBottom: 30,
+          paddingBottom: 40,
         }}
         ItemSeparatorComponent={() => <Box height={8} />}
         showsVerticalScrollIndicator={false}

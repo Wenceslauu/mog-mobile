@@ -31,7 +31,7 @@ export default function FollowingTab() {
         estimatedItemSize={92}
         renderItem={({ item }) => <UserCard user={item} />}
         contentContainerStyle={{
-          paddingBottom: 30,
+          paddingBottom: 40,
         }}
         ItemSeparatorComponent={() => <Box height={8} />}
         showsVerticalScrollIndicator={false}

@@ -226,8 +226,7 @@ export default function CreateRoutineScreen() {
                 selectionColor={colors.primary}
                 flex={1}
                 color="onSurface"
-                padding="s"
-                paddingLeft="l"
+                padding="m"
                 backgroundColor="surfaceContainer"
                 borderRadius="s"
               />
@@ -263,9 +262,8 @@ export default function CreateRoutineScreen() {
                 selectionColor={colors.primary}
                 flex={1}
                 color="onSurface"
-                padding="s"
+                padding="m"
                 paddingTop="m"
-                paddingLeft="l"
                 backgroundColor="surfaceContainer"
                 borderRadius="s"
                 multiline

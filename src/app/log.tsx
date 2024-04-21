@@ -74,7 +74,7 @@ export default function LogModalScreen() {
       {/* <KeyboardAwareScrollView
         contentContainerStyle={{
           gap: 16,
-          paddingBottom: 30,
+          paddingBottom: 40,
         }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"
@@ -82,7 +82,7 @@ export default function LogModalScreen() {
       <ScrollView
         contentContainerStyle={{
           gap: 16,
-          paddingBottom: 30,
+          paddingBottom: 40,
         }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"

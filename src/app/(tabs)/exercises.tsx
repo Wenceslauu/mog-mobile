@@ -311,7 +311,7 @@ export default function ExercisesTab() {
           estimatedItemSize={106}
           renderItem={({ item }) => <ExerciseCard exercise={item} />}
           ItemSeparatorComponent={() => <Box height={4} />}
-          contentContainerStyle={{ paddingBottom: 30 }}
+          contentContainerStyle={{ paddingBottom: 40 }}
         />
       </Box>
     </>

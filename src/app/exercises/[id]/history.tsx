@@ -34,7 +34,7 @@ export default function ExerciseDetailsHistoryTab() {
         estimatedItemSize={100}
         renderItem={({ item }) => <ExerciseLogCard exerciseLog={item} />}
         contentContainerStyle={{
-          paddingBottom: 30,
+          paddingBottom: 40,
         }}
         ItemSeparatorComponent={() => <Box height={20} />}
         showsVerticalScrollIndicator={false}

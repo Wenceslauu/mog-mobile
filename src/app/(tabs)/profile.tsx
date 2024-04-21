@@ -104,6 +104,7 @@ const mockedUser = {
       ],
       comments: [
         {
+          id: 1,
           author: {
             id: 2,
             name: "lui",
@@ -159,6 +160,7 @@ const mockedUser = {
       ],
       comments: [
         {
+          id: 2,
           author: {
             id: 2,
             name: "lui",
@@ -239,7 +241,7 @@ export default function ProfileTab() {
 
   return (
     <>
-      <Box flex={1} gap="m" paddingTop="m" backgroundColor="surface">
+      <Box flex={1} gap="m" backgroundColor="surface">
         <FlashList
           ref={postsListRef}
           keyboardDismissMode="on-drag"
@@ -287,7 +289,11 @@ export default function ProfileTab() {
                 </Box>
               </Box>
               <Box gap="s">
-                <Text variant="headline" color="onSurface" paddingHorizontal="m">
+                <Text
+                  variant="headline"
+                  color="onSurface"
+                  paddingHorizontal="m"
+                >
                   Rotinas
                 </Text>
                 <FlashList
@@ -318,7 +324,7 @@ export default function ProfileTab() {
               }
             />
           )}
-          contentContainerStyle={{ paddingBottom: 30 }}
+          contentContainerStyle={{ paddingTop: 16, paddingBottom: 40 }}
           ItemSeparatorComponent={() => <Box height={20} />}
           showsVerticalScrollIndicator={false}
         />

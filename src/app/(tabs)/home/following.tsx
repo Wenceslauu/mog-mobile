@@ -160,7 +160,7 @@ export default function FollowingTab() {
             />
           )}
           contentContainerStyle={{
-            paddingBottom: 30,
+            paddingBottom: 40,
             paddingTop: TABVIEW_HEADER_HEIGHT,
           }}
           ItemSeparatorComponent={() => <Box height={20} />}

@@ -222,7 +222,7 @@ export default function RoutineDetailsWorkoutsTab() {
     <Animated.ScrollView
       ref={workoutsScrollViewRef}
       contentContainerStyle={{
-        paddingBottom: 30,
+        paddingBottom: 40,
         marginTop: TABVIEW_HEADER_HEIGHT - 16, // 16 is approximately the bounce distance
         paddingTop: PARALLAX_HEADER_MAX_HEIGHT + 16,
         minHeight: 1000,

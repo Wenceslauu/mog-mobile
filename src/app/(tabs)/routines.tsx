@@ -173,7 +173,7 @@ export default function RoutinesTab() {
       {!searchText ? (
         <ScrollView
           ref={routineSectionsListRef}
-          contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
+          contentContainerStyle={{ gap: 16, paddingBottom: 40 }}
           showsVerticalScrollIndicator={false}
           keyboardDismissMode="on-drag"
         >

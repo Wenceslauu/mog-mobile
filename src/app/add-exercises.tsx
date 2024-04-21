@@ -211,7 +211,7 @@ export default function AddExercisesModalScreen() {
           />
         )}
         ItemSeparatorComponent={() => <Box height={4} />}
-        contentContainerStyle={{ paddingBottom: 30 }}
+        contentContainerStyle={{ paddingBottom: 40 }}
       />
       {selectedExercises.length > 0 ? (
         <Box

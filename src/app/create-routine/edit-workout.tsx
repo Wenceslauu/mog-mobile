@@ -78,7 +78,7 @@ export default function EditWorkoutScreen() {
       <ScrollView
         contentContainerStyle={{
           gap: 16,
-          paddingBottom: 30,
+          paddingBottom: 40,
           paddingHorizontal: 16,
         }}
         showsVerticalScrollIndicator={false}

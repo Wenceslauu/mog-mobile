@@ -18,7 +18,7 @@ export default function ExerciseDetailsAboutTab() {
   return (
     <Box flex={1} gap="xs" backgroundColor="surface">
       <ScrollView
-        contentContainerStyle={{ gap: 16, paddingBottom: 30 }}
+        contentContainerStyle={{ gap: 16, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
         <Box gap="s">

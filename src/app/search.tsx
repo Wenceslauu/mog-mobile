@@ -75,7 +75,7 @@ export default function SearchScreen() {
         estimatedItemSize={106}
         renderItem={({ item }) => <SearchResultCard searchResult={item} />}
         ItemSeparatorComponent={() => <Box height={4} />}
-        contentContainerStyle={{ paddingBottom: 30, paddingTop: 8 }}
+        contentContainerStyle={{ paddingBottom: 40, paddingTop: 8 }}
         contentInsetAdjustmentBehavior="automatic"
         showsVerticalScrollIndicator={false}
         onScrollBeginDrag={() =>

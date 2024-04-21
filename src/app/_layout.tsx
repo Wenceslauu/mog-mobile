@@ -83,6 +83,10 @@ function RootLayoutNav() {
           name="add-exercises"
           options={{ title: "Add Exercises", presentation: "modal" }}
         />
+        <Stack.Screen
+          name="create-exercise"
+          options={{ title: "Create Exercise", presentation: "modal" }}
+        />
         <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
         <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />
         <Stack.Screen

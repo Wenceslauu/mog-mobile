@@ -9,9 +9,12 @@ import { ForceEnum, MechanicEnum, TargetMuscleEnum } from "@/types/Exercise";
 import { useTheme } from "@shopify/restyle";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ScrollView } from "react-native";
+import { Alert, Pressable, ScrollView } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as Linking from "expo-linking";
+import { Ionicons } from "@expo/vector-icons";
 
 const mockedEditionExercise = {
   name: "Skiers",
@@ -33,6 +36,14 @@ type FormData = {
 
 export default function CreateExerciseScreen() {
   const { colors } = useTheme<Theme>();
+  const [image, setImage] = useState<string | null>(null);
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
+
+  const [cameraStatus, requestCameraPermission] =
+    ImagePicker.useCameraPermissions();
+
+  const [mediaLibraryStatus, requestMediaLibraryPermission] =
+    ImagePicker.useMediaLibraryPermissions();
 
   const { id } = useLocalSearchParams();
 
@@ -60,6 +71,93 @@ export default function CreateExerciseScreen() {
     }
   }, []);
 
+  const pickImage = async () => {
+    if (mediaLibraryStatus?.granted) {
+      // No permissions request is necessary for launching the image library?
+      setIsLoadingImage(true);
+      try {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      setIsLoadingImage(false);
+    } else if (mediaLibraryStatus?.canAskAgain) {
+      requestMediaLibraryPermission();
+    } else {
+      Alert.alert(
+        "Permission required",
+        "You need to enable media library permissions from settings to pick an image.",
+        [
+          {
+            text: "Open settings",
+            onPress: () => Linking.openSettings(),
+          },
+        ]
+      );
+    }
+  };
+
+  const takePhoto = async () => {
+    if (cameraStatus?.granted) {
+      setIsLoadingImage(true);
+      try {
+        let result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      setIsLoadingImage(false);
+    } else if (cameraStatus?.canAskAgain) {
+      requestCameraPermission();
+    } else {
+      Alert.alert(
+        "Permission required",
+        "You need to enable camera permissions from settings to take a photo.",
+        [
+          {
+            text: "Open settings",
+            onPress: () => Linking.openSettings(),
+          },
+        ]
+      );
+    }
+  };
+
+  const generateChangeImageAlert = () => {
+    Alert.alert("Change image", undefined, [
+      {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => {},
+      },
+      {
+        text: "Pick from the media library",
+        onPress: pickImage,
+      },
+      {
+        text: "Take a photo",
+        onPress: takePhoto,
+      },
+    ]);
+  };
+
   return (
     <Box flex={1} backgroundColor="surface">
       <ScrollView
@@ -70,6 +168,51 @@ export default function CreateExerciseScreen() {
         }}
       >
         <Box flex={1} gap="m" paddingHorizontal="m">
+          <Box alignItems="center" gap="m">
+            {image || id ? (
+              <Image
+                source={image ?? mockedEditionExercise.image}
+                style={{
+                  width: 200,
+                  height: 200,
+                }}
+              />
+            ) : (
+              <Pressable onPress={generateChangeImageAlert}>
+                {({ pressed }) => (
+                  <Box
+                    width={200}
+                    height={200}
+                    justifyContent="center"
+                    alignItems="center"
+                    backgroundColor="surfaceContainer"
+                    borderColor="onSurface"
+                    borderWidth={3}
+                    borderStyle="dashed"
+                    opacity={pressed ? 0.5 : 1}
+                  >
+                    {!isLoadingImage ? (
+                      <Ionicons
+                        name="camera"
+                        size={60}
+                        color={colors.onSurface}
+                      />
+                    ) : (
+                      <Text color="onSurfaceContainer">Loading image...</Text>
+                    )}
+                  </Box>
+                )}
+              </Pressable>
+            )}
+
+            <Pressable onPress={generateChangeImageAlert}>
+              {({ pressed }) => (
+                <Text color="primary" opacity={pressed ? 0.5 : 1}>
+                  Change image
+                </Text>
+              )}
+            </Pressable>
+          </Box>
           <Box gap="s" height={80}>
             <Text variant="label" color="onSurface">
               Name

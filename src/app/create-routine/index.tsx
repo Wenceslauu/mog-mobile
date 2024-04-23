@@ -5,7 +5,7 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useCallback, useEffect } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import TextInput from "@/components/TextInput";
 import { Alert, AlertButton, ScrollView } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
@@ -14,7 +14,6 @@ import { CategoryEnum, DifficultyEnum } from "@/types/Routine";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 import CheckboxGroup from "@/components/CheckboxGroup";
 import ImageInput from "@/components/ImageInput";
-import useImagePicker from "@/hooks/useImagePicker";
 
 type FormData = {
   name: string;
@@ -92,11 +91,16 @@ const mockedEditionRoutine = {
 };
 
 export default function CreateRoutineScreen() {
-  const { routine, setRoutine, resetRoutine, isDirty } = useCreateRoutine();
-
-  const { image, isLoadingImage, generateChangeImageAlert } = useImagePicker([
-    16, 9,
-  ]);
+  const {
+    routine,
+    setRoutine,
+    resetRoutine,
+    isDirty,
+    image,
+    resetImage,
+    isLoadingImage,
+    generateChangeImageAlert,
+  } = useCreateRoutine();
 
   const { id } = useLocalSearchParams();
 
@@ -126,6 +130,8 @@ export default function CreateRoutineScreen() {
         categories: mockedEditionRoutine.categories,
         difficulty: mockedEditionRoutine.difficulty,
       });
+
+      resetImage();
     }
   }, []);
 
@@ -215,7 +221,7 @@ export default function CreateRoutineScreen() {
           <ImageInput
             image={image ?? mockedEditionRoutine.thumbnail}
             isLoadingImage={isLoadingImage}
-            hasImage={!!id || !!image}
+            hasImage={!!image || !!id}
             generateChangeImageAlert={generateChangeImageAlert}
             width={356}
             height={200}

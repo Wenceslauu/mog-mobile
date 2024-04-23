@@ -1,3 +1,4 @@
+import useImagePicker from "@/hooks/useImagePicker";
 import { RoutineDraft } from "@/types/Routine";
 import {
   MutableRefObject,
@@ -16,6 +17,11 @@ export type CreateRoutineContextData = {
   resetRoutine: () => void;
 
   isDirty: MutableRefObject<boolean>;
+
+  image: string | null;
+  isLoadingImage: boolean;
+  resetImage: () => void;
+  generateChangeImageAlert: () => void;
 };
 
 export const CreateRoutineContext = createContext<CreateRoutineContextData>(
@@ -62,15 +68,28 @@ export default function CreateRoutineProvider({
 }: CreateRoutineProviderProps) {
   const [routine, setRoutine] = useImmer(mockedCreationRoutine);
 
+  const { image, isLoadingImage, resetImage, generateChangeImageAlert } =
+    useImagePicker([16, 9]);
+
   const isDirty = useRef(false);
 
   const resetRoutine = () => {
     setRoutine(mockedCreationRoutine);
+    resetImage();
   };
 
   return (
     <CreateRoutineContext.Provider
-      value={{ routine, setRoutine, resetRoutine, isDirty }}
+      value={{
+        routine,
+        setRoutine,
+        resetRoutine,
+        isDirty,
+        image,
+        isLoadingImage,
+        resetImage,
+        generateChangeImageAlert,
+      }}
     >
       {children}
     </CreateRoutineContext.Provider>

@@ -13,6 +13,10 @@ export default function useImagePicker(aspectRatio: [number, number] = [4, 3]) {
   const [mediaLibraryStatus, requestMediaLibraryPermission] =
     ImagePicker.useMediaLibraryPermissions();
 
+  const resetImage = () => {
+    setImage(null);
+  };
+
   const pickImage = async () => {
     if (mediaLibraryStatus?.granted) {
       // No permissions request is necessary for launching the image library?
@@ -103,6 +107,7 @@ export default function useImagePicker(aspectRatio: [number, number] = [4, 3]) {
   return {
     image,
     isLoadingImage,
+    resetImage,
     generateChangeImageAlert,
   };
 }

@@ -25,7 +25,7 @@ export interface ExerciseSelection {
   image?: any;
   name: string;
   isFavorite: boolean;
-  targetMuscle: TargetMuscle;
+  targetMuscle: TargetMuscleEnum;
 }
 
 export interface ExerciseSelectionSimple {

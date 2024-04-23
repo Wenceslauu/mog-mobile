@@ -3,24 +3,13 @@ import Button from "@/components/Button";
 import FilterDropdown from "@/components/FilterDropdown";
 import LocalSearchBar from "@/components/LocalSearchBar";
 import ExerciseSelectionCard from "@/components/addExercises/ExerciseSelectionCard";
-import { ExerciseSelectionSimple } from "@/types/Exercise";
+import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
+import { ExerciseSelectionSimple, TargetMuscleEnum } from "@/types/Exercise";
 import { FlashList } from "@shopify/flash-list";
 import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useMemo, useState } from "react";
 import { Platform } from "react-native";
-
-type TargetMuscle =
-  | "Chest"
-  | "Back"
-  | "Quads"
-  | "Hamstrings"
-  | "Calves"
-  | "Abs"
-  | "Shoulders"
-  | "Biceps"
-  | "Triceps"
-  | null;
 
 const mockedExercises = [
   {
@@ -28,126 +17,126 @@ const mockedExercises = [
     image: "https://source.unsplash.com/random",
     name: "Bench Press",
     isFavorite: true,
-    targetMuscle: "Chest",
+    targetMuscle: TargetMuscleEnum.Chest,
   },
   {
     id: 2,
     image: "https://source.unsplash.com/random",
     name: "Squat",
     isFavorite: true,
-    targetMuscle: "Quads",
+    targetMuscle: TargetMuscleEnum.Quads,
   },
   {
     id: 3,
     // image: require("../../../assets/images/deadlift.jpg"),
     name: "Deadlift",
     isFavorite: false,
-    targetMuscle: "Back",
+    targetMuscle: TargetMuscleEnum.Back,
   },
   {
     id: 4,
     // image: require("../../../assets/images/overhead-press.jpg"),
     name: "Overhead Press",
     isFavorite: false,
-    targetMuscle: "Shoulders",
+    targetMuscle: TargetMuscleEnum.Shoulders,
   },
   {
     id: 5,
     // image: require("../../../assets/images/barbell-row.jpg"),
     name: "Barbell Row",
     isFavorite: false,
-    targetMuscle: "Back",
+    targetMuscle: TargetMuscleEnum.Back,
   },
   {
     id: 6,
     // image: require("../../../assets/images/pull-up.jpg"),
     name: "Pull Up",
     isFavorite: false,
-    targetMuscle: "Back",
+    targetMuscle: TargetMuscleEnum.Back,
   },
   {
     id: 7,
     // image: require("../../../assets/images/dumbbell-curl.jpg"),
     name: "Dumbbell Curl",
     isFavorite: false,
-    targetMuscle: "Biceps",
+    targetMuscle: TargetMuscleEnum.Biceps,
   },
   {
     id: 8,
     // image: require("../../../assets/images/tricep-extension.jpg"),
     name: "Tricep Extension",
     isFavorite: false,
-    targetMuscle: "Triceps",
+    targetMuscle: TargetMuscleEnum.Triceps,
   },
   {
     id: 9,
     // image: require("../../../assets/images/leg-press.jpg"),
     name: "Leg Press",
     isFavorite: false,
-    targetMuscle: "Quads",
+    targetMuscle: TargetMuscleEnum.Quads,
   },
   {
     id: 10,
     // image: require("../../../assets/images/leg-curl.jpg"),
     name: "Leg Curl",
     isFavorite: false,
-    targetMuscle: "Hamstrings",
+    targetMuscle: TargetMuscleEnum.Hamstrings,
   },
   {
     id: 11,
     // image: require("../../../assets/images/calf-raise.jpg"),
     name: "Calf Raise",
     isFavorite: false,
-    targetMuscle: "Calves",
+    targetMuscle: TargetMuscleEnum.Calves,
   },
   {
     id: 12,
     // image: require("../../../assets/images/crunch.jpg"),
     name: "Crunch",
     isFavorite: false,
-    targetMuscle: "Abs",
+    targetMuscle: TargetMuscleEnum.Abs,
   },
   {
     id: 13,
     // image: require("../../../assets/images/leg-raise.jpg"),
     name: "Leg Raise",
     isFavorite: false,
-    targetMuscle: "Abs",
+    targetMuscle: TargetMuscleEnum.Abs,
   },
   {
     id: 14,
     // image: require("../../../assets/images/plank.jpg"),
     name: "Plank",
     isFavorite: false,
-    targetMuscle: "Abs",
+    targetMuscle: TargetMuscleEnum.Abs,
   },
   {
     id: 15,
     // image: require("../../../assets/images/dumbbell-press.jpg"),
     name: "Dumbbell Press",
     isFavorite: false,
-    targetMuscle: "Chest",
+    targetMuscle: TargetMuscleEnum.Chest,
   },
   {
     id: 16,
     // image: require("../../../assets/images/dumbbell-fly.jpg"),
     name: "Dumbbell Fly",
     isFavorite: false,
-    targetMuscle: "Chest",
+    targetMuscle: TargetMuscleEnum.Chest,
   },
   {
     id: 17,
     // image: require("../../../assets/images/dumbbell-lateral-raise.jpg"),
     name: "Dumbbell Lateral Raise",
     isFavorite: false,
-    targetMuscle: "Shoulders",
+    targetMuscle: TargetMuscleEnum.Shoulders,
   },
   {
     id: 18,
     // image: require("../../../assets/images/dumbbell-rear-delt-fly.jpg"),
     name: "Dumbbell Rear Delt Fly",
     isFavorite: false,
-    targetMuscle: "Shoulders",
+    targetMuscle: TargetMuscleEnum.Shoulders,
   },
 ];
 
@@ -157,7 +146,9 @@ export default function AddExercisesModalScreen() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [targetMuscle, setTargetMuscle] = useState<TargetMuscle>(null);
+  const [targetMuscle, setTargetMuscle] = useState<TargetMuscleEnum | null>(
+    null
+  );
 
   const [selectedExercises, setSelectedExercises] = useState<
     ExerciseSelectionSimple[]
@@ -175,22 +166,14 @@ export default function AddExercisesModalScreen() {
     <Box flex={1} gap="xs" paddingTop="m" backgroundColor="surface">
       <Box alignItems="center" width="100%" zIndex={1} paddingHorizontal="m">
         <LocalSearchBar text={searchText} setText={setSearchText} />
-        <Box height={70} alignSelf="flex-start">
-          <FilterDropdown<TargetMuscle>
+        <Box alignSelf="flex-start">
+          <FilterDropdown<TargetMuscleEnum>
             name="Muscle Group"
             selected={targetMuscle}
             setSelected={setTargetMuscle}
-            options={[
-              "Chest",
-              "Back",
-              "Quads",
-              "Hamstrings",
-              "Calves",
-              "Abs",
-              "Shoulders",
-              "Biceps",
-              "Triceps",
-            ]}
+            options={generateDropdownOptionsFromEnum<typeof TargetMuscleEnum>(
+              TargetMuscleEnum
+            )}
           />
         </Box>
       </Box>

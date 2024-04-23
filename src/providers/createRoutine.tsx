@@ -1,5 +1,11 @@
 import { RoutineDraft } from "@/types/Routine";
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  MutableRefObject,
+  ReactNode,
+  createContext,
+  useContext,
+  useRef,
+} from "react";
 import { DraftFunction, useImmer } from "use-immer";
 
 export type CreateRoutineContextData = {
@@ -9,8 +15,7 @@ export type CreateRoutineContextData = {
   ) => void;
   resetRoutine: () => void;
 
-  isDirty: boolean;
-  setIsDirty: (isDirty: boolean) => void;
+  isDirty: MutableRefObject<boolean>;
 };
 
 export const CreateRoutineContext = createContext<CreateRoutineContextData>(
@@ -57,7 +62,7 @@ export default function CreateRoutineProvider({
 }: CreateRoutineProviderProps) {
   const [routine, setRoutine] = useImmer(mockedCreationRoutine);
 
-  const [isDirty, setIsDirty] = useState(false);
+  const isDirty = useRef(false);
 
   const resetRoutine = () => {
     setRoutine(mockedCreationRoutine);
@@ -65,7 +70,7 @@ export default function CreateRoutineProvider({
 
   return (
     <CreateRoutineContext.Provider
-      value={{ routine, setRoutine, resetRoutine, isDirty, setIsDirty }}
+      value={{ routine, setRoutine, resetRoutine, isDirty }}
     >
       {children}
     </CreateRoutineContext.Provider>

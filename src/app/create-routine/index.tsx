@@ -92,8 +92,7 @@ const mockedEditionRoutine = {
 };
 
 export default function CreateRoutineScreen() {
-  const { routine, setRoutine, resetRoutine, isDirty, setIsDirty } =
-    useCreateRoutine();
+  const { routine, setRoutine, resetRoutine, isDirty } = useCreateRoutine();
 
   const { image, isLoadingImage, generateChangeImageAlert } = useImagePicker([
     16, 9,
@@ -131,7 +130,7 @@ export default function CreateRoutineScreen() {
   }, []);
 
   const onBeforeRemove = useCallback(() => {
-    if (id && !isDirty) {
+    if (id && !isDirty.current) {
       resetRoutine();
     }
   }, []);
@@ -163,7 +162,7 @@ export default function CreateRoutineScreen() {
               style: "destructive",
               onPress: () => {
                 resetRoutine();
-                setIsDirty(false);
+                isDirty.current = false;
                 navigation.dispatch(data.action);
               },
             },
@@ -186,7 +185,7 @@ export default function CreateRoutineScreen() {
               style: "destructive",
               onPress: () => {
                 resetRoutine();
-                setIsDirty(false);
+                isDirty.current = false;
                 navigation.dispatch(data.action);
               },
             },
@@ -201,7 +200,7 @@ export default function CreateRoutineScreen() {
     [navigation]
   );
 
-  UNSTABLE_usePreventRemove(isDirty, onPreventRemove);
+  UNSTABLE_usePreventRemove(isDirty.current, onPreventRemove);
 
   return (
     <Box flex={1} backgroundColor="surface">
@@ -238,7 +237,7 @@ export default function CreateRoutineScreen() {
                       setRoutine((draft) => {
                         draft.name = value;
                       });
-                      setIsDirty(true);
+                      isDirty.current = true;
                     }
                     onBlur();
                   }}
@@ -271,7 +270,7 @@ export default function CreateRoutineScreen() {
                       setRoutine((draft) => {
                         draft.description = value;
                       });
-                      setIsDirty(true);
+                      isDirty.current = true;
                     }
                     onBlur();
                   }}
@@ -308,7 +307,7 @@ export default function CreateRoutineScreen() {
                     setRoutine((draft) => {
                       draft.categories = newValue;
                     });
-                    setIsDirty(true);
+                    isDirty.current = true;
                   }}
                   options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
                     CategoryEnum
@@ -333,7 +332,7 @@ export default function CreateRoutineScreen() {
                     setRoutine((draft) => {
                       draft.difficulty = newValue;
                     });
-                    setIsDirty(true);
+                    isDirty.current = true;
                   }}
                   options={generateDropdownOptionsFromEnum<
                     typeof DifficultyEnum

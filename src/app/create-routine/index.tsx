@@ -7,12 +7,14 @@ import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useCallback, useEffect } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import TextInput from "@/components/TextInput";
-import { Alert, AlertButton } from "react-native";
+import { Alert, AlertButton, ScrollView } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
 import { useCreateRoutine } from "@/providers/createRoutine";
 import { CategoryEnum, DifficultyEnum } from "@/types/Routine";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 import CheckboxGroup from "@/components/CheckboxGroup";
+import ImageInput from "@/components/ImageInput";
+import useImagePicker from "@/hooks/useImagePicker";
 
 type FormData = {
   name: string;
@@ -26,6 +28,8 @@ const mockedEditionRoutine = {
   description: "Teste",
   categories: [CategoryEnum.Bodybuilding],
   difficulty: DifficultyEnum.Beginner,
+  thumbnail:
+    "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   cycles: [
     {
       name: "Beginning",
@@ -90,6 +94,10 @@ const mockedEditionRoutine = {
 export default function CreateRoutineScreen() {
   const { routine, setRoutine, resetRoutine, isDirty, setIsDirty } =
     useCreateRoutine();
+
+  const { image, isLoadingImage, generateChangeImageAlert } = useImagePicker([
+    16, 9,
+  ]);
 
   const { id } = useLocalSearchParams();
 
@@ -196,141 +204,147 @@ export default function CreateRoutineScreen() {
   UNSTABLE_usePreventRemove(isDirty, onPreventRemove);
 
   return (
-    <Box flex={1} paddingTop="m" backgroundColor="surface">
-      <Box flex={1} gap="l" paddingHorizontal="m">
-        <Box gap="m" height={80}>
-          <Text variant="label" color="onSurface">
-            Name
-          </Text>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                // placeholder="Routine name"
-                onBlur={() => {
-                  if (routine.name !== value) {
+    <Box flex={1} backgroundColor="surface">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingTop: 16,
+          paddingBottom: 16,
+        }}
+      >
+        <Box flex={1} gap="l" paddingHorizontal="m">
+          <ImageInput
+            image={image ?? mockedEditionRoutine.thumbnail}
+            isLoadingImage={isLoadingImage}
+            hasImage={!!id || !!image}
+            generateChangeImageAlert={generateChangeImageAlert}
+            width={356}
+            height={200}
+          />
+          <Box gap="m" height={80}>
+            <Text variant="label" color="onSurface">
+              Name
+            </Text>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  // placeholder="Routine name"
+                  onBlur={() => {
+                    if (routine.name !== value) {
+                      setRoutine((draft) => {
+                        draft.name = value;
+                      });
+                      setIsDirty(true);
+                    }
+                    onBlur();
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                  selectionColor={colors.primary}
+                  flex={1}
+                  color="onSurface"
+                  padding="m"
+                  backgroundColor="surfaceContainer"
+                  borderRadius="s"
+                />
+              )}
+              name="name"
+            />
+            {errors.name && <Text>This is required.</Text>}
+          </Box>
+          {/* TODO: Rich text on description */}
+          <Box gap="m" minHeight={200}>
+            <Text variant="label" color="onSurface">
+              Description
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  // placeholder="Routine description"
+                  onBlur={() => {
+                    if (routine.description !== value) {
+                      setRoutine((draft) => {
+                        draft.description = value;
+                      });
+                      setIsDirty(true);
+                    }
+                    onBlur();
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                  selectionColor={colors.primary}
+                  flex={1}
+                  color="onSurface"
+                  padding="m"
+                  paddingTop="m"
+                  backgroundColor="surfaceContainer"
+                  borderRadius="s"
+                  multiline
+                  numberOfLines={8}
+                  blurOnSubmit={true}
+                  textAlignVertical="top"
+                />
+              )}
+              name="description"
+            />
+          </Box>
+          <Box gap="m">
+            <Text variant="label" color="onSurface">
+              Category
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <CheckboxGroup
+                  mode="multiple"
+                  selected={value}
+                  handleSelect={(newValue: any): void => {
+                    onChange(newValue);
                     setRoutine((draft) => {
-                      draft.name = value;
+                      draft.categories = newValue;
                     });
-
                     setIsDirty(true);
-                  }
-
-                  onBlur();
-                }}
-                onChangeText={onChange}
-                value={value}
-                selectionColor={colors.primary}
-                flex={1}
-                color="onSurface"
-                padding="m"
-                backgroundColor="surfaceContainer"
-                borderRadius="s"
-              />
-            )}
-            name="name"
-          />
-          {errors.name && <Text>This is required.</Text>}
-        </Box>
-
-        {/* TODO: Rich text on description */}
-        <Box gap="m" minHeight={200}>
-          <Text variant="label" color="onSurface">
-            Description
-          </Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                // placeholder="Routine description"
-                onBlur={() => {
-                  if (routine.description !== value) {
+                  }}
+                  options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
+                    CategoryEnum
+                  )}
+                />
+              )}
+              name="categories"
+            />
+          </Box>
+          <Box gap="m">
+            <Text variant="label" color="onSurface">
+              Difficulty
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <CheckboxGroup
+                  mode="single"
+                  selected={value}
+                  handleSelect={(newValue: any): void => {
+                    onChange(newValue);
                     setRoutine((draft) => {
-                      draft.description = value;
+                      draft.difficulty = newValue;
                     });
-
                     setIsDirty(true);
-                  }
-
-                  onBlur();
-                }}
-                onChangeText={onChange}
-                value={value}
-                selectionColor={colors.primary}
-                flex={1}
-                color="onSurface"
-                padding="m"
-                paddingTop="m"
-                backgroundColor="surfaceContainer"
-                borderRadius="s"
-                multiline
-                numberOfLines={8}
-                blurOnSubmit={true}
-                textAlignVertical="top"
-              />
-            )}
-            name="description"
-          />
+                  }}
+                  options={generateDropdownOptionsFromEnum<
+                    typeof DifficultyEnum
+                  >(DifficultyEnum)}
+                />
+              )}
+              name="difficulty"
+            />
+          </Box>
         </Box>
-
-        <Box gap="m">
-          <Text variant="label" color="onSurface">
-            Category
-          </Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <CheckboxGroup
-                mode="multiple"
-                selected={value}
-                handleSelect={(newValue: any): void => {
-                  onChange(newValue);
-
-                  setRoutine((draft) => {
-                    draft.categories = newValue;
-                  });
-
-                  setIsDirty(true);
-                }}
-                options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
-                  CategoryEnum
-                )}
-              />
-            )}
-            name="categories"
-          />
-        </Box>
-        <Box gap="m">
-          <Text variant="label" color="onSurface">
-            Difficulty
-          </Text>
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <CheckboxGroup
-                mode="single"
-                selected={value}
-                handleSelect={(newValue: any): void => {
-                  onChange(newValue);
-
-                  setRoutine((draft) => {
-                    draft.difficulty = newValue;
-                  });
-
-                  setIsDirty(true);
-                }}
-                options={generateDropdownOptionsFromEnum<typeof DifficultyEnum>(
-                  DifficultyEnum
-                )}
-              />
-            )}
-            name="difficulty"
-          />
-        </Box>
-      </Box>
+      </ScrollView>
       <Box
         backgroundColor="surfaceContainer"
         paddingHorizontal="m"

@@ -1,4 +1,4 @@
-import { Comment } from "@/types/WorkoutLog";
+import { Comment } from "@/types/Post";
 import Box from "../Box";
 import Text from "../Text";
 import Avatar from "../Avatar";
@@ -34,7 +34,7 @@ export default function PostComment({
       </Link>
       <Box
         backgroundColor={
-          comment.highlighted ? "primaryContainer" : "secondaryContainer"
+          comment.isHighlighted ? "primaryContainer" : "secondaryContainer"
         }
         flex={1}
         padding="m"
@@ -67,10 +67,10 @@ export default function PostComment({
             </Pressable>
           </Link>
           <Text variant="label" color="onSurface">
-            {dayjs(comment.timestamp).fromNow()}
+            {dayjs(comment.createdAt).fromNow()}
           </Text>
         </Box>
-        <Text color="onSurface">{comment.text}</Text>
+        <Text color="onSurface">{comment.message}</Text>
       </Box>
     </Box>
   );

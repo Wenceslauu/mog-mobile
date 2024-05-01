@@ -16,184 +16,13 @@ import { FlashList } from "@shopify/flash-list";
 import ExerciseLogCard from "@/components/postDetails/ExerciseLogCard";
 import CommentsBottomSheetModal from "@/components/posts/CommentsBottomSheetModal";
 import useCommentSection from "@/hooks/useCommentSection";
+import { createRandomPost } from "@/helpers/mocks/Post";
 
-const mockedPost = {
-  id: 1,
-  author: {
-    id: 1,
-    name: "wences",
-    picture: "https://unavatar.io/github/Wenceslauu",
-  },
-  text: "brinca muito",
-  duration: "5h",
-  volume: "10000",
-  sets: 50,
-  achievements: 12,
-  likes: 38,
-  timestamp: new Date(2024, 0, 20, 9, 30),
-  isLiked: true,
-  images: [
-    require("../../../assets/images/bench-press.jpg"),
-    require("../../../assets/images/squat.jpg"),
-  ],
-  exercises: [
-    {
-      image: require("../../../assets/images/bench-press.jpg"),
-      exerciseId: 99,
-      name: "Dumbbell Bench Press",
-      sets: [
-        {
-          reps: 10,
-          weight: 20,
-        },
-      ],
-    },
-    {
-      exerciseId: 100,
-      name: "Crossover",
-      sets: [
-        {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 8,
-          weight: 30,
-        },
-      ],
-    },
-    {
-      exerciseId: 101,
-      name: "Pushups",
-      sets: [
-        {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 8,
-          weight: 30,
-        },
-        {
-          reps: 5,
-          weight: 40,
-        },
-      ],
-    },
-    {
-      exerciseId: 102,
-      name: "Dips",
-      sets: [
-        {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 8,
-          weight: 30,
-        },
-        {
-          reps: 5,
-          weight: 40,
-        },
-      ],
-    },
-    {
-      exerciseId: 103,
-      name: "Chest Press Machine",
-      sets: [
-        {
-          reps: 10,
-          weight: 20,
-        },
-        {
-          reps: 8,
-          weight: 30,
-        },
-        {
-          reps: 5,
-          weight: 40,
-        },
-      ],
-    },
-  ],
-  comments: [
-    {
-      id: 1,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-    {
-      id: 2,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-    {
-      id: 3,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-    {
-      id: 4,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-    {
-      id: 5,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-    {
-      id: 6,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-    {
-      id: 7,
-      author: {
-        id: 1,
-        name: "lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-      text: "ta maluco",
-      timestamp: new Date(2024, 0, 23, 20),
-    },
-  ],
-};
+const mockedPost = createRandomPost();
 
 type PostDetailsFlashListHeaderProps = {
-  openCommentSection: (id: number) => void;
-  focusCommentSectionTextInput: (id: number) => void;
+  openCommentSection: (id: string) => void;
+  focusCommentSectionTextInput: (id: string) => void;
 };
 
 function PostDetailsFlashListHeader({
@@ -230,7 +59,7 @@ function PostDetailsFlashListHeader({
                     {mockedPost.author.name}
                   </Text>
                   <Text variant="label" color="onSurface">
-                    {dayjs(mockedPost.timestamp).format("LLLL")}
+                    {dayjs(mockedPost.workoutLog.loggedAt).format("LLLL")}
                   </Text>
                 </Box>
               </Box>
@@ -239,7 +68,7 @@ function PostDetailsFlashListHeader({
         </Link>
       </Box>
       <Text color="onSurface" paddingHorizontal="m">
-        {mockedPost.text}
+        {mockedPost.message}
       </Text>
       <Box
         flexDirection="row"
@@ -250,25 +79,27 @@ function PostDetailsFlashListHeader({
           <Text variant="label" color="onSurface">
             Duration
           </Text>
-          <Text color="onSurface">{mockedPost.duration}</Text>
+          <Text color="onSurface">
+            {dayjs(mockedPost.workoutLog.duration).format("hh:mm:ss")}
+          </Text>
         </Box>
         <Box>
           <Text variant="label" color="onSurface">
             Volume
           </Text>
-          <Text color="onSurface">{mockedPost.volume}</Text>
+          <Text color="onSurface">{mockedPost.workoutLog.volume}</Text>
         </Box>
         <Box>
           <Text variant="label" color="onSurface">
             Sets
           </Text>
-          <Text color="onSurface">{mockedPost.sets}</Text>
+          <Text color="onSurface">{mockedPost.workoutLog.sets}</Text>
         </Box>
         <Box>
           <Text variant="label" color="onSurface">
             Achievements
           </Text>
-          <Text color="onSurface">{mockedPost.achievements}</Text>
+          <Text color="onSurface">{mockedPost.workoutLog.achievements}</Text>
         </Box>
       </Box>
       <Box backgroundColor="surfaceContainer" position="relative">
@@ -347,11 +178,11 @@ function PostDetailsFlashListHeader({
         paddingHorizontal="m"
       >
         <Text color="onSurface">
-          {mockedPost.likes === 0
+          {mockedPost.likes.length === 0
             ? ""
-            : mockedPost.likes === 1
+            : mockedPost.likes.length === 1
             ? "1 like"
-            : mockedPost.likes + " likes"}
+            : mockedPost.likes.length + " likes"}
         </Text>
         <Text color="onSurface">
           {mockedPost.comments.length === 0
@@ -438,7 +269,7 @@ export default function PostDetails() {
   const { id, highlightedCommentId } = useLocalSearchParams();
 
   const averageHeight = useMemo(() => {
-    const sum = mockedPost.exercises.reduce(
+    const sum = mockedPost.workoutLog.exercises.reduce(
       // 113,5 is the height of the exercise log card header, and 35.5 is the height of the set log row
       (acc, exercise) => {
         return acc + exercise.sets.length * 35.5 + 113.5;
@@ -446,7 +277,7 @@ export default function PostDetails() {
       0
     );
 
-    return sum / mockedPost.exercises.length;
+    return sum / mockedPost.workoutLog.exercises.length;
   }, []);
 
   const {
@@ -467,7 +298,7 @@ export default function PostDetails() {
   return (
     <>
       <FlashList
-        data={mockedPost.exercises}
+        data={mockedPost.workoutLog.exercises}
         estimatedItemSize={averageHeight} // If anything default to 252
         // https://stackoverflow.com/questions/58722141/react-native-flatlist-header-re-rendering-when-scroll/58724298#58724298
         ListHeaderComponent={PostDetailsFlashListHeader({
@@ -481,9 +312,7 @@ export default function PostDetails() {
       />
       <CommentsBottomSheetModal
         commentSectionId={commentSectionId}
-        highlightedCommentId={
-          highlightedCommentId ? Number(highlightedCommentId) : undefined
-        }
+        highlightedCommentId={highlightedCommentId as string}
         onCloseCommentSection={onCloseCommentSection}
         ref={
           {

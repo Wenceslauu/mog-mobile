@@ -16,179 +16,15 @@ import CycleTab from "@/components/routineDetails/CycleTab";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import { ScrollingContext } from "@/contexts/scrolling";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
+import { createRandomRoutineCycle, createRandomWorkout } from "@/helpers/mocks/Routine";
+import { faker } from "@faker-js/faker";
 
-const mockedCycles = [
+const mockedCycles = Array.from(
   {
-    name: "Volumizing",
-    weeks: 3,
-    workouts: [
-      {
-        name: "Upper 1",
-        exercises: [
-          {
-            name: "Bench Press",
-            id: 19,
-            exerciseId: 196,
-            // image: require("../../../assets/images/bench-press.jpg"),
-            sets: [
-              { number: 1, reps: 15, intensity: "40%" },
-              {
-                number: 2,
-                reps: 12,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 10,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-          {
-            name: "Incline Bench Press",
-            exerciseId: 197,
-            sets: [
-              { number: 1, reps: 15, intensity: "40%" },
-              {
-                number: 2,
-                reps: 12,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 10,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: "Lower 1",
-        exercises: [
-          {
-            name: "Squat",
-            exerciseId: 198,
-            sets: [
-              { number: 1, reps: 15, intensity: "40%" },
-              {
-                number: 2,
-                reps: 12,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 10,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-          {
-            name: "Deadlift",
-            exerciseId: 199,
-            sets: [
-              { number: 1, reps: 15, intensity: "40%" },
-              {
-                number: 2,
-                reps: 12,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 10,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    length: faker.number.int({ min: 1, max: 4 }),
   },
-  {
-    name: "Peak Week",
-    weeks: 1,
-    workouts: [
-      {
-        name: " Super Upper 1",
-        exercises: [
-          {
-            name: "DB Bench Press",
-            exerciseId: 200,
-            sets: [
-              { number: 1, reps: 12, intensity: "40%" },
-              {
-                number: 3,
-                reps: 10,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 8,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-          {
-            name: "Machine Bench Press",
-            exerciseId: 201,
-            sets: [
-              { number: 1, reps: 12, intensity: "40%" },
-              {
-                number: 3,
-                reps: 10,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 8,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: "Super Lower 1",
-        exercises: [
-          {
-            name: "Hack Squat",
-            exerciseId: 202,
-            sets: [
-              { number: 1, reps: 12, intensity: "40%" },
-              {
-                number: 3,
-                reps: 10,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 8,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-          {
-            name: "RDL",
-            exerciseId: 203,
-            sets: [
-              { number: 1, reps: 12, intensity: "40%" },
-              {
-                number: 3,
-                reps: 10,
-                intensity: "RPE 9",
-              },
-              {
-                number: 1,
-                reps: 8,
-                intensity: "RPE 10",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+  createRandomRoutineCycle
+);
 
 export default function RoutineDetailsWorkoutsTab() {
   const { colors } = useTheme<Theme>();
@@ -262,7 +98,7 @@ export default function RoutineDetailsWorkoutsTab() {
                   {mockedCycles[navigationState.index].name}
                 </Text>
                 <Text variant="body" color="onSurface">
-                  {mockedCycles[navigationState.index].weeks} weeks
+                  {mockedCycles[navigationState.index].duration} weeks
                 </Text>
               </Box>
               <Box flexDirection="row" alignItems="center" gap="xs">

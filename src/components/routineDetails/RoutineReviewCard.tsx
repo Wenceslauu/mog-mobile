@@ -26,7 +26,7 @@ export default function RoutineReviewCard({
       height={preview ? 200 : "auto"}
       minHeight={200}
       backgroundColor={
-        review.highlighted ? "secondaryContainer" : "surfaceContainer"
+        review.isHighlighted ? "secondaryContainer" : "surfaceContainer"
       }
       padding="m"
     >
@@ -41,10 +41,7 @@ export default function RoutineReviewCard({
           <Pressable>
             {({ pressed }) => (
               <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
-                <Avatar
-                  size="s"
-                  source={{ uri: "https://unavatar.io/github/Wenceslauu" }}
-                />
+                <Avatar size="s" source={review.author.picture} />
                 <Text variant="body" color="onSurfaceContainer">
                   {review.author.name}
                 </Text>
@@ -57,12 +54,12 @@ export default function RoutineReviewCard({
             <RatingStars rating={review.rating} />
           </Box>
           <Text variant="label" color="onSurfaceContainer">
-            {dayjs(review.date).fromNow()}
+            {dayjs(review.createdAt).fromNow()}
           </Text>
         </Box>
       </Box>
       <Text variant="body" color="onSurfaceContainer">
-        {review.text}
+        {review.description}
       </Text>
     </Box>
   );
@@ -72,9 +69,13 @@ export function RatingStars({ rating }: { rating: number }) {
   const { colors } = useTheme<Theme>();
 
   return (
-    <Box flexDirection="row" gap="xs" style={{
-      gap: 2
-    }}>
+    <Box
+      flexDirection="row"
+      gap="xs"
+      style={{
+        gap: 2,
+      }}
+    >
       {[...Array(5)].map((_, index) => (
         <Ionicons
           key={index}

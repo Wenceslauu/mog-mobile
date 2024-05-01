@@ -58,8 +58,8 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                     <Box key={index} gap="s">
                       <Link
                         href={{
-                          pathname: `/exercises/${exercise.exerciseId}`,
-                          params: { name: exercise.name },
+                          pathname: `/exercises/${exercise.exercise.id}`,
+                          params: { name: exercise.exercise.name },
                         }}
                         asChild
                       >
@@ -77,7 +77,7 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                                 opacity={pressed ? 0.5 : 1}
                               >
                                 <Image
-                                  source={exercise.image}
+                                  source={exercise.exercise.image}
                                   placeholder={blurhash}
                                   style={{
                                     width: 50,
@@ -85,7 +85,7 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                                   }}
                                 />
                                 <Text variant="title" color="onSurface">
-                                  {exercise.name}
+                                  {exercise.exercise.name}
                                 </Text>
                               </Box>
                               <Ionicons
@@ -109,17 +109,17 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                             >
                               <Box flex={2}>
                                 <Text variant="body" color="onSurfaceContainer">
-                                  {set.number} sets
+                                  {'todo'} sets
                                 </Text>
                               </Box>
                               <Box flex={2}>
                                 <Text variant="body" color="onSurfaceContainer">
-                                  {set.reps} reps
+                                  {set.minReps} reps
                                 </Text>
                               </Box>
                               <Box flex={1}>
                                 <Text variant="body" color="onSurfaceContainer">
-                                  {set.intensity}
+                                  {set.rpe}
                                 </Text>
                               </Box>
                             </Box>

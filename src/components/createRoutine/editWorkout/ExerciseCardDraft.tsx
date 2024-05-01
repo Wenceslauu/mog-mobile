@@ -12,10 +12,11 @@ import { Controller, useFieldArray, useWatch } from "react-hook-form";
 import SetRowDraft from "./SetRowDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "../../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
+import { WorkoutExerciseDraftFormData } from "@/types/Routine";
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -35,7 +36,7 @@ export default function ExerciseCardDraft({
   const { openActionSheet } = useActionSheet();
   const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
-  const exerciseDraft = useWatch({
+  const exerciseDraft: WorkoutExerciseDraftFormData = useWatch({
     control,
     name: `exercises.${exerciseIndex}`,
   });
@@ -45,10 +46,14 @@ export default function ExerciseCardDraft({
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
 
+  useEffect(() => {
+    console.log("field", fields);
+  }, [fields]);
+
   const handleAddSet = () => {
     append({
-      reps: undefined,
-      intensity: undefined,
+      minReps: undefined,
+      rpe: undefined,
     });
   };
 
@@ -65,8 +70,8 @@ export default function ExerciseCardDraft({
     >
       <Link
         href={{
-          pathname: `/exercises/${exerciseDraft.id}`,
-          params: { name: exerciseDraft.name },
+          pathname: `/exercises/${exerciseDraft.exercise.id}`,
+          params: { name: exerciseDraft.exercise.name },
         }}
         asChild
       >
@@ -97,7 +102,7 @@ export default function ExerciseCardDraft({
           >
             <Box gap="s" flexDirection="row" alignItems="center">
               <Image
-                source={exerciseDraft.image}
+                source={exerciseDraft.exercise.image}
                 placeholder={blurhash}
                 style={{
                   width: 50,
@@ -106,31 +111,37 @@ export default function ExerciseCardDraft({
               />
               <Box gap="xs">
                 <Text variant="title" color="onSurface">
-                  {exerciseDraft.name}
+                  {exerciseDraft.exercise.name}
                 </Text>
-                <Pressable onPress={() => console.log("pressed")}>
-                  {({ pressed }) => (
-                    <Box
-                      flexDirection="row"
-                      alignItems="center"
-                      gap="xs"
-                      height={16}
-                      opacity={pressed ? 0.5 : 1}
-                    >
-                      <Ionicons name="timer" size={16} color={colors.primary} />
-                      <Text variant="label" color="primary">
-                        {dayjs
-                          .duration(exerciseDraft.restDuration, "s")
-                          .format("mm:ss")}
-                      </Text>
-                      <Ionicons
-                        name="create-outline"
-                        size={16}
-                        color={colors.primary}
-                      />
-                    </Box>
-                  )}
-                </Pressable>
+                {exerciseDraft.restDuration && (
+                  <Pressable onPress={() => console.log("pressed")}>
+                    {({ pressed }) => (
+                      <Box
+                        flexDirection="row"
+                        alignItems="center"
+                        gap="xs"
+                        height={16}
+                        opacity={pressed ? 0.5 : 1}
+                      >
+                        <Ionicons
+                          name="timer"
+                          size={16}
+                          color={colors.primary}
+                        />
+                        <Text variant="label" color="primary">
+                          {dayjs
+                            .duration(exerciseDraft.restDuration as number, "s")
+                            .format("mm:ss")}
+                        </Text>
+                        <Ionicons
+                          name="create-outline"
+                          size={16}
+                          color={colors.primary}
+                        />
+                      </Box>
+                    )}
+                  </Pressable>
+                )}
               </Box>
             </Box>
             <Ionicons

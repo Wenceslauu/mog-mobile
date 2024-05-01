@@ -1,29 +1,9 @@
 import Box from "@/components/Box";
 import ExerciseLogCard from "@/components/exerciseDetails/ExerciseLogCard";
+import { createRandomExerciseLogIsolated } from "@/helpers/mocks/Log";
 import { FlashList } from "@shopify/flash-list";
 
-const mockedLogs = [
-  {
-    workoutLogId: 1,
-    workout: "Upper 1",
-    date: new Date(2024, 1, 12),
-    sets: [
-      { reps: 10, weight: 60 },
-      { reps: 10, weight: 60 },
-      { reps: 8, weight: 60 },
-    ],
-  },
-  {
-    workoutLogId: 2,
-    workout: "Upper 1",
-    date: new Date(2024, 1, 5),
-    sets: [
-      { reps: 8, weight: 60 },
-      { reps: 8, weight: 60 },
-      { reps: 8, weight: 60 },
-    ],
-  },
-];
+const mockedLogs = Array.from({ length: 5 }, createRandomExerciseLogIsolated);
 
 export default function ExerciseDetailsHistoryTab() {
   return (

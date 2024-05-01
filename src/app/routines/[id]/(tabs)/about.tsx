@@ -19,52 +19,15 @@ import { useContext } from "react";
 import { ScrollingContext } from "@/contexts/scrolling";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
-import { CategoryEnum, DifficultyEnum, EquipmentEnum } from "@/types/Routine";
 
-const mockedRoutine = {
-  id: 1,
-  // thumbnail: require("../../../assets/images/bench-press.jpg"),
-  name: "Braço de 50 cm",
-  author: {
-    id: 1,
-    name: "wences",
-    picture: "https://unavatar.io/github/Wenceslauu",
-  },
-  category: CategoryEnum.Bodybuilding,
-  difficulty: DifficultyEnum.Intermediate,
-  daysPerWeek: "4 days/week",
-  duration: "8 weeks",
-  equipment: EquipmentEnum["Full Gym"],
-  numberOfAthletes: 10,
-  description:
-    "Esse é um programa destinado a transformar os seus bracinhos em membros de um mutante. Aqui os seus bíceps serão esmagados, os seus tríceps serão completamente esmagados, sem dó nem piedade. Prepare-se para o braço de 50 cm!",
-  rating: 4.5,
-  numberOfReviews: 48,
-  reviews: [
-    {
-      id: 1,
-      rating: 5,
-      text: "Muito bom, recomendo",
-      date: new Date(2024, 1, 10),
-      author: {
-        id: 1,
-        name: "Wenceslauu",
-        picture: "https://unavatar.io/github/Wenceslauu",
-      },
-    },
-    {
-      id: 2,
-      rating: 3.5,
-      text: "Sei lá, meio paia",
-      date: new Date(2024, 1, 10),
-      author: {
-        id: 2,
-        name: "Lui",
-        picture: "https://unavatar.io/github/pedroandrade03",
-      },
-    },
-  ],
-};
+import {
+  RoutineCategoryEnum,
+  RoutineDifficultyEnum,
+  RoutineEquipmentEnum,
+} from "@/types/Routine";
+import { createRandomRoutine } from "@/helpers/mocks/Routine";
+
+const mockedRoutine = createRandomRoutine();
 
 export default function RoutineDetailsAboutTab() {
   const { id } = useLocalSearchParams();
@@ -127,7 +90,7 @@ export default function RoutineDetailsAboutTab() {
               <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
                 <Avatar
                   size="m"
-                  source={{ uri: "https://unavatar.io/github/Wenceslauu" }}
+                  source={mockedRoutine.author.picture}
                 />
                 <Text variant="body" color="onSurface">
                   {mockedRoutine.author.name}
@@ -178,7 +141,7 @@ export default function RoutineDetailsAboutTab() {
                 <Box flexDirection="row" gap="m">
                   <FlashList
                     horizontal={true}
-                    data={mockedRoutine.reviews}
+                    data={mockedRoutine.reviewsSample}
                     estimatedItemSize={300}
                     renderItem={({ item }) => (
                       <RoutineReviewCard review={item} preview />
@@ -200,15 +163,18 @@ export default function RoutineDetailsAboutTab() {
         </Text>
         <Table
           rows={[
-            { label: "Category", value: CategoryEnum[mockedRoutine.category] },
-            { label: "Frequency", value: mockedRoutine.daysPerWeek },
+            {
+              label: "Category",
+              value: RoutineCategoryEnum[mockedRoutine.category],
+            },
+            { label: "Frequency", value: mockedRoutine.minFrequency + " days" },
             {
               label: "Equipment",
-              value: EquipmentEnum[mockedRoutine.equipment],
+              value: RoutineEquipmentEnum[mockedRoutine.equipment],
             },
             {
               label: "Difficulty",
-              value: DifficultyEnum[mockedRoutine.difficulty],
+              value: RoutineDifficultyEnum[mockedRoutine.difficulty[0]],
             },
           ]}
         />

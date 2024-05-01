@@ -1,27 +1,14 @@
 import Box from "@/components/Box";
 import UserCard from "@/components/network/UserCard";
+import { createRandomProfilePreview } from "@/helpers/mocks/User";
 import { FlashList } from "@shopify/flash-list";
 
-const mockedFollowing = [
+const mockedFollowing = Array.from(
   {
-    id: 2,
-    name: "Lui",
-    picture: "https://unavatar.io/github/pedroandrade03",
-    isFollowed: true,
+    length: 10,
   },
-  {
-    id: 3,
-    name: "Pedro",
-    picture: "https://unavatar.io/github/pedroandrade03",
-    isFollowed: true,
-  },
-  {
-    id: 4,
-    name: "Henry",
-    picture: "https://unavatar.io/github/pedroandrade03",
-    isFollowed: true,
-  },
-];
+  createRandomProfilePreview
+);
 
 export default function FollowingTab() {
   return (

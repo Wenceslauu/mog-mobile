@@ -5,7 +5,7 @@ import { Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
 import { Image } from "expo-image";
-import { ExerciseLog } from "@/types/WorkoutLog";
+import { ExerciseLog } from "@/types/Log";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 
@@ -20,8 +20,8 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
     <Box gap="s" padding="m" backgroundColor="surfaceContainer">
       <Link
         href={{
-          pathname: `/exercises/${exerciseLog.exerciseId}`,
-          params: { name: exerciseLog.name },
+          pathname: `/exercises/${exerciseLog.exercise.id}`,
+          params: { name: exerciseLog.exercise.name },
         }}
         asChild
       >
@@ -39,7 +39,7 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
                 opacity={pressed ? 0.5 : 1}
               >
                 <Image
-                  source={exerciseLog.image}
+                  source={exerciseLog.exercise.name}
                   placeholder={blurhash}
                   style={{
                     width: 50,
@@ -47,7 +47,7 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
                   }}
                 />
                 <Text variant="title" color="onSurface">
-                  {exerciseLog.name}
+                  {exerciseLog.exercise.name}
                 </Text>
               </Box>
               <Ionicons

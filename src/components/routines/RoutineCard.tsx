@@ -1,21 +1,21 @@
 import { Pressable, ScrollView } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import {
-  CategoryEnum,
-  DifficultyEnum,
-  EquipmentEnum,
-  Routine,
-} from "@/types/Routine";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import blurhash from "@/constants/blurhash";
+import {
+  RoutinePreview,
+  RoutineCategoryEnum,
+  RoutineEquipmentEnum,
+  RoutineDifficultyEnum,
+} from "@/types/Routine";
 
 type RoutineCardProps = {
-  routine: Routine;
+  routine: RoutinePreview;
   isListedHorizontally?: boolean;
 };
 
@@ -101,7 +101,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {CategoryEnum[routine.category]}
+                      {RoutineCategoryEnum[routine.category]}
                     </Text>
                   </Box>
                 </Pressable>
@@ -113,7 +113,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {routine.daysPerWeek}
+                      {routine.minFrequency} - {routine.maxFrequency}
                     </Text>
                   </Box>
                 </Pressable>
@@ -125,7 +125,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {DifficultyEnum[routine.difficulty]}
+                      {RoutineDifficultyEnum[routine.difficulty[0]]}
                     </Text>
                   </Box>
                 </Pressable>
@@ -137,7 +137,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {EquipmentEnum[routine.equipment]}
+                      {RoutineEquipmentEnum[routine.equipment]}
                     </Text>
                   </Box>
                 </Pressable>

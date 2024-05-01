@@ -105,7 +105,7 @@ export default function SetRowDraft({
                 textAlign="center"
               />
             )}
-            name={`exercises.${exerciseIndex}.sets.${index}.reps`}
+            name={`exercises.${exerciseIndex}.sets.${index}.minReps`}
           />
         </Box>
         <Box flex={1}>
@@ -148,7 +148,7 @@ export default function SetRowDraft({
                 textAlign="center"
               />
             )}
-            name={`exercises.${exerciseIndex}.sets.${index}.intensity`}
+            name={`exercises.${exerciseIndex}.sets.${index}.rpe`}
           />
         </Box>
       </Animated.View>

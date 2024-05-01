@@ -49,30 +49,17 @@ function generateNotificationTarget(
   }
 }
 
-function generateNotificationHref(
-  type: NotificationType,
-  triggerUser?: {
-    id: number;
-    name: string;
-  },
-  routine?: {
-    id: number;
-    name: string;
-  },
-  review?: {
-    id: number;
-    rating: number;
-    text: string;
-  },
-  post?: {
-    id: number;
-    text: string;
-  },
-  comment?: {
-    id: number;
-    text: string;
-  }
-) {
+function generateNotificationHref({
+  type,
+  triggerUser,
+  routine,
+  review,
+  post,
+  comment,
+}: Pick<
+  Notification,
+  "type" | "triggerUser" | "routine" | "review" | "post" | "comment"
+>) {
   switch (type) {
     case NotificationType.Follow:
       if (!triggerUser) return {};
@@ -106,6 +93,8 @@ function generateNotificationHref(
     case NotificationType.Comment:
       if (!post || !comment) return {};
 
+      console.log("comment IDDDDD", comment.id)
+
       return {
         pathname: `/posts/${post.id}`,
         params: {
@@ -124,14 +113,14 @@ export default function NotificationCard({
 
   return (
     <Link
-      href={generateNotificationHref(
-        notification.type,
-        notification.triggerUser,
-        notification.routine,
-        notification.review,
-        notification.post,
-        notification.comment
-      )}
+      href={generateNotificationHref({
+        type: notification.type,
+        triggerUser: notification.triggerUser,
+        routine: notification.routine,
+        review: notification.review,
+        post: notification.post,
+        comment: notification.comment,
+      })}
       asChild
     >
       <Pressable>
@@ -178,7 +167,7 @@ export default function NotificationCard({
                       <Box opacity={pressed ? 0.5 : 1}>
                         <Avatar
                           size="m"
-                          source={notification.triggerUser.image}
+                          source={notification.triggerUser.picture}
                         />
                       </Box>
                     )}
@@ -223,7 +212,7 @@ export default function NotificationCard({
                     <Text fontWeight="bold">
                       {generateNotificationTarget(
                         notification.type,
-                        notification.post?.text,
+                        notification.post?.message,
                         notification.routine?.name
                       )}
                     </Text>
@@ -236,7 +225,7 @@ export default function NotificationCard({
                         : "onSecondaryContainer"
                     }
                   >
-                    {dayjs(notification.timestamp).fromNow()}
+                    {dayjs(notification.triggeredAt).fromNow()}
                   </Text>
                 </Box>
               </Box>
@@ -301,8 +290,8 @@ export default function NotificationCard({
                   opacity={0.75}
                   numberOfLines={2}
                 >
-                  {notification.comment && notification.comment.text}
-                  {notification.review && notification.review.text}
+                  {notification.comment && notification.comment.message}
+                  {notification.review && notification.review.description}
                 </Text>
               </Box>
             )}

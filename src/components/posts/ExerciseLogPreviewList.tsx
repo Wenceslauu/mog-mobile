@@ -1,4 +1,4 @@
-import { ExerciseLogPreview } from "@/types/WorkoutLog";
+import { ExerciseLogPreview } from "@/types/Log";
 import Box from "../Box";
 import Text from "../Text";
 import ExerciseLogPreviewCard from "./ExerciseLogPreviewCard";

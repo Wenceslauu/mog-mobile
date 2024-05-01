@@ -10,85 +10,18 @@ import TextInput from "@/components/TextInput";
 import { Alert, AlertButton, ScrollView } from "react-native";
 import { UNSTABLE_usePreventRemove } from "@react-navigation/native";
 import { useCreateRoutine } from "@/providers/createRoutine";
-import { CategoryEnum, DifficultyEnum } from "@/types/Routine";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 import CheckboxGroup from "@/components/CheckboxGroup";
 import ImageInput from "@/components/ImageInput";
+import { createRandomRoutineDraftEdition } from "@/helpers/mocks/Routine";
+import {
+  RoutineCategoryEnum,
+  RoutineDifficultyEnum,
+  RoutineDraftGeneralFormData,
+  RoutineEquipmentEnum,
+} from "@/types/Routine";
 
-type FormData = {
-  name: string;
-  description: string;
-  categories: CategoryEnum[];
-  difficulty: DifficultyEnum;
-};
-
-const mockedEditionRoutine = {
-  name: "Teste",
-  description: "Teste",
-  categories: [CategoryEnum.Bodybuilding],
-  difficulty: DifficultyEnum.Beginner,
-  thumbnail:
-    "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  cycles: [
-    {
-      name: "Beginning",
-      workouts: [
-        {
-          name: "Push 1",
-          exercises: [
-            {
-              id: 1,
-              name: "Bench Press",
-              authorNotes: "Use foot drive!",
-              restDuration: 120,
-              sets: [
-                {
-                  reps: 12,
-                  intensity: 9,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: "Push 2",
-          exercises: [
-            {
-              id: 2,
-              name: "OHP",
-              sets: [
-                {
-                  reps: 12,
-                  intensity: 9,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Middle",
-      workouts: [
-        {
-          name: "Pull 1",
-          exercises: [
-            {
-              id: 3,
-              name: "Deadlift",
-              sets: [
-                {
-                  reps: 12,
-                  intensity: 9,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+const mockedEditionRoutine = createRandomRoutineDraftEdition();
 
 export default function CreateRoutineScreen() {
   const {
@@ -108,14 +41,15 @@ export default function CreateRoutineScreen() {
     control,
     formState: { errors },
     reset,
-  } = useForm<FormData>({
+  } = useForm<RoutineDraftGeneralFormData>({
     // GH Issue: https://github.com/react-hook-form/react-hook-form/issues/2492
     // GH Discussion: https://github.com/orgs/react-hook-form/discussions/9046
     // Values option would reinit the form everytime a dependency changes(proposal's option B) and that is not great for performance
     defaultValues: {
       name: routine.name,
       description: routine.description,
-      categories: routine.categories,
+      category: routine.category,
+      equipment: routine.equipment,
       difficulty: routine.difficulty,
     },
   });
@@ -127,7 +61,8 @@ export default function CreateRoutineScreen() {
       reset({
         name: mockedEditionRoutine.name,
         description: mockedEditionRoutine.description,
-        categories: mockedEditionRoutine.categories,
+        category: mockedEditionRoutine.category,
+        equipment: routine.equipment,
         difficulty: mockedEditionRoutine.difficulty,
       });
 
@@ -306,26 +241,26 @@ export default function CreateRoutineScreen() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <CheckboxGroup
-                  mode="multiple"
+                  mode="single"
                   selected={value}
                   handleSelect={(newValue: any): void => {
                     onChange(newValue);
                     setRoutine((draft) => {
-                      draft.categories = newValue;
+                      draft.category = newValue;
                     });
                     isDirty.current = true;
                   }}
-                  options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
-                    CategoryEnum
-                  )}
+                  options={generateDropdownOptionsFromEnum<
+                    typeof RoutineCategoryEnum
+                  >(RoutineCategoryEnum)}
                 />
               )}
-              name="categories"
+              name="category"
             />
           </Box>
           <Box gap="m">
             <Text variant="label" color="onSurface">
-              Difficulty
+              Equipment
             </Text>
             <Controller
               control={control}
@@ -336,13 +271,38 @@ export default function CreateRoutineScreen() {
                   handleSelect={(newValue: any): void => {
                     onChange(newValue);
                     setRoutine((draft) => {
+                      draft.equipment = newValue;
+                    });
+                    isDirty.current = true;
+                  }}
+                  options={generateDropdownOptionsFromEnum<
+                    typeof RoutineEquipmentEnum
+                  >(RoutineEquipmentEnum)}
+                />
+              )}
+              name="equipment"
+            />
+          </Box>
+          <Box gap="m">
+            <Text variant="label" color="onSurface">
+              Difficulty
+            </Text>
+            <Controller
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <CheckboxGroup
+                  mode="multiple"
+                  selected={value}
+                  handleSelect={(newValue: any): void => {
+                    onChange(newValue);
+                    setRoutine((draft) => {
                       draft.difficulty = newValue;
                     });
                     isDirty.current = true;
                   }}
                   options={generateDropdownOptionsFromEnum<
-                    typeof DifficultyEnum
-                  >(DifficultyEnum)}
+                    typeof RoutineDifficultyEnum
+                  >(RoutineDifficultyEnum)}
                 />
               )}
               name="difficulty"

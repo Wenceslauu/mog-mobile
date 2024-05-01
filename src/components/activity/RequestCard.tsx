@@ -1,4 +1,4 @@
-import { Request } from "@/types/Activity";
+import { FollowRequest } from "@/types/Activity";
 import Box from "../Box";
 import Text from "../Text";
 import Avatar from "../Avatar";
@@ -10,7 +10,7 @@ import { Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 type RequestCardProps = {
-  request: Request;
+  request: FollowRequest;
 };
 
 export default function RequestCard({ request }: RequestCardProps) {
@@ -57,7 +57,7 @@ export default function RequestCard({ request }: RequestCardProps) {
               </Box>
               <Box flexDirection="row" gap="s" flex={1}>
                 <Box opacity={pressed ? 0.5 : 1}>
-                  <Avatar size="m" source={request.requestorUser.image} />
+                  <Avatar size="m" source={request.requestorUser.picture} />
                 </Box>
                 <Box flexShrink={1} gap="xs">
                   <Text
@@ -91,7 +91,7 @@ export default function RequestCard({ request }: RequestCardProps) {
                         : "onSecondaryContainer"
                     }
                   >
-                    {dayjs(request.timestamp).fromNow()}
+                    {dayjs(request.requestedAt).fromNow()}
                   </Text>
                 </Box>
               </Box>

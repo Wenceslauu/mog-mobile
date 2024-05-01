@@ -5,14 +5,10 @@ import Avatar from "../Avatar";
 import Text from "../Text";
 import { Ionicons } from "@expo/vector-icons";
 import Button from "../Button";
+import { ProfilePreview } from "@/types/User";
 
 type UserCardProps = {
-  user: {
-    id: number;
-    name: string;
-    picture: string;
-    isFollowed: boolean;
-  };
+  user: ProfilePreview;
 };
 
 export default function UserCard({ user }: UserCardProps) {

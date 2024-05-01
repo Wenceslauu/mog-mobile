@@ -8,7 +8,7 @@ import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 
 type ImageInputProps = {
-  image: string | null;
+  image?: string;
   isLoadingImage: boolean;
   hasImage: boolean;
   generateChangeImageAlert: () => void;

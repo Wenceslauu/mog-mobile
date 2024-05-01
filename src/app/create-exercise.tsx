@@ -5,32 +5,22 @@ import Text from "@/components/Text";
 import TextInput from "@/components/TextInput";
 import { Theme } from "@/constants/theme";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
-import { ForceEnum, MechanicEnum, TargetMuscleEnum } from "@/types/Exercise";
+import {
+  ExerciseDraftFormData,
+  ExerciseForceEnum,
+  ExerciseMechanicEnum,
+  ExerciseTargetMuscleEnum,
+} from "@/types/Exercise";
 import { useTheme } from "@shopify/restyle";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Animated, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import useImagePicker from "@/hooks/useImagePicker";
 import ImageInput from "@/components/ImageInput";
+import { createRandomExerciseDraft } from "@/helpers/mocks/Exercise";
 
-const mockedEditionExercise = {
-  name: "Skiers",
-  instructions: "Hip hinge and ski!",
-  targetMuscle: [TargetMuscleEnum.Shoulders],
-  force: ForceEnum.Pull,
-  mechanic: MechanicEnum.Isolation,
-  image:
-    "https://images.pexels.com/photos/1271147/pexels-photo-1271147.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-};
-
-type FormData = {
-  name: string;
-  instructions: string;
-  targetMuscle: TargetMuscleEnum[];
-  force: ForceEnum;
-  mechanic: MechanicEnum;
-};
+const mockedEditionExercise = createRandomExerciseDraft();
 
 export default function CreateExerciseScreen() {
   const { colors } = useTheme<Theme>();
@@ -46,11 +36,7 @@ export default function CreateExerciseScreen() {
     control,
     formState: { errors },
     reset,
-  } = useForm<FormData>({
-    defaultValues: {
-      targetMuscle: [],
-    },
-  });
+  } = useForm<ExerciseDraftFormData>();
 
   useEffect(() => {
     if (id) {
@@ -151,7 +137,7 @@ export default function CreateExerciseScreen() {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <CheckboxGroup
-                  mode="multiple"
+                  mode="single"
                   selected={value}
                   handleSelect={(newValue: any): void => {
                     onChange(newValue);
@@ -159,8 +145,8 @@ export default function CreateExerciseScreen() {
                     isDirty.current = true;
                   }}
                   options={generateDropdownOptionsFromEnum<
-                    typeof TargetMuscleEnum
-                  >(TargetMuscleEnum)}
+                    typeof ExerciseTargetMuscleEnum
+                  >(ExerciseTargetMuscleEnum)}
                 />
               )}
               name="targetMuscle"
@@ -181,9 +167,9 @@ export default function CreateExerciseScreen() {
 
                     isDirty.current = true;
                   }}
-                  options={generateDropdownOptionsFromEnum<typeof MechanicEnum>(
-                    MechanicEnum
-                  )}
+                  options={generateDropdownOptionsFromEnum<
+                    typeof ExerciseMechanicEnum
+                  >(ExerciseMechanicEnum)}
                 />
               )}
               name="mechanic"
@@ -204,9 +190,9 @@ export default function CreateExerciseScreen() {
 
                     isDirty.current = true;
                   }}
-                  options={generateDropdownOptionsFromEnum<typeof ForceEnum>(
-                    ForceEnum
-                  )}
+                  options={generateDropdownOptionsFromEnum<
+                    typeof ExerciseForceEnum
+                  >(ExerciseForceEnum)}
                 />
               )}
               name="force"

@@ -1,46 +1,13 @@
 import Box from "@/components/Box";
 import RequestCard from "@/components/activity/RequestCard";
-import { Request, RequestStatus } from "@/types/Activity";
+import { FollowRequest } from "@/types/Activity";
 import { FlashList } from "@shopify/flash-list";
+import { createRandomFollowRequest } from "@/helpers/mocks/Activity";
 
-const mockedRequests: Request[] = [
-  {
-    id: 1,
-    requestorUser: {
-      id: 1,
-      name: "Henry",
-      // image: ""
-    },
-    timestamp: new Date(2024, 0, 30, 11),
-    status: RequestStatus.Pending,
-    isRead: false,
-    isSeen: true,
-  },
-  {
-    id: 2,
-    requestorUser: {
-      id: 2,
-      name: "Caique",
-      // image: ""
-    },
-    timestamp: new Date(2024, 0, 20, 11),
-    status: RequestStatus.Pending,
-    isRead: false,
-    isSeen: true,
-  },
-  {
-    id: 3,
-    requestorUser: {
-      id: 3,
-      name: "Yan",
-      // image: ""
-    },
-    timestamp: new Date(2024, 0, 20, 11),
-    status: RequestStatus.Pending,
-    isRead: true,
-    isSeen: true,
-  },
-];
+const mockedRequests: FollowRequest[] = Array.from(
+  { length: 5 },
+  createRandomFollowRequest
+);
 
 export default function RequestsTab() {
   return (

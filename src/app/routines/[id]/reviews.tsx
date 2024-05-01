@@ -2,59 +2,15 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import ReviewDraftModal from "@/components/routineDetails/ReviewDraftModal";
 import RoutineReviewCard from "@/components/routineDetails/RoutineReviewCard";
+import { createRandomRoutineReview } from "@/helpers/mocks/Routine";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { Animated, Keyboard } from "react-native";
 
-const mockedHighlightedReview = {
-  id: 4,
-  rating: 5,
-  text: "Não estou mais passando pelas portas",
-  date: new Date(2024, 1, 2),
-  author: {
-    id: 1,
-    name: "Wenceslauu",
-    picture: "https://unavatar.io/github/Wenceslauu",
-  },
-  highlighted: true,
-};
+const mockedHighlightedReview = createRandomRoutineReview(true);
 
-const mockedReviews = [
-  {
-    id: 1,
-    rating: 5,
-    text: "Muito bom, recomendo",
-    date: new Date(2024, 1, 10),
-    author: {
-      id: 1,
-      name: "Wenceslauu",
-      picture: "https://unavatar.io/github/Wenceslauu",
-    },
-  },
-  {
-    id: 2,
-    rating: 3.5,
-    text: "Sei lá, meio paia",
-    date: new Date(2024, 1, 10),
-    author: {
-      id: 2,
-      name: "Lui",
-      picture: "https://unavatar.io/github/pedroandrade03",
-    },
-  },
-  {
-    id: 3,
-    rating: 5,
-    text: "TOP DEMAIS! A MELHOR DIVISÃO QUE EU JÁ SEGUI NA VIDA! RECOMENDO DEMAIS! MUITO OBRIGADO POR COMPARTILHAR ESSA ROTINA! <3 <3 <3. MUITO BOM PELOS SEGUINTES MOTIVOS: 1. A divisão é muito bem estruturada, com um volume de treino adequado para cada grupo muscular. 2. A divisão é muito bem estruturada, com um volume de treino adequado para cada grupo muscular. 3. A divisão é muito bem estruturada, com um volume de treino adequado para cada grupo muscular.",
-    date: new Date(2024, 1, 10),
-    author: {
-      id: 2,
-      name: "Thigas",
-      picture: "https://unavatar.io/github/pedroandrade03",
-    },
-  },
-];
+const mockedReviews = Array.from({ length: 10 }, createRandomRoutineReview);
 
 export default function RoutineDetailsReviews() {
   const { id, highlightedReviewId } = useLocalSearchParams();

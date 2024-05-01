@@ -3,13 +3,13 @@ import { Link, useNavigation } from "expo-router";
 import { Platform, Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import { ExerciseLog } from "@/types/Exercise";
+import { ExerciseLogIsolated } from "@/types/Log";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import dayjs from "@/lib/dayjs";
 
 type ExerciseLogCardProps = {
-  exerciseLog: ExerciseLog;
+  exerciseLog: ExerciseLogIsolated;
 };
 
 export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
@@ -21,7 +21,7 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
     <Box gap="s" padding="m" backgroundColor="surfaceContainer">
       <Link
         href={{
-          pathname: `/workout-logs/${exerciseLog.workoutLogId}`,
+          pathname: `/workout-logs/${exerciseLog.workoutLog.id}`,
         }}
         asChild
       >
@@ -44,10 +44,10 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
             >
               <Box gap="s" opacity={pressed ? 0.5 : 1}>
                 <Text variant="title" color="onSurface">
-                  {exerciseLog.workout}
+                  {exerciseLog.workoutLog.workout?.name}
                 </Text>
                 <Text variant="label" color="onSurface">
-                  {dayjs(exerciseLog.date).format("L")}
+                  {dayjs(exerciseLog.workoutLog.loggedAt).format("L")}
                 </Text>
               </Box>
               <Ionicons

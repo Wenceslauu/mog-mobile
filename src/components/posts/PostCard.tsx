@@ -1,4 +1,4 @@
-import { Post } from "@/types/WorkoutLog";
+import { PostPreview } from "@/types/Post";
 import Box from "../Box";
 import Text from "../Text";
 import Avatar from "../Avatar";
@@ -16,7 +16,7 @@ import ExerciseLogPreviewList from "./ExerciseLogPreviewList";
 import { Link } from "expo-router";
 
 type PostCardProps = {
-  post: Post;
+  post: PostPreview;
   openCommentSection: () => void;
   focusCommentSectionTextInput: () => void;
 };
@@ -68,7 +68,7 @@ export default function PostCard({
                             {post.author.name}
                           </Text>
                           <Text variant="label" color="onSurface">
-                            {dayjs(post.timestamp).fromNow()}
+                            {dayjs(post.workoutLog.loggedAt).fromNow()}
                           </Text>
                         </Box>
                       </Box>
@@ -83,7 +83,7 @@ export default function PostCard({
                 />
               </Box>
               <Text color="onSurface" paddingHorizontal="m">
-                {post.text}
+                {post.message}
               </Text>
               <Box
                 flexDirection="row"
@@ -94,25 +94,27 @@ export default function PostCard({
                   <Text variant="label" color="onSurface">
                     Duration
                   </Text>
-                  <Text color="onSurface">{post.duration}</Text>
+                  <Text color="onSurface">
+                    {dayjs(post.workoutLog.duration).format("hh:mm:ss")}
+                  </Text>
                 </Box>
                 <Box>
                   <Text variant="label" color="onSurface">
                     Volume
                   </Text>
-                  <Text color="onSurface">{post.volume}</Text>
+                  <Text color="onSurface">{post.workoutLog.volume}</Text>
                 </Box>
                 <Box>
                   <Text variant="label" color="onSurface">
                     Sets
                   </Text>
-                  <Text color="onSurface">{post.sets}</Text>
+                  <Text color="onSurface">{post.workoutLog.sets}</Text>
                 </Box>
                 <Box>
                   <Text variant="label" color="onSurface">
                     Achievements
                   </Text>
-                  <Text color="onSurface">{post.achievements}</Text>
+                  <Text color="onSurface">{post.workoutLog.achievements}</Text>
                 </Box>
               </Box>
             </Box>
@@ -132,13 +134,21 @@ export default function PostCard({
                   setCarouselIndex(Math.round(absoluteProgress));
                 }
               }}
-              data={post.images.concat({ exercises: post.exercises })}
+              data={[...post.images, post.workoutLog.exercises]}
               renderItem={({ item, index }) => {
                 if (index === post.images.length) {
-                  return <ExerciseLogPreviewList exercises={post.exercises} />;
+                  return (
+                    <ExerciseLogPreviewList
+                      exercises={post.workoutLog.exercises}
+                    />
+                  );
                 }
                 return (
-                  <Image source={item} key={index} style={{ height: "100%" }} />
+                  <Image
+                    source={item as string}
+                    key={index}
+                    style={{ height: "100%" }}
+                  />
                 );
               }}
             />
@@ -192,8 +202,8 @@ export default function PostCard({
               </Box>
             </Box>
           </Box>
-        ) : post.exercises.length > 0 ? (
-          <ExerciseLogPreviewList exercises={post.exercises} />
+        ) : post.workoutLog.exercises.length > 0 ? (
+          <ExerciseLogPreviewList exercises={post.workoutLog.exercises} />
         ) : null}
       </Box>
       <Box

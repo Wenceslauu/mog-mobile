@@ -3,14 +3,18 @@ import { useTheme } from "@shopify/restyle";
 import { Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import { Exercise, TargetMuscleEnum } from "@/types/Exercise";
+import {
+  Exercise,
+  ExercisePreview,
+  ExerciseTargetMuscleEnum,
+} from "@/types/Exercise";
 import { Image } from "expo-image";
 import { Theme } from "@/constants/theme";
 import blurhash from "@/constants/blurhash";
 import { Link } from "expo-router";
 
 type ExerciseCardProps = {
-  exercise: Exercise;
+  exercise: ExercisePreview;
 };
 
 export default function ExerciseCard({ exercise }: ExerciseCardProps) {
@@ -49,16 +53,10 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
                   {exercise.name}
                 </Text>
                 <Text variant="label" color="onSurface">
-                  {TargetMuscleEnum[exercise.targetMuscle]}
+                  {ExerciseTargetMuscleEnum[exercise.targetMuscle]}
                 </Text>
               </Box>
               <Box flexDirection="row" gap="s">
-                <Box alignSelf="flex-end">
-                  <Text variant="label" color="onSurface">
-                    {exercise.personalBest.weight} kg -{" "}
-                    {exercise.personalBest.reps}
-                  </Text>
-                </Box>
                 <Pressable
                   onPress={() => console.log("FAVORITE")}
                   style={{ alignSelf: "center" }}

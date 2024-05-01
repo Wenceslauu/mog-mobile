@@ -12,59 +12,28 @@ import { FlashList } from "@shopify/flash-list";
 import RoutineCard from "@/components/routines/RoutineCard";
 import { useScrollToTop } from "@react-navigation/native";
 import {
-  CategoryEnum,
-  DaysPerWeek,
-  DifficultyEnum,
-  EquipmentEnum,
-  Routine,
+  RoutineCategoryEnum,
+  RoutineEquipmentEnum,
+  RoutineDifficultyEnum,
 } from "@/types/Routine";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
+import { createRandomRoutinePreview } from "@/helpers/mocks/Routine";
 
-const mockedRoutines: Routine[] = [
-  {
-    id: 1,
-    thumbnail: require("../../../assets/images/bench-press.jpg"),
-    name: "Braço de 50 cm",
-    author: {
-      id: 1,
-      name: "Wenceslauu",
-      picture: "https://unavatar.io/github/Wenceslauu",
-    },
-    rating: 4.5,
-    category: CategoryEnum.Bodybuilding,
-    difficulty: DifficultyEnum.Intermediate,
-    daysPerWeek: "4 days/week",
-    duration: "8 weeks",
-    equipment: EquipmentEnum["Full Gym"],
-    numberOfAthletes: 10,
-  },
-  {
-    id: 2,
-    // thumbnail: require("../../../assets/images/squat.jpg"),
-    name: "Abdomén de aço",
-    author: {
-      id: 2,
-      name: "Lui",
-      picture: "https://unavatar.io/github/pedroandrade03",
-    },
-    rating: 3,
-    category: CategoryEnum.Bodybuilding,
-    difficulty: DifficultyEnum.Intermediate,
-    daysPerWeek: "4 days/week",
-    duration: "12 weeks",
-    equipment: EquipmentEnum["At Home"],
-    numberOfAthletes: 2,
-  },
-];
+const mockedRoutinePreviews = Array.from(
+  { length: 8 },
+  createRandomRoutinePreview
+);
 
 export default function RoutinesTab() {
   const [searchText, setSearchText] = useState("");
   const searchRegex = useMemo(() => new RegExp(searchText, "i"), [searchText]);
 
-  const [category, setCategory] = useState<CategoryEnum | null>(null);
-  const [equipment, setEquipment] = useState<EquipmentEnum | null>(null);
-  const [difficulty, setDifficulty] = useState<DifficultyEnum | null>(null);
-  const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek | null>(null);
+  const [category, setCategory] = useState<RoutineCategoryEnum | null>(null);
+  const [equipment, setEquipment] = useState<RoutineEquipmentEnum | null>(null);
+  const [difficulty, setDifficulty] = useState<RoutineDifficultyEnum | null>(
+    null
+  );
+  // const [daysPerWeek, setDaysPerWeek] = useState<DaysPerWeek | null>(null);
 
   const { colors } = useTheme<Theme>();
   const navigation = useNavigation();
@@ -109,15 +78,15 @@ export default function RoutinesTab() {
           contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
           showsHorizontalScrollIndicator={false}
         >
-          <FilterDropdown<CategoryEnum>
+          <FilterDropdown<RoutineCategoryEnum>
             name="Category"
             selected={category}
             setSelected={setCategory}
-            options={generateDropdownOptionsFromEnum<typeof CategoryEnum>(
-              CategoryEnum
-            )}
+            options={generateDropdownOptionsFromEnum<
+              typeof RoutineCategoryEnum
+            >(RoutineCategoryEnum)}
           />
-          <FilterDropdown<DaysPerWeek>
+          {/* <FilterDropdown<DaysPerWeek>
             name="Frequency"
             selected={daysPerWeek}
             setSelected={setDaysPerWeek}
@@ -151,22 +120,22 @@ export default function RoutinesTab() {
                 value: 7,
               },
             ]}
-          />
-          <FilterDropdown<DifficultyEnum>
+          /> */}
+          <FilterDropdown<RoutineDifficultyEnum>
             name="Difficulty"
             selected={difficulty}
             setSelected={setDifficulty}
-            options={generateDropdownOptionsFromEnum<typeof DifficultyEnum>(
-              DifficultyEnum
-            )}
+            options={generateDropdownOptionsFromEnum<
+              typeof RoutineDifficultyEnum
+            >(RoutineDifficultyEnum)}
           />
-          <FilterDropdown<EquipmentEnum>
+          <FilterDropdown<RoutineEquipmentEnum>
             name="Equipment"
             selected={equipment}
             setSelected={setEquipment}
-            options={generateDropdownOptionsFromEnum<typeof EquipmentEnum>(
-              EquipmentEnum
-            )}
+            options={generateDropdownOptionsFromEnum<
+              typeof RoutineEquipmentEnum
+            >(RoutineEquipmentEnum)}
           />
         </ScrollView>
       </Box>
@@ -185,7 +154,7 @@ export default function RoutinesTab() {
               <FlashList
                 horizontal={true}
                 keyboardDismissMode="on-drag"
-                data={mockedRoutines}
+                data={mockedRoutinePreviews}
                 estimatedItemSize={300}
                 renderItem={({ item }) => (
                   <RoutineCard routine={item} isListedHorizontally />
@@ -202,7 +171,7 @@ export default function RoutinesTab() {
               <FlashList
                 horizontal={true}
                 keyboardDismissMode="on-drag"
-                data={mockedRoutines}
+                data={mockedRoutinePreviews}
                 estimatedItemSize={300}
                 renderItem={({ item }) => (
                   <RoutineCard routine={item} isListedHorizontally />
@@ -218,7 +187,7 @@ export default function RoutinesTab() {
         <FlashList
           ref={searchedRoutinesListRef}
           keyboardDismissMode="on-drag"
-          data={mockedRoutines}
+          data={mockedRoutinePreviews}
           estimatedItemSize={300}
           contentContainerStyle={{ paddingHorizontal: 16 }}
           renderItem={({ item }) => <RoutineCard routine={item} />}

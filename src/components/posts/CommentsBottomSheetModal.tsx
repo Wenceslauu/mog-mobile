@@ -15,22 +15,19 @@ import { Theme } from "@/constants/theme";
 import { useWindowDimensions } from "react-native";
 import { forwardRef } from "react";
 import Constants from "expo-constants";
+import { faker } from "@faker-js/faker";
+import { createRandomComment } from "@/helpers/mocks/Post";
 
-const mockedHightlightedComment = {
-  id: 99,
-  author: {
-    id: 1,
-    name: "wences",
-    picture: "https://unavatar.io/github/Wenceslauu",
-  },
-  text: "em destaque",
-  timestamp: new Date(2024, 0, 17, 20),
-  highlighted: true,
-};
+const mockedHightlightedComment = createRandomComment(true);
+
+const mockedComments = Array.from(
+  { length: faker.number.int({ min: 1, max: 5 }) },
+  createRandomComment
+);
 
 type CommentsBottomSheetModalProps = {
-  commentSectionId: number | null;
-  highlightedCommentId?: number;
+  commentSectionId: string | null;
+  highlightedCommentId?: string;
   onCloseCommentSection?: () => void;
 };
 
@@ -43,97 +40,6 @@ export default forwardRef(function CommentsBottomSheetModal(
   ref: any
 ) {
   const { bottomSheetModalRef, bottomSheetTextInputRef } = ref;
-
-  const mockedComments =
-    commentSectionId === null
-      ? []
-      : commentSectionId === 1
-      ? [
-          {
-            id: 2,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-          {
-            id: 3,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-          {
-            id: 4,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-          {
-            id: 5,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-          {
-            id: 6,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-          {
-            id: 7,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-          {
-            id: 8,
-            author: {
-              id: 2,
-              name: "lui",
-              picture: "https://unavatar.io/github/pedroandrade03",
-            },
-            text: "ta maluco",
-            timestamp: new Date(2024, 0, 23, 20),
-          },
-        ]
-      : commentSectionId === 2
-      ? [
-          {
-            id: 1,
-            author: {
-              id: 1,
-              name: "wences",
-              picture: "https://unavatar.io/github/Wenceslauu",
-            },
-            text: "tu ta treinando errado",
-            timestamp: new Date(2024, 0, 17, 20),
-          },
-        ]
-      : [];
 
   const { colors } = useTheme<Theme>();
 

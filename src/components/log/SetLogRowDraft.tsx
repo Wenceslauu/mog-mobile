@@ -9,7 +9,7 @@ import { Animated, Pressable, TextInput as RNTextInput } from "react-native";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
-import { WorkoutLogDraftFormData } from "@/types/WorkoutLog";
+import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 
 type SetRowDraftProps = {
@@ -20,7 +20,7 @@ type SetRowDraftProps = {
   handleDeleteSet: (setIndex: number) => void;
 };
 
-export default function SetRowDraft({
+export default function SetLogRowDraft({
   control,
   index,
   exerciseIndex,
@@ -35,13 +35,13 @@ export default function SetRowDraft({
   const repsInputRef = useRef<RNTextInput | null>(null);
   const rpeInputRef = useRef<RNTextInput | null>(null);
 
-  const setDraft = useWatch({
+  const setDraft: SetLogDraft = useWatch({
     control,
     name: `exercises.${exerciseIndex}.sets.${index}`,
   });
 
   const setPreFilled = useMemo(() => {
-    return setDraft.targetReps && setDraft.weight;
+    return setDraft.prescription?.minReps && setDraft.weight;
   }, [setDraft]);
 
   const setFilled = useMemo(() => {
@@ -90,12 +90,14 @@ export default function SetRowDraft({
         </Box>
         <Box flex={3}>
           <Text variant="body" color="onSurface">
-            {setDraft.targetIntensity ?? "-"}
+            {setDraft.prescription?.rpe ?? "-"}
           </Text>
         </Box>
         <Box flex={3}>
           <Text variant="body" color="onSurface">
-            {setDraft.targetReps ? `${setDraft.targetReps} reps` : "-"}
+            {setDraft.prescription?.minReps
+              ? `${setDraft.prescription?.minReps} reps`
+              : "-"}
           </Text>
         </Box>
         <Box flex={2}>
@@ -180,7 +182,9 @@ export default function SetRowDraft({
                 selectionColor={colors.primary}
                 textAlign="center"
                 placeholder={
-                  setDraft.targetReps ? String(setDraft.targetReps) : ""
+                  setDraft.prescription?.minReps
+                    ? String(setDraft.prescription?.minReps)
+                    : ""
                 }
               />
             )}
@@ -193,10 +197,10 @@ export default function SetRowDraft({
             render={({ field: { value } }) => (
               <Pressable
                 onPress={() => {
-                  if (!setDraft.reps && setDraft.targetReps) {
+                  if (!setDraft.reps && setDraft.prescription?.minReps) {
                     setValue(
                       `exercises.${exerciseIndex}.sets.${index}.reps`,
-                      setDraft.targetReps
+                      setDraft.prescription.minReps
                     );
                   }
 

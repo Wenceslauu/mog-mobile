@@ -3,13 +3,13 @@ import { useState, useCallback, useRef } from "react";
 import { TextInput } from "react-native";
 
 export default function useCommentSection() {
-  const [commentSectionId, setCommentSectionId] = useState<number | null>(null);
+  const [commentSectionId, setCommentSectionId] = useState<string | null>(null);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const bottomSheetTextInputRef = useRef<TextInput>(null);
 
-  const openCommentSection = useCallback((postId: number) => {
+  const openCommentSection = useCallback((postId: string) => {
     setCommentSectionId(postId);
 
     bottomSheetModalRef.current?.present();
@@ -19,7 +19,7 @@ export default function useCommentSection() {
     setCommentSectionId(null);
   }, []);
 
-  const focusCommentSectionTextInput = useCallback((postId: number) => {
+  const focusCommentSectionTextInput = useCallback((postId: string) => {
     openCommentSection(postId);
 
     setTimeout(() => {

@@ -4,7 +4,7 @@ import * as Linking from "expo-linking";
 import { useState } from "react";
 
 export default function useImagePicker(aspectRatio: [number, number] = [4, 3]) {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string | undefined>(undefined);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
 
   const [cameraStatus, requestCameraPermission] =
@@ -14,7 +14,7 @@ export default function useImagePicker(aspectRatio: [number, number] = [4, 3]) {
     ImagePicker.useMediaLibraryPermissions();
 
   const resetImage = () => {
-    setImage(null);
+    setImage(undefined);
   };
 
   const pickImage = async () => {

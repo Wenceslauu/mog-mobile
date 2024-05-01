@@ -2,33 +2,16 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import Text from "@/components/Text";
 import ExerciseLogCardDraft from "@/components/log/ExerciseLogCardDraft";
-import { WorkoutLogDraftFormData } from "@/types/WorkoutLog";
+import { createRandomWorkoutLogDraft } from "@/helpers/mocks/Log";
+import { ExerciseSimple } from "@/types/Exercise";
+import { ExerciseLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
 import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Platform, ScrollView } from "react-native";
 
-const mockedWorkout = {
-  name: "Upper",
-  exercises: [
-    {
-      id: 1,
-      name: "Bench Press",
-      image: "https://source.unsplash.com/random",
-      authorNotes: "Arch you back!",
-      athleteNotes: "I felt a bit of pain in my shoulder",
-      restDuration: 60,
-      sets: [
-        { targetReps: 12, targetIntensity: 7 },
-        { targetReps: 10, targetIntensity: 8 },
-        { targetReps: 10, targetIntensity: 8 },
-        { targetReps: 8, targetIntensity: 9 },
-      ],
-    },
-  ],
-};
+const mockedWorkout = createRandomWorkoutLogDraft();
 
 export default function LogModalScreen() {
   const { selectedExercises } = useLocalSearchParams();
@@ -47,9 +30,24 @@ export default function LogModalScreen() {
   useEffect(() => {
     // TODO: Appending exercises every time the page loads is not ideal, it should be done only once
     if (selectedExercises) {
-      const parsedSelectedExercises = JSON.parse(selectedExercises as string);
+      const parsedSelectedExercises: ExerciseSimple[] = JSON.parse(
+        selectedExercises as string
+      );
 
-      append(parsedSelectedExercises);
+      const newExercises: ExerciseLogDraft[] = parsedSelectedExercises.map(
+        (selectedExercise) => {
+          return {
+            exercise: selectedExercise,
+            sets: [
+              {
+                isWarmup: false,
+              },
+            ],
+          };
+        }
+      );
+
+      append(newExercises);
     }
   }, [selectedExercises]);
 
@@ -66,7 +64,7 @@ export default function LogModalScreen() {
       backgroundColor="surface"
     >
       <Text variant="title" color="onSurface">
-        {mockedWorkout.name}
+        {mockedWorkout.workout?.name}
       </Text>
       {/* <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : undefined}

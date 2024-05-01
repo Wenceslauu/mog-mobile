@@ -2,27 +2,18 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import ExerciseCardDraft from "@/components/createRoutine/editWorkout/ExerciseCardDraft";
 import { useCreateRoutine } from "@/providers/createRoutine";
+import { ExerciseSimple } from "@/types/Exercise";
+import {
+  WorkoutDraftFormData,
+  WorkoutExerciseDraftFormData,
+} from "@/types/Routine";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { ScrollView } from "react-native";
 
-type FormData = {
-  exercises: {
-    id: number;
-    name: string;
-    image?: string;
-    authorNotes?: string;
-    restDuration?: number;
-    sets: {
-      reps?: number;
-      intensity?: number;
-    }[];
-  }[];
-};
-
 export default function EditWorkoutScreen() {
-  const { routine, setRoutine, setIsDirty } = useCreateRoutine();
+  const { routine, setRoutine, isDirty } = useCreateRoutine();
 
   const { cycleIndex, workoutIndex, selectedExercises } =
     useLocalSearchParams();
@@ -35,7 +26,7 @@ export default function EditWorkoutScreen() {
     workoutIndex,
   });
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<WorkoutDraftFormData>({
     defaultValues: {
       exercises:
         routine.cycles[Number(cachedIndexes.cycleIndex)].workouts[
@@ -50,10 +41,27 @@ export default function EditWorkoutScreen() {
   });
 
   useEffect(() => {
+    // TODO: Appending exercises every time the page loads is not ideal, it should be done only once
     if (selectedExercises) {
-      const parsedSelectedExercises = JSON.parse(selectedExercises as string);
+      const parsedSelectedExercises: ExerciseSimple[] = JSON.parse(
+        selectedExercises as string
+      );
 
-      append(parsedSelectedExercises);
+      const newExercises: WorkoutExerciseDraftFormData[] =
+        parsedSelectedExercises.map((selectedExercise) => {
+          return {
+            exercise: selectedExercise,
+            restDuration: 0,
+
+            sets: [
+              {
+                isWarmup: false,
+              },
+            ],
+          };
+        });
+
+      append(newExercises);
     }
   }, [selectedExercises]);
 
@@ -64,7 +72,7 @@ export default function EditWorkoutScreen() {
       ].exercises = data.exercises;
     });
 
-    setIsDirty(true);
+    isDirty.current = true;
 
     router.back();
   });

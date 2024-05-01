@@ -1,3 +1,4 @@
+import { randomRoutineDraftCreation } from "@/helpers/mocks/Routine";
 import useImagePicker from "@/hooks/useImagePicker";
 import { RoutineDraft } from "@/types/Routine";
 import {
@@ -18,7 +19,7 @@ export type CreateRoutineContextData = {
 
   isDirty: MutableRefObject<boolean>;
 
-  image: string | null;
+  image?: string;
   isLoadingImage: boolean;
   resetImage: () => void;
   generateChangeImageAlert: () => void;
@@ -32,36 +33,38 @@ type CreateRoutineProviderProps = {
   children: ReactNode;
 };
 
-const mockedCreationRoutine = {
-  name: "",
-  description: "",
-  categories: [],
-  cycles: [
-    {
-      name: "New Cycle",
-      workouts: [
-        {
-          name: "New Workout",
-          exercises: [
-            {
-              id: 1,
-              name: "Bench Press",
-              image: "https://source.unsplash.com/random",
-              authorNotes: "Bend the bar!",
-              restDuration: 90,
-              sets: [
-                {
-                  reps: undefined,
-                  intensity: undefined,
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+// const mockedCreationRoutine = {
+//   name: "",
+//   description: "",
+//   categories: [],
+//   cycles: [
+//     {
+//       name: "New Cycle",
+//       workouts: [
+//         {
+//           name: "New Workout",
+//           exercises: [
+//             {
+//               id: 1,
+//               name: "Bench Press",
+//               image: "https://source.unsplash.com/random",
+//               authorNotes: "Bend the bar!",
+//               restDuration: 90,
+//               sets: [
+//                 {
+//                   reps: undefined,
+//                   intensity: undefined,
+//                 },
+//               ],
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
+
+const mockedCreationRoutine = randomRoutineDraftCreation;
 
 export default function CreateRoutineProvider({
   children,

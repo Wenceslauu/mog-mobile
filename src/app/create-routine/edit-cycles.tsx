@@ -25,7 +25,7 @@ import * as Haptics from "expo-haptics";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 
 export default function EditCyclesScreen() {
-  const { routine, setRoutine, setIsDirty } = useCreateRoutine();
+  const { routine, setRoutine, isDirty } = useCreateRoutine();
 
   const { colors } = useTheme<Theme>();
 
@@ -52,7 +52,7 @@ export default function EditCyclesScreen() {
       draft.cycles.push(newCycle);
     });
 
-    setIsDirty(true);
+    isDirty.current = true;
   };
 
   const handleDeleteCycle = (cycleIndex: number) => {
@@ -68,7 +68,7 @@ export default function EditCyclesScreen() {
       draft.cycles[cycleIndex].name = newName;
     });
 
-    setIsDirty(true);
+    isDirty.current = true;
   };
 
   const handleAddWorkout = (cycleIndex: number) => {
@@ -81,7 +81,7 @@ export default function EditCyclesScreen() {
       draft.cycles[cycleIndex].workouts.push(newWorkout);
     });
 
-    setIsDirty(true);
+    isDirty.current = true;
   };
 
   const handleDeleteWorkout = (cycleIndex: number, workoutIndex: number) => {
@@ -89,7 +89,7 @@ export default function EditCyclesScreen() {
       draft.cycles[cycleIndex].workouts.splice(workoutIndex, 1);
     });
 
-    setIsDirty(true);
+    isDirty.current = true;
   };
 
   const handleRenameWorkout = (
@@ -104,7 +104,7 @@ export default function EditCyclesScreen() {
       draft.cycles[cycleIndex].workouts[workoutIndex].name = newName;
     });
 
-    setIsDirty(true);
+    isDirty.current = true;
   };
 
   return (

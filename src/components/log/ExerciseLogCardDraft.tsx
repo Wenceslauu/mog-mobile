@@ -14,11 +14,15 @@ import {
   useFieldArray,
   useWatch,
 } from "react-hook-form";
-import SetRowLogDraft from "./SetRowLogDraft";
+import SetLogRowDraft from "./SetLogRowDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
-import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/WorkoutLog";
-import { useMemo, useState } from "react";
+import {
+  ExerciseLogDraft,
+  SetLogDraft,
+  WorkoutLogDraftFormData,
+} from "@/types/Log";
+import { useEffect, useMemo, useState } from "react";
 import TextInput from "../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
@@ -30,7 +34,7 @@ type ExerciseCardDraftProps = {
   handleDeleteExercise: (exerciseIndex: number) => void;
 };
 
-export default function ExerciseCardDraft({
+export default function ExerciseLogCardDraft({
   control,
   exerciseIndex,
   setValue,
@@ -43,7 +47,8 @@ export default function ExerciseCardDraft({
   const { openActionSheet } = useActionSheet();
   const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
-  const exerciseDraft = useWatch({
+  // problema aqui
+  const exerciseDraft: ExerciseLogDraft = useWatch({
     control,
     name: `exercises.${exerciseIndex}`,
   });
@@ -53,9 +58,14 @@ export default function ExerciseCardDraft({
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
 
+  useEffect(() => {
+    console.log('fields', fields)
+  }, [fields])
+
   const allSetsFilledOrPreFilled = useMemo(() => {
     return exerciseDraft.sets.every(
-      (set: SetLogDraft) => set.weight && (set.reps || set.targetReps)
+      (set: SetLogDraft) =>
+        set.weight && (set.reps || set.prescription?.minReps)
     );
   }, [exerciseDraft.sets]);
 
@@ -66,7 +76,7 @@ export default function ExerciseCardDraft({
   const handleAddSet = () => {
     append({
       reps: undefined,
-      intensity: undefined,
+      weight: undefined,
     });
   };
 
@@ -83,8 +93,8 @@ export default function ExerciseCardDraft({
     >
       <Link
         href={{
-          pathname: `/exercises/${exerciseDraft.id}`,
-          params: { name: exerciseDraft.name },
+          pathname: `/exercises/${exerciseDraft.exercise.id}`,
+          params: { name: exerciseDraft.exercise.name },
         }}
         asChild
       >
@@ -115,7 +125,7 @@ export default function ExerciseCardDraft({
           >
             <Box gap="s" flexDirection="row" alignItems="center">
               <Image
-                source={exerciseDraft.image}
+                source={exerciseDraft.exercise.image}
                 placeholder={blurhash}
                 style={{
                   width: 50,
@@ -124,9 +134,9 @@ export default function ExerciseCardDraft({
               />
               <Box gap="xs">
                 <Text variant="title" color="onSurface">
-                  {exerciseDraft.name}
+                  {exerciseDraft.exercise.name}
                 </Text>
-                {exerciseDraft.restDuration && (
+                {exerciseDraft.prescription?.restDuration && (
                   <Box
                     flexDirection="row"
                     alignItems="center"
@@ -136,7 +146,7 @@ export default function ExerciseCardDraft({
                     <Ionicons name="timer" size={16} color={colors.primary} />
                     <Text variant="label" color="primary">
                       {dayjs
-                        .duration(exerciseDraft.restDuration, "s")
+                        .duration(exerciseDraft.prescription?.restDuration, "s")
                         .format("mm:ss")}
                     </Text>
                   </Box>
@@ -151,11 +161,11 @@ export default function ExerciseCardDraft({
           </Animated.View>
         </Pressable>
       </Link>
-      {exerciseDraft.authorNotes && (
+      {exerciseDraft.prescription?.authorNotes && (
         <Box flexDirection="row" alignItems="center" gap="xs">
           <Ionicons name="school" size={16} color={colors.tertiary} />
           <Text variant="label" color="tertiary">
-            {exerciseDraft.authorNotes}
+            {exerciseDraft.prescription?.authorNotes}
           </Text>
         </Box>
       )}
@@ -240,10 +250,10 @@ export default function ExerciseCardDraft({
               onPress={() => {
                 exerciseDraft.sets.forEach(
                   (set: SetLogDraft, index: number) => {
-                    if (!set.reps && set.targetReps)
+                    if (!set.reps && set.prescription?.minReps)
                       setValue(
                         `exercises.${exerciseIndex}.sets.${index}.reps`,
-                        set.targetReps
+                        set.prescription.minReps
                       );
 
                     setValue(
@@ -273,7 +283,7 @@ export default function ExerciseCardDraft({
       <Box gap="m">
         {fields.map((field, index) => {
           return (
-            <SetRowLogDraft
+            <SetLogRowDraft
               key={field.id}
               index={index}
               control={control}

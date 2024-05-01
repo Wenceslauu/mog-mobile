@@ -2,16 +2,24 @@ import Box from "@/components/Box";
 import Table from "@/components/Table";
 import Text from "@/components/Text";
 import TruncatedText from "@/components/TruncatedText";
-import { TargetMuscleEnum } from "@/types/Exercise";
+import {
+  Exercise,
+  ExerciseForceEnum,
+  ExerciseMechanicEnum,
+  ExerciseTargetMuscleEnum,
+} from "@/types/Exercise";
+import { faker } from "@faker-js/faker";
 import { ScrollView } from "react-native";
 
-const mockedExercise = {
-  name: "Bench Press",
-  description:
-    "The bench press is an upper-body weight training exercise in which the trainee presses a weight upwards while lying on a weight training bench. The exercise uses the pectoralis major, the anterior deltoids, and the triceps, among other stabilizing muscles. A barbell is generally used to hold the weight, but a pair of dumbbells can also be used.",
-  targetMuscle: TargetMuscleEnum.Chest,
-  mechanics: "Compound",
-  force: "Push",
+const mockedExercise: Exercise = {
+  id: faker.string.uuid(),
+  name: faker.vehicle.manufacturer(),
+  instructions: faker.lorem.paragraphs(3),
+  image: faker.image.urlLoremFlickr({ category: "gym" }),
+  targetMuscle: faker.helpers.enumValue(ExerciseTargetMuscleEnum),
+  mechanic: faker.helpers.enumValue(ExerciseMechanicEnum),
+  force: faker.helpers.enumValue(ExerciseForceEnum),
+  isFavorite: faker.datatype.boolean(),
 };
 
 export default function ExerciseDetailsAboutTab() {
@@ -25,7 +33,7 @@ export default function ExerciseDetailsAboutTab() {
           <Text variant="title" color="onSurface" paddingHorizontal="m">
             Description
           </Text>
-          <TruncatedText text={mockedExercise.description} />
+          <TruncatedText text={mockedExercise.instructions} />
         </Box>
         <Box gap="s" paddingHorizontal="m">
           <Text variant="title" color="onSurface">
@@ -35,10 +43,16 @@ export default function ExerciseDetailsAboutTab() {
             rows={[
               {
                 label: "Muscle Group",
-                value: TargetMuscleEnum[mockedExercise.targetMuscle],
+                value: ExerciseTargetMuscleEnum[mockedExercise.targetMuscle],
               },
-              { label: "Mechanics", value: mockedExercise.mechanics },
-              { label: "Force", value: mockedExercise.force },
+              {
+                label: "Mechanics",
+                value: ExerciseMechanicEnum[mockedExercise.mechanic],
+              },
+              {
+                label: "Force",
+                value: ExerciseForceEnum[mockedExercise.force],
+              },
             ]}
           />
         </Box>

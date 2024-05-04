@@ -26,7 +26,7 @@ export default function EditWorkoutScreen() {
     workoutIndex,
   });
 
-  const { control, handleSubmit } = useForm<WorkoutDraftFormData>({
+  const { control, handleSubmit, setValue } = useForm<WorkoutDraftFormData>({
     defaultValues: {
       exercises:
         routine.cycles[Number(cachedIndexes.cycleIndex)].workouts[
@@ -99,6 +99,7 @@ export default function EditWorkoutScreen() {
               key={field.id}
               exerciseIndex={index}
               control={control}
+              setValue={setValue}
               handleDeleteExercise={handleDeleteExercise}
             />
           );

@@ -32,6 +32,7 @@ type FilterDropdownProps<T> = {
   selected: T | null;
   setSelected: Dispatch<SetStateAction<T | null>>;
   options: SelectOption<T>[];
+  type?: "normal" | "filter";
 };
 
 export default function FilterDropdown<T>({
@@ -39,6 +40,7 @@ export default function FilterDropdown<T>({
   selected,
   setSelected,
   options,
+  type = "filter",
 }: FilterDropdownProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const isOpenAnimated = useRef(new Animated.Value(0)).current;
@@ -78,7 +80,7 @@ export default function FilterDropdown<T>({
 
   const toggleFilter = (item: T) => {
     if (selected === item) {
-      setSelected(null);
+      if (type === "filter") setSelected(null);
     } else {
       setSelected(item);
     }
@@ -156,34 +158,63 @@ export default function FilterDropdown<T>({
         }}
       >
         {({ pressed }) => (
-          <Box
-            ref={dropdownButtonRef}
-            height={55}
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="center"
-            gap="s"
-            borderRadius="s"
-            paddingHorizontal="m"
-            marginVertical="s"
-            opacity={pressed ? 0.5 : 1}
-            backgroundColor={selected != null ? "primary" : "surfaceContainer"}
-          >
-            <Text
-              variant="body"
-              color={selected != null ? "onPrimary" : "onSurface"}
-            >
-              {selected == null
-                ? name
-                : options.find((option) => option.value === selected)?.label}
-            </Text>
-            <Ionicons
-              name="chevron-down"
-              size={28}
-              style={{ marginBottom: -3, opacity: 0.75 }}
-              color={selected != null ? colors.onPrimary : colors.onSurface}
-            />
-          </Box>
+          <>
+            {type === "filter" ? (
+              <Box
+                ref={dropdownButtonRef}
+                height={55}
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
+                gap="s"
+                borderRadius="s"
+                paddingHorizontal="m"
+                marginVertical="s"
+                opacity={pressed ? 0.5 : 1}
+                backgroundColor={
+                  selected != null ? "primary" : "surfaceContainer"
+                }
+              >
+                <Text
+                  variant="body"
+                  color={selected != null ? "onPrimary" : "onSurface"}
+                >
+                  {selected == null
+                    ? name
+                    : options.find((option) => option.value === selected)
+                        ?.label}
+                </Text>
+                <Ionicons
+                  name="chevron-down"
+                  size={28}
+                  style={{ marginBottom: -3, opacity: 0.75 }}
+                  color={selected != null ? colors.onPrimary : colors.onSurface}
+                />
+              </Box>
+            ) : (
+              <Box
+                ref={dropdownButtonRef}
+                flexDirection="row"
+                alignItems="center"
+                justifyContent="center"
+                gap="xs"
+                opacity={pressed ? 0.5 : 1}
+              >
+                <Text variant="label" color="onSurface">
+                  {selected == null
+                    ? name
+                    : options.find((option) => option.value === selected)
+                        ?.label}
+                </Text>
+                <Ionicons
+                  name="chevron-down"
+                  size={20}
+                  style={{ opacity: 0.75 }}
+                  color={colors.onSurface}
+                />
+              </Box>
+            )}
+          </>
         )}
       </Pressable>
       <Modal transparent={true} visible={isOpen}>
@@ -194,7 +225,7 @@ export default function FilterDropdown<T>({
             top: dropdownButtonPosition.y - 5,
             left: dropdownButtonPosition.x - 5,
             borderRadius: 8,
-            width: 180,
+            width: type === "filter" ? 180 : 120,
             height: options.length * 52,
             maxHeight: 310,
             zIndex: 1,

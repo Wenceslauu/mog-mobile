@@ -17,6 +17,21 @@ import TextInput from "../../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
 import { WorkoutExerciseDraftFormData } from "@/types/Routine";
+import { ExerciseForceEnum } from "@/types/Exercise";
+import FilterDropdown from "@/components/FilterDropdown";
+import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
+
+enum EnduranceCriteriaEnum {
+  Reps,
+  "Reps Range",
+  "AMRAP",
+  Time,
+}
+
+enum IntensityCriteriaEnum {
+  RPE,
+  "% of 1RM",
+}
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -46,9 +61,15 @@ export default function ExerciseCardDraft({
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
 
-  useEffect(() => {
-    console.log("field", fields);
-  }, [fields]);
+  const [enduranceCriteria, setEnduranceCriteria] =
+    useState<EnduranceCriteriaEnum | null>(
+      exerciseDraft.exercise.force === ExerciseForceEnum.Isometric
+        ? EnduranceCriteriaEnum.Time
+        : EnduranceCriteriaEnum.Reps
+    );
+
+  const [intensityCriteria, setIntensityCriteria] =
+    useState<IntensityCriteriaEnum | null>(IntensityCriteriaEnum.RPE);
 
   const handleAddSet = () => {
     append({
@@ -113,7 +134,7 @@ export default function ExerciseCardDraft({
                 <Text variant="title" color="onSurface">
                   {exerciseDraft.exercise.name}
                 </Text>
-                {exerciseDraft.restDuration && (
+                {exerciseDraft.restDuration ? (
                   <Pressable onPress={() => console.log("pressed")}>
                     {({ pressed }) => (
                       <Box
@@ -141,7 +162,7 @@ export default function ExerciseCardDraft({
                       </Box>
                     )}
                   </Pressable>
-                )}
+                ) : null}
               </Box>
             </Box>
             <Ionicons
@@ -201,20 +222,36 @@ export default function ExerciseCardDraft({
         paddingVertical="s"
         borderBottomWidth={1}
       >
-        <Box flex={2}>
+        <Box width="30%" alignItems="flex-start">
           <Text variant="label" color="onSurface">
             Set
           </Text>
         </Box>
-        <Box flex={2}>
-          <Text variant="label" color="onSurface">
-            Reps
-          </Text>
+        <Box width="40%" alignItems="flex-start">
+          <Box>
+            <FilterDropdown
+              type="normal"
+              name="Endurance"
+              selected={enduranceCriteria}
+              setSelected={setEnduranceCriteria}
+              options={generateDropdownOptionsFromEnum<
+                typeof EnduranceCriteriaEnum
+              >(EnduranceCriteriaEnum)}
+            />
+          </Box>
         </Box>
-        <Box flex={1}>
-          <Text variant="label" color="onSurface">
-            RPE
-          </Text>
+        <Box width="30%" alignItems="flex-start">
+          <Box>
+            <FilterDropdown
+              type="normal"
+              name="Intensity"
+              selected={intensityCriteria}
+              setSelected={setIntensityCriteria}
+              options={generateDropdownOptionsFromEnum<
+                typeof IntensityCriteriaEnum
+              >(IntensityCriteriaEnum)}
+            />
+          </Box>
         </Box>
       </Box>
       <Box gap="m">

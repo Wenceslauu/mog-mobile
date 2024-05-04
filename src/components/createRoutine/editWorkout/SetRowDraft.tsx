@@ -60,12 +60,12 @@ export default function SetRowDraft({
           ],
         }}
       >
-        <Box flex={2}>
+        <Box width="30%" alignItems="flex-start">
           <Text variant="body" color="onSurfaceContainer">
             {index + 1}
           </Text>
         </Box>
-        <Box flex={2}>
+        <Box width="40%" alignItems="flex-start">
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -108,7 +108,7 @@ export default function SetRowDraft({
             name={`exercises.${exerciseIndex}.sets.${index}.minReps`}
           />
         </Box>
-        <Box flex={1}>
+        <Box width="30%" alignItems="flex-start">
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (

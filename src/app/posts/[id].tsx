@@ -129,44 +129,46 @@ function PostDetailsFlashListHeader({
               left={0}
             >
               <Box backgroundColor="surface" borderRadius="full" padding="xs">
-                <AnimatedDotsCarousel
-                  length={mockedPost.images.length}
-                  currentIndex={carouselIndex}
-                  maxIndicators={3}
-                  interpolateOpacityAndColor={true}
-                  activeIndicatorConfig={{
-                    color: colors.primary,
-                    margin: 3,
-                    opacity: 1,
-                    size: 8,
-                  }}
-                  inactiveIndicatorConfig={{
-                    color: colors.secondary,
-                    margin: 3,
-                    opacity: 0.5,
-                    size: 8,
-                  }}
-                  decreasingDots={[
-                    {
-                      config: {
-                        color: colors.secondary,
-                        margin: 3,
-                        opacity: 0.5,
-                        size: 6,
+                {mockedPost.images.length > 1 && (
+                  <AnimatedDotsCarousel
+                    length={mockedPost.images.length}
+                    currentIndex={carouselIndex}
+                    maxIndicators={3}
+                    interpolateOpacityAndColor={true}
+                    activeIndicatorConfig={{
+                      color: colors.primary,
+                      margin: 3,
+                      opacity: 1,
+                      size: 8,
+                    }}
+                    inactiveIndicatorConfig={{
+                      color: colors.secondary,
+                      margin: 3,
+                      opacity: 0.5,
+                      size: 8,
+                    }}
+                    decreasingDots={[
+                      {
+                        config: {
+                          color: colors.secondary,
+                          margin: 3,
+                          opacity: 0.5,
+                          size: 6,
+                        },
+                        quantity: 1,
                       },
-                      quantity: 1,
-                    },
-                    {
-                      config: {
-                        color: colors.secondary,
-                        margin: 3,
-                        opacity: 0.5,
-                        size: 4,
+                      {
+                        config: {
+                          color: colors.secondary,
+                          margin: 3,
+                          opacity: 0.5,
+                          size: 4,
+                        },
+                        quantity: 1,
                       },
-                      quantity: 1,
-                    },
-                  ]}
-                />
+                    ]}
+                  />
+                )}
               </Box>
             </Box>
           </Box>

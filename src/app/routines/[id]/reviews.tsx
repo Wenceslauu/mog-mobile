@@ -1,11 +1,13 @@
 import Box from "@/components/Box";
 import Button from "@/components/Button";
-import ReviewDraftModal from "@/components/routineDetails/ReviewDraftModal";
+import Modal from "@/components/Modal";
+import ReviewDraftModalContent from "@/components/routineDetails/ReviewDraftModalContent";
 import RoutineReviewCard from "@/components/routineDetails/RoutineReviewCard";
 import { createRandomRoutineReview } from "@/helpers/mocks/Routine";
 import useModal from "@/hooks/useModal";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 
 const mockedHighlightedReview = createRandomRoutineReview(true);
 
@@ -15,6 +17,9 @@ export default function RoutineDetailsReviews() {
   const { id, highlightedReviewId } = useLocalSearchParams();
 
   const { isOpen, isOpenAnimated, toggleModal } = useModal();
+
+  // isDirty is a state here so as to rerender the modal with the updated locked state
+  const [isDirty, setIsDirty] = useState(false);
 
   return (
     <>
@@ -42,10 +47,15 @@ export default function RoutineDetailsReviews() {
           Create review
         </Button>
       </Box>
-      <ReviewDraftModal
-        isDraftingReview={isOpen}
+      <Modal
+        title="Create review"
+        isLocked={isDirty}
+        isOpen={isOpen}
         isOpenAnimated={isOpenAnimated}
-        toggleDraftModal={toggleModal}
+        toggleModal={toggleModal}
+        contentComponent={() => (
+          <ReviewDraftModalContent setIsDirty={setIsDirty} />
+        )}
       />
     </>
   );

@@ -1,12 +1,7 @@
 import { Link } from "expo-router";
 import Box from "../../Box";
 import Text from "../../Text";
-import {
-  Animated,
-  Modal,
-  Pressable,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Animated, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
@@ -17,7 +12,7 @@ import { Control, Controller, useFieldArray, useWatch } from "react-hook-form";
 import SetRowDraft from "./SetRowDraft";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import TextInput from "../../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
@@ -35,6 +30,7 @@ import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFr
 import { TimerPicker } from "react-native-timer-picker";
 import { LinearGradient } from "expo-linear-gradient";
 import useModal from "@/hooks/useModal";
+import Modal from "@/components/Modal";
 
 type ExerciseCardDraftProps = {
   control: Control<WorkoutDraftFormData, any>;
@@ -283,12 +279,17 @@ export default function ExerciseCardDraft({
           Add set
         </Button>
       </Box>
-      <DurationPickerModal
-        exerciseIndex={exerciseIndex}
-        control={control}
+      <Modal
+        title="Change rest duration"
         isOpen={isOpen}
         isOpenAnimated={isOpenAnimated}
         toggleModal={toggleModal}
+        contentComponent={() => (
+          <DurationPickerModalContent
+            exerciseIndex={exerciseIndex}
+            control={control}
+          />
+        )}
       />
     </>
   );
@@ -297,106 +298,43 @@ export default function ExerciseCardDraft({
 type DurationPickerModalProps = {
   exerciseIndex: number;
   control: Control<WorkoutDraftFormData, any>;
-
-  isOpen: boolean;
-  isOpenAnimated: Animated.Value;
-  toggleModal: () => void;
 };
 
-export function DurationPickerModal({
+function DurationPickerModalContent({
   exerciseIndex,
   control,
-
-  isOpen,
-  isOpenAnimated,
-  toggleModal,
 }: DurationPickerModalProps) {
   const { colors } = useTheme<Theme>();
 
-  const backdropOpacity = isOpenAnimated.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 1],
-  });
-
-  const scale = isOpenAnimated.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 1],
-  });
-
   return (
-    <Modal transparent={true} visible={isOpen}>
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        zIndex={1}
-        justifyContent="center"
-        alignItems="center"
-        // https://reactnative.dev/docs/view#pointerevents
-        pointerEvents="box-none"
-      >
-        <Animated.View
-          style={{
-            backgroundColor: colors.surfaceContainer,
-            width: 300,
-            transform: [{ scale }],
-            borderRadius: 28,
-            padding: 16,
-            gap: 16,
-          }}
-        >
-          <Text variant="title" color="onSurfaceContainer">
-            Change rest duration
-          </Text>
-          <Box alignItems="center">
-            <Controller
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <TimerPicker
-                  initialMinutes={value ? Math.floor(value / 60) : 0}
-                  initialSeconds={value ? value % 60 : 0}
-                  onDurationChange={(duration) => {
-                    onChange(duration.minutes * 60 + duration.seconds);
-                  }}
-                  hideHours
-                  minuteLabel="min"
-                  secondLabel="sec"
-                  LinearGradient={LinearGradient}
-                  styles={{
-                    theme: "dark",
-                    backgroundColor: colors.surfaceContainer,
-                    text: {
-                      color: colors.onSurfaceContainer,
-                    },
-                    pickerLabel: {
-                      right: -12,
-                    },
-                  }}
-                />
-              )}
-              name={`exercises.${exerciseIndex}.restDuration`}
-            />
-          </Box>
-          <Button variant="primary" onPress={toggleModal}>
-            Change rest duration
-          </Button>
-        </Animated.View>
-      </Box>
-      <TouchableWithoutFeedback onPress={toggleModal}>
-        <Animated.View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            opacity: backdropOpacity,
-          }}
-        ></Animated.View>
-      </TouchableWithoutFeedback>
-    </Modal>
+    <Box alignItems="center">
+      <Controller
+        control={control}
+        render={({ field: { value, onChange } }) => (
+          <TimerPicker
+            initialMinutes={value ? Math.floor(value / 60) : 0}
+            initialSeconds={value ? value % 60 : 0}
+            onDurationChange={(duration) => {
+              onChange(duration.minutes * 60 + duration.seconds);
+            }}
+            hideHours
+            minuteLabel="min"
+            secondLabel="sec"
+            LinearGradient={LinearGradient}
+            styles={{
+              theme: "dark",
+              backgroundColor: colors.surfaceContainer,
+              text: {
+                color: colors.onSurfaceContainer,
+              },
+              pickerLabel: {
+                right: -12,
+              },
+            }}
+          />
+        )}
+        name={`exercises.${exerciseIndex}.restDuration`}
+      />
+    </Box>
   );
 }

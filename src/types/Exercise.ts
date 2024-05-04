@@ -64,3 +64,15 @@ export type ExerciseDraftFormData = Pick<
   Exercise,
   "name" | "instructions" | "targetMuscle" | "force" | "mechanic"
 >;
+
+export enum EnduranceCriteriaEnum {
+  Reps,
+  "Reps Range",
+  "AMRAP",
+  Time,
+}
+
+export enum IntensityCriteriaEnum {
+  RPE,
+  "% of 1RM",
+}

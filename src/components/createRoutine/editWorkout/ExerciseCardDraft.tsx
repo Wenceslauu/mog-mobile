@@ -17,21 +17,13 @@ import TextInput from "../../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
 import { WorkoutExerciseDraftFormData } from "@/types/Routine";
-import { ExerciseForceEnum } from "@/types/Exercise";
+import {
+  EnduranceCriteriaEnum,
+  ExerciseForceEnum,
+  IntensityCriteriaEnum,
+} from "@/types/Exercise";
 import FilterDropdown from "@/components/FilterDropdown";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
-
-enum EnduranceCriteriaEnum {
-  Reps,
-  "Reps Range",
-  "AMRAP",
-  Time,
-}
-
-enum IntensityCriteriaEnum {
-  RPE,
-  "% of 1RM",
-}
 
 type ExerciseCardDraftProps = {
   control: any;
@@ -261,6 +253,8 @@ export default function ExerciseCardDraft({
               key={field.id}
               index={index}
               control={control}
+              enduranceCriteria={enduranceCriteria as EnduranceCriteriaEnum}
+              intensityCriteria={intensityCriteria as IntensityCriteriaEnum}
               exerciseIndex={exerciseIndex}
               handleDeleteSet={handleDeleteSet}
             />

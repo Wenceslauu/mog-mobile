@@ -51,7 +51,7 @@ export default function EditWorkoutScreen() {
         parsedSelectedExercises.map((selectedExercise) => {
           return {
             exercise: selectedExercise,
-            restDuration: 0,
+            restDuration: 90,
 
             sets: [
               {

@@ -113,7 +113,8 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {routine.minFrequency} - {routine.maxFrequency}
+                      {routine.minFrequency} - {routine.maxFrequency} days a
+                      week
                     </Text>
                   </Box>
                 </Pressable>
@@ -149,7 +150,7 @@ export default function RoutineCard({
                     borderRadius="s"
                   >
                     <Text variant="body" color="onPrimary">
-                      {routine.duration}
+                      {routine.duration} weeks
                     </Text>
                   </Box>
                 </Pressable>

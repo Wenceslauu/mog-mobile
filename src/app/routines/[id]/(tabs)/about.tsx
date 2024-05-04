@@ -88,10 +88,7 @@ export default function RoutineDetailsAboutTab() {
           <Pressable>
             {({ pressed }) => (
               <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
-                <Avatar
-                  size="m"
-                  source={mockedRoutine.author.picture}
-                />
+                <Avatar size="m" source={mockedRoutine.author.picture} />
                 <Text variant="body" color="onSurface">
                   {mockedRoutine.author.name}
                 </Text>
@@ -111,51 +108,49 @@ export default function RoutineDetailsAboutTab() {
         <Link href={`/routines/${id}/reviews`} asChild>
           <Pressable>
             {({ pressed }) => (
-              <Box opacity={pressed ? 0.5 : 1}>
+              <Box
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                opacity={pressed ? 0.5 : 1}
+              >
+                <Text variant="title" color="onSurface" paddingLeft="m">
+                  Reviews
+                </Text>
                 <Box
                   flexDirection="row"
-                  justifyContent="space-between"
                   alignItems="center"
-                  opacity={pressed ? 0.5 : 1}
+                  gap="xs"
+                  paddingRight="m"
                 >
-                  <Text variant="title" color="onSurface" paddingLeft="m">
-                    Reviews
+                  <Ionicons name="star" size={16} color={colors.onSurface} />
+                  <Text variant="body" color="onSurface">
+                    {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
                   </Text>
-                  <Box
-                    flexDirection="row"
-                    alignItems="center"
-                    gap="xs"
-                    paddingRight="m"
-                  >
-                    <Ionicons name="star" size={16} color={colors.onSurface} />
-                    <Text variant="body" color="onSurface">
-                      {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
-                    </Text>
-                    <Ionicons
-                      name="chevron-forward"
-                      size={27}
-                      color={colors.onSurfaceContainer}
-                    />
-                  </Box>
-                </Box>
-                <Box flexDirection="row" gap="m">
-                  <FlashList
-                    horizontal={true}
-                    data={mockedRoutine.reviewsSample}
-                    estimatedItemSize={300}
-                    renderItem={({ item }) => (
-                      <RoutineReviewCard review={item} preview />
-                    )}
-                    contentContainerStyle={{ paddingHorizontal: 16 }}
-                    ItemSeparatorComponent={() => <Box width={20} />}
-                    showsHorizontalScrollIndicator={false}
-                    bounces={false}
+                  <Ionicons
+                    name="chevron-forward"
+                    size={27}
+                    color={colors.onSurfaceContainer}
                   />
                 </Box>
               </Box>
             )}
           </Pressable>
         </Link>
+        <Box flexDirection="row" gap="m">
+          <FlashList
+            horizontal={true}
+            data={mockedRoutine.reviewsSample}
+            estimatedItemSize={300}
+            renderItem={({ item }) => (
+              <RoutineReviewCard review={item} preview />
+            )}
+            contentContainerStyle={{ paddingHorizontal: 16 }}
+            ItemSeparatorComponent={() => <Box width={20} />}
+            showsHorizontalScrollIndicator={false}
+            bounces={false}
+          />
+        </Box>
       </Box>
       <Box gap="s" paddingHorizontal="m">
         <Text variant="title" color="onSurface">
@@ -167,7 +162,6 @@ export default function RoutineDetailsAboutTab() {
               label: "Category",
               value: RoutineCategoryEnum[mockedRoutine.category],
             },
-            { label: "Frequency", value: mockedRoutine.minFrequency + " days" },
             {
               label: "Equipment",
               value: RoutineEquipmentEnum[mockedRoutine.equipment],
@@ -175,6 +169,14 @@ export default function RoutineDetailsAboutTab() {
             {
               label: "Difficulty",
               value: RoutineDifficultyEnum[mockedRoutine.difficulty[0]],
+            },
+            {
+              label: "Frequency",
+              value: `${mockedRoutine.minFrequency} - ${mockedRoutine.maxFrequency} days a week`,
+            },
+            {
+              label: "Duration",
+              value: `${mockedRoutine.duration} weeks`,
             },
           ]}
         />

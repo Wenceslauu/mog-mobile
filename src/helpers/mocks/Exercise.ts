@@ -4,6 +4,7 @@ import {
   ExerciseMechanicEnum,
   ExercisePreview,
   ExerciseSelection,
+  ExerciseSelectionSimple,
   ExerciseSimple,
   ExerciseTargetMuscleEnum,
 } from "@/types/Exercise";
@@ -42,8 +43,21 @@ export const createRandomExerciseSelection = (): ExerciseSelection => {
     }),
     isFavorite: faker.datatype.boolean(),
     targetMuscle: faker.helpers.enumValue(ExerciseTargetMuscleEnum),
+    force: faker.helpers.enumValue(ExerciseForceEnum),
   };
 };
+
+export const createRandomExerciseSelectionSimple =
+  (): ExerciseSelectionSimple => {
+    return {
+      id: faker.string.uuid(),
+      name: faker.vehicle.manufacturer(),
+      image: faker.image.urlLoremFlickr({
+        category: "gym",
+      }),
+      force: faker.helpers.enumValue(ExerciseForceEnum),
+    };
+  };
 
 export const createRandomExerciseDraft = (): ExerciseDraft => {
   return {

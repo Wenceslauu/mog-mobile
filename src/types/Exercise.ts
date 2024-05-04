@@ -41,7 +41,12 @@ export type ExercisePreview = Pick<
 
 export type ExerciseSelection = Pick<
   Exercise,
-  "id" | "name" | "image" | "isFavorite" | "targetMuscle"
+  "id" | "name" | "image" | "isFavorite" | "targetMuscle" | "force"
+>;
+
+export type ExerciseSelectionSimple = Pick<
+  Exercise,
+  "id" | "name" | "image" | "force"
 >;
 
 export type ExerciseDraft = Pick<

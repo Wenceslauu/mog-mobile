@@ -2,18 +2,26 @@ import {
   Routine,
   RoutineCategoryEnum,
   RoutineCycle,
+  RoutineCycleDraft,
   RoutineDifficultyEnum,
   RoutineDraft,
   RoutineEquipmentEnum,
   RoutinePreview,
   RoutineReview,
   Workout,
+  WorkoutDraft,
   WorkoutExercise,
+  WorkoutExerciseDraft,
   WorkoutSet,
+  WorkoutSetDraft,
 } from "@/types/Routine";
 import { faker } from "@faker-js/faker";
-import { createRandomExerciseSimple } from "./Exercise";
+import {
+  createRandomExerciseSelectionSimple,
+  createRandomExerciseSimple,
+} from "./Exercise";
 import { createRandomUserSimple } from "./User";
+import { ExerciseForceEnum } from "@/types/Exercise";
 
 export const createRandomRoutine = (): Routine => {
   return {
@@ -76,7 +84,7 @@ export const createRandomWorkout = (): Workout => {
 export const createRandomWorkoutExercise = (): WorkoutExercise => {
   return {
     id: faker.string.uuid(),
-    exercise: createRandomExerciseSimple(),
+    exercise: createRandomExerciseSelectionSimple(),
     sets: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
       createRandomWorkoutSet
@@ -149,6 +157,7 @@ export const randomRoutineDraftCreation: RoutineDraft = {
                 id: faker.string.uuid(),
                 name: "Bench Press",
                 image: "https://source.unsplash.com/random",
+                force: ExerciseForceEnum.Push,
               },
               sets: [
                 {
@@ -185,7 +194,7 @@ export const createRandomRoutineDraftEdition = (): RoutineDraft => {
   };
 };
 
-export const createRandomCycleDraft = () => {
+export const createRandomCycleDraft = (): RoutineCycleDraft => {
   return {
     id: faker.string.uuid(),
     workouts: [createRandomWorkoutDraft()],
@@ -195,7 +204,7 @@ export const createRandomCycleDraft = () => {
   };
 };
 
-export const createRandomWorkoutDraft = () => {
+export const createRandomWorkoutDraft = (): WorkoutDraft => {
   return {
     id: faker.string.uuid(),
     exercises: [createRandomExerciseDraft()],
@@ -204,10 +213,10 @@ export const createRandomWorkoutDraft = () => {
   };
 };
 
-export const createRandomExerciseDraft = () => {
+export const createRandomExerciseDraft = (): WorkoutExerciseDraft => {
   return {
     id: faker.string.uuid(),
-    exercise: createRandomExerciseSimple(),
+    exercise: createRandomExerciseSelectionSimple(),
     sets: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
       createRandomSetDraft
@@ -218,7 +227,7 @@ export const createRandomExerciseDraft = () => {
   };
 };
 
-export const createRandomSetDraft = () => {
+export const createRandomSetDraft = (): WorkoutSetDraft => {
   return {
     id: faker.string.uuid(),
 

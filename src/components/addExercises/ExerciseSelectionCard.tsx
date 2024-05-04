@@ -4,7 +4,12 @@ import { Theme } from "@/constants/theme";
 import blurhash from "@/constants/blurhash";
 import Box from "../Box";
 import Text from "../Text";
-import { ExerciseSelection, ExerciseSelectionSimple } from "@/types/Exercise";
+import {
+  ExerciseForceEnum,
+  ExerciseSelection,
+  ExerciseSelectionSimple,
+  ExerciseTargetMuscleEnum,
+} from "@/types/Exercise";
 import { useTheme } from "@shopify/restyle";
 
 type ExerciseSelectionCardProps = {
@@ -29,12 +34,7 @@ export default function ExerciseSelectionCard({
           id: exercise.id,
           name: exercise.name,
           image: exercise.image,
-          sets: [
-            {
-              reps: undefined,
-              intensity: undefined,
-            },
-          ],
+          force: exercise.force,
         });
       }}
     >
@@ -62,7 +62,10 @@ export default function ExerciseSelectionCard({
                 {exercise.name}
               </Text>
               <Text variant="label" color="onSurface">
-                {exercise.targetMuscle}
+                {ExerciseTargetMuscleEnum[exercise.targetMuscle]}
+              </Text>
+              <Text variant="label" color="onSurface">
+                {ExerciseForceEnum[exercise.force]}
               </Text>
             </Box>
             {isSelected ? (

@@ -77,7 +77,7 @@ export interface Workout {
 
 export interface WorkoutExercise {
   id: string;
-  exercise: Pick<Exercise, "id" | "name" | "image">;
+  exercise: Pick<Exercise, "id" | "name" | "image" | "force">;
   sets: WorkoutSet[];
 
   restDuration?: number;
@@ -115,29 +115,29 @@ export type RoutineDraft = Omit<
   | "reviewsSample"
 > & {
   id?: string;
-  cycles: CycleDraft[];
+  cycles: RoutineCycleDraft[];
 
   difficulty?: RoutineDifficultyEnum[];
   category?: RoutineCategoryEnum;
   equipment?: RoutineEquipmentEnum;
 };
 
-export type CycleDraft = Omit<RoutineCycle, "id" | "workouts"> & {
+export type RoutineCycleDraft = Omit<RoutineCycle, "id" | "workouts"> & {
   id?: string;
   workouts: WorkoutDraft[];
 };
 
 export type WorkoutDraft = Omit<Workout, "id" | "exercises"> & {
   id?: string;
-  exercises: ExerciseDraft[];
+  exercises: WorkoutExerciseDraft[];
 };
 
-export type ExerciseDraft = Omit<WorkoutExercise, "id" | "sets"> & {
+export type WorkoutExerciseDraft = Omit<WorkoutExercise, "id" | "sets"> & {
   id?: string;
-  sets: SetDraft[];
+  sets: WorkoutSetDraft[];
 };
 
-export type SetDraft = Omit<WorkoutSet, "id"> & {
+export type WorkoutSetDraft = Omit<WorkoutSet, "id"> & {
   id?: string;
 };
 

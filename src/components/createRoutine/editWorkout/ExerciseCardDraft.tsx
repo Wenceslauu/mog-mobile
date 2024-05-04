@@ -34,6 +34,7 @@ import FilterDropdown from "@/components/FilterDropdown";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 import { TimerPicker } from "react-native-timer-picker";
 import { LinearGradient } from "expo-linear-gradient";
+import useModal from "@/hooks/useModal";
 
 type ExerciseCardDraftProps = {
   control: Control<WorkoutDraftFormData, any>;
@@ -85,28 +86,7 @@ export default function ExerciseCardDraft({
     remove(setIndex);
   };
 
-  const [isPickingDuration, setIsPickingDuration] = useState(false);
-  const isOpenAnimated = useRef(new Animated.Value(0)).current;
-
-  const toggleDurationModal = () => {
-    if (isPickingDuration) {
-      Animated.timing(isOpenAnimated, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true,
-      }).start(({ finished }) => {
-        if (finished) setIsPickingDuration(false);
-      });
-    } else {
-      setIsPickingDuration(true);
-
-      Animated.timing(isOpenAnimated, {
-        toValue: 1,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
+  const { isOpen, isOpenAnimated, toggleModal } = useModal();
 
   return (
     <>
@@ -162,7 +142,7 @@ export default function ExerciseCardDraft({
                     {exerciseDraft.exercise.name}
                   </Text>
                   {exerciseDraft.restDuration ? (
-                    <Pressable onPress={toggleDurationModal}>
+                    <Pressable onPress={toggleModal}>
                       {({ pressed }) => (
                         <Box
                           flexDirection="row"
@@ -306,9 +286,9 @@ export default function ExerciseCardDraft({
       <DurationPickerModal
         exerciseIndex={exerciseIndex}
         control={control}
-        isPickingDuration={isPickingDuration}
+        isOpen={isOpen}
         isOpenAnimated={isOpenAnimated}
-        toggleDurationModal={toggleDurationModal}
+        toggleModal={toggleModal}
       />
     </>
   );
@@ -318,18 +298,18 @@ type DurationPickerModalProps = {
   exerciseIndex: number;
   control: Control<WorkoutDraftFormData, any>;
 
-  isPickingDuration: boolean;
+  isOpen: boolean;
   isOpenAnimated: Animated.Value;
-  toggleDurationModal: () => void;
+  toggleModal: () => void;
 };
 
 export function DurationPickerModal({
   exerciseIndex,
   control,
 
-  isPickingDuration,
+  isOpen,
   isOpenAnimated,
-  toggleDurationModal,
+  toggleModal,
 }: DurationPickerModalProps) {
   const { colors } = useTheme<Theme>();
 
@@ -344,7 +324,7 @@ export function DurationPickerModal({
   });
 
   return (
-    <Modal transparent={true} visible={isPickingDuration}>
+    <Modal transparent={true} visible={isOpen}>
       <Box
         position="absolute"
         top={0}
@@ -399,12 +379,12 @@ export function DurationPickerModal({
               name={`exercises.${exerciseIndex}.restDuration`}
             />
           </Box>
-          <Button variant="primary" onPress={toggleDurationModal}>
+          <Button variant="primary" onPress={toggleModal}>
             Change rest duration
           </Button>
         </Animated.View>
       </Box>
-      <TouchableWithoutFeedback onPress={toggleDurationModal}>
+      <TouchableWithoutFeedback onPress={toggleModal}>
         <Animated.View
           style={{
             position: "absolute",

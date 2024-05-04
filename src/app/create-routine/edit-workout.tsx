@@ -99,7 +99,6 @@ export default function EditWorkoutScreen() {
               key={field.id}
               exerciseIndex={index}
               control={control}
-              setValue={setValue}
               handleDeleteExercise={handleDeleteExercise}
             />
           );

@@ -97,6 +97,7 @@ export interface WorkoutSet {
   isWarmup: boolean;
 }
 
+// TODO: use Pick<> here rather than Omit<>
 // Optional IDs are due to the same types being used for both creation and edition
 export type RoutineDraft = Omit<
   Routine,

@@ -33,37 +33,6 @@ type CreateRoutineProviderProps = {
   children: ReactNode;
 };
 
-// const mockedCreationRoutine = {
-//   name: "",
-//   description: "",
-//   categories: [],
-//   cycles: [
-//     {
-//       name: "New Cycle",
-//       workouts: [
-//         {
-//           name: "New Workout",
-//           exercises: [
-//             {
-//               id: 1,
-//               name: "Bench Press",
-//               image: "https://source.unsplash.com/random",
-//               authorNotes: "Bend the bar!",
-//               restDuration: 90,
-//               sets: [
-//                 {
-//                   reps: undefined,
-//                   intensity: undefined,
-//                 },
-//               ],
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   ],
-// };
-
 const mockedCreationRoutine = randomRoutineDraftCreation;
 
 export default function CreateRoutineProvider({

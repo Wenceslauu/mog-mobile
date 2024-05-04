@@ -136,6 +136,7 @@ export const createRandomRoutineReview = (
 export const randomRoutineDraftCreation: RoutineDraft = {
   name: "",
   description: "",
+  difficulty: [],
   cycles: [
     {
       name: "New Cycle",

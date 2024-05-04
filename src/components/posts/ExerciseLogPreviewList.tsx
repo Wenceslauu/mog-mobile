@@ -31,9 +31,11 @@ export default function ExerciseLogPreviewList({
             ? ""
             : exercises.length === EXERCISE_LOG_PREVIEW_LIST_LIMIT + 1
             ? "+ 1 exercise"
-            : `+ ${
+            : exercises.length > EXERCISE_LOG_PREVIEW_LIST_LIMIT + 1
+            ? `+ ${
                 exercises.length - EXERCISE_LOG_PREVIEW_LIST_LIMIT
-              } exercises`}
+              } exercises`
+            : null}
         </Text>
       </Box>
     </Box>

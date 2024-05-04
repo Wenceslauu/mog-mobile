@@ -262,7 +262,7 @@ export default function NotificationCard({
                 </Pressable>
               </Box>
             </Box>
-            {notification.review && (
+            {notification.review ? (
               <Box
                 style={{
                   paddingLeft: 94,
@@ -271,7 +271,7 @@ export default function NotificationCard({
               >
                 <RatingStars rating={notification.review.rating} />
               </Box>
-            )}
+            ) : null}
             {(notification.comment || notification.review) && (
               <Box
                 paddingLeft="m"
@@ -290,8 +290,8 @@ export default function NotificationCard({
                   opacity={0.75}
                   numberOfLines={2}
                 >
-                  {notification.comment && notification.comment.message}
-                  {notification.review && notification.review.description}
+                  {notification.comment ? notification.comment.message : null}
+                  {notification.review ? notification.review.description : null}
                 </Text>
               </Box>
             )}

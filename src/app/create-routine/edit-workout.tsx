@@ -2,7 +2,7 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import ExerciseCardDraft from "@/components/createRoutine/editWorkout/ExerciseCardDraft";
 import { useCreateRoutine } from "@/providers/createRoutine";
-import { ExerciseSimple } from "@/types/Exercise";
+import { ExerciseSelectionSimple, ExerciseSimple } from "@/types/Exercise";
 import {
   WorkoutDraftFormData,
   WorkoutExerciseDraftFormData,
@@ -43,7 +43,7 @@ export default function EditWorkoutScreen() {
   useEffect(() => {
     // TODO: Appending exercises every time the page loads is not ideal, it should be done only once
     if (selectedExercises) {
-      const parsedSelectedExercises: ExerciseSimple[] = JSON.parse(
+      const parsedSelectedExercises: ExerciseSelectionSimple[] = JSON.parse(
         selectedExercises as string
       );
 

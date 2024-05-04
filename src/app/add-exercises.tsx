@@ -5,7 +5,10 @@ import LocalSearchBar from "@/components/LocalSearchBar";
 import ExerciseSelectionCard from "@/components/addExercises/ExerciseSelectionCard";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 import { createRandomExerciseSelection } from "@/helpers/mocks/Exercise";
-import { ExerciseSimple, ExerciseTargetMuscleEnum } from "@/types/Exercise";
+import {
+  ExerciseSelectionSimple,
+  ExerciseTargetMuscleEnum,
+} from "@/types/Exercise";
 import { FlashList } from "@shopify/flash-list";
 import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -26,11 +29,11 @@ export default function AddExercisesModalScreen() {
   const [targetMuscle, setTargetMuscle] =
     useState<ExerciseTargetMuscleEnum | null>(null);
 
-  const [selectedExercises, setSelectedExercises] = useState<ExerciseSimple[]>(
-    []
-  );
+  const [selectedExercises, setSelectedExercises] = useState<
+    ExerciseSelectionSimple[]
+  >([]);
 
-  const toggleSelectedExercise = (exercise: ExerciseSimple) => {
+  const toggleSelectedExercise = (exercise: ExerciseSelectionSimple) => {
     if (selectedExercises.some((e) => e.id === exercise.id)) {
       setSelectedExercises((prev) => prev.filter((e) => e.id !== exercise.id));
     } else {
@@ -72,7 +75,7 @@ export default function AddExercisesModalScreen() {
         ItemSeparatorComponent={() => <Box height={4} />}
         contentContainerStyle={{ paddingBottom: 40 }}
       />
-      {selectedExercises.length > 0 ? (
+      {selectedExercises.length > 0 && (
         <Box
           backgroundColor="surfaceContainer"
           paddingHorizontal="m"
@@ -91,7 +94,7 @@ export default function AddExercisesModalScreen() {
             </Button>
           </Link>
         </Box>
-      ) : null}
+      )}
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
     </Box>
   );

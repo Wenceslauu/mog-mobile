@@ -136,7 +136,7 @@ export default function ExerciseLogCardDraft({
                 <Text variant="title" color="onSurface">
                   {exerciseDraft.exercise.name}
                 </Text>
-                {exerciseDraft.prescription?.restDuration && (
+                {exerciseDraft.prescription?.restDuration ? (
                   <Box
                     flexDirection="row"
                     alignItems="center"
@@ -150,7 +150,7 @@ export default function ExerciseLogCardDraft({
                         .format("mm:ss")}
                     </Text>
                   </Box>
-                )}
+                ) : null}
               </Box>
             </Box>
             <Ionicons
@@ -161,14 +161,14 @@ export default function ExerciseLogCardDraft({
           </Animated.View>
         </Pressable>
       </Link>
-      {exerciseDraft.prescription?.authorNotes && (
+      {exerciseDraft.prescription?.authorNotes ? (
         <Box flexDirection="row" alignItems="center" gap="xs">
           <Ionicons name="school" size={16} color={colors.tertiary} />
           <Text variant="label" color="tertiary">
             {exerciseDraft.prescription?.authorNotes}
           </Text>
         </Box>
-      )}
+      ) : null}
       <Pressable onPress={() => setEditing(true)}>
         {({ pressed }) => (
           <Box

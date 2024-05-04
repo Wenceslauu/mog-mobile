@@ -74,11 +74,11 @@ export default function ProfileDetails() {
                 alignItems="center"
               >
                 <Avatar size="l" source={mockedProfile.picture} />
-                <Box gap="s">
+                <Box gap="s" flex={1}>
                   <Text variant="headline" color="onSurface">
                     {mockedProfile.name}
                   </Text>
-                  <Box flexDirection="row" justifyContent="space-around">
+                  <Box flexDirection="row" gap="xl">
                     <Box alignItems="center">
                       <Text variant="label" color="onSurface">
                         workouts

@@ -6,7 +6,7 @@ import { RoutineReview } from "@/types/Routine";
 import dayjs from "@/lib/dayjs";
 import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
-import { Pressable } from "react-native";
+import { Pressable, useWindowDimensions } from "react-native";
 import { Link } from "expo-router";
 
 type RoutineReviewPreviewCardProps = {
@@ -18,11 +18,13 @@ export default function RoutineReviewCard({
   review,
   preview,
 }: RoutineReviewPreviewCardProps) {
+  const { width: windowWidth } = useWindowDimensions();
+
   return (
     <Box
       gap="m"
       borderRadius="xl"
-      width={preview ? 300 : "100%"}
+      width={preview ? windowWidth * 0.75 : "100%"}
       height={preview ? 200 : "auto"}
       minHeight={200}
       backgroundColor={
@@ -31,25 +33,27 @@ export default function RoutineReviewCard({
       padding="m"
     >
       <Box flexDirection="row" justifyContent="space-between">
-        <Link
-          href={{
-            pathname: `/profiles/${review.author.id}`,
-            params: { name: review.author.name },
-          }}
-          asChild
-        >
-          <Pressable>
-            {({ pressed }) => (
-              <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
-                <Avatar size="s" source={review.author.picture} />
-                <Text variant="body" color="onSurfaceContainer">
-                  {review.author.name}
-                </Text>
-              </Box>
-            )}
-          </Pressable>
-        </Link>
-        <Box alignItems="flex-end" gap="xs">
+        <Box width={windowWidth * 0.3}>
+          <Link
+            href={{
+              pathname: `/profiles/${review.author.id}`,
+              params: { name: review.author.name },
+            }}
+            asChild
+          >
+            <Pressable>
+              {({ pressed }) => (
+                <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
+                  <Avatar size="s" source={review.author.picture} />
+                  <Text variant="body" color="onSurfaceContainer">
+                    {review.author.name}
+                  </Text>
+                </Box>
+              )}
+            </Pressable>
+          </Link>
+        </Box>
+        <Box gap="xs" alignItems="flex-end">
           <Box>
             <RatingStars rating={review.rating} />
           </Box>
@@ -58,7 +62,12 @@ export default function RoutineReviewCard({
           </Text>
         </Box>
       </Box>
-      <Text variant="body" color="onSurfaceContainer">
+      <Text
+        variant="body"
+        color="onSurfaceContainer"
+        numberOfLines={preview ? 5 : undefined}
+        ellipsizeMode="tail"
+      >
         {review.description}
       </Text>
     </Box>

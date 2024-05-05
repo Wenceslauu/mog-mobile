@@ -86,11 +86,14 @@ export default function ExerciseCardDraft({
 
   return (
     <>
-      <Box
-        gap="s"
-        padding="m"
-        paddingBottom="xs"
-        backgroundColor="surfaceContainer"
+      <Animated.View
+        style={{
+          transform: [{ scale }],
+          gap: 8,
+          padding: 16,
+          paddingBottom: 4,
+          backgroundColor: colors.surfaceContainer,
+        }}
       >
         <Link
           href={{
@@ -118,7 +121,6 @@ export default function ExerciseCardDraft({
             <Animated.View
               style={{
                 opacity: opacity,
-                transform: [{ scale }],
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -278,7 +280,7 @@ export default function ExerciseCardDraft({
         <Button variant="tertiary" onPress={handleAddSet}>
           Add set
         </Button>
-      </Box>
+      </Animated.View>
       <Modal
         title="Change rest duration"
         isOpen={isOpen}

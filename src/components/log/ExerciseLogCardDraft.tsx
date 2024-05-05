@@ -58,9 +58,6 @@ export default function ExerciseLogCardDraft({
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
 
-  useEffect(() => {
-    console.log('fields', fields)
-  }, [fields])
 
   const allSetsFilledOrPreFilled = useMemo(() => {
     return exerciseDraft.sets.every(
@@ -85,11 +82,14 @@ export default function ExerciseLogCardDraft({
   };
 
   return (
-    <Box
-      gap="s"
-      padding="m"
-      paddingBottom="xs"
-      backgroundColor="surfaceContainer"
+    <Animated.View
+      style={{
+        transform: [{ scale }],
+        gap: 8,
+        padding: 16,
+        paddingBottom: 4,
+        backgroundColor: colors.surfaceContainer,
+      }}
     >
       <Link
         href={{
@@ -117,7 +117,6 @@ export default function ExerciseLogCardDraft({
           <Animated.View
             style={{
               opacity: opacity,
-              transform: [{ scale }],
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
@@ -297,6 +296,6 @@ export default function ExerciseLogCardDraft({
       <Button variant="tertiary" onPress={handleAddSet}>
         Add set
       </Button>
-    </Box>
+    </Animated.View>
   );
 }

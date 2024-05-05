@@ -56,16 +56,12 @@ export default function LogModalScreen() {
   };
 
   return (
-    <Box
-      flex={1}
-      gap="s"
-      paddingTop="m"
-      paddingHorizontal="m"
-      backgroundColor="surface"
-    >
-      <Text variant="title" color="onSurface">
-        {mockedWorkout.workout?.name}
-      </Text>
+    <Box flex={1} paddingTop="m" backgroundColor="surface">
+      <Box paddingHorizontal="m">
+        <Text variant="title" color="onSurface">
+          {mockedWorkout.workout?.name}
+        </Text>
+      </Box>
       {/* <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "position" : undefined}
       > */}
@@ -81,6 +77,8 @@ export default function LogModalScreen() {
         contentContainerStyle={{
           gap: 16,
           paddingBottom: 40,
+          paddingTop: 16,
+          paddingHorizontal: 16,
         }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="on-drag"

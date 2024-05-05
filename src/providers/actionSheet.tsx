@@ -3,13 +3,15 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { ReactNode, createContext, useContext, useRef, useState } from "react";
 import { Keyboard } from "react-native";
 
+export type Action = {
+  name: string;
+  callback: () => void;
+  isDisabled?: boolean;
+  disabledText?: string;
+};
+
 export type ActionSheetContextData = {
-  openActionSheet: (
-    actions: {
-      name: string;
-      callback: () => void;
-    }[]
-  ) => void;
+  openActionSheet: (actions: Action[]) => void;
 };
 
 export const ActionSheetContext = createContext<ActionSheetContextData>(
@@ -32,12 +34,7 @@ export default function ActionSheetProvider({
 
   const actionSheetRef = useRef<BottomSheetModal>(null);
 
-  const openActionSheet = (
-    actions: {
-      name: string;
-      callback: () => void;
-    }[]
-  ) => {
+  const openActionSheet = (actions: Action[]) => {
     Keyboard.dismiss();
     setActions(actions);
 

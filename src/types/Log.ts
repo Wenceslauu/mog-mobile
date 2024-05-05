@@ -36,10 +36,7 @@ export interface SetLog {
   isWarmup: boolean;
 }
 
-export type WorkoutLogDraft = Omit<
-  WorkoutLog,
-  "exercises" | "user"
-> & {
+export type WorkoutLogDraft = Omit<WorkoutLog, "exercises" | "user"> & {
   exercises: ExerciseLogDraft[];
 };
 
@@ -52,6 +49,7 @@ export type ExerciseLogDraft = {
   sets: SetLogDraft[];
 
   athleteNotes?: string;
+  isFreestyle?: boolean;
 };
 
 export type SetLogDraft = Omit<SetLog, "id"> & {
@@ -61,6 +59,7 @@ export type SetLogDraft = Omit<SetLog, "id"> & {
   >;
 
   done?: boolean;
+  isFreestyle?: boolean;
 };
 
 // TODO: Omit id, users and workout from workoutlog

@@ -38,6 +38,7 @@ export default function LogModalScreen() {
         (selectedExercise) => {
           return {
             exercise: selectedExercise,
+            isFreestyle: true,
             sets: [
               {
                 isWarmup: false,

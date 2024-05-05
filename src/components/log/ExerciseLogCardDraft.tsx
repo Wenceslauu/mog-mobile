@@ -9,6 +9,7 @@ import { Theme } from "@/constants/theme";
 import { useTheme } from "@shopify/restyle";
 import Button from "../Button";
 import {
+  Control,
   Controller,
   UseFormSetValue,
   useFieldArray,
@@ -22,13 +23,13 @@ import {
   SetLogDraft,
   WorkoutLogDraftFormData,
 } from "@/types/Log";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import TextInput from "../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
 
 type ExerciseCardDraftProps = {
-  control: any;
+  control: Control<WorkoutLogDraftFormData, any>;
   exerciseIndex: number;
   setValue: UseFormSetValue<WorkoutLogDraftFormData>;
   handleDeleteExercise: (exerciseIndex: number) => void;
@@ -47,7 +48,6 @@ export default function ExerciseLogCardDraft({
   const { openActionSheet } = useActionSheet();
   const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
-  // problema aqui
   const exerciseDraft: ExerciseLogDraft = useWatch({
     control,
     name: `exercises.${exerciseIndex}`,
@@ -57,7 +57,6 @@ export default function ExerciseLogCardDraft({
     control,
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
-
 
   const allSetsFilledOrPreFilled = useMemo(() => {
     return exerciseDraft.sets.every(
@@ -74,6 +73,8 @@ export default function ExerciseLogCardDraft({
     append({
       reps: undefined,
       weight: undefined,
+      isWarmup: false,
+      isFreestyle: true,
     });
   };
 
@@ -110,6 +111,8 @@ export default function ExerciseLogCardDraft({
                 callback: () => {
                   handleDeleteExercise(exerciseIndex);
                 },
+                isDisabled: !exerciseDraft.isFreestyle,
+                disabledText: "Cannot delete original exercises"
               },
             ]);
           }}

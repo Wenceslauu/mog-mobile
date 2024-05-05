@@ -67,6 +67,8 @@ export default function SetLogRowDraft({
             callback: () => {
               handleDeleteSet(index);
             },
+            isDisabled: !setDraft.isFreestyle,
+            disabledText: "Cannot delete original sets",
           },
         ]);
       }}

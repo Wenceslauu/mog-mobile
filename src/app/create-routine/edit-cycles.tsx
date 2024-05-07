@@ -23,6 +23,8 @@ import { Link } from "expo-router";
 import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
+import { faker } from "@faker-js/faker";
+import { WorkoutDraft } from "@/types/Routine";
 
 export default function EditCyclesScreen() {
   const { routine, setRoutine, isDirty } = useCreateRoutine();
@@ -73,6 +75,8 @@ export default function EditCyclesScreen() {
 
   const handleAddWorkout = (cycleIndex: number) => {
     const newWorkout = {
+      // TODO: generate a random id
+      id: faker.string.uuid(),
       name: "New Workout",
       exercises: [],
     };
@@ -102,6 +106,17 @@ export default function EditCyclesScreen() {
 
     setRoutine((draft) => {
       draft.cycles[cycleIndex].workouts[workoutIndex].name = newName;
+    });
+
+    isDirty.current = true;
+  };
+
+  const handleReorderWorkouts = (
+    newWorkoutDrafts: WorkoutDraft[],
+    cycleIndex: number
+  ) => {
+    setRoutine((draft) => {
+      draft.cycles[cycleIndex].workouts = newWorkoutDrafts;
     });
 
     isDirty.current = true;
@@ -170,6 +185,7 @@ export default function EditCyclesScreen() {
               handleAddWorkout={() => handleAddWorkout(Number(route.key))}
               handleDeleteWorkout={handleDeleteWorkout}
               handleRenameWorkout={handleRenameWorkout}
+              handleReorderWorkouts={handleReorderWorkouts}
             />
           );
         }}

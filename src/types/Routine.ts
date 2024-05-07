@@ -97,8 +97,9 @@ export interface WorkoutSet {
   isWarmup: boolean;
 }
 
+// IDs were optional due to the same types being used for both creation and edition
+// Now they are mandatory for reordering on some routine-related types
 // TODO: use Pick<> here rather than Omit<>
-// Optional IDs are due to the same types being used for both creation and edition
 export type RoutineDraft = Omit<
   Routine,
   | "id"
@@ -127,8 +128,7 @@ export type RoutineCycleDraft = Omit<RoutineCycle, "id" | "workouts"> & {
   workouts: WorkoutDraft[];
 };
 
-export type WorkoutDraft = Omit<Workout, "id" | "exercises"> & {
-  id?: string;
+export type WorkoutDraft = Omit<Workout, "exercises"> & {
   exercises: WorkoutExerciseDraft[];
 };
 

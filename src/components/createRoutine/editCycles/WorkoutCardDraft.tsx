@@ -21,6 +21,10 @@ type WorkoutCardProps = {
     cycleIndex: number,
     workoutIndex: number
   ) => void;
+  drag: () => void;
+  isActive: boolean;
+  draggableScale: any;
+  highlightDraggableItem: () => void;
 };
 
 export default function WorkoutCardDraft({
@@ -29,6 +33,10 @@ export default function WorkoutCardDraft({
   workoutIndex,
   handleDeleteWorkout,
   handleRenameWorkout,
+  drag,
+  isActive,
+  draggableScale,
+  highlightDraggableItem,
 }: WorkoutCardProps) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(name);
@@ -68,6 +76,13 @@ export default function WorkoutCardDraft({
                 setEditing(true);
               },
             },
+            {
+              name: "Reorder Workout",
+              callback: () => {
+                highlightDraggableItem();
+                drag();
+              },
+            },
           ]);
         }}
       >
@@ -77,7 +92,7 @@ export default function WorkoutCardDraft({
             backgroundColor: colors.surfaceContainer,
             padding: 16,
             gap: 16,
-            transform: [{ scale }],
+            transform: [{ scale: isActive ? draggableScale : 1 }, { scale }],
             opacity,
           }}
         >

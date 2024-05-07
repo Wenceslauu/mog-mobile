@@ -150,6 +150,7 @@ export const randomRoutineDraftCreation: RoutineDraft = {
       name: "New Cycle",
       workouts: [
         {
+          id: faker.string.uuid(),
           name: "New Workout",
           exercises: [
             {

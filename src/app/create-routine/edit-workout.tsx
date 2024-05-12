@@ -2,15 +2,25 @@ import Box from "@/components/Box";
 import Button from "@/components/Button";
 import ExerciseCardDraft from "@/components/createRoutine/editWorkout/ExerciseCardDraft";
 import { useCreateRoutine } from "@/providers/createRoutine";
-import { ExerciseSelectionSimple, ExerciseSimple } from "@/types/Exercise";
+import {
+  EnduranceCriteriaEnum,
+  ExerciseForceEnum,
+  ExerciseSelectionSimple,
+  IntensityCriteriaEnum,
+} from "@/types/Exercise";
 import {
   WorkoutDraftFormData,
+  WorkoutExerciseDraft,
   WorkoutExerciseDraftFormData,
 } from "@/types/Routine";
+import { faker } from "@faker-js/faker";
 import { Link, router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { ScrollView } from "react-native";
+import { Animated } from "react-native";
+import DraggableFlatList, {
+  ScaleDecorator,
+} from "react-native-draggable-flatlist";
 
 export default function EditWorkoutScreen() {
   const { routine, setRoutine, isDirty } = useCreateRoutine();
@@ -26,6 +36,23 @@ export default function EditWorkoutScreen() {
     workoutIndex,
   });
 
+  const draggableScale = useRef(new Animated.Value(1)).current;
+  const highlightDraggableItem = () => {
+    Animated.timing(draggableScale, {
+      toValue: 1.03,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const stopDragging = () => {
+    Animated.timing(draggableScale, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
   const { control, handleSubmit } = useForm<WorkoutDraftFormData>({
     defaultValues: {
       exercises:
@@ -35,7 +62,7 @@ export default function EditWorkoutScreen() {
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control,
     name: "exercises",
   });
@@ -50,7 +77,14 @@ export default function EditWorkoutScreen() {
       const newExercises: WorkoutExerciseDraftFormData[] =
         parsedSelectedExercises.map((selectedExercise) => {
           return {
+            // TODO: generate a random id
+            id: faker.string.uuid(),
             exercise: selectedExercise,
+            intensityCriteria: IntensityCriteriaEnum.RPE,
+            enduranceCriteria:
+              selectedExercise.force === ExerciseForceEnum.Isometric
+                ? EnduranceCriteriaEnum.Time
+                : EnduranceCriteriaEnum.Reps,
             restDuration: 90,
 
             sets: [
@@ -81,40 +115,58 @@ export default function EditWorkoutScreen() {
     remove(exerciseIndex);
   };
 
+  const handleReorderExercises = (from: number, to: number) => {
+    move(from, to);
+  };
+
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
-      <ScrollView
+      <DraggableFlatList
+        data={fields}
+        keyExtractor={(item) => item.id}
+        renderItem={({ getIndex, drag, isActive }) => (
+          <>
+            <ScaleDecorator activeScale={1.03}>
+              <ExerciseCardDraft
+                exerciseIndex={getIndex() as number}
+                control={control}
+                handleDeleteExercise={handleDeleteExercise}
+                drag={drag}
+                isActive={isActive}
+                draggableScale={draggableScale}
+                highlightDraggableItem={highlightDraggableItem}
+              />
+            </ScaleDecorator>
+            <Box height={16} />
+          </>
+        )}
+        onDragEnd={({ from, to }) => {
+          handleReorderExercises(from, to);
+        }}
+        onRelease={stopDragging}
         contentContainerStyle={{
-          gap: 16,
-          paddingBottom: 40,
+          paddingBottom: 32,
           paddingHorizontal: 16,
         }}
-        showsVerticalScrollIndicator={false}
+        containerStyle={{
+          flex: 1,
+        }}
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="always"
-      >
-        {fields.map((field, index) => {
-          return (
-            <ExerciseCardDraft
-              key={field.id}
-              exerciseIndex={index}
-              control={control}
-              handleDeleteExercise={handleDeleteExercise}
-            />
-          );
-        })}
-        <Link
-          href={{
-            pathname: "/add-exercises",
-            params: {
-              pathBack: "/create-routine/edit-workout",
-            },
-          }}
-          asChild
-        >
-          <Button variant="secondary">Add exercise</Button>
-        </Link>
-      </ScrollView>
+        ListFooterComponent={() => (
+          <Link
+            href={{
+              pathname: "/add-exercises",
+              params: {
+                pathBack: "/create-routine/edit-workout",
+              },
+            }}
+            asChild
+          >
+            <Button variant="secondary">Add exercise</Button>
+          </Link>
+        )}
+      />
       <Box
         backgroundColor="surfaceContainer"
         paddingHorizontal="m"

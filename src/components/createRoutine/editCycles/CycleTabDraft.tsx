@@ -79,6 +79,9 @@ export default function CycleTabDraft({
         paddingBottom: 32,
         paddingHorizontal: 16,
       }}
+      containerStyle={{
+        flex: 1,
+      }}
       ListFooterComponent={() => (
         <Button variant="secondary" onPress={handleAddWorkout}>
           Add workout

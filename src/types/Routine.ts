@@ -1,4 +1,8 @@
-import { Exercise } from "./Exercise";
+import {
+  EnduranceCriteriaEnum,
+  Exercise,
+  IntensityCriteriaEnum,
+} from "./Exercise";
 import { UserSimple } from "./User";
 
 export interface Routine {
@@ -84,6 +88,8 @@ export interface WorkoutExercise {
   authorNotes?: string;
   superSetGroup?: number;
   dropSetSize?: number;
+  intensityCriteria: IntensityCriteriaEnum;
+  enduranceCriteria: EnduranceCriteriaEnum;
 }
 
 export interface WorkoutSet {
@@ -132,8 +138,7 @@ export type WorkoutDraft = Omit<Workout, "exercises"> & {
   exercises: WorkoutExerciseDraft[];
 };
 
-export type WorkoutExerciseDraft = Omit<WorkoutExercise, "id" | "sets"> & {
-  id?: string;
+export type WorkoutExerciseDraft = Omit<WorkoutExercise, "sets"> & {
   sets: WorkoutSetDraft[];
 };
 
@@ -150,7 +155,7 @@ export type WorkoutDraftFormData = {
   exercises: WorkoutExerciseDraftFormData[];
 };
 
-export type WorkoutExerciseDraftFormData = Omit<WorkoutExercise, "id" | "sets"> & {
+export type WorkoutExerciseDraftFormData = Omit<WorkoutExercise, "sets"> & {
   sets: Omit<WorkoutSet, "id">[];
 };
 

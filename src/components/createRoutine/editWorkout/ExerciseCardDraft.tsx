@@ -20,11 +20,7 @@ import {
   WorkoutDraftFormData,
   WorkoutExerciseDraftFormData,
 } from "@/types/Routine";
-import {
-  EnduranceCriteriaEnum,
-  ExerciseForceEnum,
-  IntensityCriteriaEnum,
-} from "@/types/Exercise";
+import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
 import FilterDropdown from "@/components/FilterDropdown";
 import generateDropdownOptionsFromEnum from "@/helpers/generateDropdownOptionsFromEnum";
 import { TimerPicker } from "react-native-timer-picker";
@@ -36,12 +32,20 @@ type ExerciseCardDraftProps = {
   control: Control<WorkoutDraftFormData, any>;
   exerciseIndex: number;
   handleDeleteExercise: (exerciseIndex: number) => void;
+  drag: () => void;
+  isActive: boolean;
+  draggableScale: any;
+  highlightDraggableItem: () => void;
 };
 
 export default function ExerciseCardDraft({
   control,
   exerciseIndex,
   handleDeleteExercise,
+  drag,
+  isActive,
+  draggableScale,
+  highlightDraggableItem,
 }: ExerciseCardDraftProps) {
   const [editing, setEditing] = useState(false);
 
@@ -59,16 +63,6 @@ export default function ExerciseCardDraft({
     control,
     name: `exercises.${exerciseIndex}.sets` as "exercises.0.sets",
   });
-
-  const [enduranceCriteria, setEnduranceCriteria] =
-    useState<EnduranceCriteriaEnum | null>(
-      exerciseDraft.exercise.force === ExerciseForceEnum.Isometric
-        ? EnduranceCriteriaEnum.Time
-        : EnduranceCriteriaEnum.Reps
-    );
-
-  const [intensityCriteria, setIntensityCriteria] =
-    useState<IntensityCriteriaEnum | null>(IntensityCriteriaEnum.RPE);
 
   const handleAddSet = () => {
     append({
@@ -88,7 +82,7 @@ export default function ExerciseCardDraft({
     <>
       <Animated.View
         style={{
-          transform: [{ scale }],
+          transform: [{ scale: isActive ? draggableScale : 1 }, { scale }],
           gap: 8,
           padding: 16,
           paddingBottom: 4,
@@ -113,6 +107,13 @@ export default function ExerciseCardDraft({
                   name: "Delete Exercise",
                   callback: () => {
                     handleDeleteExercise(exerciseIndex);
+                  },
+                },
+                {
+                  name: "Reorder Exercise",
+                  callback: () => {
+                    highlightDraggableItem();
+                    drag();
                   },
                 },
               ]);
@@ -237,27 +238,39 @@ export default function ExerciseCardDraft({
           </Box>
           <Box width="40%" alignItems="flex-start">
             <Box>
-              <FilterDropdown
-                type="normal"
-                name="Endurance"
-                selected={enduranceCriteria}
-                setSelected={setEnduranceCriteria}
-                options={generateDropdownOptionsFromEnum<
-                  typeof EnduranceCriteriaEnum
-                >(EnduranceCriteriaEnum)}
+              <Controller
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <FilterDropdown
+                    type="normal"
+                    name="Endurance"
+                    selected={value}
+                    setSelected={onChange}
+                    options={generateDropdownOptionsFromEnum<
+                      typeof EnduranceCriteriaEnum
+                    >(EnduranceCriteriaEnum)}
+                  />
+                )}
+                name={`exercises.${exerciseIndex}.enduranceCriteria`}
               />
             </Box>
           </Box>
           <Box width="30%" alignItems="flex-start">
             <Box>
-              <FilterDropdown
-                type="normal"
-                name="Intensity"
-                selected={intensityCriteria}
-                setSelected={setIntensityCriteria}
-                options={generateDropdownOptionsFromEnum<
-                  typeof IntensityCriteriaEnum
-                >(IntensityCriteriaEnum)}
+              <Controller
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <FilterDropdown
+                    type="normal"
+                    name="Intensity"
+                    selected={value}
+                    setSelected={onChange}
+                    options={generateDropdownOptionsFromEnum<
+                      typeof IntensityCriteriaEnum
+                    >(IntensityCriteriaEnum)}
+                  />
+                )}
+                name={`exercises.${exerciseIndex}.intensityCriteria`}
               />
             </Box>
           </Box>
@@ -269,8 +282,8 @@ export default function ExerciseCardDraft({
                 key={field.id}
                 index={index}
                 control={control}
-                enduranceCriteria={enduranceCriteria as EnduranceCriteriaEnum}
-                intensityCriteria={intensityCriteria as IntensityCriteriaEnum}
+                enduranceCriteria={exerciseDraft.enduranceCriteria}
+                intensityCriteria={exerciseDraft.intensityCriteria}
                 exerciseIndex={exerciseIndex}
                 handleDeleteSet={handleDeleteSet}
               />

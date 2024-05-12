@@ -16,12 +16,13 @@ import {
   WorkoutSetDraft,
 } from "@/types/Routine";
 import { faker } from "@faker-js/faker";
-import {
-  createRandomExerciseSelectionSimple,
-  createRandomExerciseSimple,
-} from "./Exercise";
+import { createRandomExerciseSelectionSimple } from "./Exercise";
 import { createRandomUserSimple } from "./User";
-import { ExerciseForceEnum } from "@/types/Exercise";
+import {
+  EnduranceCriteriaEnum,
+  ExerciseForceEnum,
+  IntensityCriteriaEnum,
+} from "@/types/Exercise";
 
 export const createRandomRoutine = (): Routine => {
   return {
@@ -84,6 +85,8 @@ export const createRandomWorkout = (): Workout => {
 export const createRandomWorkoutExercise = (): WorkoutExercise => {
   return {
     id: faker.string.uuid(),
+    intensityCriteria: faker.helpers.enumValue(IntensityCriteriaEnum),
+    enduranceCriteria: faker.helpers.enumValue(EnduranceCriteriaEnum),
     exercise: createRandomExerciseSelectionSimple(),
     sets: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
@@ -154,6 +157,9 @@ export const randomRoutineDraftCreation: RoutineDraft = {
           name: "New Workout",
           exercises: [
             {
+              id: faker.string.uuid(),
+              intensityCriteria: IntensityCriteriaEnum.RPE,
+              enduranceCriteria: EnduranceCriteriaEnum.Reps,
               exercise: {
                 id: faker.string.uuid(),
                 name: "Bench Press",
@@ -217,6 +223,8 @@ export const createRandomWorkoutDraft = (): WorkoutDraft => {
 export const createRandomExerciseDraft = (): WorkoutExerciseDraft => {
   return {
     id: faker.string.uuid(),
+    intensityCriteria: faker.helpers.enumValue(IntensityCriteriaEnum),
+    enduranceCriteria: faker.helpers.enumValue(EnduranceCriteriaEnum),
     exercise: createRandomExerciseSelectionSimple(),
     sets: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },

@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import Providers from "@/providers";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,74 +49,76 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Providers>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="log"
-          options={{ title: "Log", presentation: "modal" }}
-        />
-        <Stack.Screen name="activity" options={{ title: "Activity" }} />
-        <Stack.Screen name="network" options={{ title: "Network" }} />
-        <Stack.Screen
-          name="search"
-          options={{
-            title: "Search",
-          }}
-        />
-        <Stack.Screen
-          name="create-routine/index"
-          options={{
-            title: "Create Routine",
-            // Mandatory in order to prevent going back
-            headerBackButtonMenuEnabled: false,
-          }}
-        />
-        <Stack.Screen
-          name="create-routine/edit-cycles"
-          options={{ title: "Edit Cycles" }}
-        />
-        <Stack.Screen
-          name="create-routine/edit-workout"
-          options={{ title: "Edit Workout" }}
-        />
-        <Stack.Screen
-          name="add-exercises"
-          options={{ title: "Add Exercises", presentation: "modal" }}
-        />
-        <Stack.Screen
-          name="create-exercise"
-          options={{ title: "Create Exercise", presentation: "modal" }}
-        />
-        <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
-        <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />
-        <Stack.Screen
-          name="routines/[id]/(tabs)"
-          // https://github.com/expo/router/issues/519#issuecomment-1531038030
-          getId={({ params }) => params?.id}
-          options={{ title: "Routine Details" }}
-        />
-        <Stack.Screen
-          name="routines/[id]/reviews"
-          getId={({ params }) => params?.id}
-          options={{ title: "Routine Reviews" }}
-        />
-        <Stack.Screen
-          name="exercises/[id]"
-          getId={({ params }) => params?.id}
-          options={{ title: "Exercise Details", presentation: "modal" }}
-        />
-        <Stack.Screen
-          name="posts/[id]"
-          getId={({ params }) => params?.id}
-          options={{ title: "Post Details" }}
-        />
-        <Stack.Screen
-          name="profiles/[id]"
-          getId={({ params }) => params?.id}
-          options={{ title: "Profile Details" }}
-        />
-      </Stack>
-    </Providers>
+    <GestureHandlerRootView style={{ flex: 1}}>
+      <Providers>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="log"
+            options={{ title: "Log", presentation: "modal" }}
+          />
+          <Stack.Screen name="activity" options={{ title: "Activity" }} />
+          <Stack.Screen name="network" options={{ title: "Network" }} />
+          <Stack.Screen
+            name="search"
+            options={{
+              title: "Search",
+            }}
+          />
+          <Stack.Screen
+            name="create-routine/index"
+            options={{
+              title: "Create Routine",
+              // Mandatory in order to prevent going back
+              headerBackButtonMenuEnabled: false,
+            }}
+          />
+          <Stack.Screen
+            name="create-routine/edit-cycles"
+            options={{ title: "Edit Cycles" }}
+          />
+          <Stack.Screen
+            name="create-routine/edit-workout"
+            options={{ title: "Edit Workout" }}
+          />
+          <Stack.Screen
+            name="add-exercises"
+            options={{ title: "Add Exercises", presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="create-exercise"
+            options={{ title: "Create Exercise", presentation: "modal" }}
+          />
+          <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
+          <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />
+          <Stack.Screen
+            name="routines/[id]/(tabs)"
+            // https://github.com/expo/router/issues/519#issuecomment-1531038030
+            getId={({ params }) => params?.id}
+            options={{ title: "Routine Details" }}
+          />
+          <Stack.Screen
+            name="routines/[id]/reviews"
+            getId={({ params }) => params?.id}
+            options={{ title: "Routine Reviews" }}
+          />
+          <Stack.Screen
+            name="exercises/[id]"
+            getId={({ params }) => params?.id}
+            options={{ title: "Exercise Details", presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="posts/[id]"
+            getId={({ params }) => params?.id}
+            options={{ title: "Post Details" }}
+          />
+          <Stack.Screen
+            name="profiles/[id]"
+            getId={({ params }) => params?.id}
+            options={{ title: "Profile Details" }}
+          />
+        </Stack>
+      </Providers>
+    </GestureHandlerRootView>
   );
 }

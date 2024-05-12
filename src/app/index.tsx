@@ -1,16 +1,10 @@
-import { router, useRootNavigationState } from "expo-router";
-import { useEffect } from "react";
+import { Redirect, useRootNavigationState } from "expo-router";
 
 export default function IndexScreenPlaceholder() {
+  // https://github.com/expo/router/issues/740
   const rootNavigationState = useRootNavigationState();
 
-  useEffect(() => {
-    // Must ensure root navigator has mounted before trying to navigate
-    if (rootNavigationState?.key) {
-      // <Redirect> was mounting home twice, so we use router.push instead
-      router.push("/home/following");
-    }
-  }, [rootNavigationState]);
+  if (!rootNavigationState?.key) return null;
 
-  return null;
+  return <Redirect href={"/home/following"} />;
 }

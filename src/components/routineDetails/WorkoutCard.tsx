@@ -1,5 +1,5 @@
 import { Theme } from "@/constants/theme";
-import { Workout } from "@/types/Routine";
+import { Workout, WorkoutSet } from "@/types/Routine";
 import { useTheme } from "@shopify/restyle";
 import { useEffect, useState } from "react";
 import { Pressable } from "react-native";
@@ -9,6 +9,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import blurhash from "@/constants/blurhash";
 import { Link } from "expo-router";
+import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
+import dayjs from "@/lib/dayjs";
 
 type WorkoutCardProps = {
   workout: Workout;
@@ -107,19 +109,25 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                               justifyContent="space-between"
                               alignItems="center"
                             >
-                              <Box flex={2}>
+                              <Box flex={1}>
                                 <Text variant="body" color="onSurfaceContainer">
-                                  {'todo'} sets
-                                </Text>
-                              </Box>
-                              <Box flex={2}>
-                                <Text variant="body" color="onSurfaceContainer">
-                                  {set.minReps} reps
+                                  {"todo"} sets
                                 </Text>
                               </Box>
                               <Box flex={1}>
                                 <Text variant="body" color="onSurfaceContainer">
-                                  {set.rpe}
+                                  {renderEndurance(
+                                    exercise.enduranceCriteria,
+                                    set
+                                  )}
+                                </Text>
+                              </Box>
+                              <Box flex={1}>
+                                <Text variant="body" color="onSurfaceContainer">
+                                  {renderIntensity(
+                                    exercise.intensityCriteria,
+                                    set
+                                  )}
                                 </Text>
                               </Box>
                             </Box>
@@ -137,3 +145,35 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
     </Pressable>
   );
 }
+
+const renderEndurance = (
+  enduranceCriteria: EnduranceCriteriaEnum,
+  set: WorkoutSet
+) => {
+  switch (enduranceCriteria) {
+    case EnduranceCriteriaEnum.Reps:
+      return `${set.minReps} reps`;
+    case EnduranceCriteriaEnum["Reps Range"]:
+      return `${set.minReps} - ${set.maxReps} reps`;
+    case EnduranceCriteriaEnum.Time:
+      return dayjs.duration(set.targetTime ?? 0, "s").format("mm:ss");
+    case EnduranceCriteriaEnum.AMRAP:
+      return "AMRAP";
+    default:
+      return null;
+  }
+};
+
+const renderIntensity = (
+  intensityCriteria: IntensityCriteriaEnum,
+  set: WorkoutSet
+) => {
+  switch (intensityCriteria) {
+    case IntensityCriteriaEnum.RPE:
+      return `RPE ${set.rpe}`;
+    case IntensityCriteriaEnum["% of 1RM"]:
+      return `${set.prPercentage}% of 1RM`;
+    default:
+      return null;
+  }
+};

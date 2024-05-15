@@ -10,15 +10,19 @@ import {
   WorkoutLogDraft,
 } from "@/types/Log";
 import dayjs from "@/lib/dayjs";
+import { EnduranceCriteriaEnum } from "@/types/Exercise";
 
 export const createRandomExerciseLog = (): ExerciseLog => {
+  const enduranceCriteria = faker.helpers.enumValue(EnduranceCriteriaEnum);
+
   return {
     id: faker.string.uuid(),
     exercise: createRandomExerciseSimple(),
-    sets: Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      createRandomSetLog
+    sets: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
+      createRandomSetLog(enduranceCriteria)
     ),
+
+    enduranceCriteria,
   };
 };
 
@@ -32,12 +36,13 @@ export const createRandomExerciseLogPreview = (): ExerciseLogPreview => {
 };
 
 export const createRandomExerciseLogIsolated = (): ExerciseLogIsolated => {
+  const enduranceCriteria = faker.helpers.enumValue(EnduranceCriteriaEnum);
+
   return {
     id: faker.string.uuid(),
     exercise: createRandomExerciseSimple(),
-    sets: Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      createRandomSetLog
+    sets: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
+      createRandomSetLog(enduranceCriteria)
     ),
     workoutLog: {
       id: faker.string.uuid(),
@@ -47,16 +52,33 @@ export const createRandomExerciseLogIsolated = (): ExerciseLogIsolated => {
         name: faker.vehicle.manufacturer(),
       },
     },
+
+    enduranceCriteria,
   };
 };
 
-export const createRandomSetLog = (): SetLog => {
-  return {
+export const createRandomSetLog = (
+  enduranceCriteria: EnduranceCriteriaEnum
+): SetLog => {
+  const randomSetLog: SetLog = {
     id: faker.string.uuid(),
-    reps: faker.number.int({ min: 5, max: 8 }),
     weight: faker.number.int({ min: 20, max: 100 }),
-    isWarmup: faker.datatype.boolean(),
+    isWarmup: false,
   };
+
+  if (
+    [
+      EnduranceCriteriaEnum.Reps,
+      EnduranceCriteriaEnum["Reps Range"],
+      EnduranceCriteriaEnum.AMRAP,
+    ].includes(enduranceCriteria)
+  ) {
+    randomSetLog.reps = faker.number.int({ min: 5, max: 8 });
+  } else if (enduranceCriteria === EnduranceCriteriaEnum.Time) {
+    randomSetLog.time = faker.number.int({ min: 30, max: 120 });
+  }
+
+  return randomSetLog;
 };
 
 export const createRandomWorkoutLogDraft = (): WorkoutLogDraft => {

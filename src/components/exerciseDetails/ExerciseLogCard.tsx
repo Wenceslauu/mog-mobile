@@ -3,10 +3,11 @@ import { Link, useNavigation } from "expo-router";
 import { Platform, Pressable } from "react-native";
 import Box from "../Box";
 import Text from "../Text";
-import { ExerciseLogIsolated } from "@/types/Log";
+import { ExerciseLogIsolated, SetLog } from "@/types/Log";
 import { useTheme } from "@shopify/restyle";
 import { Theme } from "@/constants/theme";
 import dayjs from "@/lib/dayjs";
+import { EnduranceCriteriaEnum } from "@/types/Exercise";
 
 type ExerciseLogCardProps = {
   exerciseLog: ExerciseLogIsolated;
@@ -74,7 +75,15 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
         </Box>
         <Box flex={2}>
           <Text variant="label" color="onSurface">
-            Reps
+            {[
+              EnduranceCriteriaEnum.Reps,
+              EnduranceCriteriaEnum["Reps Range"],
+              EnduranceCriteriaEnum.AMRAP,
+            ].includes(exerciseLog.enduranceCriteria)
+              ? "Reps"
+              : exerciseLog.enduranceCriteria === EnduranceCriteriaEnum.Time
+              ? "Time"
+              : null}
           </Text>
         </Box>
         <Box flex={1}>
@@ -99,7 +108,7 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
               </Box>
               <Box flex={2}>
                 <Text variant="body" color="onSurfaceContainer">
-                  {set.reps}
+                  {renderEndurance(exerciseLog.enduranceCriteria, set)}
                 </Text>
               </Box>
               <Box flex={1}>
@@ -114,3 +123,19 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
     </Box>
   );
 }
+
+const renderEndurance = (
+  enduranceCriteria: EnduranceCriteriaEnum,
+  set: SetLog
+) => {
+  switch (enduranceCriteria) {
+    case EnduranceCriteriaEnum.Reps:
+    case EnduranceCriteriaEnum["Reps Range"]:
+    case EnduranceCriteriaEnum.AMRAP:
+      return `${set.reps} reps`;
+    case EnduranceCriteriaEnum.Time:
+      return dayjs.duration(set.time ?? 0, "s").format("mm:ss");
+    default:
+      return null;
+  }
+};

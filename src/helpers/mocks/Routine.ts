@@ -83,14 +83,16 @@ export const createRandomWorkout = (): Workout => {
 };
 
 export const createRandomWorkoutExercise = (): WorkoutExercise => {
+  const intensityCriteria = faker.helpers.enumValue(IntensityCriteriaEnum);
+  const enduranceCriteria = faker.helpers.enumValue(EnduranceCriteriaEnum);
+
   return {
     id: faker.string.uuid(),
-    intensityCriteria: faker.helpers.enumValue(IntensityCriteriaEnum),
-    enduranceCriteria: faker.helpers.enumValue(EnduranceCriteriaEnum),
+    intensityCriteria,
+    enduranceCriteria,
     exercise: createRandomExerciseSelectionSimple(),
-    sets: Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
-      createRandomWorkoutSet
+    sets: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
+      createRandomWorkoutSet(intensityCriteria, enduranceCriteria)
     ),
 
     restDuration: faker.number.int(120),
@@ -98,14 +100,38 @@ export const createRandomWorkoutExercise = (): WorkoutExercise => {
   };
 };
 
-export const createRandomWorkoutSet = (): WorkoutSet => {
-  return {
+export const createRandomWorkoutSet = (
+  intensityCriteria: IntensityCriteriaEnum,
+  enduranceCriteria: EnduranceCriteriaEnum
+): WorkoutSet => {
+  const randomWorkoutSet: WorkoutSet = {
     id: faker.string.uuid(),
-
-    minReps: faker.number.int({ min: 5, max: 8 }),
-    rpe: faker.number.int({ min: 5, max: 9 }),
     isWarmup: false,
   };
+
+  if (intensityCriteria === IntensityCriteriaEnum.RPE) {
+    randomWorkoutSet.rpe = faker.number.int({ min: 5, max: 9 });
+  } else if (intensityCriteria === IntensityCriteriaEnum["% of 1RM"]) {
+    randomWorkoutSet.prPercentage = faker.number.int({ min: 50, max: 90 });
+  }
+
+  switch (enduranceCriteria) {
+    case EnduranceCriteriaEnum.Reps:
+      randomWorkoutSet.minReps = faker.number.int({ min: 5, max: 8 });
+      break;
+    case EnduranceCriteriaEnum["Reps Range"]:
+      randomWorkoutSet.minReps = faker.number.int({ min: 5, max: 8 });
+      randomWorkoutSet.maxReps = faker.number.int({ min: 8, max: 12 });
+      break;
+    case EnduranceCriteriaEnum.Time:
+      randomWorkoutSet.targetTime = faker.number.int({ min: 30, max: 120 });
+      break;
+    case EnduranceCriteriaEnum["AMRAP"]:
+      randomWorkoutSet.isAMRAP = true;
+      break;
+  }
+
+  return randomWorkoutSet;
 };
 
 export const createRandomRoutinePreview = (): RoutinePreview => {

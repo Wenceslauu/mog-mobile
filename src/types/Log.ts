@@ -1,5 +1,5 @@
 import { Workout, WorkoutExercise, WorkoutSet } from "@/types/Routine";
-import { Exercise } from "./Exercise";
+import { EnduranceCriteriaEnum, Exercise } from "./Exercise";
 import { UserSimple } from "./User";
 
 export interface WorkoutLog {
@@ -17,13 +17,15 @@ export interface ExerciseLog {
   id: string;
   exercise: Pick<Exercise, "id" | "name" | "image">;
   sets: SetLog[];
+
+  enduranceCriteria: EnduranceCriteriaEnum;
 }
 
 export type ExerciseLogIsolated = ExerciseLog & {
   workoutLog: Pick<WorkoutLog, "id" | "workout" | "loggedAt">;
 };
 
-export type ExerciseLogPreview = Omit<ExerciseLog, "sets"> & {
+export type ExerciseLogPreview = Omit<ExerciseLog, "sets" | "enduranceCriteria"> & {
   sets: number;
 };
 
@@ -32,6 +34,7 @@ export interface SetLog {
 
   reps?: number;
   time?: number;
+
   weight?: number;
   isWarmup: boolean;
 }

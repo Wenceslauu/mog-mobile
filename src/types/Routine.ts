@@ -98,8 +98,11 @@ export interface WorkoutSet {
   minReps?: number;
   maxReps?: number;
   targetTime?: number;
+  isAMRAP?: true;
+
   rpe?: number;
   prPercentage?: number;
+  
   isWarmup: boolean;
 }
 

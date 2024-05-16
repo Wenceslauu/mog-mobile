@@ -25,14 +25,14 @@ import {
   RoutineDifficultyEnum,
   RoutineEquipmentEnum,
 } from "@/types/Routine";
-import { createRandomRoutine } from "@/helpers/mocks/Routine";
-
-const mockedRoutine = createRandomRoutine();
+import { RoutineDetailsContext } from "./_layout";
 
 export default function RoutineDetailsAboutTab() {
   const { id } = useLocalSearchParams();
 
   const { scrollY, scrollViewRefs } = useContext(ScrollingContext);
+
+  const { routine } = useContext(RoutineDetailsContext);
 
   const aboutScrollViewRef = scrollViewRefs![0];
   const workoutsScrollViewRef = scrollViewRefs![1];
@@ -80,17 +80,17 @@ export default function RoutineDetailsAboutTab() {
         </Text>
         <Link
           href={{
-            pathname: `/profiles/${mockedRoutine.author.id}`,
-            params: { name: mockedRoutine.author.name },
+            pathname: `/profiles/${routine.author.id}`,
+            params: { name: routine.author.name },
           }}
           asChild
         >
           <Pressable>
             {({ pressed }) => (
               <Box flexDirection="row" gap="s" opacity={pressed ? 0.5 : 1}>
-                <Avatar size="m" source={mockedRoutine.author.picture} />
+                <Avatar size="m" source={routine.author.picture} />
                 <Text variant="body" color="onSurface">
-                  {mockedRoutine.author.name}
+                  {routine.author.name}
                 </Text>
               </Box>
             )}
@@ -102,7 +102,7 @@ export default function RoutineDetailsAboutTab() {
         <Text variant="title" color="onSurface" paddingHorizontal="m">
           Description
         </Text>
-        <TruncatedText text={mockedRoutine.description} />
+        <TruncatedText text={routine.description} />
       </Box>
       <Box gap="s">
         <Link href={`/routines/${id}/reviews`} asChild>
@@ -125,7 +125,7 @@ export default function RoutineDetailsAboutTab() {
                 >
                   <Ionicons name="star" size={16} color={colors.onSurface} />
                   <Text variant="body" color="onSurface">
-                    {mockedRoutine.rating} ({mockedRoutine.numberOfReviews})
+                    {routine.rating} ({routine.numberOfReviews})
                   </Text>
                   <Ionicons
                     name="chevron-forward"
@@ -140,7 +140,7 @@ export default function RoutineDetailsAboutTab() {
         <Box flexDirection="row" gap="m">
           <FlashList
             horizontal={true}
-            data={mockedRoutine.reviewsSample}
+            data={routine.reviewsSample}
             estimatedItemSize={300}
             renderItem={({ item }) => (
               <RoutineReviewCard review={item} preview />
@@ -160,23 +160,23 @@ export default function RoutineDetailsAboutTab() {
           rows={[
             {
               label: "Category",
-              value: RoutineCategoryEnum[mockedRoutine.category],
+              value: RoutineCategoryEnum[routine.category],
             },
             {
               label: "Equipment",
-              value: RoutineEquipmentEnum[mockedRoutine.equipment],
+              value: RoutineEquipmentEnum[routine.equipment],
             },
             {
               label: "Difficulty",
-              value: RoutineDifficultyEnum[mockedRoutine.difficulty[0]],
+              value: RoutineDifficultyEnum[routine.difficulty[0]],
             },
             {
               label: "Frequency",
-              value: `${mockedRoutine.minFrequency} - ${mockedRoutine.maxFrequency} days a week`,
+              value: `${routine.minFrequency} - ${routine.maxFrequency} days a week`,
             },
             {
               label: "Duration",
-              value: `${mockedRoutine.duration} weeks`,
+              value: `${routine.duration} weeks`,
             },
           ]}
         />

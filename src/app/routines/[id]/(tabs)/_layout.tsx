@@ -4,7 +4,7 @@ import { Theme } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
 import { Link, router, useLocalSearchParams, useNavigation } from "expo-router";
-import { useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import { Animated, Pressable, ScrollView } from "react-native";
 
 import RoutineDetailsAboutTab from "./about";
@@ -25,6 +25,10 @@ import useParallaxHeaderScrollDistance from "@/hooks/useParallaxHeaderScrollDist
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
 import { setStatusBarStyle } from "expo-status-bar";
 import { ThemeContext } from "@/providers/theme";
+import { Routine } from "@/types/Routine";
+import { createRandomRoutine } from "@/helpers/mocks/Routine";
+
+const mockedRoutine = createRandomRoutine();
 
 const AnimatedExpoImage = Animated.createAnimatedComponent(Image);
 
@@ -143,9 +147,7 @@ export default function RoutineDetails() {
               left: 0,
               right: 0,
             }}
-            source={
-              "https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
+            source={mockedRoutine.thumbnail}
           />
           <Header
             {...options}
@@ -305,22 +307,28 @@ export default function RoutineDetails() {
 
   return (
     <>
-      <ScrollingContext.Provider
+      <RoutineDetailsContext.Provider
         value={{
-          scrollY,
-          scrollViewRefs: [aboutScrollViewRef, workoutsScrollViewRef],
+          routine: mockedRoutine,
         }}
       >
-        <CustomTabNavigator
-          tabs={[
-            { name: "about", component: RoutineDetailsAboutTab },
-            { name: "workouts", component: RoutineDetailsWorkoutsTab },
-          ]}
-          initialRouteName="about"
-          scrollY={scrollY}
-          parallax
-        />
-      </ScrollingContext.Provider>
+        <ScrollingContext.Provider
+          value={{
+            scrollY,
+            scrollViewRefs: [aboutScrollViewRef, workoutsScrollViewRef],
+          }}
+        >
+          <CustomTabNavigator
+            tabs={[
+              { name: "about", component: RoutineDetailsAboutTab },
+              { name: "workouts", component: RoutineDetailsWorkoutsTab },
+            ]}
+            initialRouteName="about"
+            scrollY={scrollY}
+            parallax
+          />
+        </ScrollingContext.Provider>
+      </RoutineDetailsContext.Provider>
       <Box
         backgroundColor="surfaceContainer"
         paddingHorizontal="m"
@@ -334,3 +342,11 @@ export default function RoutineDetails() {
     </>
   );
 }
+
+type RoutineDetailsContextData = {
+  routine: Routine;
+};
+
+export const RoutineDetailsContext = createContext<RoutineDetailsContextData>(
+  {} as RoutineDetailsContextData
+);

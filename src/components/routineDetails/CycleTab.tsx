@@ -1,9 +1,9 @@
-import { Workout } from "@/types/Routine";
+import { WorkoutPreview } from "@/types/Routine";
 import { ScrollView } from "react-native";
 import WorkoutCard from "./WorkoutCard";
 
 type CycleTabProps = {
-  workouts: Workout[];
+  workouts: WorkoutPreview[];
 };
 
 export default function CycleTab({ workouts }: CycleTabProps) {
@@ -12,7 +12,7 @@ export default function CycleTab({ workouts }: CycleTabProps) {
       nestedScrollEnabled
       contentContainerStyle={{
         gap: 16,
-        paddingBottom: 40,
+        paddingBottom: 240,
         paddingHorizontal: 16,
       }}
       showsVerticalScrollIndicator={false}

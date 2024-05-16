@@ -3,6 +3,7 @@ import {
   RoutineCategoryEnum,
   RoutineCycle,
   RoutineCycleDraft,
+  RoutineCyclePreview,
   RoutineDifficultyEnum,
   RoutineDraft,
   RoutineEquipmentEnum,
@@ -12,8 +13,11 @@ import {
   WorkoutDraft,
   WorkoutExercise,
   WorkoutExerciseDraft,
+  WorkoutExercisePreview,
+  WorkoutPreview,
   WorkoutSet,
   WorkoutSetDraft,
+  WorkoutSetPreview,
 } from "@/types/Routine";
 import { faker } from "@faker-js/faker";
 import { createRandomExerciseSelectionSimple } from "./Exercise";
@@ -270,4 +274,80 @@ export const createRandomSetDraft = (): WorkoutSetDraft => {
     rpe: faker.number.int({ min: 5, max: 9 }),
     isWarmup: false,
   };
+};
+
+export const createRandomRoutineCyclePreview = (): RoutineCyclePreview => {
+  return {
+    id: faker.string.uuid(),
+    workouts: Array.from(
+      { length: faker.number.int({ min: 1, max: 4 }) },
+      createRandomWorkoutPreview
+    ),
+
+    name: faker.animal.cat(),
+    duration: faker.number.int({ min: 1, max: 4 }),
+  };
+};
+
+export const createRandomWorkoutPreview = (): WorkoutPreview => {
+  return {
+    id: faker.string.uuid(),
+    exercises: Array.from(
+      { length: faker.number.int({ min: 1, max: 8 }) },
+      createRandomWorkoutExercisePreview
+    ),
+
+    name: faker.animal.cat(),
+  };
+};
+
+export const createRandomWorkoutExercisePreview =
+  (): WorkoutExercisePreview => {
+    const intensityCriteria = faker.helpers.enumValue(IntensityCriteriaEnum);
+    const enduranceCriteria = faker.helpers.enumValue(EnduranceCriteriaEnum);
+
+    return {
+      id: faker.string.uuid(),
+      intensityCriteria,
+      enduranceCriteria,
+      exercise: createRandomExerciseSelectionSimple(),
+      sets: Array.from({ length: faker.number.int({ min: 1, max: 3 }) }, () =>
+        createRandomWorkoutSetPreview(intensityCriteria, enduranceCriteria)
+      ),
+    };
+  };
+
+export const createRandomWorkoutSetPreview = (
+  intensityCriteria: IntensityCriteriaEnum,
+  enduranceCriteria: EnduranceCriteriaEnum
+): WorkoutSetPreview => {
+  const randomWorkoutSet: WorkoutSetPreview = {
+    id: faker.string.uuid(),
+    isWarmup: false,
+    amount: faker.number.int({ min: 1, max: 3 }),
+  };
+
+  if (intensityCriteria === IntensityCriteriaEnum.RPE) {
+    randomWorkoutSet.rpe = faker.number.int({ min: 5, max: 9 });
+  } else if (intensityCriteria === IntensityCriteriaEnum["% of 1RM"]) {
+    randomWorkoutSet.prPercentage = faker.number.int({ min: 50, max: 90 });
+  }
+
+  switch (enduranceCriteria) {
+    case EnduranceCriteriaEnum.Reps:
+      randomWorkoutSet.minReps = faker.number.int({ min: 5, max: 8 });
+      break;
+    case EnduranceCriteriaEnum["Reps Range"]:
+      randomWorkoutSet.minReps = faker.number.int({ min: 5, max: 8 });
+      randomWorkoutSet.maxReps = faker.number.int({ min: 8, max: 12 });
+      break;
+    case EnduranceCriteriaEnum.Time:
+      randomWorkoutSet.targetTime = faker.number.int({ min: 30, max: 120 });
+      break;
+    case EnduranceCriteriaEnum["AMRAP"]:
+      randomWorkoutSet.isAMRAP = true;
+      break;
+  }
+
+  return randomWorkoutSet;
 };

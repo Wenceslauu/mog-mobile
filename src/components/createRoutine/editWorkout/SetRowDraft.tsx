@@ -187,6 +187,8 @@ export default function SetRowDraft({
               </>
             )}
             {enduranceCriteria === EnduranceCriteriaEnum.AMRAP && (
+              // TODO: If endurance criteria is AMRAP, either set isAMRAP on each set before sending it to the server,
+              // or leave it to backend
               <Text color="onSurface">AMRAP</Text>
             )}
             {enduranceCriteria === EnduranceCriteriaEnum.Time && (

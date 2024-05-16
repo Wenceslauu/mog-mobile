@@ -102,7 +102,7 @@ export interface WorkoutSet {
 
   rpe?: number;
   prPercentage?: number;
-  
+
   isWarmup: boolean;
 }
 
@@ -178,4 +178,26 @@ export type RoutinePreview = Pick<
 > & {
   // TODO
   numberOfAthletes: number;
+};
+
+export type RoutineCyclePreview = Omit<RoutineCycle, "workouts"> & {
+  workouts: WorkoutPreview[];
+};
+
+export type WorkoutPreview = Omit<Workout, "exercises"> & {
+  exercises: WorkoutExercisePreview[];
+};
+
+export type WorkoutExercisePreview = Omit<
+  Pick<
+    WorkoutExercise,
+    "id" | "exercise" | "sets" | "enduranceCriteria" | "intensityCriteria"
+  >,
+  "sets"
+> & {
+  sets: WorkoutSetPreview[];
+};
+
+export type WorkoutSetPreview = WorkoutSet & {
+  amount: number;
 };

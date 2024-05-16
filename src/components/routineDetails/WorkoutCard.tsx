@@ -1,5 +1,5 @@
 import { Theme } from "@/constants/theme";
-import { Workout, WorkoutSet } from "@/types/Routine";
+import { WorkoutPreview, WorkoutSet } from "@/types/Routine";
 import { useTheme } from "@shopify/restyle";
 import { useEffect, useState } from "react";
 import { Pressable } from "react-native";
@@ -13,7 +13,7 @@ import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
 import dayjs from "@/lib/dayjs";
 
 type WorkoutCardProps = {
-  workout: Workout;
+  workout: WorkoutPreview;
   isFirst?: boolean;
 };
 
@@ -57,7 +57,7 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
               <Box gap="l">
                 {workout.exercises.map((exercise, index) => {
                   return (
-                    <Box key={index} gap="s">
+                    <Box key={index} gap="m">
                       <Link
                         href={{
                           pathname: `/exercises/${exercise.exercise.id}`,
@@ -111,7 +111,7 @@ export default function WorkoutCard({ workout, isFirst }: WorkoutCardProps) {
                             >
                               <Box flex={1}>
                                 <Text variant="body" color="onSurfaceContainer">
-                                  {"todo"} sets
+                                  {set.amount} sets
                                 </Text>
                               </Box>
                               <Box flex={1}>

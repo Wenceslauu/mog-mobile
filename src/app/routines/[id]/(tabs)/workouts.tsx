@@ -16,14 +16,14 @@ import CycleTab from "@/components/routineDetails/CycleTab";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
 import { ScrollingContext } from "@/contexts/scrolling";
 import PARALLAX_HEADER_MAX_HEIGHT from "@/constants/parallaxHeaderMaxHeight";
-import { createRandomRoutineCycle, createRandomWorkout } from "@/helpers/mocks/Routine";
+import { createRandomRoutineCyclePreview } from "@/helpers/mocks/Routine";
 import { faker } from "@faker-js/faker";
 
 const mockedCycles = Array.from(
   {
     length: faker.number.int({ min: 1, max: 4 }),
   },
-  createRandomRoutineCycle
+  createRandomRoutineCyclePreview
 );
 
 export default function RoutineDetailsWorkoutsTab() {

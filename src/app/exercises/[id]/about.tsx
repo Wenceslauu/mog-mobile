@@ -10,6 +10,7 @@ import {
 } from "@/types/Exercise";
 import { faker } from "@faker-js/faker";
 import { ScrollView } from "react-native";
+import { Image } from "expo-image";
 
 const mockedExercise: Exercise = {
   id: faker.string.uuid(),
@@ -29,6 +30,15 @@ export default function ExerciseDetailsAboutTab() {
         contentContainerStyle={{ gap: 16, paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
+        <Box justifyContent="center" alignItems="center">
+          <Image
+            source={mockedExercise.image}
+            style={{
+              width: 300,
+              height: 300,
+            }}
+          />
+        </Box>
         <Box gap="s">
           <Text variant="title" color="onSurface" paddingHorizontal="m">
             Description

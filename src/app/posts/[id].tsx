@@ -6,7 +6,7 @@ import { Theme } from "@/constants/theme";
 import dayjs from "@/lib/dayjs";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Pressable, useWindowDimensions } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
@@ -281,6 +281,36 @@ export default function PostDetails() {
 
     return sum / mockedPost.workoutLog.exercises.length;
   }, []);
+
+  const { colors } = useTheme<Theme>();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Link
+          href={{
+            pathname: "/log/",
+            params: {
+              id: mockedPost.workoutLog.id,
+            },
+          }}
+          asChild
+        >
+          <Pressable>
+            {({ pressed }) => (
+              <Ionicons
+                name="pencil-sharp"
+                size={25}
+                color={colors.onSurfaceContainer}
+                style={{ opacity: pressed ? 0.5 : 1 }}
+              />
+            )}
+          </Pressable>
+        </Link>
+      ),
+    });
+  }, [navigation, colors]);
 
   const {
     commentSectionId,

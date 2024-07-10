@@ -22,7 +22,7 @@ export default function ExerciseLogCard({ exerciseLog }: ExerciseLogCardProps) {
     <Box gap="s" padding="m" backgroundColor="surfaceContainer">
       <Link
         href={{
-          pathname: `/workout-logs/${exerciseLog.workoutLog.id}`,
+          pathname: `/posts/${exerciseLog.post.id}`,
         }}
         asChild
       >

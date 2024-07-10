@@ -10,12 +10,10 @@ import { useActionSheet } from "@/providers/actionSheet";
 import * as Haptics from "expo-haptics";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
-import { TimerPicker } from "react-native-timer-picker";
-import { LinearGradient } from "expo-linear-gradient";
-import { WorkoutDraftFormData } from "@/types/Routine";
 import useModal from "@/hooks/useModal";
 import Modal from "@/components/Modal";
 import dayjs from "@/lib/dayjs";
+import DurationPickerModalContent from "@/components/DurationPickerModalContent";
 
 type SetRowDraftProps = {
   control: any;
@@ -295,6 +293,7 @@ export default function SetRowDraft({
           </Box>
         </Animated.View>
       </Pressable>
+      {/* TODO: modal on every set? */}
       <Modal
         title="Change target time"
         isOpen={isOpen}
@@ -304,56 +303,10 @@ export default function SetRowDraft({
           <DurationPickerModalContent
             control={control}
             exerciseIndex={exerciseIndex}
-            index={index}
+            setIndex={index}
           />
         )}
       />
     </>
-  );
-}
-
-type DurationPickerModalProps = {
-  exerciseIndex: number;
-  index: number;
-  control: Control<WorkoutDraftFormData, any>;
-};
-
-function DurationPickerModalContent({
-  exerciseIndex,
-  index,
-  control,
-}: DurationPickerModalProps) {
-  const { colors } = useTheme<Theme>();
-
-  return (
-    <Box alignItems="center">
-      <Controller
-        control={control}
-        render={({ field: { value, onChange } }) => (
-          <TimerPicker
-            initialMinutes={value ? Math.floor(value / 60) : 0}
-            initialSeconds={value ? value % 60 : 0}
-            onDurationChange={(duration) => {
-              onChange(duration.minutes * 60 + duration.seconds);
-            }}
-            hideHours
-            minuteLabel="min"
-            secondLabel="sec"
-            LinearGradient={LinearGradient}
-            styles={{
-              theme: "dark",
-              backgroundColor: colors.surfaceContainer,
-              text: {
-                color: colors.onSurfaceContainer,
-              },
-              pickerLabel: {
-                right: -12,
-              },
-            }}
-          />
-        )}
-        name={`exercises.${exerciseIndex}.sets.${index}.targetTime`}
-      />
-    </Box>
   );
 }

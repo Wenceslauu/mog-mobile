@@ -10,7 +10,7 @@ import {
   WorkoutLogDraft,
 } from "@/types/Log";
 import dayjs from "@/lib/dayjs";
-import { EnduranceCriteriaEnum } from "@/types/Exercise";
+import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
 
 export const createRandomExerciseLog = (): ExerciseLog => {
   const enduranceCriteria = faker.helpers.enumValue(EnduranceCriteriaEnum);
@@ -51,6 +51,10 @@ export const createRandomExerciseLogIsolated = (): ExerciseLogIsolated => {
         id: faker.string.uuid(),
         name: faker.vehicle.manufacturer(),
       },
+    },
+
+    post: {
+      id: faker.string.uuid(),
     },
 
     enduranceCriteria,
@@ -103,30 +107,102 @@ export const createRandomWorkoutLogDraft = (): WorkoutLogDraft => {
 };
 
 export const createRandomExerciseLogDraft = (): ExerciseLogDraft => {
+  const prescriptionIntensityCriteria = faker.helpers.enumValue(
+    IntensityCriteriaEnum
+  );
+  const prescriptionEnduranceCriteria = faker.helpers.enumValue(
+    EnduranceCriteriaEnum
+  );
+
+  let enduranceCriteria:
+    | EnduranceCriteriaEnum.Reps
+    | EnduranceCriteriaEnum.Time;
+
+  if (
+    [
+      EnduranceCriteriaEnum.Reps,
+      EnduranceCriteriaEnum["Reps Range"],
+      EnduranceCriteriaEnum.AMRAP,
+    ].includes(prescriptionEnduranceCriteria)
+  ) {
+    enduranceCriteria = EnduranceCriteriaEnum.Reps;
+  } else {
+    enduranceCriteria = EnduranceCriteriaEnum.Time;
+  }
+
   return {
     exercise: createRandomExerciseSimple(),
     prescription: {
       restDuration: faker.number.int({ min: 30, max: 120 }),
       authorNotes: faker.lorem.sentence(),
+      intensityCriteria: prescriptionIntensityCriteria,
+      enduranceCriteria: prescriptionEnduranceCriteria,
     },
     sets: Array.from(
       {
         length: faker.number.int({ min: 1, max: 5 }),
       },
-      createRandomSetLogDraft
+      () =>
+        createRandomSetLogDraft(
+          prescriptionIntensityCriteria,
+          prescriptionEnduranceCriteria
+        )
     ),
+
+    enduranceCriteria,
 
     athleteNotes: faker.lorem.sentence(),
   };
 };
 
-export const createRandomSetLogDraft = (): SetLogDraft => {
-  return {
-    prescription: {
-      minReps: faker.number.int({ min: 5, max: 8 }),
-      rpe: faker.number.int({ min: 6, max: 10 }),
-    },
+export const createRandomSetLogDraft = (
+  intensityCriteria: IntensityCriteriaEnum,
+  enduranceCriteria: EnduranceCriteriaEnum
+): SetLogDraft => {
+  const randomSetLogDraft: SetLogDraft = {
+    prescription: {},
     isWarmup: false,
-    done: false,
+    done: faker.datatype.boolean(),
   };
+
+  if (intensityCriteria === IntensityCriteriaEnum.RPE) {
+    randomSetLogDraft.prescription!.rpe = faker.number.int({ min: 5, max: 9 });
+  } else if (intensityCriteria === IntensityCriteriaEnum["% of 1RM"]) {
+    randomSetLogDraft.prescription!.prPercentage = faker.number.int({
+      min: 50,
+      max: 90,
+    });
+  }
+
+  console.log("crit", EnduranceCriteriaEnum[enduranceCriteria]);
+
+  switch (enduranceCriteria) {
+    case EnduranceCriteriaEnum.Reps:
+      randomSetLogDraft.prescription!.minReps = faker.number.int({
+        min: 5,
+        max: 8,
+      });
+      break;
+    case EnduranceCriteriaEnum["Reps Range"]:
+      randomSetLogDraft.prescription!.minReps = faker.number.int({
+        min: 5,
+        max: 8,
+      });
+      randomSetLogDraft.prescription!.maxReps = faker.number.int({
+        min: 8,
+        max: 12,
+      });
+      break;
+    case EnduranceCriteriaEnum.Time:
+      randomSetLogDraft.prescription!.targetTime = faker.number.int({
+        min: 30,
+        max: 120,
+      });
+      break;
+    case EnduranceCriteriaEnum["AMRAP"]:
+      randomSetLogDraft.prescription!.isAMRAP = true;
+      break;
+  }
+
+  return randomSetLogDraft;
 };

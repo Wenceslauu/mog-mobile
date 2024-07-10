@@ -1,6 +1,7 @@
 import { Workout, WorkoutExercise, WorkoutSet } from "@/types/Routine";
 import { EnduranceCriteriaEnum, Exercise } from "./Exercise";
 import { UserSimple } from "./User";
+import { Post } from "./Post";
 
 export interface WorkoutLog {
   id: string;
@@ -23,9 +24,13 @@ export interface ExerciseLog {
 
 export type ExerciseLogIsolated = ExerciseLog & {
   workoutLog: Pick<WorkoutLog, "id" | "workout" | "loggedAt">;
+  post: Pick<Post, "id">;
 };
 
-export type ExerciseLogPreview = Omit<ExerciseLog, "sets" | "enduranceCriteria"> & {
+export type ExerciseLogPreview = Omit<
+  ExerciseLog,
+  "sets" | "enduranceCriteria"
+> & {
   sets: number;
 };
 
@@ -47,9 +52,16 @@ export type ExerciseLogDraft = {
   exercise: Pick<Exercise, "id" | "name" | "image">;
   prescription?: Pick<
     WorkoutExercise,
-    "restDuration" | "superSetGroup" | "dropSetSize" | "authorNotes"
+    | "restDuration"
+    | "superSetGroup"
+    | "dropSetSize"
+    | "authorNotes"
+    | "enduranceCriteria"
+    | "intensityCriteria"
   >;
   sets: SetLogDraft[];
+
+  enduranceCriteria: EnduranceCriteriaEnum.Reps | EnduranceCriteriaEnum.Time;
 
   athleteNotes?: string;
   isFreestyle?: boolean;
@@ -58,7 +70,7 @@ export type ExerciseLogDraft = {
 export type SetLogDraft = Omit<SetLog, "id"> & {
   prescription?: Pick<
     WorkoutSet,
-    "minReps" | "maxReps" | "targetTime" | "rpe" | "prPercentage"
+    "minReps" | "maxReps" | "targetTime" | "rpe" | "prPercentage" | "isAMRAP"
   >;
 
   done?: boolean;

@@ -27,6 +27,8 @@ import { useMemo, useState } from "react";
 import TextInput from "../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
+import { EnduranceCriteriaEnum } from "@/types/Exercise";
+import FilterDropdown from "../FilterDropdown";
 
 type ExerciseCardDraftProps = {
   control: Control<WorkoutLogDraftFormData, any>;
@@ -112,7 +114,7 @@ export default function ExerciseLogCardDraft({
                   handleDeleteExercise(exerciseIndex);
                 },
                 isDisabled: !exerciseDraft.isFreestyle,
-                disabledText: "Cannot delete original exercises"
+                disabledText: "Cannot delete original exercises",
               },
             ]);
           }}
@@ -228,7 +230,7 @@ export default function ExerciseLogCardDraft({
         </Box>
         <Box flex={3}>
           <Text variant="label" color="onSurface">
-            RPE
+            Intensity
           </Text>
         </Box>
         <Box flex={3}>
@@ -242,9 +244,28 @@ export default function ExerciseLogCardDraft({
           </Text>
         </Box>
         <Box flex={2}>
-          <Text variant="label" color="onSurface">
-            Reps
-          </Text>
+          <Controller
+            control={control}
+            render={({ field: { value, onChange } }) => (
+              <FilterDropdown
+                type="normal"
+                name="Endurance"
+                selected={value}
+                setSelected={onChange}
+                options={[
+                  {
+                    label: "Reps",
+                    value: EnduranceCriteriaEnum.Reps,
+                  },
+                  {
+                    label: "Time",
+                    value: EnduranceCriteriaEnum.Time,
+                  },
+                ]}
+              />
+            )}
+            name={`exercises.${exerciseIndex}.enduranceCriteria`}
+          />
         </Box>
         <Box flex={1}>
           {allSetsFilledOrPreFilled && (
@@ -290,6 +311,13 @@ export default function ExerciseLogCardDraft({
               index={index}
               control={control}
               exerciseIndex={exerciseIndex}
+              prescribedIntensityCriteria={
+                exerciseDraft.prescription?.intensityCriteria
+              }
+              prescribedEnduranceCriteria={
+                exerciseDraft.prescription?.enduranceCriteria
+              }
+              enduranceCriteria={exerciseDraft.enduranceCriteria}
               setValue={setValue}
               handleDeleteSet={handleDeleteSet}
             />

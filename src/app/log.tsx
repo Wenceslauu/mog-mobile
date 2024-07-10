@@ -3,7 +3,11 @@ import Button from "@/components/Button";
 import Text from "@/components/Text";
 import ExerciseLogCardDraft from "@/components/log/ExerciseLogCardDraft";
 import { createRandomWorkoutLogDraft } from "@/helpers/mocks/Log";
-import { ExerciseSimple } from "@/types/Exercise";
+import {
+  EnduranceCriteriaEnum,
+  ExerciseForceEnum,
+  ExerciseSelectionSimple,
+} from "@/types/Exercise";
 import { ExerciseLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
 import { Link, useLocalSearchParams } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -30,7 +34,7 @@ export default function LogModalScreen() {
   useEffect(() => {
     // TODO: Appending exercises every time the page loads is not ideal, it should be done only once
     if (selectedExercises) {
-      const parsedSelectedExercises: ExerciseSimple[] = JSON.parse(
+      const parsedSelectedExercises: ExerciseSelectionSimple[] = JSON.parse(
         selectedExercises as string
       );
 
@@ -39,6 +43,10 @@ export default function LogModalScreen() {
           return {
             exercise: selectedExercise,
             isFreestyle: true,
+            enduranceCriteria:
+              selectedExercise.force === ExerciseForceEnum.Isometric
+                ? EnduranceCriteriaEnum.Time
+                : EnduranceCriteriaEnum.Reps,
             sets: [
               {
                 isWarmup: false,

@@ -143,6 +143,12 @@ export default function CreateRoutineScreen() {
 
   UNSTABLE_usePreventRemove(isDirty.current, onPreventRemove);
 
+  useEffect(() => {
+    navigation.setOptions({
+      title: id ? "Edit Routine" : "Create Routine",
+    });
+  }, [navigation]);
+
   return (
     <Box flex={1} backgroundColor="surface">
       <ScrollView

@@ -12,7 +12,7 @@ import {
   ExerciseTargetMuscleEnum,
 } from "@/types/Exercise";
 import { useTheme } from "@shopify/restyle";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView } from "react-native";
@@ -49,6 +49,14 @@ export default function CreateExerciseScreen() {
       });
     }
   }, []);
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: id ? "Edit exercise" : "Create exercise",
+    });
+  }, [navigation]);
 
   return (
     <Box flex={1} backgroundColor="surface">
@@ -206,7 +214,9 @@ export default function CreateExerciseScreen() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Button variant="primary">Create exercise</Button>
+        <Button variant="primary">
+          {id ? "Edit exercise" : "Create exercise"}
+        </Button>
       </Box>
     </Box>
   );

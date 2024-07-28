@@ -198,7 +198,7 @@ export default function EditCyclesScreen() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Link href="/create-routine/extra-data" asChild>
+        <Link href="/create-edit-routine/extra-data" asChild>
           <Button variant="primary">Next</Button>
         </Link>
       </Box>

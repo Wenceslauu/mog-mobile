@@ -189,7 +189,7 @@ export default function RoutineDetails() {
               <Box flexDirection="row" gap="xs">
                 <Link
                   href={{
-                    pathname: "/create-routine/",
+                    pathname: "/create-edit-routine/",
                     params: {
                       id,
                     },

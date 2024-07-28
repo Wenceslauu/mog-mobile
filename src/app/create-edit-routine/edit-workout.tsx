@@ -158,7 +158,7 @@ export default function EditWorkoutScreen() {
             href={{
               pathname: "/add-exercises",
               params: {
-                pathBack: "/create-routine/edit-workout",
+                pathBack: "/create-edit-routine/edit-workout",
               },
             }}
             asChild

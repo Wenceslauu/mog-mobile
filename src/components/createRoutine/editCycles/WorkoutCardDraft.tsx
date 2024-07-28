@@ -49,7 +49,7 @@ export default function WorkoutCardDraft({
   return (
     <Link
       href={{
-        pathname: "/create-routine/edit-workout",
+        pathname: "/create-edit-routine/edit-workout",
         params: {
           cycleIndex,
           workoutIndex,

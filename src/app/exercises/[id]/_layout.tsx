@@ -23,7 +23,7 @@ export default function ExerciseDetails() {
         <Box flexDirection="row">
           <Link
             href={{
-              pathname: "/create-exercise/",
+              pathname: "/create-edit-exercise/",
               params: {
                 id,
               },

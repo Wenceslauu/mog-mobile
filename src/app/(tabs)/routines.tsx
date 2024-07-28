@@ -48,7 +48,7 @@ export default function RoutinesTab() {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Link href="/create-routine" asChild>
+        <Link href="/create-edit-routine" asChild>
           <Pressable>
             {({ pressed }) => (
               <Ionicons

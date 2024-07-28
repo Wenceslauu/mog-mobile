@@ -322,7 +322,7 @@ export default function CreateRoutineScreen() {
         paddingVertical="s"
         paddingBottom="l"
       >
-        <Link href="/create-routine/edit-cycles" asChild>
+        <Link href="/create-edit-routine/edit-cycles" asChild>
           <Button variant="primary">Next</Button>
         </Link>
       </Box>

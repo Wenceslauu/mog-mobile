@@ -44,7 +44,7 @@ export default function ExercisesTab() {
     navigation.setOptions({
       headerRight: () => (
         <Box flexDirection="row">
-          <Link href="/create-exercise" asChild>
+          <Link href="/create-edit-exercise" asChild>
             <Pressable>
               {({ pressed }) => (
                 <Ionicons

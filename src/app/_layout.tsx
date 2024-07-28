@@ -70,18 +70,18 @@ function RootLayoutNav() {
             }}
           />
           <Stack.Screen
-            name="create-routine/index"
+            name="create-edit-routine/index"
             options={{
               // Mandatory in order to prevent going back
               headerBackButtonMenuEnabled: false,
             }}
           />
           <Stack.Screen
-            name="create-routine/edit-cycles"
+            name="create-edit-routine/edit-cycles"
             options={{ title: "Edit Cycles" }}
           />
           <Stack.Screen
-            name="create-routine/edit-workout"
+            name="create-edit-routine/edit-workout"
             options={{ title: "Edit Workout" }}
           />
           <Stack.Screen
@@ -89,7 +89,7 @@ function RootLayoutNav() {
             options={{ title: "Add Exercises", presentation: "modal" }}
           />
           <Stack.Screen
-            name="create-exercise"
+            name="create-edit-exercise"
             options={{ presentation: "modal" }}
           />
           <Stack.Screen name="settings/index" options={{ title: "Settings" }} />

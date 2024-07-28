@@ -145,7 +145,8 @@ export const createRandomExerciseLogDraft = (): ExerciseLogDraft => {
       () =>
         createRandomSetLogDraft(
           prescriptionIntensityCriteria,
-          prescriptionEnduranceCriteria
+          prescriptionEnduranceCriteria,
+          enduranceCriteria
         )
     ),
 
@@ -156,8 +157,9 @@ export const createRandomExerciseLogDraft = (): ExerciseLogDraft => {
 };
 
 export const createRandomSetLogDraft = (
-  intensityCriteria: IntensityCriteriaEnum,
-  enduranceCriteria: EnduranceCriteriaEnum
+  prescriptionIntensityCriteria: IntensityCriteriaEnum,
+  prescriptionEnduranceCriteria: EnduranceCriteriaEnum,
+  enduranceCriteria: EnduranceCriteriaEnum.Reps | EnduranceCriteriaEnum.Time
 ): SetLogDraft => {
   const randomSetLogDraft: SetLogDraft = {
     prescription: {},
@@ -165,18 +167,23 @@ export const createRandomSetLogDraft = (
     done: faker.datatype.boolean(),
   };
 
-  if (intensityCriteria === IntensityCriteriaEnum.RPE) {
+  if (prescriptionIntensityCriteria === IntensityCriteriaEnum.RPE) {
     randomSetLogDraft.prescription!.rpe = faker.number.int({ min: 5, max: 9 });
-  } else if (intensityCriteria === IntensityCriteriaEnum["% of 1RM"]) {
+  } else if (
+    prescriptionIntensityCriteria === IntensityCriteriaEnum["% of 1RM"]
+  ) {
     randomSetLogDraft.prescription!.prPercentage = faker.number.int({
       min: 50,
       max: 90,
     });
   }
 
-  console.log("crit", EnduranceCriteriaEnum[enduranceCriteria]);
+  randomSetLogDraft.weight = faker.number.int({
+    min: 20,
+    max: 200,
+  });
 
-  switch (enduranceCriteria) {
+  switch (prescriptionEnduranceCriteria) {
     case EnduranceCriteriaEnum.Reps:
       randomSetLogDraft.prescription!.minReps = faker.number.int({
         min: 5,
@@ -202,6 +209,18 @@ export const createRandomSetLogDraft = (
     case EnduranceCriteriaEnum["AMRAP"]:
       randomSetLogDraft.prescription!.isAMRAP = true;
       break;
+  }
+
+  if (enduranceCriteria === EnduranceCriteriaEnum.Reps) {
+    randomSetLogDraft.reps = faker.number.int({
+      min: 5,
+      max: 8,
+    });
+  } else {
+    randomSetLogDraft.time = faker.number.int({
+      min: 30,
+      max: 120,
+    });
   }
 
   return randomSetLogDraft;

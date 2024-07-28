@@ -49,13 +49,17 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <GestureHandlerRootView style={{ flex: 1}}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <Providers>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="log"
-            options={{ title: "Log", presentation: "modal" }}
+            options={{
+              title: "Log",
+              presentation: "modal",
+              headerShown: false,
+            }}
           />
           <Stack.Screen name="activity" options={{ title: "Activity" }} />
           <Stack.Screen name="network" options={{ title: "Network" }} />
@@ -68,7 +72,6 @@ function RootLayoutNav() {
           <Stack.Screen
             name="create-routine/index"
             options={{
-              title: "Create Routine",
               // Mandatory in order to prevent going back
               headerBackButtonMenuEnabled: false,
             }}
@@ -87,7 +90,7 @@ function RootLayoutNav() {
           />
           <Stack.Screen
             name="create-exercise"
-            options={{ title: "Create Exercise", presentation: "modal" }}
+            options={{ presentation: "modal" }}
           />
           <Stack.Screen name="settings/index" options={{ title: "Settings" }} />
           <Stack.Screen name="settings/theme" options={{ title: "Theme" }} />

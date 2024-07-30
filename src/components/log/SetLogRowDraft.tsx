@@ -16,6 +16,7 @@ import dayjs from "@/lib/dayjs";
 import Modal from "../Modal";
 import DurationPickerModalContent from "../DurationPickerModalContent";
 import useModal from "@/hooks/useModal";
+import { useOngoingLog } from "@/providers/ongoingLog";
 
 type SetRowDraftProps = {
   control: any;
@@ -40,11 +41,13 @@ export default function SetLogRowDraft({
 }: SetRowDraftProps) {
   const { colors } = useTheme<Theme>();
 
+  const { setWorkoutLog } = useOngoingLog();
+
   const { openActionSheet } = useActionSheet();
   const { scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
+  const weightInputRef = useRef<RNTextInput | null>(null);
   const repsInputRef = useRef<RNTextInput | null>(null);
-  const rpeInputRef = useRef<RNTextInput | null>(null);
 
   const setDraft: SetLogDraft = useWatch({
     control,
@@ -69,6 +72,10 @@ export default function SetLogRowDraft({
   useEffect(() => {
     if (!setFilled) {
       setValue(`exercises.${exerciseIndex}.sets.${index}.done`, false);
+
+      setWorkoutLog((draft) => {
+        draft.exercises[exerciseIndex].sets[index].done = false;
+      });
     }
   }, [setFilled]);
 
@@ -125,10 +132,16 @@ export default function SetLogRowDraft({
               render={({ field: { onChange, onBlur, value } }) => (
                 <TextInput
                   // https://stackoverflow.com/a/71497701
-                  ref={repsInputRef}
-                  onBlur={onBlur}
+                  ref={weightInputRef}
+                  onBlur={() => {
+                    setWorkoutLog((draft) => {
+                      draft.exercises[exerciseIndex].sets[index].weight = value;
+                    });
+
+                    onBlur();
+                  }}
                   onFocus={() => {
-                    repsInputRef.current?.setNativeProps({
+                    weightInputRef.current?.setNativeProps({
                       selection: { start: 0, end: value?.toString().length },
                     });
                   }}
@@ -169,10 +182,16 @@ export default function SetLogRowDraft({
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
                     // https://stackoverflow.com/a/71497701
-                    ref={rpeInputRef}
-                    onBlur={onBlur}
+                    ref={repsInputRef}
+                    onBlur={() => {
+                      setWorkoutLog((draft) => {
+                        draft.exercises[exerciseIndex].sets[index].reps = value;
+                      });
+
+                      onBlur();
+                    }}
                     onFocus={() => {
-                      rpeInputRef.current?.setNativeProps({
+                      repsInputRef.current?.setNativeProps({
                         selection: { start: 0, end: value?.toString().length },
                       });
                     }}
@@ -231,16 +250,28 @@ export default function SetLogRowDraft({
                 <Pressable
                   onPress={() => {
                     if (!setDraft.reps && setDraft.prescription?.minReps) {
+                      // TODO: autocomplete time on done
                       setValue(
                         `exercises.${exerciseIndex}.sets.${index}.reps`,
                         setDraft.prescription.minReps
                       );
+
+                      setWorkoutLog((draft) => {
+                        draft.exercises[exerciseIndex].sets[index].reps =
+                          setDraft.prescription?.minReps;
+                      });
                     }
 
                     setValue(
                       `exercises.${exerciseIndex}.sets.${index}.done`,
                       value ? !value : true
                     );
+
+                    setWorkoutLog((draft) => {
+                      draft.exercises[exerciseIndex].sets[index].done = value
+                        ? !value
+                        : true;
+                    });
                   }}
                   disabled={!setPreFilled && !setFilled}
                   style={{ opacity: !setPreFilled && !setFilled ? 0.5 : 1 }}

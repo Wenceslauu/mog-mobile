@@ -4,6 +4,7 @@ import Text from "@/components/Text";
 import ExerciseLogCardDraft from "@/components/log/ExerciseLogCardDraft";
 import { Theme } from "@/constants/theme";
 import { createRandomWorkoutLogDraft } from "@/helpers/mocks/Log";
+import { useOngoingLog } from "@/providers/ongoingLog";
 import {
   EnduranceCriteriaEnum,
   ExerciseForceEnum,
@@ -12,22 +13,42 @@ import {
 import { ExerciseLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import { Link, useLocalSearchParams, useNavigation } from "expo-router";
+import {
+  Link,
+  useGlobalSearchParams,
+  useLocalSearchParams,
+  useNavigation,
+} from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Platform, Pressable, ScrollView } from "react-native";
 
-const mockedWorkout = createRandomWorkoutLogDraft();
+const mockedEditionWorkoutLog = createRandomWorkoutLogDraft("edition");
 
 export default function LogExercisesScreen() {
+  const { workoutLog, setWorkoutLog, resetWorkoutLog } = useOngoingLog();
+
+  const { id } = useGlobalSearchParams();
+
   const { selectedExercises } = useLocalSearchParams();
 
-  const { control, setValue, handleSubmit } = useForm<WorkoutLogDraftFormData>({
-    defaultValues: {
-      exercises: mockedWorkout.exercises,
-    },
-  });
+  const { control, setValue, reset, watch, getValues } =
+    useForm<WorkoutLogDraftFormData>({
+      defaultValues: {
+        exercises: workoutLog.exercises,
+      },
+    });
+
+  useEffect(() => {
+    if (id) {
+      setWorkoutLog(mockedEditionWorkoutLog);
+
+      reset({
+        exercises: mockedEditionWorkoutLog.exercises,
+      });
+    }
+  }, []);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -60,11 +81,19 @@ export default function LogExercisesScreen() {
       );
 
       append(newExercises);
+
+      setWorkoutLog((draft) => {
+        draft.exercises.push(...newExercises);
+      });
     }
   }, [selectedExercises]);
 
   const handleDeleteExercise = (exerciseIndex: number) => {
     remove(exerciseIndex);
+
+    setWorkoutLog((draft) => {
+      delete draft.exercises[exerciseIndex];
+    });
   };
 
   const { colors } = useTheme<Theme>();
@@ -94,11 +123,25 @@ export default function LogExercisesScreen() {
     });
   }, [navigation, colors]);
 
+  const onBeforeRemove = useCallback(() => {
+    if (id) {
+      resetWorkoutLog();
+    }
+  }, []);
+
+  useEffect(() => {
+    navigation.addListener("beforeRemove", onBeforeRemove);
+
+    return () => {
+      navigation.removeListener("beforeRemove", onBeforeRemove);
+    };
+  }, []);
+
   return (
     <Box flex={1} paddingTop="m" backgroundColor="surface">
       <Box paddingHorizontal="m">
         <Text variant="title" color="onSurface">
-          {mockedWorkout.workout?.name}
+          {workoutLog.workout?.name}
         </Text>
       </Box>
       <ScrollView

@@ -29,6 +29,7 @@ import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
 import { EnduranceCriteriaEnum } from "@/types/Exercise";
 import FilterDropdown from "../FilterDropdown";
+import { useOngoingLog } from "@/providers/ongoingLog";
 
 type ExerciseCardDraftProps = {
   control: Control<WorkoutLogDraftFormData, any>;
@@ -43,6 +44,8 @@ export default function ExerciseLogCardDraft({
   setValue,
   handleDeleteExercise,
 }: ExerciseCardDraftProps) {
+  const { setWorkoutLog } = useOngoingLog();
+
   const [editing, setEditing] = useState(false);
 
   const { colors } = useTheme<Theme>();
@@ -78,10 +81,23 @@ export default function ExerciseLogCardDraft({
       isWarmup: false,
       isFreestyle: true,
     });
+
+    setWorkoutLog((draft) => {
+      draft.exercises[exerciseIndex].sets.push({
+        reps: undefined,
+        weight: undefined,
+        isWarmup: false,
+        isFreestyle: true,
+      });
+    });
   };
 
   const handleDeleteSet = (setIndex: number) => {
     remove(setIndex);
+
+    setWorkoutLog((draft) => {
+      delete draft.exercises[exerciseIndex].sets[setIndex];
+    });
   };
 
   return (
@@ -188,6 +204,10 @@ export default function ExerciseLogCardDraft({
                 render={({ field: { value, onChange, onBlur } }) => (
                   <TextInput
                     onBlur={() => {
+                      setWorkoutLog((draft) => {
+                        draft.exercises[exerciseIndex].athleteNotes = value;
+                      });
+
                       setEditing(false);
                       onBlur();
                     }}
@@ -247,6 +267,7 @@ export default function ExerciseLogCardDraft({
           <Controller
             control={control}
             render={({ field: { value, onChange } }) => (
+              // TODO: setWorkoutLog here
               <FilterDropdown
                 type="normal"
                 name="Endurance"
@@ -273,16 +294,27 @@ export default function ExerciseLogCardDraft({
               onPress={() => {
                 exerciseDraft.sets.forEach(
                   (set: SetLogDraft, index: number) => {
-                    if (!set.reps && set.prescription?.minReps)
+                    if (!set.reps && set.prescription?.minReps) {
+                      // TODO: autocomplete time
                       setValue(
                         `exercises.${exerciseIndex}.sets.${index}.reps`,
                         set.prescription.minReps
                       );
+                      setWorkoutLog((draft) => {
+                        draft.exercises[exerciseIndex].sets[index].reps =
+                          set.prescription?.minReps;
+                      });
+                    }
 
                     setValue(
                       `exercises.${exerciseIndex}.sets.${index}.done`,
                       allSetsDone ? false : true
                     );
+
+                    setWorkoutLog((draft) => {
+                      draft.exercises[exerciseIndex].sets[index].done =
+                        allSetsDone ? false : true;
+                    });
                   }
                 );
               }}

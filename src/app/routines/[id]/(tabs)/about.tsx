@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import Table from "@/components/Table";
 import TruncatedText from "@/components/TruncatedText";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useGlobalSearchParams } from "expo-router";
 import { useContext } from "react";
 import { ScrollingContext } from "@/contexts/scrolling";
 import TABVIEW_HEADER_HEIGHT from "@/constants/tabViewHeaderHeight";
@@ -28,7 +28,7 @@ import {
 import { RoutineDetailsContext } from "./_layout";
 
 export default function RoutineDetailsAboutTab() {
-  const { id } = useLocalSearchParams();
+  const { id } = useGlobalSearchParams();
 
   const { scrollY, scrollViewRefs } = useContext(ScrollingContext);
 

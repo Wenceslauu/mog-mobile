@@ -85,12 +85,14 @@ export const createRandomSetLog = (
   return randomSetLog;
 };
 
-export const createRandomWorkoutLogDraft = (): WorkoutLogDraft => {
+export const createRandomWorkoutLogDraft = (
+  mode: "creation" | "edition" = "edition"
+): WorkoutLogDraft => {
   return {
     id: faker.string.uuid(),
     exercises: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
-      createRandomExerciseLogDraft
+      () => createRandomExerciseLogDraft(mode)
     ),
     workout: {
       id: faker.string.uuid(),
@@ -106,7 +108,9 @@ export const createRandomWorkoutLogDraft = (): WorkoutLogDraft => {
   };
 };
 
-export const createRandomExerciseLogDraft = (): ExerciseLogDraft => {
+export const createRandomExerciseLogDraft = (
+  mode: "creation" | "edition" = "edition"
+): ExerciseLogDraft => {
   const prescriptionIntensityCriteria = faker.helpers.enumValue(
     IntensityCriteriaEnum
   );
@@ -146,7 +150,8 @@ export const createRandomExerciseLogDraft = (): ExerciseLogDraft => {
         createRandomSetLogDraft(
           prescriptionIntensityCriteria,
           prescriptionEnduranceCriteria,
-          enduranceCriteria
+          enduranceCriteria,
+          mode
         )
     ),
 
@@ -159,7 +164,8 @@ export const createRandomExerciseLogDraft = (): ExerciseLogDraft => {
 export const createRandomSetLogDraft = (
   prescriptionIntensityCriteria: IntensityCriteriaEnum,
   prescriptionEnduranceCriteria: EnduranceCriteriaEnum,
-  enduranceCriteria: EnduranceCriteriaEnum.Reps | EnduranceCriteriaEnum.Time
+  enduranceCriteria: EnduranceCriteriaEnum.Reps | EnduranceCriteriaEnum.Time,
+  mode: "creation" | "edition" = "edition"
 ): SetLogDraft => {
   const randomSetLogDraft: SetLogDraft = {
     prescription: {},
@@ -177,11 +183,6 @@ export const createRandomSetLogDraft = (
       max: 90,
     });
   }
-
-  randomSetLogDraft.weight = faker.number.int({
-    min: 20,
-    max: 200,
-  });
 
   switch (prescriptionEnduranceCriteria) {
     case EnduranceCriteriaEnum.Reps:
@@ -211,16 +212,23 @@ export const createRandomSetLogDraft = (
       break;
   }
 
-  if (enduranceCriteria === EnduranceCriteriaEnum.Reps) {
-    randomSetLogDraft.reps = faker.number.int({
-      min: 5,
-      max: 8,
+  if (mode === "edition") {
+    randomSetLogDraft.weight = faker.number.int({
+      min: 20,
+      max: 200,
     });
-  } else {
-    randomSetLogDraft.time = faker.number.int({
-      min: 30,
-      max: 120,
-    });
+
+    if (enduranceCriteria === EnduranceCriteriaEnum.Reps) {
+      randomSetLogDraft.reps = faker.number.int({
+        min: 5,
+        max: 8,
+      });
+    } else {
+      randomSetLogDraft.time = faker.number.int({
+        min: 30,
+        max: 120,
+      });
+    }
   }
 
   return randomSetLogDraft;

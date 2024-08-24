@@ -64,15 +64,22 @@ export default function ExerciseLogCardDraft({
   });
 
   const allSetsFilledOrPreFilled = useMemo(() => {
-    return exerciseDraft.sets.every(
-      (set: SetLogDraft) =>
-        set.weight && (set.reps || set.prescription?.minReps)
-    );
-  }, [exerciseDraft.sets]);
+    if (exerciseDraft.enduranceCriteria === EnduranceCriteriaEnum.Time) {
+      return exerciseDraft.sets.every(
+        (set: SetLogDraft) =>
+          set.weight && (set.time || set.prescription?.targetTime)
+      );
+    } else {
+      return exerciseDraft.sets.every(
+        (set: SetLogDraft) =>
+          set.weight && (set.reps || set.prescription?.minReps)
+      );
+    }
+  }, [exerciseDraft]);
 
   const allSetsDone = useMemo(() => {
     return exerciseDraft.sets.every((set: SetLogDraft) => set.done);
-  }, [exerciseDraft.sets]);
+  }, [exerciseDraft]);
 
   const handleAddSet = () => {
     append({
@@ -294,15 +301,37 @@ export default function ExerciseLogCardDraft({
               onPress={() => {
                 exerciseDraft.sets.forEach(
                   (set: SetLogDraft, index: number) => {
-                    if (!set.reps && set.prescription?.minReps) {
-                      // TODO: autocomplete time
+                    if (
+                      !set.reps &&
+                      set.prescription?.minReps &&
+                      exerciseDraft.enduranceCriteria !==
+                        EnduranceCriteriaEnum.Time
+                    ) {
                       setValue(
                         `exercises.${exerciseIndex}.sets.${index}.reps`,
                         set.prescription.minReps
                       );
+
                       setWorkoutLog((draft) => {
                         draft.exercises[exerciseIndex].sets[index].reps =
                           set.prescription?.minReps;
+                      });
+                    }
+
+                    if (
+                      !set.time &&
+                      set.prescription?.targetTime &&
+                      exerciseDraft.enduranceCriteria ===
+                        EnduranceCriteriaEnum.Time
+                    ) {
+                      setValue(
+                        `exercises.${exerciseIndex}.sets.${index}.time`,
+                        set.prescription.targetTime
+                      );
+
+                      setWorkoutLog((draft) => {
+                        draft.exercises[exerciseIndex].sets[index].time =
+                          set.prescription?.targetTime;
                       });
                     }
 

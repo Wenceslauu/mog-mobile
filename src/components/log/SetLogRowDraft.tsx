@@ -1,22 +1,28 @@
-import { Controller, UseFormSetValue, useWatch } from "react-hook-form";
-import Box from "../Box";
-import Text from "../Text";
-import TextInput from "../TextInput";
-import { useTheme } from "@shopify/restyle";
-import { Theme } from "@/constants/theme";
 import { useEffect, useMemo, useRef } from "react";
+import { Controller, UseFormSetValue, useWatch } from "react-hook-form";
 import { Animated, Pressable, TextInput as RNTextInput } from "react-native";
-import { useActionSheet } from "@/providers/actionSheet";
+
+import dayjs from "@/lib/dayjs";
+import { Theme } from "@/constants/theme";
+import { useTheme } from "@shopify/restyle";
+
+import useModal from "@/hooks/useModal";
+import useLongPressStyle from "@/hooks/useLongPressStyle";
+
 import * as Haptics from "expo-haptics";
 import { Ionicons } from "@expo/vector-icons";
-import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
-import useLongPressStyle from "@/hooks/useLongPressStyle";
-import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
-import dayjs from "@/lib/dayjs";
-import Modal from "../Modal";
-import DurationPickerModalContent from "../DurationPickerModalContent";
-import useModal from "@/hooks/useModal";
+
 import { useOngoingLog } from "@/providers/ongoingLog";
+import { useActionSheet } from "@/providers/actionSheet";
+
+import { SetLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
+import { EnduranceCriteriaEnum, IntensityCriteriaEnum } from "@/types/Exercise";
+
+import Box from "../Box";
+import Text from "../Text";
+import Modal from "../Modal";
+import TextInput from "../TextInput";
+import DurationPickerModalContent from "../DurationPickerModalContent";
 
 type SetRowDraftProps = {
   control: any;
@@ -54,17 +60,20 @@ export default function SetLogRowDraft({
     name: `exercises.${exerciseIndex}.sets.${index}`,
   });
 
-  const setTargetTime: number = useWatch({
-    control,
-    name: `exercises.${exerciseIndex}.sets.${index}.targetTime`,
-  });
-
   const setPreFilled = useMemo(() => {
-    return setDraft.prescription?.minReps && setDraft.weight;
+    if (enduranceCriteria === EnduranceCriteriaEnum.Time) {
+      return setDraft.prescription?.targetTime && setDraft.weight;
+    } else {
+      return setDraft.prescription?.minReps && setDraft.weight;
+    }
   }, [setDraft]);
 
   const setFilled = useMemo(() => {
-    return setDraft.reps && setDraft.weight;
+    if (enduranceCriteria === EnduranceCriteriaEnum.Time) {
+      return setDraft.time && setDraft.weight;
+    } else {
+      return setDraft.reps && setDraft.weight;
+    }
   }, [setDraft]);
 
   const { isOpen, isOpenAnimated, toggleModal } = useModal();
@@ -148,7 +157,8 @@ export default function SetLogRowDraft({
                   onChangeText={(text) => {
                     // Avoid displaying 0 when input is empty: "" -> Number("") -> 0 -> String(0) -> "0"
                     if (text === "") {
-                      onChange(undefined);
+                      // https://github.com/react-hook-form/react-hook-form/issues/2237
+                      onChange("");
                       return;
                     }
                     onChange(Number(text));
@@ -198,7 +208,8 @@ export default function SetLogRowDraft({
                     onChangeText={(text) => {
                       // Avoid displaying 0 when input is empty: "" -> Number("") -> 0 -> String(0) -> "0"
                       if (text === "") {
-                        onChange(undefined);
+                        // https://github.com/react-hook-form/react-hook-form/issues/2237
+                        onChange("");
                         return;
                       }
                       onChange(Number(text));
@@ -207,6 +218,7 @@ export default function SetLogRowDraft({
                       if (value === undefined) {
                         return value;
                       }
+
                       return String(value);
                     })()}
                     selectTextOnFocus
@@ -236,8 +248,22 @@ export default function SetLogRowDraft({
                   borderRadius="xs"
                   padding="xs"
                 >
-                  <Text color="onSecondaryContainer">
-                    {dayjs.duration(setTargetTime ?? 0, "s").format("mm:ss")}
+                  <Text
+                    color={
+                      setDraft.time
+                        ? "onSecondaryContainer"
+                        : setDraft.prescription?.targetTime
+                        ? "outline"
+                        : undefined
+                    }
+                  >
+                    {setDraft.time
+                      ? dayjs.duration(setDraft.time, "s").format("mm:ss")
+                      : setDraft.prescription?.targetTime
+                      ? dayjs
+                          .duration(setDraft.prescription?.targetTime, "s")
+                          .format("mm:ss")
+                      : undefined}
                   </Text>
                 </Box>
               </Pressable>
@@ -249,8 +275,11 @@ export default function SetLogRowDraft({
               render={({ field: { value } }) => (
                 <Pressable
                   onPress={() => {
-                    if (!setDraft.reps && setDraft.prescription?.minReps) {
-                      // TODO: autocomplete time on done
+                    if (
+                      !setDraft.reps &&
+                      setDraft.prescription?.minReps &&
+                      enduranceCriteria !== EnduranceCriteriaEnum.Time
+                    ) {
                       setValue(
                         `exercises.${exerciseIndex}.sets.${index}.reps`,
                         setDraft.prescription.minReps
@@ -259,6 +288,22 @@ export default function SetLogRowDraft({
                       setWorkoutLog((draft) => {
                         draft.exercises[exerciseIndex].sets[index].reps =
                           setDraft.prescription?.minReps;
+                      });
+                    }
+
+                    if (
+                      !setDraft.time &&
+                      setDraft.prescription?.targetTime &&
+                      enduranceCriteria === EnduranceCriteriaEnum.Time
+                    ) {
+                      setValue(
+                        `exercises.${exerciseIndex}.sets.${index}.time`,
+                        setDraft.prescription.targetTime
+                      );
+
+                      setWorkoutLog((draft) => {
+                        draft.exercises[exerciseIndex].sets[index].time =
+                          setDraft.prescription?.targetTime;
                       });
                     }
 
@@ -308,6 +353,8 @@ export default function SetLogRowDraft({
             control={control}
             exerciseIndex={exerciseIndex}
             setIndex={index}
+            customOnChange={setWorkoutLog}
+            name={`exercises.${exerciseIndex}.sets.${index}.time`}
           />
         )}
       />

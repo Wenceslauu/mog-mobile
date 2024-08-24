@@ -7,15 +7,19 @@ import { Theme } from "@/constants/theme";
 import { WorkoutDraftFormData } from "@/types/Routine";
 
 type DurationPickerModalProps = {
+  name: any;
   exerciseIndex: number;
   setIndex: number;
   control: Control<WorkoutDraftFormData, any>;
+  customOnChange?: (arg: any) => void;
 };
 
 export default function DurationPickerModalContent({
+  name,
   exerciseIndex,
   setIndex,
   control,
+  customOnChange,
 }: DurationPickerModalProps) {
   const { colors } = useTheme<Theme>();
 
@@ -28,6 +32,11 @@ export default function DurationPickerModalContent({
             initialMinutes={value ? Math.floor(value / 60) : 0}
             initialSeconds={value ? value % 60 : 0}
             onDurationChange={(duration) => {
+              if (customOnChange)
+                customOnChange((draft: any) => {
+                  draft.exercises[exerciseIndex].sets[setIndex].time =
+                    duration.minutes * 60 + duration.seconds;
+                });
               onChange(duration.minutes * 60 + duration.seconds);
             }}
             hideHours
@@ -46,7 +55,7 @@ export default function DurationPickerModalContent({
             }}
           />
         )}
-        name={`exercises.${exerciseIndex}.sets.${setIndex}.targetTime`}
+        name={name}
       />
     </Box>
   );

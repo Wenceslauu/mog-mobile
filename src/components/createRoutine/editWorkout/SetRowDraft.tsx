@@ -304,6 +304,7 @@ export default function SetRowDraft({
             control={control}
             exerciseIndex={exerciseIndex}
             setIndex={index}
+            name={`exercises.${exerciseIndex}.sets.${index}.targetTime`}
           />
         )}
       />

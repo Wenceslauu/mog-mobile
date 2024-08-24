@@ -163,6 +163,7 @@ export default function LogExercisesScreen() {
               exerciseIndex={index}
               control={control}
               setValue={setValue}
+              getValues={getValues}
               handleDeleteExercise={handleDeleteExercise}
             />
           );

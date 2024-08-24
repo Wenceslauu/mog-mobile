@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useRef } from "react";
-import { Controller, UseFormSetValue, useWatch } from "react-hook-form";
+import {
+  Controller,
+  UseFormGetValues,
+  UseFormSetValue,
+  useWatch,
+} from "react-hook-form";
 import { Animated, Pressable, TextInput as RNTextInput } from "react-native";
 
 import dayjs from "@/lib/dayjs";
@@ -32,6 +37,7 @@ type SetRowDraftProps = {
   prescribedEnduranceCriteria?: EnduranceCriteriaEnum;
   enduranceCriteria: EnduranceCriteriaEnum.Reps | EnduranceCriteriaEnum.Time;
   setValue: UseFormSetValue<WorkoutLogDraftFormData>;
+  getValues: UseFormGetValues<WorkoutLogDraftFormData>;
   handleDeleteSet: (setIndex: number) => void;
 };
 
@@ -43,6 +49,7 @@ export default function SetLogRowDraft({
   prescribedEnduranceCriteria,
   enduranceCriteria,
   setValue,
+  getValues,
   handleDeleteSet,
 }: SetRowDraftProps) {
   const { colors } = useTheme<Theme>();
@@ -58,6 +65,7 @@ export default function SetLogRowDraft({
   const setDraft: SetLogDraft = useWatch({
     control,
     name: `exercises.${exerciseIndex}.sets.${index}`,
+    defaultValue: getValues(`exercises.${exerciseIndex}.sets.${index}`),
   });
 
   const setPreFilled = useMemo(() => {
@@ -66,7 +74,7 @@ export default function SetLogRowDraft({
     } else {
       return setDraft.prescription?.minReps && setDraft.weight;
     }
-  }, [setDraft]);
+  }, [setDraft.prescription, setDraft.weight]);
 
   const setFilled = useMemo(() => {
     if (enduranceCriteria === EnduranceCriteriaEnum.Time) {
@@ -74,7 +82,7 @@ export default function SetLogRowDraft({
     } else {
       return setDraft.reps && setDraft.weight;
     }
-  }, [setDraft]);
+  }, [setDraft.time, setDraft.reps, setDraft.weight]);
 
   const { isOpen, isOpenAnimated, toggleModal } = useModal();
 

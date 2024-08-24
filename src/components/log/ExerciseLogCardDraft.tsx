@@ -11,6 +11,7 @@ import Button from "../Button";
 import {
   Control,
   Controller,
+  UseFormGetValues,
   UseFormSetValue,
   useFieldArray,
   useWatch,
@@ -35,6 +36,7 @@ type ExerciseCardDraftProps = {
   control: Control<WorkoutLogDraftFormData, any>;
   exerciseIndex: number;
   setValue: UseFormSetValue<WorkoutLogDraftFormData>;
+  getValues: UseFormGetValues<WorkoutLogDraftFormData>;
   handleDeleteExercise: (exerciseIndex: number) => void;
 };
 
@@ -42,6 +44,7 @@ export default function ExerciseLogCardDraft({
   control,
   exerciseIndex,
   setValue,
+  getValues,
   handleDeleteExercise,
 }: ExerciseCardDraftProps) {
   const { setWorkoutLog } = useOngoingLog();
@@ -53,9 +56,12 @@ export default function ExerciseLogCardDraft({
   const { openActionSheet } = useActionSheet();
   const { opacity, scale, handlePressIn, handlePressOut } = useLongPressStyle();
 
+  // https://github.com/react-hook-form/react-hook-form/issues/3758
+  // https://github.com/react-hook-form/react-hook-form/issues/8250
   const exerciseDraft: ExerciseLogDraft = useWatch({
     control,
     name: `exercises.${exerciseIndex}`,
+    defaultValue: getValues(`exercises.${exerciseIndex}`),
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -75,11 +81,11 @@ export default function ExerciseLogCardDraft({
           set.weight && (set.reps || set.prescription?.minReps)
       );
     }
-  }, [exerciseDraft]);
+  }, [exerciseDraft.enduranceCriteria, exerciseDraft.sets]);
 
   const allSetsDone = useMemo(() => {
     return exerciseDraft.sets.every((set: SetLogDraft) => set.done);
-  }, [exerciseDraft]);
+  }, [exerciseDraft.sets]);
 
   const handleAddSet = () => {
     append({
@@ -380,6 +386,7 @@ export default function ExerciseLogCardDraft({
               }
               enduranceCriteria={exerciseDraft.enduranceCriteria}
               setValue={setValue}
+              getValues={getValues}
               handleDeleteSet={handleDeleteSet}
             />
           );

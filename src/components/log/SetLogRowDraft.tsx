@@ -96,6 +96,17 @@ export default function SetLogRowDraft({
     }
   }, [setFilled]);
 
+  const saveSetTimeToContext = (duration: {
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }) => {
+    setWorkoutLog((draft) => {
+      draft.exercises[exerciseIndex].sets[index].time =
+        duration.minutes * 60 + duration.seconds;
+    });
+  };
+
   return (
     <>
       <Pressable
@@ -359,9 +370,7 @@ export default function SetLogRowDraft({
         contentComponent={() => (
           <DurationPickerModalContent
             control={control}
-            exerciseIndex={exerciseIndex}
-            setIndex={index}
-            customOnChange={setWorkoutLog}
+            customOnChange={saveSetTimeToContext}
             name={`exercises.${exerciseIndex}.sets.${index}.time`}
           />
         )}

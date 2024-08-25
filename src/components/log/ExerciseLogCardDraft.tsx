@@ -24,7 +24,7 @@ import {
   SetLogDraft,
   WorkoutLogDraftFormData,
 } from "@/types/Log";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import TextInput from "../TextInput";
 import useLongPressStyle from "@/hooks/useLongPressStyle";
 import dayjs from "@/lib/dayjs";
@@ -88,20 +88,17 @@ export default function ExerciseLogCardDraft({
   }, [exerciseDraft.sets]);
 
   const handleAddSet = () => {
-    append({
+    const newSet: SetLogDraft = {
       reps: undefined,
       weight: undefined,
       isWarmup: false,
       isFreestyle: true,
-    });
+    };
+
+    append(newSet);
 
     setWorkoutLog((draft) => {
-      draft.exercises[exerciseIndex].sets.push({
-        reps: undefined,
-        weight: undefined,
-        isWarmup: false,
-        isFreestyle: true,
-      });
+      draft.exercises[exerciseIndex].sets.push(newSet);
     });
   };
 

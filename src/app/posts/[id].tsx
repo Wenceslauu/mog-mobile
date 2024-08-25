@@ -17,8 +17,12 @@ import ExerciseLogCard from "@/components/postDetails/ExerciseLogCard";
 import CommentsBottomSheetModal from "@/components/posts/CommentsBottomSheetModal";
 import useCommentSection from "@/hooks/useCommentSection";
 import { createRandomPost } from "@/helpers/mocks/Post";
+import { useOngoingLog } from "@/providers/ongoingLog";
+import { createRandomWorkoutLogDraft } from "@/helpers/mocks/Log";
 
 const mockedPost = createRandomPost();
+
+const mockedEditionWorkoutLog = createRandomWorkoutLogDraft("edition");
 
 type PostDetailsFlashListHeaderProps = {
   openCommentSection: (id: string) => void;
@@ -270,6 +274,8 @@ function PostDetailsFlashListHeader({
 export default function PostDetails() {
   const { id, highlightedCommentId } = useLocalSearchParams();
 
+  const { setWorkoutLog } = useOngoingLog();
+
   const averageHeight = useMemo(() => {
     const sum = mockedPost.workoutLog.exercises.reduce(
       // 113,5 is the height of the exercise log card header, and 35.5 is the height of the set log row
@@ -288,7 +294,12 @@ export default function PostDetails() {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
+        // TODO: Loading the workout log here is not ideal, it should be done on the log page, though
+        // the RHF form reset behavior was not working as expected
         <Link
+          onPress={() => {
+            setWorkoutLog(mockedEditionWorkoutLog);
+          }}
           href={{
             pathname: "/log/",
             params: {

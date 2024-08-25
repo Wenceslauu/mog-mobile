@@ -91,7 +91,7 @@ export const createRandomWorkoutLogDraft = (
   return {
     id: faker.string.uuid(),
     exercises: Array.from(
-      { length: faker.number.int({ min: 1, max: 5 }) },
+      { length: faker.number.int({ min: 1, max: 3 }) },
       () => createRandomExerciseLogDraft(mode)
     ),
     workout: {

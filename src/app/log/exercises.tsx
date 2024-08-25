@@ -3,7 +3,6 @@ import Button from "@/components/Button";
 import Text from "@/components/Text";
 import ExerciseLogCardDraft from "@/components/log/ExerciseLogCardDraft";
 import { Theme } from "@/constants/theme";
-import { createRandomWorkoutLogDraft } from "@/helpers/mocks/Log";
 import { useOngoingLog } from "@/providers/ongoingLog";
 import {
   EnduranceCriteriaEnum,
@@ -13,42 +12,35 @@ import {
 import { ExerciseLogDraft, WorkoutLogDraftFormData } from "@/types/Log";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@shopify/restyle";
-import {
-  Link,
-  useGlobalSearchParams,
-  useLocalSearchParams,
-  useNavigation,
-} from "expo-router";
+import { Link, useGlobalSearchParams, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Platform, Pressable, ScrollView } from "react-native";
 
-const mockedEditionWorkoutLog = createRandomWorkoutLogDraft("edition");
+// const mockedEditionWorkoutLog = createRandomWorkoutLogDraft("edition");
 
 export default function LogExercisesScreen() {
   const { workoutLog, setWorkoutLog, resetWorkoutLog } = useOngoingLog();
 
-  const { id } = useGlobalSearchParams();
+  const { id, selectedExercises } = useGlobalSearchParams();
 
-  const { selectedExercises } = useLocalSearchParams();
-
-  const { control, setValue, reset, watch, getValues } =
+  const { control, setValue, reset, getValues } =
     useForm<WorkoutLogDraftFormData>({
       defaultValues: {
         exercises: workoutLog.exercises,
       },
     });
 
-  useEffect(() => {
-    if (id) {
-      setWorkoutLog(mockedEditionWorkoutLog);
+  // useEffect(() => {
+  //   if (id) {
+  //     setWorkoutLog(mockedEditionWorkoutLog);
 
-      reset({
-        exercises: mockedEditionWorkoutLog.exercises,
-      });
-    }
-  }, []);
+  //     reset({
+  //       exercises: mockedEditionWorkoutLog.exercises,
+  //     });
+  //   }
+  // }, []);
 
   const { fields, append, remove } = useFieldArray({
     control,

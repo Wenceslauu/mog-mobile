@@ -30,7 +30,7 @@ type SelectOption<T> = {
 type FilterDropdownProps<T> = {
   name: string;
   selected: T | null;
-  setSelected: Dispatch<SetStateAction<T | null>>;
+  onChange: (value: T | null) => void;
   options: SelectOption<T>[];
   type?: "normal" | "filter";
 };
@@ -38,7 +38,7 @@ type FilterDropdownProps<T> = {
 export default function FilterDropdown<T>({
   name,
   selected,
-  setSelected,
+  onChange,
   options,
   type = "filter",
 }: FilterDropdownProps<T>) {
@@ -80,9 +80,9 @@ export default function FilterDropdown<T>({
 
   const toggleFilter = (item: T) => {
     if (selected === item) {
-      if (type === "filter") setSelected(null);
+      if (type === "filter") onChange(null);
     } else {
-      setSelected(item);
+      onChange(item);
     }
 
     toggleDropdown();

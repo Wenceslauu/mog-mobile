@@ -110,6 +110,14 @@ export default function ExerciseLogCardDraft({
     });
   };
 
+  const saveEnduranceCriteriaToContext = (
+    enduranceCriteria: EnduranceCriteriaEnum.Reps | EnduranceCriteriaEnum.Time
+  ) => {
+    setWorkoutLog((draft) => {
+      draft.exercises[exerciseIndex].enduranceCriteria = enduranceCriteria;
+    });
+  };
+
   return (
     <Animated.View
       style={{
@@ -282,7 +290,15 @@ export default function ExerciseLogCardDraft({
                 type="normal"
                 name="Endurance"
                 selected={value}
-                setSelected={onChange}
+                onChange={(value) => {
+                  onChange(value);
+
+                  saveEnduranceCriteriaToContext(
+                    value as
+                      | EnduranceCriteriaEnum.Reps
+                      | EnduranceCriteriaEnum.Time
+                  );
+                }}
                 options={[
                   {
                     label: "Reps",
